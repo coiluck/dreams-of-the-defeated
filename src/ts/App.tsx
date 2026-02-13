@@ -2,14 +2,21 @@
 // App.tsx
 import { Routes, Route } from "react-router-dom";
 import LogoPage from "./pages/LogoPage";
+import StartLayout from "./layouts/StartLayout";
 import TopPage from "./pages/TopPage";
+import NewGamePage from "./pages/NewGamePage";
 
 function App() {
   return (
     <div className="app-container">
       <Routes>
         <Route path="/" element={<LogoPage />} />
-        <Route path="/top" element={<TopPage />} />
+        <Route element={<StartLayout />}>
+          <Route path="/top" element={<TopPage />} />
+          <Route path="/newgame" element={<NewGamePage />} />
+          {/* <Route path="/load" element={<LoadPage />} /> */}
+          {/* <Route path="/options" element={<OptionsPage />} /> */}
+        </Route>
       </Routes>
       {/* ボタン用のフィルター */}
       <svg style={{ width: 0, height: 0, position: 'absolute', pointerEvents: 'none' }}>

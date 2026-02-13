@@ -9,17 +9,12 @@ export default function TopPage() {
   return (
     <div className="page fade-in">
       <img
-        src="/src/assets/images/TopPage/background.jpg"
-        alt="background"
-        className="background-image"
-      />
-      <img
         src="/src/assets/images/TopPage/title_logo.svg"
         alt="logo"
         className="title-logo-image"
       />
-      <div className="button-container active">
-        <Button text="New Game" onClick={() => navigate('/')} />
+      <div className="top-button-container active">
+        <Button text="New Game" onClick={() => navigate('/newgame')} />
         <Button text="Load Game" onClick={() => navigate('/')} />
         <Button text="Options" onClick={() => navigate('/')} />
         <Button text="Exit" onClick={() => navigate('/')} />

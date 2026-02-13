@@ -6,11 +6,12 @@
 html, body {
   width: 100%;
   height: 100%;
+  color: #fff3f1;
+  line-height: 1.6;
   background-color: #1e1e1e;
   overflow: hidden;
   font-size: clamp(0.875rem, 0.7rem + 0.5vw, 1.25rem);
 }
-
 button {
   cursor: pointer;
   white-space: nowrap;

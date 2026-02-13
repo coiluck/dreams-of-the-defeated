@@ -10,7 +10,7 @@
   align-items: center;
   padding: 12px 30px;
   background-color: #000;
-  color: #eee;
+  color: #fff3f1;
   font-family: "Courier New", monospace;
   font-size: 1rem;
   font-weight: bold;
@@ -41,8 +41,8 @@
   transition: all 0.2s ease-out;
 }
 .button-component:hover {
-  color: #fff;
-  border-color: #fff;
+  color: #fff3f1;
+  border-color: #fff3f1;
 }
 .button-component:hover::after {
   border-color: #ffd700; /* Gold */
@@ -50,5 +50,5 @@
 }
 .button-component:active {
   transform: translateY(2px);
-  filter: url('#rpg-grunge-filter') brightness(0.8);
+  filter: url('#button-grunge-filter') brightness(0.8);
 }
