@@ -16,7 +16,7 @@ export default function TopPage() {
       <div className="top-button-container active">
         <Button text="New Game" onClick={() => navigate('/newgame')} />
         <Button text="Load Game" onClick={() => navigate('/')} />
-        <Button text="Options" onClick={() => navigate('/')} />
+        <Button text="Options" onClick={() => navigate('/options')} />
         <Button text="Exit" onClick={() => navigate('/')} />
       </div>
     </div>

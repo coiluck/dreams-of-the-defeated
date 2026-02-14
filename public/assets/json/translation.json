@@ -1,0 +1,9 @@
+{
+  "systemTitle": { "ja": "システム設定", "en": "System Settings" },
+  "languageLabel": { "ja": "言語", "en": "Language" },
+  "screenSizeLabel": { "ja": "画面サイズ", "en": "Screen Size" },
+  "windowMode": { "ja": "ウィンドウ", "en": "Window" },
+  "fullscreenMode": { "ja": "フルスクリーン", "en": "Fullscreen" },
+  "audioTitle": { "ja": "音声設定", "en": "Audio Settings" },
+  "gameplayTitle": { "ja": "ゲーム設定", "en": "Gameplay Settings" }
+}

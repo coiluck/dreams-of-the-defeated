@@ -13,7 +13,10 @@ html, body {
   font-size: clamp(0.875rem, 0.7rem + 0.5vw, 1.25rem);
 }
 button {
+  color: #fff3f1;
   cursor: pointer;
+  outline: none;
+  border: none;
   white-space: nowrap;
   user-select: none;
   -webkit-user-select: none;

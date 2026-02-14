@@ -16,13 +16,13 @@
   gap: 10px;
 }
 .top-button-container.active {
-  animation: fadeUp 3s ease-out forwards;
+  animation: fadeUp 2s ease-out forwards;
 }
 @keyframes fadeUp {
   from {
     opacity: 0;
-    bottom: 0;
-    transform: translate(-50%, 100%);
+    bottom: 10%;
+    transform: translate(-50%, 50%);
   }
   to {
     opacity: 1;

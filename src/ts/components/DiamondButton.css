@@ -1,0 +1,73 @@
+.diamond-button-component-container {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 0;
+  background: transparent;
+}
+
+.diamond-button-bg {
+  position: absolute;
+  box-sizing: border-box;
+  width: 70.71%;
+  height: 70.71%;
+  background-color: #000;
+  border: 2px solid #ccc;
+  transform: rotate(45deg);
+  filter: url('#button-grunge-filter');
+  transition: all 0.3s ease;
+  z-index: 0;
+}
+.diamond-button-bg::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  opacity: 0.3;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+}
+.diamond-button-bg::after {
+  content: "";
+  position: absolute;
+  top: 6px; left: 6px; right: 6px; bottom: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.2s ease-out;
+}
+
+.diamond-button-component-text {
+  position: relative;
+  font-family: "Courier New", monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: .1rem;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  z-index: 1;
+  color: #fff3f1;
+}
+
+.diamond-button-component-container:hover .diamond-button-bg {
+  border-color: #fff3f1;
+}
+.diamond-button-component-container:hover .diamond-button-bg::after {
+  border-color: #ffd700;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.6), inset 0 0 8px rgba(255, 215, 0, 0.3);
+}
+.diamond-button-component-container:active .diamond-button-bg {
+  transform: rotate(45deg) scale(0.95);
+  filter: url('#button-grunge-filter') brightness(0.8);
+}
+
+
+.diamond-button-component-container.active .diamond-button-bg {
+  border-color: #fff3f1;
+}
+.diamond-button-component-container.active .diamond-button-bg::after {
+  border-color: #ffd700;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.6), inset 0 0 8px rgba(255, 215, 0, 0.3);
+}
+.diamond-button-component-container.active .diamond-button-bg {
+  transform: rotate(45deg);
+  filter: url('#button-grunge-filter') brightness(0.8);
+}

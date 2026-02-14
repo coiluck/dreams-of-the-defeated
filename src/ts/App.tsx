@@ -5,6 +5,7 @@ import LogoPage from "./pages/LogoPage";
 import StartLayout from "./layouts/StartLayout";
 import TopPage from "./pages/TopPage";
 import NewGamePage from "./pages/NewGamePage";
+import OptionsPage from "./pages/OptionsPage";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
           <Route path="/top" element={<TopPage />} />
           <Route path="/newgame" element={<NewGamePage />} />
           {/* <Route path="/load" element={<LoadPage />} /> */}
-          {/* <Route path="/options" element={<OptionsPage />} /> */}
+          <Route path="/options" element={<OptionsPage />} />
         </Route>
       </Routes>
       {/* ボタン用のフィルター */}

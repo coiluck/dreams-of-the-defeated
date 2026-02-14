@@ -10,16 +10,13 @@
   align-items: center;
   padding: 12px 30px;
   background-color: #000;
-  color: #fff3f1;
   font-family: "Courier New", monospace;
   font-size: 1rem;
   font-weight: bold;
   text-transform: uppercase;
   text-decoration: none;
   letter-spacing: 0.1rem;
-  cursor: pointer;
   border: 2px solid #ccc;
-  outline: none;
   filter: url('#button-grunge-filter');
   transition: all 0.3s ease;
 }
@@ -41,7 +38,6 @@
   transition: all 0.2s ease-out;
 }
 .button-component:hover {
-  color: #fff3f1;
   border-color: #fff3f1;
 }
 .button-component:hover::after {

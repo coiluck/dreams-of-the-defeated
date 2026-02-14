@@ -1,8 +1,19 @@
 // ts/layouts/StartLayout.tsx
 import { Outlet } from "react-router-dom";
 import "../../css/StartLayout.css";
+import { bgm } from '../modules/music';
+import { useEffect } from 'react';
 
 export default function StartLayout() {
+  useEffect(() => {
+    // 画面表示時
+    bgm.setVolume(0);
+    bgm.play("Devine_Fencer");
+    // 画面遷移時
+    return () => {
+      bgm.fadeOut(1.0);
+    };
+  }, []);
   return (
     <div className="start-layout">
       <img
@@ -20,13 +31,6 @@ export default function StartLayout() {
       >
         <source src="/assets/videos/sparks.mp4" type="video/mp4" />
       </video>
-
-      <audio
-        autoPlay
-        loop
-        id="start-layout-bgm-player"
-        src="/src/assets/audio/main_theme.mp3"
-      />
 
       <div className="start-layout-content-layer">
         <Outlet />
