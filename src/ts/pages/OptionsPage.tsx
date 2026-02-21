@@ -7,6 +7,7 @@ import { DiamondButton } from '../components/DiamondButton';
 import { getTranslatedText } from '../modules/i18n';
 import { SettingState, saveSettingsData } from '../modules/store';
 import { bgm, se } from '../modules/music';
+import { getCurrentWindow } from '@tauri-apps/api/window';
 
 type TabType = 'System' | 'Audio' | 'Gameplay';
 
@@ -67,6 +68,9 @@ export default function OptionsPage() {
 
     SettingState.screenSize = size;
     await saveSettingsData();
+
+    const appWindow = getCurrentWindow();
+    await appWindow.setFullscreen(size === 'fullscreen');
     console.log(`Screen size changed to ${size} and saved.`);
   };
   // master volume
