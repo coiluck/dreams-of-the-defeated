@@ -11,5 +11,7 @@
   "optionsMainBgmLabel": { "ja": "ゲームのBGM", "en": "Game BGM" },
   "optionsMainBgmDynamic": { "ja": "国に連動", "en": "National" },
   "optionsMainBgmFixed": { "ja": "任意選択", "en": "Custom" },
-  "optionsGameplayTitle": { "ja": "ゲーム設定", "en": "Gameplay Settings" }
+  "optionsGameplayTitle": { "ja": "ゲーム設定", "en": "Gameplay Settings" },
+  "newGame.countryLeader": { "ja": "国家指導者", "en": "Leader" },
+  "newGame.countryIdeology": { "ja": "政治形態", "en": "Ideology" }
 }
