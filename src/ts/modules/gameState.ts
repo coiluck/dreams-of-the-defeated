@@ -97,7 +97,7 @@ export const useGameStore = create<GameStore>((set/*, get*/) => ({
   startGame: (playerCountryId, countriesData) => set({
     game: {
       currentTurn: 1,
-      currentYear: 1920,
+      currentYear: 1932,
       currentMonth: 1,
       playerCountryId,
       countries: countriesData,

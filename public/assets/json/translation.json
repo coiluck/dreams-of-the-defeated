@@ -13,5 +13,12 @@
   "optionsMainBgmFixed": { "ja": "任意選択", "en": "Custom" },
   "optionsGameplayTitle": { "ja": "ゲーム設定", "en": "Gameplay Settings" },
   "newGame.countryLeader": { "ja": "国家指導者", "en": "Leader" },
-  "newGame.countryIdeology": { "ja": "政治形態", "en": "Ideology" }
+  "newGame.countryIdeology": { "ja": "政治形態", "en": "Ideology" },
+  "topBar.legitimacy": { "ja": "正統性", "en": "Legitimacy" },
+  "topBar.politicalPower": { "ja": "政治力", "en": "Political Capital" },
+  "topBar.economicStrength": { "ja": "経済力", "en": "Economic Strength" },
+  "topBar.culturalUnity": { "ja": "文化統合度", "en": "Cultural Unity" },
+  "topBar.deployedMilitary": { "ja": "展開兵力", "en": "Deployed Forces" },
+  "topBar.militaryEquipment": { "ja": "装備備蓄", "en": "Equipment Stockpile" },
+  "topBar.mechanization": { "ja": "機械化率", "en": "Mechanization" }
 }

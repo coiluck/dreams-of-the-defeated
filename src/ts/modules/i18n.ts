@@ -13,13 +13,21 @@ interface TranslationItem {
 }
 
 let translationData: TranslationData | null = null;
+let fetchPromise: Promise<TranslationData> | null = null;
 
 export async function loadTranslationData() {
-  const response = await fetch('/assets/json/translation.json');
-  if (!translationData) {
-    translationData = await response.json() as TranslationData;
+  if (translationData) return translationData;
+
+  if (!fetchPromise) {
+    fetchPromise = fetch('/assets/json/translation.json')
+      .then(res => res.json() as Promise<TranslationData>)
+      .then(data => {
+        translationData = data;
+        return data;
+      });
   }
-  return translationData;
+
+  return fetchPromise;
 }
 
 export async function getTranslatedText(key: string, params: string[]) {
