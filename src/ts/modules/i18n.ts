@@ -30,7 +30,7 @@ export async function loadTranslationData() {
   return fetchPromise;
 }
 
-export async function getTranslatedText(key: string, params: string[]) {
+export async function getTranslatedText(key: string, params: string[] = []) {
   const translationRawData = await loadTranslationData()
   if (!translationRawData || !translationRawData[key]) {
     console.log(`Invalid translation key: ${key}`)

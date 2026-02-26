@@ -1,0 +1,30 @@
+/* トリガー要素 */
+.tooltip-component-trigger {
+  display: inline-flex;
+}
+
+/* ツールチップ本体 */
+.tooltip-component-container {
+  position: fixed;
+  padding: .4rem .6rem;
+  color: #fff3f1;
+  font-size: 0.7rem;
+  text-wrap: nowrap;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: rgba(15, 20, 25, 0.9);
+  z-index: 9999;
+  pointer-events: none;
+  animation: tooltipFadeIn 0.2s ease-out forwards;
+}
+.tooltip-component-container.above {
+  transform: translate(-50%, calc(-100% - 5px));
+}
+.tooltip-component-container.below {
+  transform: translate(-50%, 5px);
+}
+
+@keyframes tooltipFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

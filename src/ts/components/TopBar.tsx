@@ -1,11 +1,57 @@
 // src/ts/components/TopBar.tsx
-import { useGameStore, usePlayerCountry } from '../modules/gameState';
+import { useEffect, useState } from 'react';
 import './TopBar.css';
+import { useGameStore, usePlayerCountry } from '../modules/gameState';
 import { SettingState } from '../modules/store';
+import Tooltip from './ToolTip';
+import { getTranslatedText } from '../modules/i18n';
 
 export default function TopBar() {
   const game = useGameStore(state => state.game);
   const playerCountry = usePlayerCountry();
+
+  const [tooltips, setTooltips] = useState({
+    politicalPower: '',
+    legitimacy: '',
+    economicStrength: '',
+    culturalUnity: '',
+    deployedMilitary: '',
+    militaryEquipment: '',
+    mechanization: '',
+  });
+
+  useEffect(() => {
+    const fetchTooltips = async () => {
+      const [
+        politicalPower,
+        legitimacy,
+        economicStrength,
+        culturalUnity,
+        deployedMilitary,
+        militaryEquipment,
+        mechanization
+      ] = await Promise.all([
+        getTranslatedText('topBar.politicalPower.description', []),
+        getTranslatedText('topBar.legitimacy.description', []),
+        getTranslatedText('topBar.economicStrength.description', []),
+        getTranslatedText('topBar.culturalUnity.description', []),
+        getTranslatedText('topBar.deployedMilitary.description', []),
+        getTranslatedText('topBar.militaryEquipment.description', []),
+        getTranslatedText('topBar.mechanization.description', [])
+      ]);
+      setTooltips({
+        politicalPower: politicalPower || '',
+        legitimacy: legitimacy || '',
+        economicStrength: economicStrength || '',
+        culturalUnity: culturalUnity || '',
+        deployedMilitary: deployedMilitary || '',
+        militaryEquipment: militaryEquipment || '',
+        mechanization: mechanization || '',
+      });
+    };
+
+    fetchTooltips();
+  }, [SettingState.language]);
 
   if (!game || !playerCountry) {
     return <div className="topbar-component-container">Now Loading...</div>;
@@ -26,48 +72,62 @@ export default function TopBar() {
         </div>
 
         <div className="topbar-component-status-container">
-          <div className="topbar-component-status-item">
-            <div className="topbar-component-status-item-icon politicalPower"></div>
-            <div className="topbar-component-status-item-text">
-              {playerCountry.politicalPower}
+          <Tooltip text={tooltips.politicalPower} isBelow={true}>
+            <div className="topbar-component-status-item">
+              <div className="topbar-component-status-item-icon politicalPower"></div>
+              <div className="topbar-component-status-item-text">
+                {playerCountry.politicalPower}
+              </div>
             </div>
-          </div>
-          <div className="topbar-component-status-item">
-            <div className="topbar-component-status-item-icon legitimacy"></div>
-            <div className="topbar-component-status-item-text">
-              {playerCountry.legitimacy}%
+          </Tooltip>
+          <Tooltip text={tooltips.legitimacy} isBelow={true}>
+            <div className="topbar-component-status-item">
+              <div className="topbar-component-status-item-icon legitimacy"></div>
+              <div className="topbar-component-status-item-text">
+                {playerCountry.legitimacy}%
+              </div>
             </div>
-          </div>
-          <div className="topbar-component-status-item">
-            <div className="topbar-component-status-item-icon economicStrength"></div>
-            <div className="topbar-component-status-item-text">
-              {playerCountry.economicStrength}
+          </Tooltip>
+          <Tooltip text={tooltips.economicStrength} isBelow={true}>
+            <div className="topbar-component-status-item">
+              <div className="topbar-component-status-item-icon economicStrength"></div>
+              <div className="topbar-component-status-item-text">
+                {playerCountry.economicStrength}
+              </div>
             </div>
-          </div>
-          <div className="topbar-component-status-item">
-            <div className="topbar-component-status-item-icon culturalUnity"></div>
-            <div className="topbar-component-status-item-text">
-              {playerCountry.culturalUnity}%
+          </Tooltip>
+          <Tooltip text={tooltips.culturalUnity} isBelow={true}>
+            <div className="topbar-component-status-item">
+              <div className="topbar-component-status-item-icon culturalUnity"></div>
+              <div className="topbar-component-status-item-text">
+                {playerCountry.culturalUnity}%
+              </div>
             </div>
-          </div>
-          <div className="topbar-component-status-item">
-            <div className="topbar-component-status-item-icon deployedMilitary"></div>
-            <div className="topbar-component-status-item-text">
-              {playerCountry.deployedMilitary}
+          </Tooltip>
+          <Tooltip text={tooltips.deployedMilitary} isBelow={true}>
+            <div className="topbar-component-status-item">
+              <div className="topbar-component-status-item-icon deployedMilitary"></div>
+              <div className="topbar-component-status-item-text">
+                {playerCountry.deployedMilitary}
+              </div>
             </div>
-          </div>
-          <div className="topbar-component-status-item">
-            <div className="topbar-component-status-item-icon militaryEquipment"></div>
-            <div className="topbar-component-status-item-text">
-              {playerCountry.militaryEquipment}
+          </Tooltip>
+          <Tooltip text={tooltips.militaryEquipment} isBelow={true}>
+            <div className="topbar-component-status-item">
+              <div className="topbar-component-status-item-icon militaryEquipment"></div>
+              <div className="topbar-component-status-item-text">
+                {playerCountry.militaryEquipment}
+              </div>
             </div>
-          </div>
-          <div className="topbar-component-status-item">
-            <div className="topbar-component-status-item-icon mechanization"></div>
-            <div className="topbar-component-status-item-text">
-              {playerCountry.mechanizationRate}%
+          </Tooltip>
+          <Tooltip text={tooltips.mechanization} isBelow={true}>
+            <div className="topbar-component-status-item">
+              <div className="topbar-component-status-item-icon mechanization"></div>
+              <div className="topbar-component-status-item-text">
+                {playerCountry.mechanizationRate}%
+              </div>
             </div>
-          </div>
+          </Tooltip>
         </div>
       </div>
 

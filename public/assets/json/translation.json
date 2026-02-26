@@ -20,5 +20,12 @@
   "topBar.culturalUnity": { "ja": "文化統合度", "en": "Cultural Unity" },
   "topBar.deployedMilitary": { "ja": "展開兵力", "en": "Deployed Forces" },
   "topBar.militaryEquipment": { "ja": "装備備蓄", "en": "Equipment Stockpile" },
-  "topBar.mechanization": { "ja": "機械化率", "en": "Mechanization" }
+  "topBar.mechanization": { "ja": "機械化率", "en": "Mechanization" },
+  "topBar.legitimacy.description": { "ja": "正統性: 国家の正統性を示す指標。\n高いと国家の経済の発展が促進されるが、低いと反乱のリスクが高まる。", "en": "Indicates the legitimacy of the state. Low legitimacy increases revolt risk." },
+  "topBar.politicalPower.description": { "ja": "政治力: 政策の実行に使用するポイント。", "en": "Points used for enacting policies and diplomatic actions." },
+  "topBar.economicStrength.description": { "ja": "経済力: 国家の経済規模。\n展開できる軍事力に影響を与える。", "en": "Indicates the economic scale and production capacity." },
+  "topBar.culturalUnity.description": { "ja": "文化統合度: 国民の文化的な統合度合い。\n低いと国内の安定度が下がる。", "en": "Degree of cultural unity. Low unity decreases stability." },
+  "topBar.deployedMilitary.description": { "ja": "展開兵力: 現在フィールドに展開されている総兵力数。", "en": "Total number of forces currently deployed on the field." },
+  "topBar.militaryEquipment.description": { "ja": "装備備蓄: 備蓄されている武器や軍需物資の総量。\n部隊の編成や補充に消費される。", "en": "Total amount of stockpiled weapons and military supplies." },
+  "topBar.mechanization.description": { "ja": "機械化率: 部隊の機械化の進行度を示す指標。\n数値が高いほど攻勢時に大幅な戦闘補正を得、防衛時にも小規模な補正が発生する。\nただし機械化率の上昇に伴い補給効率は低下し、部隊維持費も増加する。", "en": "Mechanization is a measure of military efficiency." }
 }
