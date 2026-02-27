@@ -6,7 +6,7 @@ import { SettingState } from '../modules/store';
 import Tooltip from './ToolTip';
 import { getTranslatedText } from '../modules/i18n';
 
-export default function TopBar() {
+export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
   const game = useGameStore(state => state.game);
   const playerCountry = usePlayerCountry();
 
@@ -146,7 +146,7 @@ export default function TopBar() {
             }
           </div>
         </div>
-        <div className="topbar-component-menu-container">
+        <div className="topbar-component-menu-container" onClick={onMenuOpen}>
           <div className="topbar-component-menu-icon"></div>
         </div>
       </div>
