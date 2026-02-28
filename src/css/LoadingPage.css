@@ -1,0 +1,79 @@
+.loading-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.loading-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.loading-main-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  z-index: 1;
+}
+.loading-message-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: .5rem;
+  border: 1px solid #888;
+  border-top: none;
+}
+.loading-message-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 800 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+}
+.loading-message-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #000;
+  z-index: -1;
+}
+
+.loading-message-container p {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fff3f1;
+  filter: url('#button-grunge-filter');
+}
+
+.loading-progress-bar-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #888;
+  border-top: none;
+}
+.loading-progress-bar-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 800 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+}
+.loading-progress-bar-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #000;
+  z-index: -1;
+}
+.loading-progress-bar {
+  height: 0.8rem;
+  background: linear-gradient(to bottom, #3e3e5a, #111);
+}

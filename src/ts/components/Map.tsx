@@ -21,7 +21,11 @@ interface PointData {
   occupyId: number;
 }
 
-const MapCanvas: React.FC = () => {
+interface MapProps {
+  onLoadComplete: () => void;
+}
+
+const MapCanvas: React.FC<MapProps> = ({ onLoadComplete }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // データ類
@@ -63,53 +67,64 @@ const MapCanvas: React.FC = () => {
         const tempPoints: PointData[] = [];
         const count = buffer.byteLength / BYTES_PER_POINT;
 
-        for (let i = 0; i < count; i++) {
-          const off = i * BYTES_PER_POINT;
-          tempPoints.push({
-            x: dataView.getUint16(off, true),
-            y: dataView.getUint16(off + 2, true),
-            ownerId: dataView.getUint8(off + 4),
-            occupyId: dataView.getUint8(off + 5),
-          });
+        // 【チャンク処理の準備】
+        const yieldToMain = () => new Promise(resolve => setTimeout(resolve, 0));
+        const CHUNK_SIZE = 3000; // 1回で処理するデータ数
+
+        // --- A. バイナリデータのパース（チャンク処理） ---
+        for (let i = 0; i < count; i += CHUNK_SIZE) {
+          const end = Math.min(i + CHUNK_SIZE, count);
+          for (let j = i; j < end; j++) {
+            const off = j * BYTES_PER_POINT;
+            tempPoints.push({
+              x: dataView.getUint16(off, true),
+              y: dataView.getUint16(off + 2, true),
+              ownerId: dataView.getUint8(off + 4),
+              occupyId: dataView.getUint8(off + 5),
+            });
+          }
+          // メインスレッドを解放して画面を更新
+          await yieldToMain();
         }
+
         pointsRef.current = tempPoints;
         paperImageRef.current = paperImg;
 
         // ----------------------------------------------------
-        // 事前レンダリング処理（ここで重い処理を全部済ませる）
+        // 事前レンダリング処理
         // ----------------------------------------------------
-
-        // A. 地形画像のマスク処理用Canvas作成
         const terrainCanvas = document.createElement('canvas');
         terrainCanvas.width = MAP_WIDTH;
         terrainCanvas.height = MAP_HEIGHT;
         const tCtx = terrainCanvas.getContext('2d');
 
-        // B. 国の塗りつぶし用Canvas作成
         const countriesCanvas = document.createElement('canvas');
         countriesCanvas.width = MAP_WIDTH;
         countriesCanvas.height = MAP_HEIGHT;
         const cCtx = countriesCanvas.getContext('2d');
 
         if (tCtx && cCtx) {
-          // --- 1. 国の色を countriesCanvas に描画 ---
-          // アニメーションループから除外することで負荷をゼロにする
-          tempPoints.forEach(p => {
-            if (p.occupyId !== 0) { // 海以外
-              const drawX = p.x * POINT_SIZE;
-              const drawY = p.y * POINT_SIZE;
+          // --- B. 国の色塗り・マスク処理（チャンク処理） ---
+          for (let i = 0; i < tempPoints.length; i += CHUNK_SIZE) {
+            const end = Math.min(i + CHUNK_SIZE, tempPoints.length);
+            for (let j = i; j < end; j++) {
+              const p = tempPoints[j];
+              if (p.occupyId !== 0) { // 海以外
+                const drawX = p.x * POINT_SIZE;
+                const drawY = p.y * POINT_SIZE;
 
-              // 地形用マスク（黒で塗りつぶす）
-              tCtx.fillStyle = '#000000';
-              tCtx.fillRect(drawX, drawY, POINT_SIZE, POINT_SIZE);
+                // 地形用マスク
+                tCtx.fillStyle = '#000000';
+                tCtx.fillRect(drawX, drawY, POINT_SIZE, POINT_SIZE);
 
-              // 国の色塗り
-              const countryCode = meta.id_map[p.occupyId];
-              cCtx.fillStyle = meta.colors[countryCode] || '#555';
-              // 隙間対策で少しだけ大きく描画
-              cCtx.fillRect(drawX, drawY, POINT_SIZE, POINT_SIZE);
+                // 国の色塗り
+                const countryCode = meta.id_map[p.occupyId];
+                cCtx.fillStyle = meta.colors[countryCode] || '#555';
+                cCtx.fillRect(drawX, drawY, POINT_SIZE, POINT_SIZE);
+              }
             }
-          });
+            await yieldToMain();
+          }
 
           // --- 2. 地形画像の合成 ---
           tCtx.globalCompositeOperation = 'source-in';
@@ -121,6 +136,7 @@ const MapCanvas: React.FC = () => {
         }
 
         setResourcesLoaded(true);
+        onLoadComplete();
 
       } catch (e) {
         console.error("Failed to load resources", e);
