@@ -3,6 +3,7 @@ import { useState, useCallback } from "react";
 import MapCanvas from "../components/Map";
 import TopBar from "../components/TopBar";
 import GameMenu from "../components/GameMenu";
+import GameActions from "../components/GameActions";
 import LoadingPage from "./LoadingPage";
 
 export default function GamePage() {
@@ -35,6 +36,9 @@ export default function GamePage() {
       <div style={{ visibility: showGame ? 'visible' : 'hidden' }}>
         <TopBar onMenuOpen={() => setIsMenuOpen(true)} />
         <MapCanvas onLoadComplete={handleMapComplete} />
+
+        {/* 右サイドのアクションパネル群 */}
+        <GameActions />
       </div>
 
       {isMenuOpen && (

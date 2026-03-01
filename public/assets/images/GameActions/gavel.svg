@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="456.39365mm"
+   height="415.26984mm"
+   viewBox="0 0 1617.1428 1471.4285"
+   id="svg16667"
+   version="1.1"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   sodipodi:docname="gavel.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title17273">court gavel outline</title>
+  <defs
+     id="defs16669" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="924.28571"
+     inkscape:cy="827.14286"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="974"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
+  <metadata
+     id="metadata16672">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>court gavel outline</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>j4p4n</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(814.28571,341.92352)">
+    <path
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:18.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -118.87865,-8.3172779 c -8.01377,-3.7880881 -17.51493,-0.386184 -21.30304,7.62759996 L -149.9495,19.974266 c -3.78808,8.013784 -0.38618,17.514936 7.6276,21.30304 L 47.793948,131.14465 c 8.013807,3.78811 17.514959,0.3862 21.303055,-7.62759 l 9.767787,-20.66394 c 3.78812,-8.013782 0.3862,-17.514942 -7.627571,-21.303046 z M -137.99985,61.017826 -259.12509,317.26025 -93.807951,395.40532 27.317305,139.16288 Z M 17.552895,248.31765 c -9.0967465,-4.30001 -19.8822955,-0.43823 -24.1822995,8.65851 l -25.5025725,53.95112 c -4.300019,9.09672 -0.438201,19.88229 8.658512,24.1823 L 478.90261,572.58164 c 9.09672,4.3 19.88227,0.43823 24.18228,-8.65851 l 25.50257,-53.95112 c 4.30001,-9.09673 0.43823,-19.88227 -8.65852,-24.18229 z m -294.675475,78.13271 c -8.0138,-3.78808 -17.51496,-0.38617 -21.30304,7.6276 l -9.76846,20.66536 c -3.78812,8.01378 -0.38621,17.51495 7.6276,21.30304 l 190.11583,89.86735 c 8.01379,3.78809 17.514939,0.38619 21.303043,-7.6276 l 9.768464,-20.66533 c 3.78812,-8.0138 0.3862,-17.51497 -7.627592,-21.30306 z"
+       id="rect17215"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:18.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -435.71264,616.39713 c -12.55733,0 -22.66719,10.10985 -22.66719,22.66718 v 32.38126 c 0,0.7072 0.0373,1.405 0.1,2.09531 h -23.05156 c -15.14267,0 -20.91256,13.61929 -27.33437,27.33281 l -18.28571,39.04844 c -6.42181,13.71352 12.1917,27.3328 27.33436,27.3328 h 466.475677 c 15.14266,0 34.9824462,-14.2644 27.3328102,-27.3328 L -28.665773,700.87369 c -7.64964,-13.06841 -12.19014,-27.33281 -27.33281,-27.33281 h -23.05156 c 0.0628,-0.69031 0.0984,-1.38811 0.0984,-2.09531 v -32.38126 c 0,-12.55733 -10.10828,-22.66718 -22.665617,-22.66718 z"
+       id="rect17225"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ssscsssssssscssss" />
+  </g>
+</svg>

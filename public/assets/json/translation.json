@@ -27,5 +27,8 @@
   "topBar.culturalUnity.description": { "ja": "文化統合度: 国民の文化的な統合度合い。\n低いと国内の安定度が下がる。", "en": "Degree of cultural unity. Low unity decreases stability." },
   "topBar.deployedMilitary.description": { "ja": "展開兵力: 現在フィールドに展開されている総兵力数。", "en": "Total number of forces currently deployed on the field." },
   "topBar.militaryEquipment.description": { "ja": "装備備蓄: 備蓄されている武器や軍需物資の総量。\n部隊の編成や補充に消費される。", "en": "Total amount of stockpiled weapons and military supplies." },
-  "topBar.mechanization.description": { "ja": "機械化率: 部隊の機械化の進行度を示す指標。\n数値が高いほど攻勢時に大幅な戦闘補正を得、防衛時にも小規模な補正が発生する。\nただし機械化率の上昇に伴い補給効率は低下し、部隊維持費も増加する。", "en": "Mechanization is a measure of military efficiency." }
+  "topBar.mechanization.description": { "ja": "機械化率: 部隊の機械化の進行度を示す指標。\n数値が高いほど攻勢時に大幅な戦闘補正を得、防衛時にも小規模な補正が発生する。\nただし機械化率の上昇に伴い補給効率は低下し、部隊維持費も増加する。", "en": "Mechanization is a measure of military efficiency." },
+  "gameActions.focus": { "ja": "国家方針", "en": "National Focus" },
+  "gameActions.finance": { "ja": "財政調整", "en": "Finance" },
+  "gameActions.war": { "ja": "戦争推移", "en": "War Progress" }
 }
