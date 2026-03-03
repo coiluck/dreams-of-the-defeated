@@ -1,0 +1,156 @@
+{
+  "countryId": "france",
+  "focuses": [
+    {
+      "id": "imperial_ambition",
+      "col": 2,
+      "row": 0,
+      "icon": "star",
+      "name": { "ja": "帝国の野望", "en": "Imperial Ambition" },
+      "description": { "ja": "大日本帝国の覇権を確立し、アジアの盟主となる。", "en": "Establish the hegemony of the Empire of Japan and become the leader of Asia." },
+      "prerequisites": [],
+      "mutuallyExclusive": [],
+      "effects": { "politicalPower": 10, "legitimacy": 5 }
+    },
+    {
+      "id": "army_expansion",
+      "col": 0,
+      "row": 1,
+      "icon": "sword",
+      "name": { "ja": "陸軍増強", "en": "Army Expansion" },
+      "description": { "ja": "帝国陸軍の規模を拡大し、大陸での作戦能力を強化する。", "en": "Expand the Imperial Army and strengthen operational capabilities on the continent." },
+      "prerequisites": ["imperial_ambition"],
+      "mutuallyExclusive": [],
+      "effects": { "deployedMilitary": 20, "militaryEquipment": 10 }
+    },
+    {
+      "id": "navy_expansion",
+      "col": 4,
+      "row": 1,
+      "icon": "anchor",
+      "name": { "ja": "海軍増強", "en": "Naval Expansion" },
+      "description": { "ja": "帝国海軍を強化し、太平洋の制海権を握る。", "en": "Strengthen the Imperial Navy and seize control of the Pacific Ocean." },
+      "prerequisites": ["imperial_ambition"],
+      "mutuallyExclusive": [],
+      "effects": { "deployedMilitary": 15, "militaryEquipment": 20 }
+    },
+    {
+      "id": "manchuria_development",
+      "col": 2,
+      "row": 1,
+      "icon": "factory",
+      "name": { "ja": "満州開発", "en": "Manchurian Development" },
+      "description": { "ja": "満州国の資源と工業力を活用し、帝国経済を強化する。", "en": "Utilize Manchurian resources and industrial power to strengthen the imperial economy." },
+      "prerequisites": ["imperial_ambition"],
+      "mutuallyExclusive": [],
+      "effects": { "economicStrength": 20 }
+    },
+    {
+      "id": "strike_north",
+      "col": 0,
+      "row": 2,
+      "icon": "arrow-up",
+      "name": { "ja": "北進論", "en": "Strike North" },
+      "description": { "ja": "ソ連との対決を主眼に、シベリアへの北進を目指す。", "en": "Focus on confrontation with the Soviet Union and aim for the northern advance into Siberia." },
+      "prerequisites": ["army_expansion"],
+      "mutuallyExclusive": ["strike_south"],
+      "effects": { "politicalPower": 5, "deployedMilitary": 25 }
+    },
+    {
+      "id": "strike_south",
+      "col": 4,
+      "row": 2,
+      "icon": "arrow-down",
+      "name": { "ja": "南進論", "en": "Strike South" },
+      "description": { "ja": "東南アジアの資源地帯を確保し、大東亜共栄圏を建設する。", "en": "Secure resource areas in Southeast Asia and establish the Greater East Asia Co-Prosperity Sphere." },
+      "prerequisites": ["navy_expansion"],
+      "mutuallyExclusive": ["strike_north"],
+      "effects": { "economicStrength": 15, "deployedMilitary": 15 }
+    },
+    {
+      "id": "industrial_modernization",
+      "col": 2,
+      "row": 2,
+      "icon": "gear",
+      "name": { "ja": "産業近代化", "en": "Industrial Modernization" },
+      "description": { "ja": "重工業と軍需産業を近代化し、戦時生産能力を飛躍的に向上させる。", "en": "Modernize heavy industry and munitions industry to dramatically increase wartime production capacity." },
+      "prerequisites": ["manchuria_development"],
+      "mutuallyExclusive": [],
+      "effects": {
+        "events": [
+          { "id": "kerensky_assassination", "name": { "ja": "ケレンスキーの暗殺", "en": "Assassination of Kerensky" } }
+        ]
+      }
+    },
+    {
+      "id": "total_war_economy",
+      "col": 1,
+      "row": 3,
+      "icon": "flame",
+      "name": { "ja": "総力戦体制", "en": "Total War Economy" },
+      "description": { "ja": "国家のすべての資源を戦争に動員する総力戦体制を確立する。", "en": "Establish a total war system that mobilizes all national resources for war." },
+      "prerequisites": [],
+      "prerequisitesAny": ["strike_north", "strike_south"],
+      "mutuallyExclusive": [],
+      "effects": { "economicStrength": 15, "militaryEquipment": 30, "legitimacy": -5 }
+    },
+    {
+      "id": "co_prosperity_sphere",
+      "col": 3,
+      "row": 3,
+      "icon": "globe",
+      "name": { "ja": "大東亜共栄圏", "en": "Co-Prosperity Sphere" },
+      "description": { "ja": "アジア諸国との共存共栄を旗印に、新秩序を構築する。", "en": "Build a new order under the banner of coexistence and co-prosperity with Asian nations." },
+      "prerequisites": ["strike_south", "industrial_modernization"],
+      "mutuallyExclusive": [],
+      "effects": { "legitimacy": 15, "culturalUnity": 10, "economicStrength": 20 }
+    },
+    {
+      "id": "revise_military_system",
+      "col": 5,
+      "row": 0,
+      "icon": "globe",
+      "name": { "ja": "軍制改革", "en": "Military Reform" },
+      "description": { "ja": "...", "en": "..." },
+      "prerequisites": [],
+      "mutuallyExclusive": [],
+      "effects": {
+        "politicalPower": -10,
+        "nationalSpirits": [
+          {
+            "id": "victor_of_the_great_war",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 10,
+              "mechanizationRate": 5
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "modernize_army",
+      "col": 5,
+      "row": 1,
+      "icon": "globe",
+      "name": { "ja": "陸軍の近代化", "en": "Modernize Army" },
+      "description": { "ja": "...", "en": "..." },
+      "prerequisites": ["revise_military_system"],
+      "mutuallyExclusive": [],
+      "effects": {
+        "militaryEquipment": 50,
+        "nationalSpirits": [
+          {
+            "id": "modern_army",
+            "action": "add",
+            "name": { "ja": "近代的な軍隊", "en": "Modern Army" },
+            "stats": {
+              "attackPower": 10,
+              "mechanizationRate": 5
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

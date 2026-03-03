@@ -114,6 +114,20 @@
   pointer-events: all;
 }
 
+.game-actions-component-panel.focus {
+  width: 100%;
+}
+.game-actions-component-panel.focus .game-actions-component-panel-bg {
+  border-left: none;
+}
+.game-actions-component-panel.war {
+  width: 100%;
+}
+.game-actions-component-panel.war .game-actions-component-panel-bg {
+  border-left: none;
+}
+
+
 /* パネル背景 */
 .game-actions-component-panel-bg {
   position: absolute;

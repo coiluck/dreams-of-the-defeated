@@ -1,0 +1,323 @@
+/* src/ts/components/GameNationalFocus.css */
+
+/* ─── コンテナ ─── */
+.gnf-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+  overflow: hidden;
+}
+
+.gnf-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #666;
+  font-family: "Courier New", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1rem;
+}
+
+/* ─── スクロールエリア ─── */
+.gnf-scroll-area {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a3a transparent;
+}
+.gnf-scroll-area::-webkit-scrollbar { width: 4px; height: 4px; }
+.gnf-scroll-area::-webkit-scrollbar-track { background: transparent; }
+.gnf-scroll-area::-webkit-scrollbar-thumb { background: #3a3a3a; border-radius: 2px; }
+
+/* ─── SVGレイヤー ─── */
+.gnf-svg-layer {
+  overflow: visible;
+}
+
+/* 流れるアニメーション */
+.gnf-animated-line {
+  animation: gnf-flow 1.8s linear infinite;
+}
+@keyframes gnf-flow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -24; }
+}
+
+/* ─── ノード ─── */
+.gnf-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 4px 4px;
+  box-sizing: border-box;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  border: 1.5px solid #333;
+  background-color: #0a0a0a;
+  /* グランジ風のノイズ */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
+}
+
+/* ステータス別スタイル */
+.gnf-node--locked {
+  border-color: #2a2a2a;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.gnf-node--available {
+  border-color: #555;
+  cursor: pointer;
+}
+.gnf-node--available:hover {
+  border-color: #ceae44;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(206,174,68,0.2);
+}
+.gnf-node--active {
+  border-color: #ceae44;
+  box-shadow:
+    0 0 10px rgba(255,215,0,0.25),
+    inset 0 0 8px rgba(255,215,0,0.08);
+  animation: gnf-pulse 2.5s ease-in-out infinite;
+}
+@keyframes gnf-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(255,215,0,0.2), inset 0 0 6px rgba(255,215,0,0.06); }
+  50%       { box-shadow: 0 0 16px rgba(255,215,0,0.4), inset 0 0 12px rgba(255,215,0,0.12); }
+}
+.gnf-node--completed {
+  border-color: #5a8a5a;
+  background-color: rgba(60,100,60,0.15);
+}
+.gnf-node--excluded {
+  border-color: #5a2222;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 選択 */
+.gnf-node--selected {
+  border-color: #ffd700 !important;
+  box-shadow: 0 0 0 2px rgba(255,215,0,0.4), 0 4px 20px rgba(255,215,0,0.3) !important;
+  transform: translateY(-2px);
+}
+
+/* 関連ハイライト */
+.gnf-node--highlight-prereq {
+  border-color: #6ab06a !important;
+  box-shadow: 0 0 10px rgba(106,176,106,0.3) !important;
+}
+.gnf-node--highlight-exclusive {
+  border-color: #aa3333 !important;
+  box-shadow: 0 0 10px rgba(170,51,51,0.3) !important;
+}
+
+/* ─── ノード内部 ─── */
+.gnf-node-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+}
+.gnf-node-name {
+  font-family: "Courier New", monospace;
+  font-size: 0.6rem;
+  font-weight: bold;
+  color: #cccccc;
+  text-align: center;
+  letter-spacing: 0.04rem;
+  line-height: 1.3;
+  max-width: 80px;
+  word-break: break-word;
+  hyphens: auto;
+}
+.gnf-node--active .gnf-node-name,
+.gnf-node--completed .gnf-node-name {
+  color: #ffd700;
+}
+.gnf-node--locked .gnf-node-name { color: #444; }
+.gnf-node--excluded .gnf-node-name { color: #662222; }
+
+/* 完了チェックマーク */
+.gnf-node-check {
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  font-size: 0.6rem;
+  color: #6ab06a;
+  font-weight: bold;
+}
+
+/* 進行バー */
+.gnf-node-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 0 0 2px 2px;
+  overflow: hidden;
+}
+.gnf-node-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ceae44, #ffd700);
+  animation: gnf-progress 8s linear infinite;
+  width: 30%;
+}
+@keyframes gnf-progress {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* ─── 詳細パネル ─── */
+.gnf-detail-panel {
+  flex-shrink: 0;
+  border-top: 1px solid #333;
+  padding: 0.8rem 0.2rem 0.4rem;
+  background: linear-gradient(to bottom, rgba(20,16,8,0.9), transparent);
+  animation: gnf-slide-up 0.2s ease-out;
+}
+@keyframes gnf-slide-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.gnf-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.gnf-detail-title {
+  font-family: "Courier New", monospace;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #ffd700;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+}
+.gnf-detail-desc {
+  font-family: "Courier New", monospace;
+  font-size: 0.65rem;
+  color: #aaa;
+  line-height: 1.5;
+  margin: 0 0 6px;
+}
+.gnf-detail-meta {
+  margin-bottom: 6px;
+}
+.gnf-detail-duration {
+  font-family: "Courier New", monospace;
+  font-size: 0.65rem;
+  color: #888;
+  letter-spacing: 0.05rem;
+}
+.gnf-detail-effects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.gnf-effect-tag {
+  font-family: "Courier New", monospace;
+  font-size: 0.58rem;
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0.04rem;
+}
+.gnf-effect-tag.pos {
+  background: rgba(60,120,60,0.3);
+  border: 1px solid #3a6a3a;
+  color: #8aba8a;
+}
+.gnf-effect-tag.neg {
+  background: rgba(120,40,40,0.3);
+  border: 1px solid #6a2a2a;
+  color: #ba6a6a;
+}
+.gnf-start-button {
+  width: 100%;
+  padding: 7px;
+  background: transparent;
+  border: 1.5px solid #ceae44;
+  color: #ceae44;
+  font-family: "Courier New", monospace;
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  filter: url('#button-grunge-filter');
+}
+.gnf-start-button:hover {
+  background: rgba(206,174,68,0.15);
+  color: #ffd700;
+}
+.gnf-start-button:active {
+  transform: scale(0.98);
+}
+
+/* ─── ツールチップ ─── */
+.gnf-tooltip {
+  max-width: 200px;
+  padding: 8px 10px;
+  background: rgba(8,8,8,0.95);
+  border: 1px solid #444;
+  font-family: "Courier New", monospace;
+}
+.gnf-tooltip-title {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #ffd700;
+  margin-bottom: 4px;
+  letter-spacing: 0.05rem;
+}
+.gnf-tooltip-desc {
+  font-size: 0.6rem;
+  color: #999;
+  line-height: 1.4;
+}
+/* ツールチップ エフェクト */
+.gnf-tooltip-effects {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 5px;
+}
+.gnf-tooltip-effect-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.gnf-tooltip-effect-header {
+  font-family: "Courier New", monospace;
+  font-size: 0.6rem;
+  color: #888;
+  letter-spacing: 0.04rem;
+}
+.gnf-tooltip-effect-row {
+  font-family: "Courier New", monospace;
+  font-size: 0.62rem;
+  color: #ccc;
+  padding-left: 6px;
+  line-height: 1.5;
+}
+
+/* イベントカード */
+.gnf-spirit-action--event {
+  background: rgba(100,60,160,0.35);
+  color: #b08aea;
+  border: 1px solid #6a4a9a;
+}
+.gnf-event-card {
+  border-color: #4a2a7a;
+}

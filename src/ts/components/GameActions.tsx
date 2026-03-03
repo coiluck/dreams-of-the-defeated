@@ -52,9 +52,8 @@ export default function GameActions() {
       {/* サイドボタン群 */}
       <div className={`game-actions-component-buttons-container ${openTab !== null ? 'hidden' : ''}`}>
         {TAB_CONFIG.map((tab) => (
-          <Tooltip text={translations[tab.id]} isBelow={true}>
+          <Tooltip text={translations[tab.id]} isBelow={true} key={tab.id}>
             <div
-              key={tab.id}
               className={`game-actions-component-button ${tab.id} ${openTab === tab.id ? 'active' : ''}`}
               onClick={() => handleTabClick(tab.id)}
             >
@@ -67,7 +66,7 @@ export default function GameActions() {
       </div>
 
       {/* スライドパネル */}
-      <div className={`game-actions-component-panel ${openTab !== null ? 'open' : ''}`}>
+      <div className={`game-actions-component-panel ${activeConfig?.id ?? ''} ${openTab !== null ? 'open' : ''}`}>
         <div className="game-actions-component-panel-bg" />
         <div className="game-actions-component-panel-noise" />
 
