@@ -193,6 +193,36 @@ export default function GameNationalFocus() {
   const [tooltip, setTooltip] = useState<{ node: NationalFocusNode; x: number; y: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // ツールチップの位置調整
+  const [tooltipLeft, setTooltipLeft] = useState<number | null>(null);
+  const [tooltipTop, setTooltipTop] = useState<number | null>(null);
+
+  const tooltipRef = useCallback((node: HTMLDivElement | null) => {
+    if (node && tooltip) {
+      const tooltipWidth = node.offsetWidth;
+      const tooltipHeight = node.offsetHeight; // 高さを取得
+      const half = tooltipWidth / 2;
+      const margin = 8; // 端からの余白(px)
+
+      // X軸の画面外はみ出し防止
+      const clampedLeft = Math.min(
+        Math.max(tooltip.x, half + margin),
+        window.innerWidth - half - margin
+      );
+      setTooltipLeft(clampedLeft);
+
+      // Y軸の画面外はみ出し防止
+      const baseTop = tooltip.y + NODE_H / 2 + 8;
+
+      const calculatedTop = Math.max(
+        margin, // 万が一画面上端を越える場合のストッパー
+        Math.min(baseTop, window.innerHeight - tooltipHeight - margin) // 画面下端を越えないようにストッパー
+      );
+
+      setTooltipTop(calculatedTop);
+    }
+  }, [tooltip]);
+
   const lang = SettingState.language as 'ja' | 'en';
 
   useEffect(() => {
@@ -388,9 +418,13 @@ export default function GameNationalFocus() {
                 onClick={() => handleNodeClick(focus)}
                 onMouseEnter={e => {
                   const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-                  setTooltip({ node: focus, x: rect.left, y: rect.top });
+                  setTooltip({ node: focus, x: rect.left + rect.width / 2, y: rect.top });
                 }}
-                onMouseLeave={() => setTooltip(null)}
+                onMouseLeave={() => {
+                  setTooltip(null);
+                  setTooltipLeft(null);
+                  setTooltipTop(null);
+                }}
               >
                 <div className="gnf-node-icon">
                   <FocusIcon
@@ -443,11 +477,12 @@ export default function GameNationalFocus() {
         const lines = buildEffectLines(tooltip.node.effects, lang);
         return (
           <div
+            ref={tooltipRef}
             className="gnf-tooltip"
             style={{
               position: 'fixed',
-              left: tooltip.x,
-              top: tooltip.y + NODE_H / 2 + 8,
+              left: tooltipLeft !== null ? tooltipLeft : tooltip.x,
+              top: tooltipTop !== null ? tooltipTop : tooltip.y + NODE_H / 2 + 8,
               transform: 'translateX(-50%)',
               pointerEvents: 'none',
               zIndex: 9999,
