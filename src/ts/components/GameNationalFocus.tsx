@@ -67,7 +67,6 @@ const MODIFIER_LABELS: Record<string, { ja: string; en: string }> = {
 function buildEffectLines(effects: FocusEffect, lang: 'ja' | 'en'): string[] {
   const lines: string[] = [];
 
-  // ① 直接付与リソース
   const directEntries = (Object.entries(effects) as [string, unknown][])
     .filter(([key, val]) => key !== 'nationalSpirits' && key !== 'events' && typeof val === 'number') as [string, number][];
 
@@ -82,24 +81,16 @@ function buildEffectLines(effects: FocusEffect, lang: 'ja' | 'en'): string[] {
     lines.push(header + '\n' + rows.join('\n'));
   }
 
-  // ② 国民精神
   for (const spirit of effects.nationalSpirits ?? []) {
     const spiritName = spirit.name?.[lang] ?? spirit.id;
     let header: string;
     if (spirit.action === 'add') {
-      header = lang === 'ja'
-        ? `国民精神「${spiritName}」を獲得:`
-        : `Gain national spirit "${spiritName}":`;
+      header = lang === 'ja' ? `国民精神「${spiritName}」を獲得:` : `Gain national spirit "${spiritName}":`;
     } else if (spirit.action === 'modify') {
-      header = lang === 'ja'
-        ? `国民精神「${spiritName}」に以下の修正:`
-        : `Modify national spirit "${spiritName}":`;
+      header = lang === 'ja' ? `国民精神「${spiritName}」に以下の修正:` : `Modify national spirit "${spiritName}":`;
     } else {
-      header = lang === 'ja'
-        ? `国民精神「${spiritName}」を削除`
-        : `Remove national spirit "${spiritName}"`;
+      header = lang === 'ja' ? `国民精神「${spiritName}」を削除` : `Remove national spirit "${spiritName}"`;
     }
-
     const statRows = spirit.stats
       ? (Object.entries(spirit.stats) as [string, number][]).map(([key, val]) => {
           const label = MODIFIER_LABELS[key]?.[lang] ?? key;
@@ -108,24 +99,16 @@ function buildEffectLines(effects: FocusEffect, lang: 'ja' | 'en'): string[] {
           return `${label} <span style="color:${color}">${sign}${val}</span>`;
         })
       : [];
-
     lines.push(header + (statRows.length ? '\n' + statRows.join('\n') : ''));
   }
 
-  // ③ イベント
   for (const ev of effects.events ?? []) {
-    const evName = ev.name[lang];
-    lines.push(
-      lang === 'ja'
-        ? `イベント「${evName}」が発生する`
-        : `Triggers event "${evName}"`
-    );
+    lines.push(lang === 'ja' ? `イベント「${ev.name[lang]}」が発生する` : `Triggers event "${ev.name[lang]}"`);
   }
 
   return lines;
 }
 
-// 詳細パネル用エフェクト表示コンポーネント（既存パネル向け）
 function FocusEffects({ effects, lang }: { effects: FocusEffect; lang: 'ja' | 'en' }) {
   const directEntries = (Object.entries(effects) as [string, unknown][])
     .filter(([key, val]) => key !== 'nationalSpirits' && key !== 'events' && typeof val === 'number') as [string, number][];
@@ -147,13 +130,11 @@ function FocusEffects({ effects, lang }: { effects: FocusEffect; lang: 'ja' | 'e
         <div key={spirit.id} className="gnf-spirit-card">
           <div className="gnf-spirit-header">
             <span className={`gnf-spirit-action gnf-spirit-action--${spirit.action}`}>
-              {spirit.action === 'add'    ? (lang === 'ja' ? '取得' : 'Add')    :
+              {spirit.action === 'add' ? (lang === 'ja' ? '取得' : 'Add') :
                spirit.action === 'modify' ? (lang === 'ja' ? '修正' : 'Modify') :
-                                            (lang === 'ja' ? '削除' : 'Remove')}
+               (lang === 'ja' ? '削除' : 'Remove')}
             </span>
-            <span className="gnf-spirit-name">
-              {spirit.name?.[lang] ?? spirit.id}
-            </span>
+            <span className="gnf-spirit-name">{spirit.name?.[lang] ?? spirit.id}</span>
           </div>
           {spirit.stats && (
             <div className="gnf-spirit-stats">
@@ -192,34 +173,32 @@ export default function GameNationalFocus() {
   const [selectedNode, setSelectedNode] = useState<NationalFocusNode | null>(null);
   const [tooltip, setTooltip] = useState<{ node: NationalFocusNode; x: number; y: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  // ツールチップの位置調整
+  // ─── ドラッグパン用 ref ────────────────────────────────────────────────────
+  // ref を使うことで再レンダリングを発生させず、スムーズなドラッグを実現する
+  const isDragging = useRef(false);
+  const didDrag = useRef(false); // 3px以上動いたら「ドラッグ」とみなしてクリックを抑制
+  const dragOrigin = useRef<{
+    mouseX: number;
+    mouseY: number;
+    scrollLeft: number;
+    scrollTop: number;
+  } | null>(null);
+
   const [tooltipLeft, setTooltipLeft] = useState<number | null>(null);
   const [tooltipTop, setTooltipTop] = useState<number | null>(null);
 
   const tooltipRef = useCallback((node: HTMLDivElement | null) => {
     if (node && tooltip) {
       const tooltipWidth = node.offsetWidth;
-      const tooltipHeight = node.offsetHeight; // 高さを取得
+      const tooltipHeight = node.offsetHeight;
       const half = tooltipWidth / 2;
-      const margin = 8; // 端からの余白(px)
-
-      // X軸の画面外はみ出し防止
-      const clampedLeft = Math.min(
-        Math.max(tooltip.x, half + margin),
-        window.innerWidth - half - margin
-      );
+      const margin = 8;
+      const clampedLeft = Math.min(Math.max(tooltip.x, half + margin), window.innerWidth - half - margin);
       setTooltipLeft(clampedLeft);
-
-      // Y軸の画面外はみ出し防止
       const baseTop = tooltip.y + NODE_H / 2 + 8;
-
-      const calculatedTop = Math.max(
-        margin, // 万が一画面上端を越える場合のストッパー
-        Math.min(baseTop, window.innerHeight - tooltipHeight - margin) // 画面下端を越えないようにストッパー
-      );
-
-      setTooltipTop(calculatedTop);
+      setTooltipTop(Math.max(margin, Math.min(baseTop, window.innerHeight - tooltipHeight - margin)));
     }
   }, [tooltip]);
 
@@ -234,26 +213,71 @@ export default function GameNationalFocus() {
     });
   }, [playerCountry?.slug]);
 
+  // ─── ドラッグパン: mousedown ────────────────────────────────────────────
+  const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return; // 左ボタンのみ
+    const el = scrollAreaRef.current;
+    if (!el) return;
+    isDragging.current = true;
+    didDrag.current = false;
+    dragOrigin.current = {
+      mouseX: e.clientX,
+      mouseY: e.clientY,
+      scrollLeft: el.scrollLeft,
+      scrollTop: el.scrollTop,
+    };
+    e.preventDefault(); // テキスト選択を防ぐ
+  }, []);
+
+  // ─── ドラッグパン: mousemove / mouseup (window にバインド) ──────────────
+  useEffect(() => {
+    const onMouseMove = (e: MouseEvent) => {
+      if (!isDragging.current || !dragOrigin.current || !scrollAreaRef.current) return;
+      const dx = e.clientX - dragOrigin.current.mouseX;
+      const dy = e.clientY - dragOrigin.current.mouseY;
+      // 3px を超えたら正式にドラッグ開始
+      if (!didDrag.current && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
+        didDrag.current = true;
+      }
+      if (didDrag.current) {
+        scrollAreaRef.current.scrollLeft = dragOrigin.current.scrollLeft - dx;
+        scrollAreaRef.current.scrollTop  = dragOrigin.current.scrollTop  - dy;
+        // ドラッグ中はツールチップを消す
+        setTooltip(null);
+        setTooltipLeft(null);
+        setTooltipTop(null);
+      }
+    };
+
+    const onMouseUp = () => {
+      isDragging.current = false;
+      dragOrigin.current = null;
+      // didDrag は次の mousedown まで保持しておき、click イベントで参照する
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+  }, []);
+
   const getFocusStatus = useCallback((focus: NationalFocusNode): FocusStatus => {
     if (!playerCountry || !game) return 'locked';
     const completedIds = playerCountry.completedFocusIds as string[];
     const activeId = playerCountry.activeFocusId as string | null;
-
     if (completedIds.includes(focus.id)) return 'completed';
     if (activeId === focus.id) return 'active';
-
-    if (focus.mutuallyExclusive.some(id => completedIds.includes(id) || id === activeId)) {
-      return 'excluded';
-    }
-
+    if (focus.mutuallyExclusive.some(id => completedIds.includes(id) || id === activeId)) return 'excluded';
     const allMet = focus.prerequisites.every(id => completedIds.includes(id));
-    const anyMet = !focus.prerequisitesAny?.length
-      || focus.prerequisitesAny.some(id => completedIds.includes(id));
-
+    const anyMet = !focus.prerequisitesAny?.length || focus.prerequisitesAny.some(id => completedIds.includes(id));
     return allMet && anyMet ? 'available' : 'locked';
   }, [playerCountry, game]);
 
   const handleNodeClick = (focus: NationalFocusNode) => {
+    // ドラッグ操作だった場合はクリックを無視
+    if (didDrag.current) return;
     const status = getFocusStatus(focus);
     if (status === 'available' && playerCountry) {
       setSelectedNode(prev => prev?.id === focus.id ? null : focus);
@@ -268,35 +292,26 @@ export default function GameNationalFocus() {
     setSelectedNode(null);
   };
 
-  if (loading) {
-    return <div className="gnf-loading">Loading...</div>;
-  }
-  if (!tree) {
-    return <div className="gnf-loading">— Focus tree not available —</div>;
-  }
+  if (loading) return <div className="gnf-loading">Loading...</div>;
+  if (!tree)   return <div className="gnf-loading">— Focus tree not available —</div>;
 
-  // キャンバスサイズ計算
   const maxCol = Math.max(...tree.focuses.map(f => f.col));
   const maxRow = Math.max(...tree.focuses.map(f => f.row));
-  const svgWidth = PADDING_X * 2 + (maxCol + 1) * COL_WIDTH;
+  const svgWidth  = PADDING_X * 2 + (maxCol + 1) * COL_WIDTH;
   const svgHeight = PADDING_Y * 2 + (maxRow + 1) * ROW_HEIGHT;
 
-  // 接続線の描画データ生成
   const connections: { from: NationalFocusNode; to: NationalFocusNode; type: 'prereq' | 'prereqAny' | 'exclusive' }[] = [];
   const seenExclusive = new Set<string>();
 
   tree.focuses.forEach(focus => {
-    // 前提
     focus.prerequisites.forEach(preId => {
       const pre = tree.focuses.find(f => f.id === preId);
       if (pre) connections.push({ from: pre, to: focus, type: 'prereq' });
     });
-    // 前提Any
     (focus.prerequisitesAny || []).forEach(preId => {
       const pre = tree.focuses.find(f => f.id === preId);
       if (pre) connections.push({ from: pre, to: focus, type: 'prereqAny' });
     });
-    // 排他
     focus.mutuallyExclusive.forEach(exId => {
       const key = [focus.id, exId].sort().join('|');
       if (!seenExclusive.has(key)) {
@@ -311,7 +326,12 @@ export default function GameNationalFocus() {
     <div className="gnf-container" ref={containerRef}>
 
       {/* ツリー本体 */}
-      <div className="gnf-scroll-area">
+      <div
+        className="gnf-scroll-area"
+        ref={scrollAreaRef}
+        onMouseDown={handleMouseDown}
+        style={{ cursor: 'grab' }}
+      >
         <div style={{ position: 'relative', width: svgWidth, minHeight: svgHeight }}>
 
           {/* SVG接続線レイヤー */}
@@ -337,51 +357,34 @@ export default function GameNationalFocus() {
               const y2 = getNodeY(conn.to.row);
 
               if (conn.type === 'prereq' || conn.type === 'prereqAny') {
-                // 縦方向の折れ線（前提は上から下）
                 const midY = (y1 + y2) / 2;
                 const path = `M ${x1} ${y1 + NODE_H / 2} L ${x1} ${midY} L ${x2} ${midY} L ${x2} ${y2 - NODE_H / 2}`;
                 const fromStatus = getFocusStatus(conn.from);
-                const toStatus = getFocusStatus(conn.to);
-                const isActive = fromStatus === 'completed' || fromStatus === 'active';
-                const isDashed = conn.type === 'prereqAny';
+                const toStatus   = getFocusStatus(conn.to);
+                const isActive   = fromStatus === 'completed' || fromStatus === 'active';
+                const isDashed   = conn.type === 'prereqAny';
                 return (
                   <g key={`conn-${i}`}>
                     <path
-                      d={path}
-                      fill="none"
+                      d={path} fill="none"
                       stroke={isActive ? 'rgba(206,174,68,0.7)' : 'rgba(100,100,100,0.5)'}
                       strokeWidth={isActive ? '2' : '1.5'}
                       strokeDasharray={isDashed ? '6 4' : 'none'}
                       markerEnd={isActive ? 'url(#arrow-prereq)' : undefined}
                     />
-                    {/* 進行中のアニメーションライン */}
                     {isActive && toStatus === 'active' && (
-                      <path
-                        d={path}
-                        fill="none"
-                        stroke="rgba(255,215,0,0.8)"
-                        strokeWidth="2"
-                        strokeDasharray="8 16"
-                        className="gnf-animated-line"
-                      />
+                      <path d={path} fill="none" stroke="rgba(255,215,0,0.8)" strokeWidth="2" strokeDasharray="8 16" className="gnf-animated-line" />
                     )}
                   </g>
                 );
               } else {
-                // 排他：横線（同じrow想定）
                 const x1e = getNodeX(conn.from.col) + NODE_W / 2;
-                const x2e = getNodeX(conn.to.col) - NODE_W / 2;
+                const x2e = getNodeX(conn.to.col)   - NODE_W / 2;
                 const midX = (x1e + x2e) / 2;
                 const y = getNodeY(conn.from.row);
                 return (
                   <g key={`conn-${i}`}>
-                    <line
-                      x1={x1e} y1={y} x2={x2e} y2={y}
-                      stroke="rgba(200,60,60,0.6)"
-                      strokeWidth="1.5"
-                      strokeDasharray="3 3"
-                    />
-                    {/* 中央にXマーク */}
+                    <line x1={x1e} y1={y} x2={x2e} y2={y} stroke="rgba(200,60,60,0.6)" strokeWidth="1.5" strokeDasharray="3 3" />
                     <text x={midX} y={y + 5} textAnchor="middle" fill="rgba(200,60,60,0.8)" fontSize="12" fontFamily="Courier New">✕</text>
                   </g>
                 );
@@ -394,8 +397,8 @@ export default function GameNationalFocus() {
             const status = getFocusStatus(focus);
             const cx = getNodeX(focus.col);
             const cy = getNodeY(focus.row);
-            const isSelected = selectedNode?.id === focus.id;
-            const isPrereqOf = selectedNode?.prerequisites.includes(focus.id) ?? false;
+            const isSelected      = selectedNode?.id === focus.id;
+            const isPrereqOf      = selectedNode?.prerequisites.includes(focus.id) ?? false;
             const isExclusiveWith = selectedNode?.mutuallyExclusive.includes(focus.id) ?? false;
 
             return (
@@ -404,19 +407,20 @@ export default function GameNationalFocus() {
                 className={[
                   'gnf-node',
                   `gnf-node--${status}`,
-                  isSelected ? 'gnf-node--selected' : '',
-                  isPrereqOf ? 'gnf-node--highlight-prereq' : '',
-                  isExclusiveWith ? 'gnf-node--highlight-exclusive' : '',
+                  isSelected      ? 'gnf-node--selected'          : '',
+                  isPrereqOf      ? 'gnf-node--highlight-prereq'  : '',
+                  isExclusiveWith ? 'gnf-node--highlight-exclusive': '',
                 ].filter(Boolean).join(' ')}
                 style={{
                   position: 'absolute',
                   left: cx - NODE_W / 2,
-                  top: cy - NODE_H / 2,
+                  top:  cy - NODE_H / 2,
                   width: NODE_W,
                   height: NODE_H,
                 }}
                 onClick={() => handleNodeClick(focus)}
                 onMouseEnter={e => {
+                  if (isDragging.current) return;
                   const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
                   setTooltip({ node: focus, x: rect.left + rect.width / 2, y: rect.top });
                 }}
@@ -439,17 +443,13 @@ export default function GameNationalFocus() {
                     }
                   />
                 </div>
-                <div className="gnf-node-name">
-                  {focus.name[lang]}
-                </div>
+                <div className="gnf-node-name">{focus.name[lang]}</div>
                 {status === 'active' && (
                   <div className="gnf-node-progress-bar">
                     <div className="gnf-node-progress-fill" />
                   </div>
                 )}
-                {status === 'completed' && (
-                  <div className="gnf-node-check">✓</div>
-                )}
+                {status === 'completed' && <div className="gnf-node-check">✓</div>}
               </div>
             );
           })}
@@ -464,7 +464,6 @@ export default function GameNationalFocus() {
             <span className="gnf-detail-title">{selectedNode.name[lang]}</span>
           </div>
           <p className="gnf-detail-desc">{selectedNode.description[lang]}</p>
-          {/* エフェクト表示 */}
           <FocusEffects effects={selectedNode.effects} lang={lang} />
           <button className="gnf-start-button" onClick={handleStartFocus}>
             {lang === 'ja' ? '方針を開始' : 'Start Focus'}
@@ -482,7 +481,7 @@ export default function GameNationalFocus() {
             style={{
               position: 'fixed',
               left: tooltipLeft !== null ? tooltipLeft : tooltip.x,
-              top: tooltipTop !== null ? tooltipTop : tooltip.y + NODE_H / 2 + 8,
+              top:  tooltipTop  !== null ? tooltipTop  : tooltip.y + NODE_H / 2 + 8,
               transform: 'translateX(-50%)',
               pointerEvents: 'none',
               zIndex: 9999,
