@@ -2,526 +2,1392 @@
   "countryId": "france",
   "focuses": [
     {
-      "id": "focus_nation_prologue",
+      "id": "FRA_shinainaru_doushi",
+      "col": 4,
+      "row": 4,
+      "icon": "",
+      "name": {
+        "ja": "親愛なる我らが導師",
+        "en": "Our Beloved Guru"
+      },
+      "description": {
+        "ja": "「崇高なる国」の建国者であり、超現実主義の予言者たるアポリネールの頭部の古傷が悪化し、彼は病床に伏すことが多くなった。全国民が祈りを捧げる中、彼のうわ言すらも信者たちにとっては神聖な啓示として書き留められている。",
+        "en": "The old head wound of Apollinaire, the founder of 'La Sublime' and the prophet of surrealism, has worsened, confining him to his sickbed. As the nation prays, even his delirious mutterings are transcribed by his followers as sacred revelations."
+      },
+      "effects": {
+        "events": [
+          {
+            "id": "FRA_our_guru_event",
+            "name": {
+              "ja": "我らが導師の紹介！",
+              "en": "Introduction of Our Guru!"
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "FRA_suukounaru_kuni_no_makuake"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_kuuseki_no_ouza",
+      "col": 4,
+      "row": 5,
+      "icon": "",
+      "name": {
+        "ja": "空席の王座",
+        "en": "Vacancy on the Throne"
+      },
+      "description": {
+        "ja": "1932年、導師はついに肉体を脱ぎ捨て、より高次なる精神世界へと旅立った。パリに残された「空席の王座」を巡り、残された後継者たちは彼の遺した謎めいた詩篇を各々の都合のいいように解釈し、国境を越えた狂気へと国を駆り立てようとしている。",
+        "en": "In 1932, the Guru finally shed his physical form to embark on a journey to a higher spiritual realm. Around the 'Vacant Throne' left in Paris, his successors battle for control, each interpreting his cryptic poems to suit their own ambitions, driving the nation towards a madness that transcends borders."
+      },
+      "effects": {
+        "events": [
+          {
+            "id": "FRA_kuuseki_no_ouza_event",
+            "name": {
+              "ja": "導師の死",
+              "en": "Teacher's Death"
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "FRA_shinainaru_doushi"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_manifesto_no_saikakunin",
+      "col": 2,
+      "row": 7,
+      "icon": "",
+      "name": {
+        "ja": "マニフェストの再確認",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_doushiha_no_shinchou"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_zankokuha_no_inbou",
       "col": 8,
+      "row": 6,
+      "icon": "",
+      "name": {
+        "ja": "残酷派の陰謀",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_avignon_no_kuroi_seiten",
+        "FRA_kuuseki_no_ouza"
+      ],
+      "mutuallyExclusive": [
+        "FRA_doushiha_no_shinchou"
+      ]
+    },
+    {
+      "id": "FRA_avignon_no_kuroi_seiten",
+      "col": 6,
+      "row": 5,
+      "icon": "",
+      "name": {
+        "ja": "アヴィニョンの黒い祭典",
+        "en": "Black Festival in Avignon"
+      },
+      "description": {
+        "ja": "フランスの古都アヴィニョンで大規模な芸術儀式が開催された。",
+        "en": "A large-scale art ceremony was held in the ancient city of Avignon in France."
+      },
+      "effects": {
+        "events": [
+          {
+            "id": "FRA_black_festival_in_avignon_event",
+            "name": {
+              "ja": "アヴィニョンの黒い祭典",
+              "en": "Black Festival in Avignon"
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "FRA_suukounaru_kuni_no_makuake"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_dresden_no_kutsujoku",
+      "col": 5,
       "row": 0,
+      "icon": "anchor",
+      "name": {
+        "ja": "ドレスデンの屈辱",
+        "en": "The Humiliation of Dresden"
+      },
+      "description": {
+        "ja": "1914年のドレスデン講和会議は、我が国から多くの領土と富を奪い去った。",
+        "en": "The 1914 Dresden Peace Conference stripped our nation of its territories and wealth."
+      },
+      "effects": {
+        "events": [
+          {
+            "id": "FRA_dresden_no_kutsujoku_event",
+            "name": {
+              "ja": "敗戦処理",
+              "en": "Defeat Processing"
+            }
+          }
+        ],
+        "nationalSpirits": [
+          {
+            "id": "FRA_loser_military",
+            "action": "add",
+            "name": {
+              "ja": "敗れた軍隊",
+              "en": "Lost Army"
+            },
+            "stats": {
+              "legitimacy": -15,
+              "attackPower": -15,
+              "defensePower": -10
+            }
+          }
+        ]
+      },
+      "prerequisites": [],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_byoushitsu_no_zenei_salon",
+      "col": 4,
+      "row": 1,
+      "icon": "globe",
+      "name": {
+        "ja": "病室の前衛サロン",
+        "en": "Avant-Garde Salon in the Ward"
+      },
+      "description": {
+        "ja": "頭部に重傷を負い奇跡的に生還した詩人は、モンパルナスの病室を新たな精神の拠点とした。既存の秩序に絶望した若き芸術家や退役軍人たちが彼の元に集い、古い世界を嘲笑している。",
+        "en": "Miraculously surviving a severe head injury, the poet has turned his Montparnasse hospital room into a new spiritual stronghold. Young artists and veterans, despairing of the existing order, gather around him to mock the old world."
+      },
+      "effects": {
+        "events": [
+          {
+            "id": "FRA_byoushitsu_no_zenei_salon_event",
+            "name": {
+              "ja": "アポリネールのカリスマ",
+              "en": "Apollinaire's Charisma"
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "FRA_dresden_no_kutsujoku"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_maya_no_nami_ni_nomarete",
+      "col": 6,
+      "row": 1,
+      "icon": "flame",
+      "name": {
+        "ja": "マーヤーの波に呑まれて",
+        "en": "Swallowed by the Waves of Maya"
+      },
+      "description": {
+        "ja": "インドから到来した神秘思想は、敗戦という受け入れがたい現実に苦しむ民衆の魂に深く突き刺さり、理性主義を破壊しつつある。",
+        "en": "The mystical doctrines that arrived from India have pierced deeply into the souls of a populace tormented by the unbearable reality of defeat, eroding and dismantling rationalism in the process."
+      },
+      "effects": {
+        "events": [
+          {
+            "id": "FRA_maya_no_nami_ni_nomarete_event",
+            "name": {
+              "ja": "インド文化の流行",
+              "en": "Indian Culture Trend"
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "FRA_dresden_no_kutsujoku"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_jojoutekinaru_coup_detat",
+      "col": 5,
+      "row": 2,
+      "icon": "sword",
+      "name": {
+        "ja": "抒情的なるクーデター",
+        "en": "The Lyrical Coup d'État"
+      },
+      "description": {
+        "ja": "1919年11月、パリ。アポリネール率いる芸術家集団と、彼らに共鳴した退役軍人部隊が蜂起した。",
+        "en": "Paris, November 1919. An uprising erupted, led by an artists’ collective under Apollinaire and joined by a detachment of demobilized veterans who had rallied to their cause."
+      },
+      "effects": {
+        "events": [
+          {
+            "id": "FRA_jojoutekinaru_coup_detat_event",
+            "name": {
+              "ja": "クーデター発生！",
+              "en": "Coup d'État Occurred!"
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "FRA_byoushitsu_no_zenei_salon",
+        "FRA_maya_no_nami_ni_nomarete"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_suukounaru_kuni_no_makuake",
+      "col": 5,
+      "row": 3,
       "icon": "star",
       "name": {
         "ja": "崇高なる国の幕開け",
-        "en": "Prologue of the Glorious Nation"
+        "en": "Dawn of the Sublime State"
       },
       "description": {
-        "ja": "ゲーム開始直後の初期NF。政治力を獲得し、国家の現状を追認する。",
-        "en": "The opening National Focus available immediately at the start of the game. Gain political power to acknowledge the nation's current status."
+        "ja": "古き良きフランス共和国は死んだ。我々はここに、超現実主義と神秘主義が支配する「崇高なる国」の誕生を宣言する。",
+        "en": "The old French Republic is dead. We hereby declare the birth of 'La Sublime,' a nation ruled by surrealism and mysticism."
       },
-      "prerequisites": [],
-      "mutuallyExclusive": [],
       "effects": {
-        "politicalPower": 20
-      }
+        "nationalSpirits": [
+          {
+            "id": "FRA_inspiration",
+            "action": "add",
+            "name": {
+              "ja": "理性なき政府",
+              "en": "Irrational Government"
+            },
+            "stats": {
+              "legitimacy": -10,
+              "culturalUnity": -5,
+              "politicalPowerRate": -30,
+              "economicStrengthRate": -30
+            }
+          },
+          {
+            "id": "FRA_creativity",
+            "action": "add",
+            "name": {
+              "ja": "霊感",
+              "en": "Inspiration"
+            },
+            "stats": {
+              "legitimacy": 5
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "FRA_jojoutekinaru_coup_detat"
+      ],
+      "mutuallyExclusive": []
     },
     {
-      "id": "focus_avignon_echo",
+      "id": "FRA_kakumei_wa_tsuzuku",
       "col": 8,
-      "row": 1,
-      "icon": "church",
+      "row": 7,
+      "icon": "",
       "name": {
-        "ja": "アヴィニョンの残響",
-        "en": "Echoes of Avignon"
+        "ja": "革命は続く",
+        "en": ""
       },
       "description": {
-        "ja": "導入イベント「アヴィニョンの黒い祭典」を経験した後の国家の方向性を決める準備段階。",
-        "en": "The preparation phase to decide the nation's direction after experiencing the event 'Black Festival of Avignon'."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": ["focus_nation_prologue"],
-      "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 10
-      }
+      "effects": {},
+      "prerequisites": [
+        "FRA_zankokuha_no_inbou"
+      ],
+      "mutuallyExclusive": []
     },
     {
-      "id": "focus_mad_art_rev",
-      "col": 6,
-      "row": 2,
-      "icon": "paintbrush",
+      "id": "FRA_doushiha_no_shinchou",
+      "col": 2,
+      "row": 6,
+      "icon": "",
       "name": {
-        "ja": "狂気の芸術革命",
-        "en": "Madness of Art Revolution"
+        "ja": "導師派の伸長",
+        "en": ""
       },
       "description": {
-        "ja": "【アポリネール派ルート】理性を完全に捨て去り、終わらない芸術革命とテロリズムによる世界征服を目指す。",
-        "en": "[Apollinaire Route] Discard reason completely to pursue world domination through endless art revolution and terrorism."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": ["focus_avignon_echo"],
-      "mutuallyExclusive": ["focus_kali_yuga_end"],
-      "effects": {
-        "politicalPower": 15
-      }
+      "effects": {},
+      "prerequisites": [
+        "FRA_kuuseki_no_ouza",
+        "FRA_avignon_no_kuroi_seiten"
+      ],
+      "mutuallyExclusive": [
+        "FRA_zankokuha_no_inbou"
+      ]
     },
     {
-      "id": "focus_reason_sickness",
-      "col": 6,
-      "row": 3,
-      "icon": "flask",
+      "id": "FRA_roudou_kumiai_no_shouaku",
+      "col": 2,
+      "row": 8,
+      "icon": "",
       "name": {
-        "ja": "理性という名の病",
-        "en": "Sickness of Reason"
+        "ja": "労働組合の掌握",
+        "en": ""
       },
       "description": {
-        "ja": "大学や科学機関から「合理的すぎる」学者を追放し、霊感を高める。",
-        "en": "Expel scholars deemed 'too reasonable' from universities and scientific institutions to heighten inspiration."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": ["focus_mad_art_rev"],
-      "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 5
-      }
+      "effects": {},
+      "prerequisites": [
+        "FRA_manifesto_no_saikakunin"
+      ],
+      "mutuallyExclusive": []
     },
     {
-      "id": "focus_blue_bird_purge",
+      "id": "FRA_byoudou_no_sokushin",
+      "col": 3,
+      "row": 8,
+      "icon": "",
+      "name": {
+        "ja": "平等の促進",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_manifesto_no_saikakunin"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_chihou_sangyou_keikaku",
+      "col": 1,
+      "row": 8,
+      "icon": "",
+      "name": {
+        "ja": "地方産業計画",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_manifesto_no_saikakunin"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_risei_no_tsumetaki_bed_wo_suteru",
+      "col": 2,
+      "row": 9,
+      "icon": "",
+      "name": {
+        "ja": "理性の冷たきベッドを捨てる",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_chihou_sangyou_keikaku",
+        "FRA_roudou_kumiai_no_shouaku",
+        "FRA_byoudou_no_sokushin"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_kagaku_to_shi_no_kekkon",
+      "col": 1,
+      "row": 10,
+      "icon": "",
+      "name": {
+        "ja": "科学と詩の結婚",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_risei_no_tsumetaki_bed_wo_suteru"
+      ],
+      "mutuallyExclusive": [
+        "FRA_shinpi_shugiteki_technocrat"
+      ]
+    },
+    {
+      "id": "FRA_shinpi_shugiteki_technocrat",
+      "col": 3,
+      "row": 10,
+      "icon": "",
+      "name": {
+        "ja": "神秘主義的テクノクラート",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_risei_no_tsumetaki_bed_wo_suteru"
+      ],
+      "mutuallyExclusive": [
+        "FRA_kagaku_to_shi_no_kekkon"
+      ]
+    },
+    {
+      "id": "FRA_ondori_wa_futatabi_naku",
+      "col": 3,
+      "row": 14,
+      "icon": "",
+      "name": {
+        "ja": "雄鶏は再び鳴く",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_kanbina_shigai_wa_nemuranai"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_honke_to_no_tairitsu",
+      "col": 3,
+      "row": 16,
+      "icon": "",
+      "name": {
+        "ja": "本家との対立",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_touyou_he_no_kikan"
+      ],
+      "mutuallyExclusive": [
+        "FRA_touyou_no_rikaisha"
+      ]
+    },
+    {
+      "id": "FRA_kanbina_shigai_wa_nemuranai",
       "col": 5,
-      "row": 4,
-      "icon": "sword",
+      "row": 13,
+      "icon": "",
       "name": {
-        "ja": "「青い鳥」による粛清",
-        "en": "The Purge by the Blue Bird"
+        "ja": "甘美な死骸は眠らない",
+        "en": ""
       },
       "description": {
-        "ja": "退役軍人で構成された親衛隊による国内の反体制派排除。正統性が上昇。",
-        "en": "Elimination of domestic anti-regime elements by an elite guard composed of veterans. Legitimacy increases."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": ["focus_reason_sickness"],
+      "effects": {},
+      "prerequisites": [
+        "FRA_risei_teikokushugi_ni_taisuru_bouhatei"
+      ],
       "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 10,
-        "legitimacy": 5
-      }
+      "prerequisitesAny": [
+        "FRA_risei_toiu_na_no_rougoku_kara_no_kaihou",
+        "FRA_kuroki_taiyou_no_taikan"
+      ]
     },
     {
-      "id": "focus_endless_celebration",
-      "col": 7,
-      "row": 4,
-      "icon": "crown",
+      "id": "FRA_tairiku_no_jouka",
+      "col": 1,
+      "row": 15,
+      "icon": "",
       "name": {
-        "ja": "終わらない祝祭",
-        "en": "Endless Celebration"
+        "ja": "大陸の浄化",
+        "en": ""
       },
       "description": {
-        "ja": "国民を終わりのない集団幻覚状態に置き、安定度を下げる代わりに工場出力と徴兵人口を爆増させる。",
-        "en": "Place the population in a mass hallucination state. Lower stability in exchange for a massive increase in factory output and conscripted population."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": ["focus_reason_sickness"],
-      "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 20
-      }
+      "effects": {},
+      "prerequisites": [
+        "FRA_ondori_wa_futatabi_naku"
+      ],
+      "mutuallyExclusive": []
     },
     {
-      "id": "focus_beauty_autocracy",
-      "col": 6,
-      "row": 5,
-      "icon": "globe",
+      "id": "FRA_touyou_he_no_kikan",
+      "col": 4,
+      "row": 15,
+      "icon": "",
       "name": {
-        "ja": "美の独裁",
-        "en": "Autocracy of Beauty"
+        "ja": "東洋への帰還",
+        "en": ""
       },
       "description": {
-        "ja": "アポリネール派の最終形態。指導者の権力強化と、戦争目標正当化時間の極端な短縮。",
-        "en": "The final form of the Apollinaire faction. Reinforce the leader's power and drastically shorten war goal justification time."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": [],
-      "prerequisitesAny": ["focus_blue_bird_purge", "focus_endless_celebration"],
-      "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 50
-      }
+      "effects": {},
+      "prerequisites": [
+        "FRA_ondori_wa_futatabi_naku"
+      ],
+      "mutuallyExclusive": []
     },
     {
-      "id": "focus_kali_yuga_end",
-      "col": 10,
-      "row": 2,
-      "icon": "fire",
+      "id": "FRA_buki_wo_tore",
+      "col": 8,
+      "row": 14,
+      "icon": "",
       "name": {
-        "ja": "カリ・ユガの終焉",
-        "en": "End of Kali Yuga"
+        "ja": "武器を取れ",
+        "en": ""
       },
       "description": {
-        "ja": "【ゲノン派ルート】末法時代（カリ・ユガ）を終わらせるため、前衛芸術の無秩序を排し、厳格なヒンドゥー的秩序を導入する。",
-        "en": "[Gennon Route] To end the age of chaos, reject the disorder of avant-garde art and introduce strict Hindu order."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": ["focus_avignon_echo"],
-      "mutuallyExclusive": ["focus_mad_art_rev"],
-      "effects": {
-        "politicalPower": 15
-      }
+      "effects": {},
+      "prerequisites": [
+        "FRA_kanbina_shigai_wa_nemuranai"
+      ],
+      "mutuallyExclusive": []
     },
     {
-      "id": "focus_tradition_return",
-      "col": 10,
-      "row": 3,
-      "icon": "book",
-      "name": {
-        "ja": "伝統への回帰",
-        "en": "Return to Tradition"
-      },
-      "description": {
-        "ja": "安定度が大きく上昇し、霊感の乱高下を抑えるメカニクスが解放される。",
-        "en": "Significantly increases stability and unlocks mechanics to suppress erratic fluctuations in inspiration."
-      },
-      "prerequisites": ["focus_kali_yuga_end"],
-      "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 25,
-        "legitimacy": 10
-      }
-    },
-    {
-      "id": "focus_spiritual_caste",
+      "id": "FRA_genkakuzai_no_heikika",
       "col": 9,
-      "row": 4,
-      "icon": "tower",
+      "row": 16,
+      "icon": "",
       "name": {
-        "ja": "霊的カースト制度",
-        "en": "Spiritual Caste System"
+        "ja": "幻覚剤の兵器化",
+        "en": ""
       },
       "description": {
-        "ja": "国民を階級化。労働力と資源の採掘効率が上がる。",
-        "en": "Classify the population into castes. Increases labor efficiency and resource extraction efficiency."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": ["focus_tradition_return"],
-      "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 10
-      }
+      "effects": {},
+      "prerequisites": [
+        "FRA_avant_garde_na_guntai"
+      ],
+      "mutuallyExclusive": [
+        "FRA_chougenjitsuteki_soukou_budai"
+      ]
     },
     {
-      "id": "focus_kshatriya_resurrection",
+      "id": "FRA_chougenjitsuteki_soukou_budai",
       "col": 11,
-      "row": 4,
-      "icon": "sword",
+      "row": 16,
+      "icon": "",
       "name": {
-        "ja": "クシャトリヤ（武人）の復活",
-        "en": "Resurrection of the Kshatriya"
+        "ja": "超現実的装甲部隊",
+        "en": ""
       },
       "description": {
-        "ja": "騎士道精神と武人階級の復活。陸軍経験値を獲得し、将軍の能力が底上げされる。",
-        "en": "Resurrection of chivalry and the warrior caste. Gain military experience and boost generals' capabilities."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": ["focus_tradition_return"],
-      "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 20
-      }
+      "effects": {},
+      "prerequisites": [
+        "FRA_avant_garde_na_guntai"
+      ],
+      "mutuallyExclusive": [
+        "FRA_genkakuzai_no_heikika"
+      ]
     },
     {
-      "id": "focus_priest_fascism",
+      "id": "FRA_avant_garde_na_guntai",
       "col": 10,
-      "row": 5,
-      "icon": "globe",
+      "row": 15,
+      "icon": "",
       "name": {
-        "ja": "聖職者ファシズムの確立",
-        "en": "Establishment of Priest Fascism"
+        "ja": "アヴァンギャルドな軍隊",
+        "en": ""
       },
       "description": {
-        "ja": "ゲノン派の最終形態。強固な防衛力と高いイデオロギー結束力を得る。",
-        "en": "The final form of the Gennon faction. Gain solid defensive capabilities and high ideological unity."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": [],
-      "prerequisitesAny": ["focus_spiritual_caste", "focus_kshatriya_resurrection"],
-      "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 50,
-        "defensePower": 20
-      }
+      "effects": {},
+      "prerequisites": [
+        "FRA_buki_wo_tore"
+      ],
+      "mutuallyExclusive": []
     },
     {
-      "id": "focus_dresden_reject",
-      "col": 14,
-      "row": 0,
-      "icon": "balance",
+      "id": "FRA_shi_no_butou_no_kyouren",
+      "col": 7,
+      "row": 15,
+      "icon": "",
       "name": {
-        "ja": "ドレスデン体制の拒絶",
-        "en": "Rejection of the Dresden Regime"
+        "ja": "死の舞踏の教練",
+        "en": ""
       },
       "description": {
-        "ja": "敗戦国としての賠償金支払いを停止し、経済を自立させる第一歩。",
-        "en": "Stop reparations payments as a defeated nation, taking the first step towards economic independence."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": [],
-      "mutuallyExclusive": [],
-      "effects": {
-        "economicStrength": 30
-      }
+      "effects": {},
+      "prerequisites": [
+        "FRA_buki_wo_tore"
+      ],
+      "mutuallyExclusive": []
     },
     {
-      "id": "focus_lorraine_interpretation",
-      "col": 14,
-      "row": 1,
-      "icon": "shield",
+      "id": "FRA_hakai_no_symphony",
+      "col": 6,
+      "row": 16,
+      "icon": "",
       "name": {
-        "ja": "ロレーヌ条項の独自解釈",
-        "en": "Own Interpretation of the Lorraine Clauses"
+        "ja": "破壊のシンフォニー",
+        "en": ""
       },
       "description": {
-        "ja": "ドイツの経済管理権を無視し、鉱山の資源を自国のために流用し始める。（ドイツの対仏関係悪化）",
-        "en": "Ignore German economic management rights and divert mineral resources for national use. (Deterioration of Franco-German relations)"
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": ["focus_dresden_reject"],
-      "mutuallyExclusive": [],
-      "effects": {
-        "economicStrength": 15
-      }
+      "effects": {},
+      "prerequisites": [
+        "FRA_shi_no_butou_no_kyouren"
+      ],
+      "mutuallyExclusive": [
+        "FRA_mugen_no_zangousen"
+      ]
     },
     {
-      "id": "focus_shivas_furnace",
-      "col": 13,
-      "row": 2,
-      "icon": "fire",
+      "id": "FRA_mugen_no_zangousen",
+      "col": 8,
+      "row": 16,
+      "icon": "",
       "name": {
-        "ja": "シヴァの溶鉱炉",
-        "en": "Shiva's Smelting Furnace"
+        "ja": "夢幻の塹壕戦",
+        "en": ""
       },
       "description": {
-        "ja": "【大量生産ルート】労働者を神秘的トランス状態に置き、過労死寸前まで働かせる。民需・軍需工場の建設速度アップ。",
-        "en": "[Mass Production Route] Place workers in a mystical trance, working them to the brink of death. Increases construction speed of civil and military factories."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": ["focus_lorraine_interpretation"],
-      "mutuallyExclusive": ["focus_alchemy_institute"],
-      "effects": {
-        "politicalPower": 10
-      }
+      "effects": {},
+      "prerequisites": [
+        "FRA_shi_no_butou_no_kyouren"
+      ],
+      "mutuallyExclusive": [
+        "FRA_hakai_no_symphony"
+      ]
     },
     {
-      "id": "focus_alchemy_institute",
-      "col": 15,
-      "row": 2,
-      "icon": "book",
+      "id": "FRA_risei_no_shigai_wo_fumi_koeyo",
+      "col": 7,
+      "row": 17,
+      "icon": "",
       "name": {
-        "ja": "国営錬金術局の創設",
-        "en": "Establishment of the State Alchemy Bureau"
+        "ja": "理性の死骸を踏み越えよ",
+        "en": ""
       },
       "description": {
-        "ja": "【技術特化ルート】非合理なオカルト研究に国家予算を投入。研究枠の追加と、特定の技術（例：ロケットや暗号）に強力なボーナス。",
-        "en": "[Tech Specialization Route] Invest state budget in irrational occult research. Adds research slots and grants powerful bonuses to specific technologies (e.g., rockets, codes)."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": ["focus_lorraine_interpretation"],
-      "mutuallyExclusive": ["focus_shivas_furnace"],
-      "effects": {
-        "politicalPower": 5
-      }
-    },
-    {
-      "id": "focus_disarm_treaty",
-      "col": 18,
-      "row": 0,
-      "icon": "scroll",
-      "name": {
-        "ja": "軍備制限条約の破棄",
-        "en": "Repudiation of the Disarmament Treaty"
-      },
-      "description": {
-        "ja": "陸海軍の制限を公式に破棄。徴兵法や経済法を変更可能になる。",
-        "en": "Formally repudiate the restrictions on land and naval forces. Enables changes to conscription laws and economic regulations."
-      },
+      "effects": {},
       "prerequisites": [],
       "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 10
-      }
+      "prerequisitesAny": [
+        "FRA_hakai_no_symphony",
+        "FRA_mugen_no_zangousen"
+      ]
     },
     {
-      "id": "focus_flesh_over_steel",
-      "col": 17,
-      "row": 1,
-      "icon": "cannon",
-      "name": {
-        "ja": "鋼鉄より肉体を",
-        "en": "Flesh Over Steel"
-      },
-      "description": {
-        "ja": "【歩兵・狂信ルート】機械化を嫌悪し、生身の突撃を賛美する。歩兵の士気（指揮統制率）と回復率が異常に高まる。",
-        "en": "[Infantry Fanatic Route] Detest mechanization and praise physical assault. Infantry morale and recovery rates are abnormally high."
-      },
-      "prerequisites": ["focus_disarm_treaty"],
-      "mutuallyExclusive": ["focus_destroyer_tanks"],
-      "effects": {
-        "politicalPower": 10
-      }
-    },
-    {
-      "id": "focus_destroyer_tanks",
-      "col": 19,
-      "row": 1,
-      "icon": "tank",
-      "name": {
-        "ja": "破壊神の戦車",
-        "en": "Destroyer Tanks"
-      },
-      "description": {
-        "ja": "【機甲ルート】戦車を「現代の神の化身」として崇拝し、重装甲車両の生産コストを下げる。",
-        "en": "[Armor Route] Worship tanks as 'Avatars of the Modern God' and reduce production costs for heavy armor vehicles."
-      },
-      "prerequisites": ["focus_disarm_treaty"],
-      "mutuallyExclusive": ["focus_flesh_over_steel"],
-      "effects": {
-        "politicalPower": 10
-      }
-    },
-    {
-      "id": "focus_flesh_steel_will",
-      "col": 18,
-      "row": 2,
-      "icon": "shield",
-      "name": {
-        "ja": "肉の壁、鋼の意志",
-        "en": "Wall of Flesh, Will of Steel"
-      },
-      "description": {
-        "ja": "軍事ルートの合流点。軍事備品の生産効率上限が上昇。",
-        "en": "Convergence point of military routes. Increases the upper limit of production efficiency for military equipment."
-      },
-      "prerequisites": [],
-      "prerequisitesAny": ["focus_flesh_over_steel", "focus_destroyer_tanks"],
-      "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 20,
-        "militaryEquipment": 15
-      }
-    },
-    {
-      "id": "focus_eastward_gaze",
-      "col": 2,
-      "row": 0,
-      "icon": "globe",
-      "name": {
-        "ja": "東洋へのまなざし",
-        "en": "Gaze Upon the East"
-      },
-      "description": {
-        "ja": "外交方針の起点。まずは全ての思想的根源であるインドへ目を向ける。",
-        "en": "Starting point of diplomatic policy. First, gaze towards India, the root of all ideology."
-      },
-      "prerequisites": [],
-      "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 5
-      }
-    },
-    {
-      "id": "focus_delhi_ambassador",
-      "col": 2,
-      "row": 1,
-      "icon": "staff",
-      "name": {
-        "ja": "デリーへの使節",
-        "en": "Ambassador to Delhi"
-      },
-      "description": {
-        "ja": "導入の「デリーの長き夜」イベント後、インド情勢へ本格的に介入する。",
-        "en": "After the introduced 'Long Night of Delhi' event, formally intervene in Indian affairs."
-      },
-      "prerequisites": ["focus_eastward_gaze"],
-      "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 10
-      }
-    },
-    {
-      "id": "focus_spiritual_alliance",
-      "col": 1,
-      "row": 2,
-      "icon": "globe",
-      "name": {
-        "ja": "精神的同盟の提案",
-        "en": "Proposal for Spiritual Alliance"
-      },
-      "description": {
-        "ja": "インドを「真の兄弟」と認め、陣営（ファクション）への加盟を要請、あるいは独立を保証する。",
-        "en": "Recognize India as a 'True Brother', requesting faction membership or guaranteeing independence."
-      },
-      "prerequisites": ["focus_delhi_ambassador"],
-      "mutuallyExclusive": ["focus_punish_pseudo_guru"],
-      "effects": {
-        "politicalPower": 15
-      }
-    },
-    {
-      "id": "focus_punish_pseudo_guru",
+      "id": "FRA_miraiha_to_no_kyouzon",
       "col": 3,
-      "row": 2,
-      "icon": "swords",
+      "row": 11,
+      "icon": "",
       "name": {
-        "ja": "偽りの導師を討て",
-        "en": "Punish the False Guru"
+        "ja": "未来派との共存",
+        "en": ""
       },
       "description": {
-        "ja": "現在のインド政府を「腐敗した偽物」と断定し、フランス独自の狂ったヒンドゥー解釈を押し付けるための戦争目標（傀儡化）を獲得。",
-        "en": "Declare the current Indian government 'corrupt fakes' and acquire war goals (puppetization) to impose France's own mad Hindu interpretation."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": ["focus_delhi_ambassador"],
-      "mutuallyExclusive": ["focus_spiritual_alliance"],
-      "effects": {
-        "politicalPower": 10
-      }
+      "effects": {},
+      "prerequisites": [
+        "FRA_shinpi_shugiteki_technocrat"
+      ],
+      "mutuallyExclusive": []
     },
     {
-      "id": "focus_material_revenge",
-      "col": 2,
-      "row": 4,
-      "icon": "balance",
-      "name": {
-        "ja": "物質文明への復讐",
-        "en": "Revenge on Material Civilization"
-      },
-      "description": {
-        "ja": "アジア問題に区切りをつけ、いよいよ欧州・アフリカの覇者たちへ牙を剥く。",
-        "en": "Draw a line to Asian issues and finally bare teeth against Europe and Africa's rulers."
-      },
-      "prerequisites": [],
-      "prerequisitesAny": ["focus_spiritual_alliance", "focus_punish_pseudo_guru"],
-      "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 20
-      }
-    },
-    {
-      "id": "focus_suez_ownership",
+      "id": "FRA_shikouten_no_toutatsu",
       "col": 1,
-      "row": 5,
-      "icon": "ship",
+      "row": 11,
+      "icon": "",
       "name": {
-        "ja": "スエズの正当なる所有者",
-        "en": "True Owner of Suez"
+        "ja": "至高点の到達",
+        "en": "Le point suprême"
       },
       "description": {
-        "ja": "イギリスに対し、スエズ運河とマダガスカルの返還を要求。拒否された場合、イギリスに対する開戦事由を得る。",
-        "en": "Demand the return of the Suez Canal and Madagascar from Britain. If refused, obtain casus belli against Britain."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": ["focus_material_revenge"],
-      "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 10,
-        "legitimacy": 5
-      }
+      "effects": {},
+      "prerequisites": [
+        "FRA_kagaku_to_shi_no_kekkon"
+      ],
+      "mutuallyExclusive": []
     },
     {
-      "id": "focus_rhine_purification",
-      "col": 3,
-      "row": 5,
-      "icon": "sword",
+      "id": "FRA_risei_toiu_na_no_rougoku_kara_no_kaihou",
+      "col": 2,
+      "row": 12,
+      "icon": "",
       "name": {
-        "ja": "ラインラントの浄化",
-        "en": "Purification of the Rhineland"
+        "ja": "理性という名の牢獄からの解放",
+        "en": ""
       },
       "description": {
-        "ja": "ドイツに対し、ロレーヌの完全返還と国境要塞の撤去を要求。ドイツとの不可避な戦争に突入する。",
-        "en": "Demand the complete return of Lorraine and removal of border fortifications from Germany. Enter an inevitable war with Germany."
+        "ja": "",
+        "en": ""
       },
-      "prerequisites": ["focus_material_revenge"],
+      "effects": {},
+      "prerequisites": [],
       "mutuallyExclusive": [],
-      "effects": {
-        "politicalPower": 15
-      }
+      "prerequisitesAny": [
+        "FRA_shikouten_no_toutatsu",
+        "FRA_miraiha_to_no_kyouzon"
+      ]
+    },
+    {
+      "id": "FRA_kuroki_taiyou_no_taikan",
+      "col": 8,
+      "row": 12,
+      "icon": "",
+      "name": {
+        "ja": "黒き太陽の戴冠",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "FRA_suuji_wo_moyase",
+        "FRA_paris_daikaizou"
+      ]
+    },
+    {
+      "id": "FRA_aruku_zenei_geijutsu",
+      "col": 9,
+      "row": 17,
+      "icon": "",
+      "name": {
+        "ja": "歩く前衛芸術",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_genkakuzai_no_heikika"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_nikutai_wa_koutetsu_wo_koeru",
+      "col": 9,
+      "row": 18,
+      "icon": "",
+      "name": {
+        "ja": "肉体は鋼鉄を超える",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_aruku_zenei_geijutsu"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_koutetsu_no_papier_colle",
+      "col": 11,
+      "row": 17,
+      "icon": "",
+      "name": {
+        "ja": "鋼鉄のパピエ・コレ",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_chougenjitsuteki_soukou_budai"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_hakaishin_no_butouhei",
+      "col": 11,
+      "row": 18,
+      "icon": "",
+      "name": {
+        "ja": "破壊神の舞闘兵",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_koutetsu_no_papier_colle"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_youshanonai_senshi",
+      "col": 6,
+      "row": 18,
+      "icon": "",
+      "name": {
+        "ja": "容赦のない戦士",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_risei_no_shigai_wo_fumi_koeyo"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_suukounaru_guntai",
+      "col": 6,
+      "row": 19,
+      "icon": "",
+      "name": {
+        "ja": "崇高なる軍隊",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_youshanonai_senshi"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_shimin_mo_seni_ni_moeteiru",
+      "col": 8,
+      "row": 18,
+      "icon": "",
+      "name": {
+        "ja": "市民も戦意に燃えている",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_risei_no_shigai_wo_fumi_koeyo"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_fukushuu_no_honoo",
+      "col": 0,
+      "row": 16,
+      "icon": "",
+      "name": {
+        "ja": "復讐の炎",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_tairiku_no_jouka"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_latin_no_kyoudaitachi_wo_kaihou",
+      "col": 2,
+      "row": 16,
+      "icon": "",
+      "name": {
+        "ja": "ラテンの兄弟たちを解放",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_tairiku_no_jouka"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_roudou_wa_shi_dearu",
+      "col": 7,
+      "row": 8,
+      "icon": "",
+      "name": {
+        "ja": "労働は詩である",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_kakumei_wa_tsuzuku"
+      ],
+      "mutuallyExclusive": [
+        "FRA_seishin_no_soudouin"
+      ]
+    },
+    {
+      "id": "FRA_seishin_no_soudouin",
+      "col": 8,
+      "row": 8,
+      "icon": "",
+      "name": {
+        "ja": "精神の総動員",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_kakumei_wa_tsuzuku"
+      ],
+      "mutuallyExclusive": [
+        "FRA_roudou_wa_shi_dearu"
+      ]
+    },
+    {
+      "id": "FRA_kikannaki_kokka",
+      "col": 8,
+      "row": 10,
+      "icon": "",
+      "name": {
+        "ja": "器官なき国家",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_riseishugisha_he_no_itanshinmon"
+      ],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "FRA_koushou_wa_atelier_nari",
+        "FRA_busshitsu_ni_taisuru_seishin_no_shouri"
+      ]
+    },
+    {
+      "id": "FRA_busshitsu_ni_taisuru_seishin_no_shouri",
+      "col": 8,
+      "row": 9,
+      "icon": "",
+      "name": {
+        "ja": "物質に対する精神の勝利",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_seishin_no_soudouin"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_koushou_wa_atelier_nari",
+      "col": 7,
+      "row": 9,
+      "icon": "",
+      "name": {
+        "ja": "工廠はアトリエなり",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_roudou_wa_shi_dearu"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_kouan_iinkai_no_shouaku",
+      "col": 9,
+      "row": 8,
+      "icon": "",
+      "name": {
+        "ja": "公安委員会の掌握",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_kakumei_wa_tsuzuku"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_suuji_wo_moyase",
+      "col": 9,
+      "row": 11,
+      "icon": "",
+      "name": {
+        "ja": "数字を燃やせ",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_kikannaki_kokka"
+      ],
+      "mutuallyExclusive": [
+        "FRA_paris_daikaizou"
+      ]
+    },
+    {
+      "id": "FRA_riseishugisha_he_no_itanshinmon",
+      "col": 9,
+      "row": 9,
+      "icon": "",
+      "name": {
+        "ja": "理性主義者への異端審問",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_kouan_iinkai_no_shouaku"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_paris_daikaizou",
+      "col": 7,
+      "row": 11,
+      "icon": "",
+      "name": {
+        "ja": "パリ大改造",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_kikannaki_kokka"
+      ],
+      "mutuallyExclusive": [
+        "FRA_suuji_wo_moyase"
+      ]
+    },
+    {
+      "id": "FRA_wareware_wa_shinwa_wo_ikiru",
+      "col": 8,
+      "row": 20,
+      "icon": "",
+      "name": {
+        "ja": "我々は神話を生きる",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_suukounaru_guntai",
+        "FRA_shimin_mo_seni_ni_moeteiru"
+      ],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "FRA_nikutai_wa_koutetsu_wo_koeru",
+        "FRA_hakaishin_no_butouhei"
+      ]
+    },
+    {
+      "id": "FRA_touyou_no_rikaisha",
+      "col": 5,
+      "row": 16,
+      "icon": "",
+      "name": {
+        "ja": "東洋の理解者",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_touyou_he_no_kikan"
+      ],
+      "mutuallyExclusive": [
+        "FRA_honke_to_no_tairitsu"
+      ]
+    },
+    {
+      "id": "FRA_honoo_wa_hirogaritsuzukeru",
+      "col": 0,
+      "row": 17,
+      "icon": "",
+      "name": {
+        "ja": "炎は広がり続ける",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_fukushuu_no_honoo"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_utsukushiki_shizen_kokkyou_wo",
+      "col": 0,
+      "row": 18,
+      "icon": "",
+      "name": {
+        "ja": "美しき自然国境を",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_honoo_wa_hirogaritsuzukeru"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_kyouki_wa_pyrenees_womo_koeru",
+      "col": 2,
+      "row": 17,
+      "icon": "",
+      "name": {
+        "ja": "狂気はピレネーをも越える",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_latin_no_kyoudaitachi_wo_kaihou"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_sekai_no_chuushin_wa_france",
+      "col": 1,
+      "row": 19,
+      "icon": "",
+      "name": {
+        "ja": "世界の中心はフランス！",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_utsukushiki_shizen_kokkyou_wo",
+        "FRA_kyouki_wa_pyrenees_womo_koeru"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "FRA_shokuminchi_no_koutei",
+      "col": 5,
+      "row": 8,
+      "icon": "",
+      "name": {
+        "ja": "植民地の肯定",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "FRA_manifesto_no_saikakunin",
+        "FRA_kakumei_wa_tsuzuku"
+      ]
+    },
+    {
+      "id": "FRA_nile_no_nougyou_toushi",
+      "col": 4,
+      "row": 10,
+      "icon": "",
+      "name": {
+        "ja": "ナイルの農業投資",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_yasei_no_shikou_no_hogoku"
+      ],
+      "mutuallyExclusive": [
+        "FRA_indochina_no_shigen_sakushu"
+      ]
+    },
+    {
+      "id": "FRA_indochina_no_shigen_sakushu",
+      "col": 6,
+      "row": 10,
+      "icon": "",
+      "name": {
+        "ja": "インドシナの資源搾取",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_yasei_no_shikou_no_hogoku"
+      ],
+      "mutuallyExclusive": [
+        "FRA_nile_no_nougyou_toushi"
+      ]
+    },
+    {
+      "id": "FRA_risei_teikokushugi_ni_taisuru_bouhatei",
+      "col": 5,
+      "row": 11,
+      "icon": "",
+      "name": {
+        "ja": "理性帝国主義に対する防波堤",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "FRA_indochina_no_shigen_sakushu",
+        "FRA_nile_no_nougyou_toushi"
+      ]
+    },
+    {
+      "id": "FRA_yasei_no_shikou_no_hogoku",
+      "col": 5,
+      "row": 9,
+      "icon": "",
+      "name": {
+        "ja": "野性の思考の保護区",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "FRA_shokuminchi_no_koutei"
+      ],
+      "mutuallyExclusive": []
     }
   ]
 }

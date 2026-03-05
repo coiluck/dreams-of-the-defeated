@@ -51,6 +51,7 @@ const EFFECT_LABELS: Record<string, { ja: string; en: string }> = {
   politicalPower:    { ja: '政治力',   en: 'Political Power' },
   economicStrength:  { ja: '経済力',   en: 'Economic Strength' },
   militaryEquipment: { ja: '軍事備品', en: 'Military Equipment' },
+  legitimacy:        { ja: '正統性',       en: 'Legitimacy' }
 };
 
 const MODIFIER_LABELS: Record<string, { ja: string; en: string }> = {
@@ -175,8 +176,7 @@ export default function GameNationalFocus() {
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  // ─── ドラッグパン用 ref ────────────────────────────────────────────────────
-  // ref を使うことで再レンダリングを発生させず、スムーズなドラッグを実現する
+  // ドラッグ用
   const isDragging = useRef(false);
   const didDrag = useRef(false); // 3px以上動いたら「ドラッグ」とみなしてクリックを抑制
   const dragOrigin = useRef<{
@@ -304,7 +304,7 @@ export default function GameNationalFocus() {
   const seenExclusive = new Set<string>();
 
   tree.focuses.forEach(focus => {
-    focus.prerequisites.forEach(preId => {
+    (focus.prerequisites || []).forEach(preId => {
       const pre = tree.focuses.find(f => f.id === preId);
       if (pre) connections.push({ from: pre, to: focus, type: 'prereq' });
     });
@@ -312,7 +312,7 @@ export default function GameNationalFocus() {
       const pre = tree.focuses.find(f => f.id === preId);
       if (pre) connections.push({ from: pre, to: focus, type: 'prereqAny' });
     });
-    focus.mutuallyExclusive.forEach(exId => {
+    (focus.mutuallyExclusive || []).forEach(exId => {
       const key = [focus.id, exId].sort().join('|');
       if (!seenExclusive.has(key)) {
         seenExclusive.add(key);

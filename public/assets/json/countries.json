@@ -42,7 +42,7 @@
     "vassalIds": [],
     "activeWarIds": [],
     "activeFocusId": null,
-    "completedFocusIds": [],
+    "completedFocusIds": ["FRA_dresden_no_kutsujoku", "FRA_byoushitsu_no_zenei_salon", "FRA_maya_no_nami_ni_nomarete", "FRA_jojoutekinaru_coup_detat", "FRA_suukounaru_kuni_no_makuake"],
     "focusProgressTurn": 0
   },
   "britain": {
