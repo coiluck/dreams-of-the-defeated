@@ -1,0 +1,9 @@
+id: FRA_irrational_government
+name:
+  ja: 理性なき政府
+  en: Irrational Government
+stats:
+  legitimacy: -10
+  culturalUnity: -5
+  politicalPowerRate: -30
+  economicStrengthRate: -30

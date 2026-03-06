@@ -1,0 +1,8 @@
+id: FRA_loser_military
+name:
+  ja: 敗れた軍隊
+  en: Lost Army
+stats:
+  legitimacy: -15
+  attackPower: -15
+  defensePower: -10

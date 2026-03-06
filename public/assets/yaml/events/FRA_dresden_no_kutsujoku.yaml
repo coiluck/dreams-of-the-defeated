@@ -1,0 +1,13 @@
+id: FRA_dresden_no_kutsujoku
+title:
+  ja: 敗戦処理
+  en: Defeat Handling
+content:
+  ja: test
+  en: test
+buttons:
+  - text:
+      ja: test
+      en: test
+    hover: null
+    effects: {}

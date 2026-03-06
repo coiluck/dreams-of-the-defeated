@@ -193,8 +193,15 @@
 .gnf-detail-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 6px;
   margin-bottom: 6px;
+}
+
+.gnf-detail-header-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .gnf-detail-title {
   font-family: "Courier New", monospace;
@@ -207,7 +214,7 @@
 .gnf-detail-desc {
   font-family: "Courier New", monospace;
   font-size: 0.65rem;
-  color: #aaa;
+  color: #888;
   line-height: 1.5;
   margin: 0 0 6px;
 }
@@ -244,8 +251,8 @@
   color: #ba6a6a;
 }
 .gnf-start-button {
-  width: 100%;
-  padding: 7px;
+  width: auto;
+  padding: 4px 12px;
   background: transparent;
   border: 1.5px solid #ceae44;
   color: #ceae44;
@@ -255,7 +262,7 @@
   letter-spacing: 0.12rem;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: all 0.2s ease;
   filter: url('#button-grunge-filter');
 }
 .gnf-start-button:hover {
@@ -268,6 +275,7 @@
 
 /* ─── ツールチップ ─── */
 .gnf-tooltip {
+  width: max-content;
   max-width: 200px;
   padding: 8px 10px;
   background: rgba(8,8,8,0.95);
@@ -301,7 +309,7 @@
 .gnf-tooltip-effect-header {
   font-family: "Courier New", monospace;
   font-size: 0.6rem;
-  color: #888;
+  color: #aaa;
   letter-spacing: 0.04rem;
 }
 .gnf-tooltip-effect-row {

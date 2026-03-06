@@ -1,0 +1,13 @@
+id: FRA_byoushitsu_no_zenei_salon
+title:
+  ja: インド文化の流行
+  en: Indian Culture Trend
+content:
+  ja: test
+  en: test
+buttons:
+  - text:
+      ja: test
+      en: test
+    hover: null
+    effects: {}

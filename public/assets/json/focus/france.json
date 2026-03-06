@@ -15,15 +15,7 @@
         "en": "The old head wound of Apollinaire, the founder of 'La Sublime' and the prophet of surrealism, has worsened, confining him to his sickbed. As the nation prays, even his delirious mutterings are transcribed by his followers as sacred revelations."
       },
       "effects": {
-        "events": [
-          {
-            "id": "FRA_our_guru_event",
-            "name": {
-              "ja": "我らが導師の紹介！",
-              "en": "Introduction of Our Guru!"
-            }
-          }
-        ]
+        "eventIds": ["FRA_our_guru"]
       },
       "prerequisites": [
         "FRA_suukounaru_kuni_no_makuake"
@@ -44,15 +36,7 @@
         "en": "In 1932, the Guru finally shed his physical form to embark on a journey to a higher spiritual realm. Around the 'Vacant Throne' left in Paris, his successors battle for control, each interpreting his cryptic poems to suit their own ambitions, driving the nation towards a madness that transcends borders."
       },
       "effects": {
-        "events": [
-          {
-            "id": "FRA_kuuseki_no_ouza_event",
-            "name": {
-              "ja": "導師の死",
-              "en": "Teacher's Death"
-            }
-          }
-        ]
+        "eventIds": ["FRA_kuuseki_no_ouza"]
       },
       "prerequisites": [
         "FRA_shinainaru_doushi"
@@ -114,15 +98,7 @@
         "en": "A large-scale art ceremony was held in the ancient city of Avignon in France."
       },
       "effects": {
-        "events": [
-          {
-            "id": "FRA_black_festival_in_avignon_event",
-            "name": {
-              "ja": "アヴィニョンの黒い祭典",
-              "en": "Black Festival in Avignon"
-            }
-          }
-        ]
+        "eventIds": ["FRA_black_festival_in_avignon"]
       },
       "prerequisites": [
         "FRA_suukounaru_kuni_no_makuake"
@@ -143,28 +119,11 @@
         "en": "The 1914 Dresden Peace Conference stripped our nation of its territories and wealth."
       },
       "effects": {
-        "events": [
-          {
-            "id": "FRA_dresden_no_kutsujoku_event",
-            "name": {
-              "ja": "敗戦処理",
-              "en": "Defeat Processing"
-            }
-          }
-        ],
+        "eventIds": ["FRA_dresden_no_kutsujoku"],
         "nationalSpirits": [
           {
             "id": "FRA_loser_military",
-            "action": "add",
-            "name": {
-              "ja": "敗れた軍隊",
-              "en": "Lost Army"
-            },
-            "stats": {
-              "legitimacy": -15,
-              "attackPower": -15,
-              "defensePower": -10
-            }
+            "action": "add"
           }
         ]
       },
@@ -185,15 +144,7 @@
         "en": "Miraculously surviving a severe head injury, the poet has turned his Montparnasse hospital room into a new spiritual stronghold. Young artists and veterans, despairing of the existing order, gather around him to mock the old world."
       },
       "effects": {
-        "events": [
-          {
-            "id": "FRA_byoushitsu_no_zenei_salon_event",
-            "name": {
-              "ja": "アポリネールのカリスマ",
-              "en": "Apollinaire's Charisma"
-            }
-          }
-        ]
+        "eventIds": ["FRA_byoushitsu_no_zenei_salon"]
       },
       "prerequisites": [
         "FRA_dresden_no_kutsujoku"
@@ -214,15 +165,7 @@
         "en": "The mystical doctrines that arrived from India have pierced deeply into the souls of a populace tormented by the unbearable reality of defeat, eroding and dismantling rationalism in the process."
       },
       "effects": {
-        "events": [
-          {
-            "id": "FRA_maya_no_nami_ni_nomarete_event",
-            "name": {
-              "ja": "インド文化の流行",
-              "en": "Indian Culture Trend"
-            }
-          }
-        ]
+        "eventIds": ["FRA_maya_no_nami_ni_nomarete"]
       },
       "prerequisites": [
         "FRA_dresden_no_kutsujoku"
@@ -243,15 +186,7 @@
         "en": "Paris, November 1919. An uprising erupted, led by an artists’ collective under Apollinaire and joined by a detachment of demobilized veterans who had rallied to their cause."
       },
       "effects": {
-        "events": [
-          {
-            "id": "FRA_jojoutekinaru_coup_detat_event",
-            "name": {
-              "ja": "クーデター発生！",
-              "en": "Coup d'État Occurred!"
-            }
-          }
-        ]
+        "eventIds": ["FRA_jojoutekinaru_coup_detat"]
       },
       "prerequisites": [
         "FRA_byoushitsu_no_zenei_salon",
@@ -275,29 +210,12 @@
       "effects": {
         "nationalSpirits": [
           {
-            "id": "FRA_inspiration",
-            "action": "add",
-            "name": {
-              "ja": "理性なき政府",
-              "en": "Irrational Government"
-            },
-            "stats": {
-              "legitimacy": -10,
-              "culturalUnity": -5,
-              "politicalPowerRate": -30,
-              "economicStrengthRate": -30
-            }
+            "id": "FRA_irrational_government",
+            "action": "add"
           },
           {
-            "id": "FRA_creativity",
-            "action": "add",
-            "name": {
-              "ja": "霊感",
-              "en": "Inspiration"
-            },
-            "stats": {
-              "legitimacy": 5
-            }
+            "id": "FRA_inspiration",
+            "action": "add"
           }
         ]
       },

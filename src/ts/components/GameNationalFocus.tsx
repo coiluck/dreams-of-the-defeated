@@ -1,8 +1,15 @@
 // ts/components/GameNationalFocus.tsx
-// src/ts/components/GameNationalFocus.tsx
 import { useEffect, useRef, useState, useCallback } from 'react';
 import './GameNationalFocus.css';
-import { loadFocusTree, NationalFocusNode, NationalFocusTree, FocusEffect, FocusEventEffect } from '../modules/nationalFocus';
+import {
+  loadFocusTree,
+  resolveFocusEffect,
+  NationalFocusNode,
+  NationalFocusTree,
+  ResolvedFocusEffect,
+  ResolvedSpiritEffect,
+  ResolvedEventEffect,
+} from '../modules/nationalFocus';
 import { useGameStore, usePlayerCountry } from '../modules/gameState';
 import { SettingState } from '../modules/store';
 
@@ -45,36 +52,35 @@ function FocusIcon({ iconKey, size = 24, color = '#fff3f1' }: { iconKey: string;
   );
 }
 
-// ─── ラベル定義 ──────────────────────────────────────────────────────────────
-
-const EFFECT_LABELS: Record<string, { ja: string; en: string }> = {
-  politicalPower:    { ja: '政治力',   en: 'Political Power' },
-  economicStrength:  { ja: '経済力',   en: 'Economic Strength' },
-  militaryEquipment: { ja: '軍事備品', en: 'Military Equipment' },
-  legitimacy:        { ja: '正統性',       en: 'Legitimacy' }
-};
-
-const MODIFIER_LABELS: Record<string, { ja: string; en: string }> = {
+// 翻訳用ラベル
+const LABELS: Record<string, { ja: string; en: string }> = {
+  // 基本リソース
+  politicalPower:    { ja: '政治力',    en: 'Political Power' },
+  economicStrength:  { ja: '経済力',    en: 'Economic Strength' },
+  militaryEquipment: { ja: '軍事備品',  en: 'Military Equipment' },
+  deployedMilitary:  { ja: '展開兵力',  en: 'Deployed Forces' },
+  // NF効果のパラメータ
   legitimacy:           { ja: '正統性',       en: 'Legitimacy' },
   mechanizationRate:    { ja: '機械化率',     en: 'Mechanization Rate' },
   attackPower:          { ja: '攻撃力',       en: 'Attack Power' },
   defensePower:         { ja: '防御力',       en: 'Defense Power' },
-  culturalUnity:        { ja: '文化的結束',   en: 'Cultural Unity' },
+  culturalUnity:        { ja: '文化的統合度',   en: 'Cultural Unity' },
   politicalPowerRate:   { ja: '政治力増加率', en: 'Political Power Rate' },
   economicStrengthRate: { ja: '経済力増加率', en: 'Economic Strength Rate' },
 };
 
 // エフェクトをHTML文字列の行配列に変換
-function buildEffectLines(effects: FocusEffect, lang: 'ja' | 'en'): string[] {
+function buildEffectLines(effects: ResolvedFocusEffect, lang: 'ja' | 'en'): string[] {
   const lines: string[] = [];
 
+  // 直接追加
   const directEntries = (Object.entries(effects) as [string, unknown][])
     .filter(([key, val]) => key !== 'nationalSpirits' && key !== 'events' && typeof val === 'number') as [string, number][];
 
   if (directEntries.length > 0) {
     const header = lang === 'ja' ? '以下を獲得:' : 'Gain the following:';
     const rows = directEntries.map(([key, val]) => {
-      const label = EFFECT_LABELS[key]?.[lang] ?? key;
+      const label = LABELS[key]?.[lang] ?? key;
       const color = val >= 0 ? '#4caf84' : '#e05555';
       const sign = val > 0 ? '+' : '';
       return `${label} <span style="color:${color}">${sign}${val}</span>`;
@@ -82,39 +88,36 @@ function buildEffectLines(effects: FocusEffect, lang: 'ja' | 'en'): string[] {
     lines.push(header + '\n' + rows.join('\n'));
   }
 
+  // 国民精神
   for (const spirit of effects.nationalSpirits ?? []) {
-    const spiritName = spirit.name?.[lang] ?? spirit.id;
     let header: string;
     if (spirit.action === 'add') {
-      header = lang === 'ja' ? `国民精神「${spiritName}」を獲得:` : `Gain national spirit "${spiritName}":`;
+      header = lang === 'ja' ? `国民精神「${spirit.name[lang]}」を獲得:` : `Gain national spirit "${spirit.name[lang]}":`;
     } else if (spirit.action === 'modify') {
-      header = lang === 'ja' ? `国民精神「${spiritName}」に以下の修正:` : `Modify national spirit "${spiritName}":`;
+      header = lang === 'ja' ? `国民精神「${spirit.name[lang]}」に以下の修正:` : `Modify national spirit "${spirit.name[lang]}":`;
     } else {
-      header = lang === 'ja' ? `国民精神「${spiritName}」を削除` : `Remove national spirit "${spiritName}"`;
+      header = lang === 'ja' ? `国民精神「${spirit.name[lang]}」を削除` : `Remove national spirit "${spirit.name[lang]}"`;
     }
-    const statRows = spirit.stats
-      ? (Object.entries(spirit.stats) as [string, number][]).map(([key, val]) => {
-          const label = MODIFIER_LABELS[key]?.[lang] ?? key;
-          const color = val >= 0 ? '#4caf84' : '#e05555';
-          const sign = val > 0 ? '+' : '';
-          return `${label} <span style="color:${color}">${sign}${val}</span>`;
-        })
-      : [];
+    const statRows = Object.entries(spirit.stats).map(([key, val]) => {
+      const label = LABELS[key]?.[lang] ?? key;
+      const color = val >= 0 ? '#4caf84' : '#e05555';
+      const sign = val > 0 ? '+' : '';
+      return `${label} <span style="color:${color}">${sign}${val}</span>`;
+    });
     lines.push(header + (statRows.length ? '\n' + statRows.join('\n') : ''));
   }
 
+  // イベント
   for (const ev of effects.events ?? []) {
-    lines.push(lang === 'ja' ? `イベント「${ev.name[lang]}」が発生する` : `Triggers event "${ev.name[lang]}"`);
+    lines.push(lang === 'ja' ? `イベント「${ev.title[lang]}」が発生する` : `Triggers event "${ev.title[lang]}"`);
   }
 
   return lines;
 }
 
-function FocusEffects({ effects, lang }: { effects: FocusEffect; lang: 'ja' | 'en' }) {
+function FocusEffects({ effects, lang }: { effects: ResolvedFocusEffect; lang: 'ja' | 'en' }) {
   const directEntries = (Object.entries(effects) as [string, unknown][])
     .filter(([key, val]) => key !== 'nationalSpirits' && key !== 'events' && typeof val === 'number') as [string, number][];
-  const spirits = effects.nationalSpirits ?? [];
-  const events = effects.events ?? [];
 
   return (
     <div className="gnf-detail-effects-section">
@@ -122,48 +125,58 @@ function FocusEffects({ effects, lang }: { effects: FocusEffect; lang: 'ja' | 'e
         <div className="gnf-detail-effects">
           {directEntries.map(([key, val]) => (
             <span key={key} className={`gnf-effect-tag ${val >= 0 ? 'pos' : 'neg'}`}>
-              {EFFECT_LABELS[key]?.[lang] ?? key}: {val > 0 ? '+' : ''}{val}
+              {LABELS[key]?.[lang] ?? key}: {val > 0 ? '+' : ''}{val}
             </span>
           ))}
         </div>
       )}
-      {spirits.map(spirit => (
+{effects.nationalSpirits.map((spirit: ResolvedSpiritEffect) => (
         <div key={spirit.id} className="gnf-spirit-card">
           <div className="gnf-spirit-header">
             <span className={`gnf-spirit-action gnf-spirit-action--${spirit.action}`}>
-              {spirit.action === 'add' ? (lang === 'ja' ? '取得' : 'Add') :
+              {spirit.action === 'add'    ? (lang === 'ja' ? '取得' : 'Add')    :
                spirit.action === 'modify' ? (lang === 'ja' ? '修正' : 'Modify') :
-               (lang === 'ja' ? '削除' : 'Remove')}
+                                            (lang === 'ja' ? '削除' : 'Remove')}
             </span>
-            <span className="gnf-spirit-name">{spirit.name?.[lang] ?? spirit.id}</span>
+            <span className="gnf-spirit-name">{spirit.name[lang]}</span>
           </div>
-          {spirit.stats && (
+          {spirit.description[lang] && (
+            <p className="gnf-spirit-description">{spirit.description[lang]}</p>
+          )}
+          {Object.keys(spirit.stats).length > 0 && (
             <div className="gnf-spirit-stats">
               {(Object.entries(spirit.stats) as [string, number][]).map(([key, val]) => (
                 <span key={key} className={`gnf-effect-tag gnf-effect-tag--small ${val >= 0 ? 'pos' : 'neg'}`}>
-                  {MODIFIER_LABELS[key]?.[lang] ?? key}: {val > 0 ? '+' : ''}{val}
+                  {LABELS[key]?.[lang] ?? key}: {val > 0 ? '+' : ''}{val}
                 </span>
               ))}
             </div>
           )}
         </div>
       ))}
-      {events.map(ev => (
+
+      {effects.events.map((ev: ResolvedEventEffect) => (
         <div key={ev.id} className="gnf-spirit-card gnf-event-card">
           <div className="gnf-spirit-header">
             <span className="gnf-spirit-action gnf-spirit-action--event">
               {lang === 'ja' ? 'イベント' : 'Event'}
             </span>
-            <span className="gnf-spirit-name">{ev.name[lang]}</span>
+            <span className="gnf-spirit-name">{ev.title[lang]}</span>
           </div>
+          {ev.buttons.length > 0 && (
+            <div className="gnf-event-buttons-preview">
+              {ev.buttons.map((btn, i) => (
+                <span key={i} className="gnf-event-button-preview">{btn.text[lang]}</span>
+              ))}
+            </div>
+          )}
         </div>
       ))}
     </div>
   );
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-
+// main
 export default function GameNationalFocus() {
   const game = useGameStore(s => s.game);
   const playerCountry = usePlayerCountry();
@@ -172,7 +185,8 @@ export default function GameNationalFocus() {
   const [tree, setTree] = useState<NationalFocusTree | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedNode, setSelectedNode] = useState<NationalFocusNode | null>(null);
-  const [tooltip, setTooltip] = useState<{ node: NationalFocusNode; x: number; y: number } | null>(null);
+  const [selectedResolved, setSelectedResolved] = useState<ResolvedFocusEffect | null>(null);
+  const [tooltip, setTooltip] = useState<{ node: NationalFocusNode; resolved: ResolvedFocusEffect; x: number; y: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
@@ -188,6 +202,7 @@ export default function GameNationalFocus() {
 
   const [tooltipLeft, setTooltipLeft] = useState<number | null>(null);
   const [tooltipTop, setTooltipTop] = useState<number | null>(null);
+  const resolvedCache = useRef<Record<string, ResolvedFocusEffect>>({});
 
   const tooltipRef = useCallback((node: HTMLDivElement | null) => {
     if (node && tooltip) {
@@ -275,21 +290,53 @@ export default function GameNationalFocus() {
     return allMet && anyMet ? 'available' : 'locked';
   }, [playerCountry, game]);
 
-  const handleNodeClick = (focus: NationalFocusNode) => {
-    // ドラッグ操作だった場合はクリックを無視
+  const getResolved = useCallback(async (focus: NationalFocusNode): Promise<ResolvedFocusEffect> => {
+    if (resolvedCache.current[focus.id]) return resolvedCache.current[focus.id];
+    const resolved = await resolveFocusEffect(focus.effects);
+    resolvedCache.current[focus.id] = resolved;
+    return resolved;
+  }, []);
+
+  const handleNodeClick = async (focus: NationalFocusNode) => {
     if (didDrag.current) return;
     const status = getFocusStatus(focus);
     if (status === 'available' && playerCountry) {
-      setSelectedNode(prev => prev?.id === focus.id ? null : focus);
+      if (selectedNode?.id === focus.id) {
+        setSelectedNode(null);
+        setSelectedResolved(null);
+      } else {
+        const resolved = await getResolved(focus);
+        setSelectedNode(focus);
+        setSelectedResolved(resolved);
+      }
     } else {
       setSelectedNode(null);
+      setSelectedResolved(null);
     }
   };
+
+  const handleMouseEnter = async (focus: NationalFocusNode, e: React.MouseEvent) => {
+    if (isDragging.current) return;
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const resolved = await getResolved(focus);
+    setTooltip({ node: focus, resolved, x: rect.left + rect.width / 2, y: rect.top });
+  };
+
+  const handleBackgroundClick = useCallback((e: React.MouseEvent) => {
+    if (didDrag.current) return;
+    const target = e.target as HTMLElement;
+    // クリックされた要素がノードでない場合のみ選択解除
+    if (!target.closest('.gnf-node')) {
+      setSelectedNode(null);
+      setSelectedResolved(null);
+    }
+  }, []);
 
   const handleStartFocus = () => {
     if (!selectedNode || !playerCountry) return;
     setNationalFocus(playerCountry.id, selectedNode.id as any);
     setSelectedNode(null);
+    setSelectedResolved(null);
   };
 
   if (loading) return <div className="gnf-loading">Loading...</div>;
@@ -330,11 +377,12 @@ export default function GameNationalFocus() {
         className="gnf-scroll-area"
         ref={scrollAreaRef}
         onMouseDown={handleMouseDown}
+        onClick={handleBackgroundClick}
         style={{ cursor: 'grab' }}
       >
         <div style={{ position: 'relative', width: svgWidth, minHeight: svgHeight }}>
 
-          {/* SVG接続線レイヤー */}
+          {/* 接続線 */}
           <svg
             className="gnf-svg-layer"
             width={svgWidth}
@@ -343,10 +391,10 @@ export default function GameNationalFocus() {
           >
             <defs>
               <marker id="arrow-prereq" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-                <path d="M0,0 L6,3 L0,6 Z" fill="rgba(200,200,200,0.5)" />
+                <path d="M0,0 L6,3 L0,6 Z" fill="#777777" />
               </marker>
-              <marker id="arrow-exclusive" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-                <circle cx="3" cy="3" r="2.5" fill="rgba(200,60,60,0.7)" />
+              <marker id="arrow-prereq-active" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#BFA141" />
               </marker>
             </defs>
 
@@ -367,25 +415,27 @@ export default function GameNationalFocus() {
                   <g key={`conn-${i}`}>
                     <path
                       d={path} fill="none"
-                      stroke={isActive ? 'rgba(206,174,68,0.7)' : 'rgba(100,100,100,0.5)'}
+                      stroke={isActive ? '#A58C38' : '#444444'}
                       strokeWidth={isActive ? '2' : '1.5'}
                       strokeDasharray={isDashed ? '6 4' : 'none'}
-                      markerEnd={isActive ? 'url(#arrow-prereq)' : undefined}
+                      markerEnd={isActive ? 'url(#arrow-prereq-active)' : 'url(#arrow-prereq)'}
                     />
                     {isActive && toStatus === 'active' && (
-                      <path d={path} fill="none" stroke="rgba(255,215,0,0.8)" strokeWidth="2" strokeDasharray="8 16" className="gnf-animated-line" />
+                      <path d={path} fill="none" stroke="#ffd700" strokeWidth="2" strokeDasharray="8 16" className="gnf-animated-line" />
                     )}
                   </g>
                 );
               } else {
-                const x1e = getNodeX(conn.from.col) + NODE_W / 2;
-                const x2e = getNodeX(conn.to.col)   - NODE_W / 2;
+                const isLeftToRight = x1 <= x2;
+                const x1e = isLeftToRight ? x1 + NODE_W / 2 : x1 - NODE_W / 2;
+                const x2e = isLeftToRight ? x2 - NODE_W / 2 : x2 + NODE_W / 2;
                 const midX = (x1e + x2e) / 2;
                 const y = getNodeY(conn.from.row);
+
                 return (
                   <g key={`conn-${i}`}>
-                    <line x1={x1e} y1={y} x2={x2e} y2={y} stroke="rgba(200,60,60,0.6)" strokeWidth="1.5" strokeDasharray="3 3" />
-                    <text x={midX} y={y + 5} textAnchor="middle" fill="rgba(200,60,60,0.8)" fontSize="12" fontFamily="Courier New">✕</text>
+                    <line x1={x1e} y1={y} x2={x2e} y2={y} stroke="#962A2A" strokeWidth="1.5" strokeDasharray="3 3" />
+                    <text x={midX} y={y + 4} textAnchor="middle" fill="#962A2A" fontSize="12" fontFamily="Courier New">✕</text>
                   </g>
                 );
               }
@@ -409,7 +459,7 @@ export default function GameNationalFocus() {
                   `gnf-node--${status}`,
                   isSelected      ? 'gnf-node--selected'          : '',
                   isPrereqOf      ? 'gnf-node--highlight-prereq'  : '',
-                  isExclusiveWith ? 'gnf-node--highlight-exclusive': '',
+                  isExclusiveWith ? 'gnf-node--highlight-exclusive' : '',
                 ].filter(Boolean).join(' ')}
                 style={{
                   position: 'absolute',
@@ -419,11 +469,7 @@ export default function GameNationalFocus() {
                   height: NODE_H,
                 }}
                 onClick={() => handleNodeClick(focus)}
-                onMouseEnter={e => {
-                  if (isDragging.current) return;
-                  const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-                  setTooltip({ node: focus, x: rect.left + rect.width / 2, y: rect.top });
-                }}
+                onMouseEnter={e => handleMouseEnter(focus, e)}
                 onMouseLeave={() => {
                   setTooltip(null);
                   setTooltipLeft(null);
@@ -455,25 +501,26 @@ export default function GameNationalFocus() {
           })}
         </div>
       </div>
+      {selectedNode && selectedResolved && (
+          <div className="gnf-detail-panel">
+            <div className="gnf-detail-header">
+              <div className="gnf-detail-header-title">
+                <FocusIcon iconKey={selectedNode.icon} size={18} color="#ffd700" />
+                <span className="gnf-detail-title">{selectedNode.name[lang]}</span>
+              </div>
+              <button className="gnf-start-button" onClick={handleStartFocus}>
+                {lang === 'ja' ? '方針を開始' : 'Start Focus'}
+              </button>
+            </div>
+            <p className="gnf-detail-desc">{selectedNode.description[lang]}</p>
 
-      {/* 選択時の詳細パネル */}
-      {selectedNode && (
-        <div className="gnf-detail-panel">
-          <div className="gnf-detail-header">
-            <FocusIcon iconKey={selectedNode.icon} size={18} color="#ffd700" />
-            <span className="gnf-detail-title">{selectedNode.name[lang]}</span>
+            <FocusEffects effects={selectedResolved} lang={lang} />
           </div>
-          <p className="gnf-detail-desc">{selectedNode.description[lang]}</p>
-          <FocusEffects effects={selectedNode.effects} lang={lang} />
-          <button className="gnf-start-button" onClick={handleStartFocus}>
-            {lang === 'ja' ? '方針を開始' : 'Start Focus'}
-          </button>
-        </div>
       )}
 
       {/* ツールチップ（ホバー時） */}
       {tooltip && !selectedNode && (() => {
-        const lines = buildEffectLines(tooltip.node.effects, lang);
+        const lines = buildEffectLines(tooltip.resolved, lang);
         return (
           <div
             ref={tooltipRef}

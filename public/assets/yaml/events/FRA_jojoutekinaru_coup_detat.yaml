@@ -1,0 +1,13 @@
+id: FRA_byoushitsu_no_zenei_salon
+title:
+  ja: クーデター発生！
+  en: Coup d'État Occurred
+content:
+  ja: test
+  en: test
+buttons:
+  - text:
+      ja: test
+      en: test
+    hover: null
+    effects: {}
