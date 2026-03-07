@@ -1,0 +1,8 @@
+id: FRA_colonial_empire
+name:
+  ja: 植民地帝国
+  en: Colonial Empire
+stats:
+  legitimacy: -10
+  politicalPowerRate: -5
+  culturalUnity: -10

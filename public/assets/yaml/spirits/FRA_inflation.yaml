@@ -1,0 +1,7 @@
+id: FRA_inflation
+name:
+  ja: 黒い春の爪痕
+  en: Black Spring's Claw
+stats:
+  economicStrength: -10
+  economicStrengthRate: -10

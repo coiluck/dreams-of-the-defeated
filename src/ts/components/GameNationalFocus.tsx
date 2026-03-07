@@ -37,10 +37,16 @@ const ICONS: Record<string, string> = {
   anchor:  'M12 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 6v14M5 10h14M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6',
   factory: 'M2 20V8l6 4V8l6 4V4h8v16H2zM10 20v-6h4v6',
   gear:    'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm9.9 4l-1.9-.3a8 8 0 0 0-.9-2.2l1.2-1.5-2.3-2.3-1.5 1.2a8 8 0 0 0-2.2-.9L14.1 4h-3.2l-.3 1.9a8 8 0 0 0-2.2.9L6.9 5.6 4.6 7.9l1.2 1.5a8 8 0 0 0-.9 2.2L3 11.9v3.2l1.9.3a8 8 0 0 0 .9 2.2l-1.2 1.5 2.3 2.3 1.5-1.2a8 8 0 0 0 2.2.9l.3 1.9h3.2l.3-1.9a8 8 0 0 0 2.2-.9l1.5 1.2 2.3-2.3-1.2-1.5a8 8 0 0 0 .9-2.2l1.9-.3v-3.2z',
-  flame:   'M12 2s-4 4-4 8a4 4 0 0 0 8 0c0-4-4-8-4-8zm-2 8c0 1.1.9 2 2 2s2-.9 2-2',
+  flame:   'M11.1758045,11.5299649 C11.7222481,10.7630248 11.6612694,9.95529555 11.2823626,8.50234466 C10.5329929,5.62882187 10.8313891,4.05382867 13.4147321,2.18916004 L14.6756139,1.27904986 L14.9805807,2.80388386 C15.3046861,4.42441075 15.8369398,5.42670671 17.2035766,7.35464078 C17.2578735,7.43122022 17.2578735,7.43122022 17.3124108,7.50814226 C19.2809754,10.2854144 20,11.9596204 20,15 C20,18.6883517 16.2713564,22 12,22 C7.72840879,22 4,18.6888043 4,15 C4,14.9310531 4.00007066,14.9331427 3.98838852,14.6284506 C3.89803284,12.2718054 4.33380946,10.4273676 6.09706666,8.43586022 C6.46961415,8.0150872 6.8930834,7.61067534 7.36962714,7.22370749 L8.42161802,6.36945926 L8.9276612,7.62657706 C9.30157948,8.55546878 9.73969716,9.28566491 10.2346078,9.82150804 C10.6537848,10.2753538 10.9647401,10.8460665 11.1758045,11.5299649 Z M7.59448531,9.76165711 C6.23711779,11.2947332 5.91440928,12.6606068 5.98692012,14.5518252 C6.00041903,14.9039019 6,14.8915108 6,15 C6,17.5278878 8.78360021,20 12,20 C15.2161368,20 18,17.527472 18,15 C18,12.4582072 17.4317321,11.1350292 15.6807305,8.66469725 C15.6264803,8.58818014 15.6264803,8.58818014 15.5719336,8.51124844 C14.5085442,7.0111098 13.8746802,5.96758691 13.4553336,4.8005211 C12.7704786,5.62117775 12.8107447,6.43738988 13.2176374,7.99765534 C13.9670071,10.8711781 13.6686109,12.4461713 11.0852679,14.31084 L9.61227259,15.3740546 L9.50184911,13.5607848 C9.43129723,12.4022487 9.16906461,11.6155508 8.76539217,11.178492 C8.36656566,10.7466798 8.00646835,10.2411426 7.68355027,9.66278925 C7.65342985,9.69565638 7.62374254,9.72861259 7.59448531,9.76165711 Z',
   globe:   'M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 0v20M2 12h20M4.9 6.4A14.4 14.4 0 0 0 12 8a14.4 14.4 0 0 0 7.1-1.6M4.9 17.6A14.4 14.4 0 0 1 12 16a14.4 14.4 0 0 1 7.1 1.6',
   'arrow-up':   'M12 4l-8 8h5v8h6v-8h5z',
   'arrow-down': 'M12 20l8-8h-5V4H9v8H4z',
+  shield:       'M12 2L3 7v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7l-9-5z',
+  bolt:         'M13 2L3 14h7v8l11-12h-7L13 2z',
+  document:     'M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5z',
+  cross:        'M19 10h-5V5h-4v5H5v4h5v5h4v-5h5v-4z',
+  flag:         'M5 21V4h9l1 2h6v10h-8l-1-2H7v7H5z',
+  crown:        'M5 16h14l1-10-4 4-4-6-4 6-4-4 1 10zM5 18h14v2H5v-2z',
 };
 
 function FocusIcon({ iconKey, size = 24, color = '#fff3f1' }: { iconKey: string; size?: number; color?: string }) {
@@ -98,7 +104,8 @@ function buildEffectLines(effects: ResolvedFocusEffect, lang: 'ja' | 'en'): stri
     } else {
       header = lang === 'ja' ? `国民精神「${spirit.name[lang]}」を削除` : `Remove national spirit "${spirit.name[lang]}"`;
     }
-    const statRows = Object.entries(spirit.stats).map(([key, val]) => {
+
+    const statRows = Object.entries(spirit.action === 'modify' ? (spirit.modifyStats ?? {}) : spirit.stats).map(([key, val]) => {
       const label = LABELS[key]?.[lang] ?? key;
       const color = val >= 0 ? '#4caf84' : '#e05555';
       const sign = val > 0 ? '+' : '';
@@ -130,7 +137,7 @@ function FocusEffects({ effects, lang }: { effects: ResolvedFocusEffect; lang: '
           ))}
         </div>
       )}
-{effects.nationalSpirits.map((spirit: ResolvedSpiritEffect) => (
+      {effects.nationalSpirits.map((spirit: ResolvedSpiritEffect) => (
         <div key={spirit.id} className="gnf-spirit-card">
           <div className="gnf-spirit-header">
             <span className={`gnf-spirit-action gnf-spirit-action--${spirit.action}`}>
@@ -143,9 +150,9 @@ function FocusEffects({ effects, lang }: { effects: ResolvedFocusEffect; lang: '
           {spirit.description[lang] && (
             <p className="gnf-spirit-description">{spirit.description[lang]}</p>
           )}
-          {Object.keys(spirit.stats).length > 0 && (
+          {Object.keys(spirit.action === 'modify' ? (spirit.modifyStats ?? {}) : spirit.stats).length > 0 && (
             <div className="gnf-spirit-stats">
-              {(Object.entries(spirit.stats) as [string, number][]).map(([key, val]) => (
+              {(Object.entries(spirit.action === 'modify' ? (spirit.modifyStats ?? {}) : spirit.stats) as [string, number][]).map(([key, val]) => (
                 <span key={key} className={`gnf-effect-tag gnf-effect-tag--small ${val >= 0 ? 'pos' : 'neg'}`}>
                   {LABELS[key]?.[lang] ?? key}: {val > 0 ? '+' : ''}{val}
                 </span>

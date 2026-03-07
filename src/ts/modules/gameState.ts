@@ -49,10 +49,10 @@ export interface CountryState {
   vassalIds: string[];               // 属国IDリスト
   activeWarIds: string[];            // 参加中の戦争IDリスト
 
-  // 国家方針
-  activeFocusId: NationalFocusId;    // 現在選択中の方針
+  // 国家方針 & 国民精神
+  activeFocusId: NationalFocusId;       // 現在選択中の方針
   completedFocusIds: NationalFocusId[]; // 完了済み方針
-  focusProgressTurn: number;         // 方針開始ターン
+  NationalSpiritIds: string[];            // 現在所持中の国民精神
 }
 
 // ゲームの状態

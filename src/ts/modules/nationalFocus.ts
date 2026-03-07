@@ -89,6 +89,7 @@ export interface ResolvedSpiritEffect {
   description: { ja: string; en: string };
   /** マージ済みstats */
   stats: ModifierStats;
+  modifyStats?: ModifierStats;
 }
 
 /**
@@ -123,7 +124,6 @@ const eventCache: Record<string, EventDefinition> = {};
 async function parseYaml<T>(text: string): Promise<T | null> {
   try {
     const yaml = await import('js-yaml');
-    // 環境によって export default の扱われ方が違うため、両対応する
     const loadFn = yaml.load || (yaml as any).default?.load;
     return loadFn(text) as T;
   } catch (e) {
@@ -195,6 +195,8 @@ export async function resolveFocusEffect(effects: FocusEffect): Promise<Resolved
         description: def?.description ?? { ja: '', en: '' },
         // YAML定義のstatsをベースに、NF JSONのstats（上書き）をマージ
         stats: { ...(def?.stats ?? {}), ...(ref.stats ?? {}) },
+        // modify時: JSONで指定された差分のみ保持（表示用）
+        modifyStats: ref.action === 'modify' ? (ref.stats ?? {}) : undefined,
       };
     })
   );

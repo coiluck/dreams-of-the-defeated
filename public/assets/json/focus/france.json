@@ -5,7 +5,7 @@
       "id": "FRA_shinainaru_doushi",
       "col": 4,
       "row": 4,
-      "icon": "",
+      "icon": "crown",
       "name": {
         "ja": "親愛なる我らが導師",
         "en": "Our Beloved Guru"
@@ -26,7 +26,7 @@
       "id": "FRA_kuuseki_no_ouza",
       "col": 4,
       "row": 5,
-      "icon": "",
+      "icon": "globe",
       "name": {
         "ja": "空席の王座",
         "en": "Vacancy on the Throne"
@@ -47,7 +47,7 @@
       "id": "FRA_manifesto_no_saikakunin",
       "col": 2,
       "row": 7,
-      "icon": "",
+      "icon": "document",
       "name": {
         "ja": "マニフェストの再確認",
         "en": ""
@@ -56,7 +56,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_irrational_government",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "politicalPowerRate": 15
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_doushiha_no_shinchou"
       ],
@@ -66,16 +77,18 @@
       "id": "FRA_zankokuha_no_inbou",
       "col": 8,
       "row": 6,
-      "icon": "",
+      "icon": "sword",
       "name": {
         "ja": "残酷派の陰謀",
-        "en": ""
+        "en": "Artaud's Plot"
       },
       "description": {
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": ["FRA_zankokuha_no_inbou"]
+      },
       "prerequisites": [
         "FRA_avignon_no_kuroi_seiten",
         "FRA_kuuseki_no_ouza"
@@ -88,7 +101,7 @@
       "id": "FRA_avignon_no_kuroi_seiten",
       "col": 6,
       "row": 5,
-      "icon": "",
+      "icon": "anchor",
       "name": {
         "ja": "アヴィニョンの黒い祭典",
         "en": "Black Festival in Avignon"
@@ -228,16 +241,18 @@
       "id": "FRA_kakumei_wa_tsuzuku",
       "col": 8,
       "row": 7,
-      "icon": "",
+      "icon": "flame",
       "name": {
         "ja": "革命は続く",
-        "en": ""
+        "en": "Revolution Lasts"
       },
       "description": {
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": ["FRA_kakumei_wa_tsuzuku"]
+      },
       "prerequisites": [
         "FRA_zankokuha_no_inbou"
       ],
@@ -247,7 +262,7 @@
       "id": "FRA_doushiha_no_shinchou",
       "col": 2,
       "row": 6,
-      "icon": "",
+      "icon": "arrow-up",
       "name": {
         "ja": "導師派の伸長",
         "en": ""
@@ -269,7 +284,7 @@
       "id": "FRA_roudou_kumiai_no_shouaku",
       "col": 2,
       "row": 8,
-      "icon": "",
+      "icon": "gear",
       "name": {
         "ja": "労働組合の掌握",
         "en": ""
@@ -278,7 +293,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_irrational_government",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "politicalPowerRate": 15
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_manifesto_no_saikakunin"
       ],
@@ -288,7 +314,7 @@
       "id": "FRA_byoudou_no_sokushin",
       "col": 3,
       "row": 8,
-      "icon": "",
+      "icon": "globe",
       "name": {
         "ja": "平等の促進",
         "en": ""
@@ -297,7 +323,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_irrational_government",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": 5,
+              "legitimacy": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_manifesto_no_saikakunin"
       ],
@@ -307,7 +344,7 @@
       "id": "FRA_chihou_sangyou_keikaku",
       "col": 1,
       "row": 8,
-      "icon": "",
+      "icon": "factory",
       "name": {
         "ja": "地方産業計画",
         "en": ""
@@ -316,7 +353,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_irrational_government",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": 5,
+              "economicStrengthRate": 15
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_manifesto_no_saikakunin"
       ],
@@ -326,7 +374,7 @@
       "id": "FRA_risei_no_tsumetaki_bed_wo_suteru",
       "col": 2,
       "row": 9,
-      "icon": "",
+      "icon": "star",
       "name": {
         "ja": "理性の冷たきベッドを捨てる",
         "en": ""
@@ -335,7 +383,14 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_irrational_government",
+            "action": "remove"
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_chihou_sangyou_keikaku",
         "FRA_roudou_kumiai_no_shouaku",
@@ -347,7 +402,7 @@
       "id": "FRA_kagaku_to_shi_no_kekkon",
       "col": 1,
       "row": 10,
-      "icon": "",
+      "icon": "cross",
       "name": {
         "ja": "科学と詩の結婚",
         "en": ""
@@ -356,7 +411,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "politicalPower": 20,
+        "nationalSpirits": [
+          {
+            "id": "FRA_inspiration",
+            "action": "modify",
+            "stats": {
+              "economicStrengthRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_risei_no_tsumetaki_bed_wo_suteru"
       ],
@@ -368,7 +434,7 @@
       "id": "FRA_shinpi_shugiteki_technocrat",
       "col": 3,
       "row": 10,
-      "icon": "",
+      "icon": "bolt",
       "name": {
         "ja": "神秘主義的テクノクラート",
         "en": ""
@@ -377,7 +443,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_inspiration",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": 5,
+              "economicStrengthRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_risei_no_tsumetaki_bed_wo_suteru"
       ],
@@ -389,7 +466,7 @@
       "id": "FRA_ondori_wa_futatabi_naku",
       "col": 3,
       "row": 14,
-      "icon": "",
+      "icon": "flame",
       "name": {
         "ja": "雄鶏は再び鳴く",
         "en": ""
@@ -652,7 +729,7 @@
       "id": "FRA_miraiha_to_no_kyouzon",
       "col": 3,
       "row": 11,
-      "icon": "",
+      "icon": "gear",
       "name": {
         "ja": "未来派との共存",
         "en": ""
@@ -661,7 +738,20 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_inspiration",
+            "action": "modify",
+            "stats": {
+              "legitimacy": -5,
+              "attackPower": 5,
+              "mechanizationRate": 5,
+              "economicStrengthRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_shinpi_shugiteki_technocrat"
       ],
@@ -671,7 +761,7 @@
       "id": "FRA_shikouten_no_toutatsu",
       "col": 1,
       "row": 11,
-      "icon": "",
+      "icon": "crown",
       "name": {
         "ja": "至高点の到達",
         "en": "Le point suprême"
@@ -680,7 +770,19 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_inspiration",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": 5,
+              "economicStrengthRate": 5,
+              "politicalPowerRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_kagaku_to_shi_no_kekkon"
       ],
@@ -1208,7 +1310,7 @@
       "id": "FRA_shokuminchi_no_koutei",
       "col": 5,
       "row": 8,
-      "icon": "",
+      "icon": "globe",
       "name": {
         "ja": "植民地の肯定",
         "en": ""
@@ -1217,7 +1319,9 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": ["FRA_shokuminchi_no_koutei"]
+      },
       "prerequisites": [],
       "mutuallyExclusive": [],
       "prerequisitesAny": [
@@ -1229,7 +1333,7 @@
       "id": "FRA_nile_no_nougyou_toushi",
       "col": 4,
       "row": 10,
-      "icon": "",
+      "icon": "globe",
       "name": {
         "ja": "ナイルの農業投資",
         "en": ""
@@ -1238,7 +1342,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_colonial_empire",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "culturalUnity": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_yasei_no_shikou_no_hogoku"
       ],
@@ -1250,7 +1365,7 @@
       "id": "FRA_indochina_no_shigen_sakushu",
       "col": 6,
       "row": 10,
-      "icon": "",
+      "icon": "globe",
       "name": {
         "ja": "インドシナの資源搾取",
         "en": ""
@@ -1259,7 +1374,20 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_colonial_empire",
+            "action": "modify",
+            "stats": {
+              "legitimacy": -5,
+              "culturalUnity": -5,
+              "politicalPowerRate": 5,
+              "economicStrengthRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_yasei_no_shikou_no_hogoku"
       ],
@@ -1271,16 +1399,27 @@
       "id": "FRA_risei_teikokushugi_ni_taisuru_bouhatei",
       "col": 5,
       "row": 11,
-      "icon": "",
+      "icon": "star",
       "name": {
         "ja": "理性帝国主義に対する防波堤",
-        "en": ""
+        "en": "flag"
       },
       "description": {
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_colonial_empire",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "politicalPowerRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [],
       "mutuallyExclusive": [],
       "prerequisitesAny": [
@@ -1292,7 +1431,7 @@
       "id": "FRA_yasei_no_shikou_no_hogoku",
       "col": 5,
       "row": 9,
-      "icon": "",
+      "icon": "shield",
       "name": {
         "ja": "野性の思考の保護区",
         "en": ""
@@ -1301,7 +1440,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": ["FRA_yasei_no_shikou_no_hogoku"],
+        "nationalSpirits": [
+          {
+            "id": "FRA_colonial_empire",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_shokuminchi_no_koutei"
       ],
