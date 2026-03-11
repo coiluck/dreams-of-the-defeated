@@ -141,9 +141,9 @@ function FocusEffects({ effects, lang }: { effects: ResolvedFocusEffect; lang: '
         <div key={spirit.id} className="gnf-spirit-card">
           <div className="gnf-spirit-header">
             <span className={`gnf-spirit-action gnf-spirit-action--${spirit.action}`}>
-              {spirit.action === 'add'    ? (lang === 'ja' ? '取得' : 'Add')    :
-               spirit.action === 'modify' ? (lang === 'ja' ? '修正' : 'Modify') :
-                                            (lang === 'ja' ? '削除' : 'Remove')}
+              {spirit.action === 'add'    ? (lang === 'ja' ? '取得: ' : 'Add: ')    :
+               spirit.action === 'modify' ? (lang === 'ja' ? '修正: ' : 'Modify: ') :
+                                            (lang === 'ja' ? '削除: ' : 'Remove: ')}
             </span>
             <span className="gnf-spirit-name">{spirit.name[lang]}</span>
           </div>
@@ -168,15 +168,9 @@ function FocusEffects({ effects, lang }: { effects: ResolvedFocusEffect; lang: '
             <span className="gnf-spirit-action gnf-spirit-action--event">
               {lang === 'ja' ? 'イベント' : 'Event'}
             </span>
+            <span>: </span>
             <span className="gnf-spirit-name">{ev.title[lang]}</span>
           </div>
-          {ev.buttons.length > 0 && (
-            <div className="gnf-event-buttons-preview">
-              {ev.buttons.map((btn, i) => (
-                <span key={i} className="gnf-event-button-preview">{btn.text[lang]}</span>
-              ))}
-            </div>
-          )}
         </div>
       ))}
     </div>
@@ -306,8 +300,7 @@ export default function GameNationalFocus() {
 
   const handleNodeClick = async (focus: NationalFocusNode) => {
     if (didDrag.current) return;
-    const status = getFocusStatus(focus);
-    if (status === 'available' && playerCountry) {
+    if (playerCountry) {
       if (selectedNode?.id === focus.id) {
         setSelectedNode(null);
         setSelectedResolved(null);
@@ -340,8 +333,8 @@ export default function GameNationalFocus() {
   }, []);
 
   const handleStartFocus = () => {
-    if (!selectedNode || !playerCountry) return;
-    setNationalFocus(playerCountry.id, selectedNode.id as any);
+    if (!selectedNode || !playerCountry || !game) return;
+    setNationalFocus(game.playerCountryId, selectedNode.id as any);
     setSelectedNode(null);
     setSelectedResolved(null);
   };
@@ -515,9 +508,22 @@ export default function GameNationalFocus() {
                 <FocusIcon iconKey={selectedNode.icon} size={18} color="#ffd700" />
                 <span className="gnf-detail-title">{selectedNode.name[lang]}</span>
               </div>
-              <button className="gnf-start-button" onClick={handleStartFocus}>
-                {lang === 'ja' ? '方針を開始' : 'Start Focus'}
-              </button>
+
+              {(() => {
+                const status = getFocusStatus(selectedNode);
+                if (status === 'active') {
+                  return <button className="gnf-start-button" disabled>{lang === 'ja' ? '進行中' : 'In Progress'}</button>;
+                }
+                if (status === 'completed') {
+                  return <button className="gnf-start-button" disabled>{lang === 'ja' ? '完了済み' : 'Completed'}</button>;
+                }
+                if (status === 'available') {
+                  return <button className="gnf-start-button" onClick={handleStartFocus}>{lang === 'ja' ? '方針を開始' : 'Start Focus'}</button>;
+                }
+                // locked, excluded の場合
+                return <button className="gnf-start-button" disabled>{lang === 'ja' ? '取得不可' : 'Unavailable'}</button>;
+              })()}
+
             </div>
             <p className="gnf-detail-desc">{selectedNode.description[lang]}</p>
 

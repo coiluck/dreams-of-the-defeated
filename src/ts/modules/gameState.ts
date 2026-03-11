@@ -130,7 +130,6 @@ export const useGameStore = create<GameStore>((set/*, get*/) => ({
           [countryId]: {
             ...country,
             activeFocusId: focusId,
-            focusProgressTurn: state.game.currentTurn,
           }
         }
       }
@@ -206,10 +205,40 @@ export const useGameStore = create<GameStore>((set/*, get*/) => ({
 
   nextTurn: () => set(state => {
     if (!state.game) return state;
+
+    const { playerCountryId, countries } = state.game;
+    const updatedCountries = { ...countries };
+
+    // 戦争処理
+    // 後で書く
+
+    // プレイヤーのNF処理
+    const player = updatedCountries[playerCountryId];
+    if (player.activeFocusId) {
+      const completedId = player.activeFocusId;
+      console.log(`[NF Complete] Player: ${completedId}`);
+      updatedCountries[playerCountryId] = {
+        ...player,
+        activeFocusId: null,
+        completedFocusIds: [
+          ...(player.completedFocusIds as string[]),
+          completedId,
+        ] as NationalFocusId[],
+      };
+    }
+
+    // CPUのNF処理
+    // 後で書く
+
+    // すべての国のパラメータを更新
+    // 後で書く
+
+    // 日付を進める
     const nextMonth = state.game.currentMonth + 1;
     return {
       game: {
         ...state.game,
+        countries: updatedCountries,
         currentTurn: state.game.currentTurn + 1,
         currentYear: nextMonth > 12 ? state.game.currentYear + 1 : state.game.currentYear,
         currentMonth: nextMonth > 12 ? 1 : nextMonth,

@@ -320,7 +320,24 @@
   line-height: 1.5;
 }
 
-/* イベントカード */
+/* effect */
+.gnf-detail-effects-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.gnf-spirit-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.7rem;
+  color: #ccc;
+}
+.gnf-spirit-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
 .gnf-spirit-action--event {
   background: rgba(100,60,160,0.35);
   color: #b08aea;
