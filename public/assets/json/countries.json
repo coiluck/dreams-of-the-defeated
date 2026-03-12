@@ -43,7 +43,7 @@
     "activeWarIds": [],
     "activeFocusId": null,
     "completedFocusIds": ["FRA_dresden_no_kutsujoku", "FRA_byoushitsu_no_zenei_salon", "FRA_maya_no_nami_ni_nomarete", "FRA_jojoutekinaru_coup_detat", "FRA_suukounaru_kuni_no_makuake"],
-    "NationalSpiritIds": ["FRA_inflation", "FRA_colonial_empire"]
+    "NationalSpiritIds": ["FRA_inflation", "FRA_colonial_empire", "FRA_loser_military", "FRA_irrational_government", "FRA_inspiration"]
   },
   "britain": {
     "id": "GBR",

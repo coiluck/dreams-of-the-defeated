@@ -46,10 +46,10 @@ export default function NewGamePage() {
     console.log(`Selected country: ${id}`);
   };
 
-  const handleStartGame = () => {
+  const handleStartGame = async () => {
     if (selectedId) {
       // Zustandのストアに初期データを渡してゲーム開始
-      startGame(selectedId, countriesData);
+      await startGame(selectedId, countriesData);
       console.log(`Start game as ${selectedId}`);
       navigate('/game');
     }

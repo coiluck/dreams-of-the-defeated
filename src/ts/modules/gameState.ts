@@ -1,6 +1,6 @@
 // ts/modules/gameState.ts
 import { create } from 'zustand';
-import { loadFocusTree } from './nationalFocus';
+import { loadFocusTree, loadSpiritDefinition, ModifierStats } from './nationalFocus';
 
 // 国家方針のフォーカスツリー
 export type NationalFocusId =
@@ -21,6 +21,11 @@ export interface War {
 export interface LocalizedName {
   ja: string;
   en: string;
+}
+
+export interface ActiveNationalSpirit {
+  id: string;
+  stats: ModifierStats;
 }
 
 // 各国の状態
@@ -53,7 +58,8 @@ export interface CountryState {
   // 国家方針 & 国民精神
   activeFocusId: NationalFocusId;       // 現在選択中の方針
   completedFocusIds: NationalFocusId[]; // 完了済み方針
-  NationalSpiritIds: string[];            // 現在所持中の国民精神
+  nationalSpirits: ActiveNationalSpirit[]; // 国民精神のidと効果量
+  NationalSpiritIds?: string[];            // 初期からある国民精神idリスト
 }
 
 // ゲームの状態
@@ -97,17 +103,44 @@ interface GameStore {
 export const useGameStore = create<GameStore>((set, get) => ({
   game: null,
 
-  startGame: (playerCountryId, countriesData) => set({
-    game: {
-      currentTurn: 1,
-      currentYear: 1932,
-      currentMonth: 1,
-      playerCountryId,
-      countries: countriesData,
-      wars: {},
-      pendingEvents: [],
+  startGame: async (playerCountryId, countriesData) => {
+    const initializedCountries: Record<string, CountryState> = {};
+
+    for (const [countryId, countryData] of Object.entries(countriesData)) {
+      const nationalSpirits: ActiveNationalSpirit[] = [];
+
+      // JSON側で定義されている古いプロパティ "NationalSpiritIds" の配列を取得
+      const spiritIds: string[] = countryData.NationalSpiritIds || [];
+
+      // YAMLから効果読み込み
+      for (const spiritId of spiritIds) {
+        const def = await loadSpiritDefinition(spiritId);
+        nationalSpirits.push({
+          id: spiritId,
+          stats: def?.stats || {},
+        });
+      }
+
+      // 新しい国データとして構築
+      initializedCountries[countryId] = {
+        ...countryData,
+        nationalSpirits,
+      };
+
+      delete (initializedCountries[countryId] as any).NationalSpiritIds;
     }
-  }),
+    set({
+      game: {
+        currentTurn: 1,
+        currentYear: 1932,
+        currentMonth: 1,
+        playerCountryId,
+        countries: initializedCountries,
+        wars: {},
+        pendingEvents: [],
+      }
+    });
+  },
 
   updateCountry: (countryId, updates) => set(state => {
     if (!state.game) return state;
@@ -223,10 +256,40 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
       const tree = await loadFocusTree(player.slug);
       const focusNode = tree?.focuses.find(f => f.id === completedId);
-      if (focusNode && focusNode.effects.eventIds) {
-        get().addPendingEvents(focusNode.effects.eventIds);
+
+      let updatedSpirits = [...(player.nationalSpirits || [])];
+
+      if (focusNode) {
+        // イベント
+        if (focusNode.effects.eventIds) {
+          get().addPendingEvents(focusNode.effects.eventIds);
+        }
+
+        // 国民精神
+        if (focusNode.effects.nationalSpirits) {
+          for (const spiritRef of focusNode.effects.nationalSpirits) {
+            if (spiritRef.action === 'add') {
+              // 追加
+              updatedSpirits.push({ id: spiritRef.id, stats: spiritRef.stats || {} });
+            } else if (spiritRef.action === 'modify') {
+              // 更新する
+              updatedSpirits = updatedSpirits.map(spirit => {
+                if (spirit.id === spiritRef.id) {
+                  return {
+                    ...spirit,
+                    stats: { ...spirit.stats, ...(spiritRef.stats || {}) }
+                  };
+                }
+                return spirit;
+              });
+            } else if (spiritRef.action === 'remove') {
+              // 削除
+              updatedSpirits = updatedSpirits.filter(s => s.id !== spiritRef.id);
+            }
+          }
+        }
       }
-      console.log(`[NF Complete] Player: ${completedId}`);
+
       updatedCountries[playerCountryId] = {
         ...player,
         activeFocusId: null,
@@ -234,6 +297,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
           ...(player.completedFocusIds as string[]),
           completedId,
         ] as NationalFocusId[],
+        nationalSpirits: updatedSpirits,
       };
     }
 
@@ -241,7 +305,46 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // 後で書く
 
     // すべての国のパラメータを更新
-    // 後で書く
+    const ECONOMIC_GROWNTH_RATE = 0.05;
+    const POLITICAL_POWER_INCREASE = 20;
+    Object.keys(updatedCountries).forEach((id) => {
+      const currentCountry = updatedCountries[id];
+
+      // バフ・デバフを集計
+      let totalPpRate = 0;
+      let totalEconRate = 0;
+
+      (currentCountry.nationalSpirits || []).forEach((spirit) => {
+        totalPpRate += spirit.stats.politicalPowerRate || 0;
+        totalEconRate += spirit.stats.economicStrengthRate || 0;
+      });
+
+      // 増加量を計算
+      const actualPpIncrease = POLITICAL_POWER_INCREASE * (1 + totalPpRate / 100);
+      const actualEconIncrease = currentCountry.economicStrength * ECONOMIC_GROWNTH_RATE * (1 + totalEconRate / 100);
+
+      const roundToTop3Digits = (value: number): number => {
+        if (value === 0) return 0;
+        const absValue = Math.abs(value);
+        const digits = Math.floor(Math.log10(absValue)) + 1; // 桁数
+
+        // 3桁以下
+        if (digits <= 3) {
+          return Math.round(value);
+        } else {
+          // 4桁以上
+          const factor = Math.pow(10, digits - 3);
+          return Math.round(value / factor) * factor;
+        }
+      };
+
+      // 値を更新
+      updatedCountries[id] = {
+        ...currentCountry,
+        politicalPower: Math.round(currentCountry.politicalPower + actualPpIncrease),
+        economicStrength: roundToTop3Digits(currentCountry.economicStrength + actualEconIncrease),
+      };
+    });
 
     // 日付を進める
     set((currentState) => {
