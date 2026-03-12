@@ -6,6 +6,8 @@ import GameMenu from "../components/GameMenu";
 import GameActions from "../components/GameActions";
 import LoadingPage from "./LoadingPage";
 import NextTurn from "../components/NextTurn";
+import Event from "../components/Event";
+import { useGameStore } from "../modules/gameState";
 
 export default function GamePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,6 +16,8 @@ export default function GamePage() {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   // LoadingPageの演出が終わり、ゲーム画面を表示してよいか
   const [showGame, setShowGame] = useState(false);
+  // イベント表示待ち
+  const pendingEvents = useGameStore((state) => state.game?.pendingEvents || []);
 
   const handleMapComplete = useCallback(() => {
     setIsMapLoaded(true);
@@ -39,6 +43,9 @@ export default function GamePage() {
         <MapCanvas onLoadComplete={handleMapComplete} />
         <GameActions />
         <NextTurn />
+        {pendingEvents.map((eventId) => (
+          <Event key={eventId} eventId={eventId} />
+        ))}
       </div>
 
       {isMenuOpen && (

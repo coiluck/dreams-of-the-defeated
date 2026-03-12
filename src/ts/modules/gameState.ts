@@ -1,5 +1,6 @@
 // ts/modules/gameState.ts
 import { create } from 'zustand';
+import { loadFocusTree } from './nationalFocus';
 
 // 国家方針のフォーカスツリー
 export type NationalFocusId =
@@ -66,8 +67,7 @@ export interface GameState {
   countries: Record<string, CountryState>;
   // 戦争リスト
   wars: Record<string, War>;
-  // ターン待ち状態
-  isPaused: boolean;
+  pendingEvents: string[]; // 表示待ちのイベントID
 }
 
 // Zustandストア
@@ -86,12 +86,15 @@ interface GameStore {
   makeVassal: (suzerainId: string, vassalId: string) => void;
   grantIndependence: (vassalId: string) => void;
   // ターン進行
-  nextTurn: () => void;
+  nextTurn: () => Promise<void>;
   // リセット
   resetGame: () => void;
+  // イベント表示
+  addPendingEvents: (eventIds: string[]) => void;
+  removePendingEvents: (eventIds: string[]) => void;
 }
 
-export const useGameStore = create<GameStore>((set/*, get*/) => ({
+export const useGameStore = create<GameStore>((set, get) => ({
   game: null,
 
   startGame: (playerCountryId, countriesData) => set({
@@ -102,7 +105,7 @@ export const useGameStore = create<GameStore>((set/*, get*/) => ({
       playerCountryId,
       countries: countriesData,
       wars: {},
-      isPaused: false,
+      pendingEvents: [],
     }
   }),
 
@@ -203,8 +206,9 @@ export const useGameStore = create<GameStore>((set/*, get*/) => ({
     return { game: { ...state.game, countries } };
   }),
 
-  nextTurn: () => set(state => {
-    if (!state.game) return state;
+  nextTurn: async () => {
+    const state = get();
+    if (!state.game) return;
 
     const { playerCountryId, countries } = state.game;
     const updatedCountries = { ...countries };
@@ -216,6 +220,12 @@ export const useGameStore = create<GameStore>((set/*, get*/) => ({
     const player = updatedCountries[playerCountryId];
     if (player.activeFocusId) {
       const completedId = player.activeFocusId;
+
+      const tree = await loadFocusTree(player.slug);
+      const focusNode = tree?.focuses.find(f => f.id === completedId);
+      if (focusNode && focusNode.effects.eventIds) {
+        get().addPendingEvents(focusNode.effects.eventIds);
+      }
       console.log(`[NF Complete] Player: ${completedId}`);
       updatedCountries[playerCountryId] = {
         ...player,
@@ -234,19 +244,42 @@ export const useGameStore = create<GameStore>((set/*, get*/) => ({
     // 後で書く
 
     // 日付を進める
-    const nextMonth = state.game.currentMonth + 1;
+    set((currentState) => {
+      if (!currentState.game) return currentState;
+      const nextMonth = currentState.game.currentMonth + 1;
+      return {
+        game: {
+          ...currentState.game,
+          countries: updatedCountries,
+          currentTurn: currentState.game.currentTurn + 1,
+          currentYear: nextMonth > 12 ? currentState.game.currentYear + 1 : currentState.game.currentYear,
+          currentMonth: nextMonth > 12 ? 1 : nextMonth
+        }
+      };
+    });
+  },
+
+  resetGame: () => set({ game: null }),
+
+  addPendingEvents: (eventIds: string[]) => set(state => {
+    if (!state.game) return state;
     return {
       game: {
         ...state.game,
-        countries: updatedCountries,
-        currentTurn: state.game.currentTurn + 1,
-        currentYear: nextMonth > 12 ? state.game.currentYear + 1 : state.game.currentYear,
-        currentMonth: nextMonth > 12 ? 1 : nextMonth,
+        pendingEvents: [...state.game.pendingEvents, ...eventIds]
       }
     };
   }),
 
-  resetGame: () => set({ game: null }),
+  removePendingEvents: (eventIds: string[]) => set(state => {
+    if (!state.game) return state;
+    return {
+      game: {
+        ...state.game,
+        pendingEvents: state.game.pendingEvents.filter(id => !eventIds.includes(id))
+      }
+    };
+  }),
 }));
 
 // 便利セレクタ
