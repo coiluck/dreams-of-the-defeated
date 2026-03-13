@@ -57,6 +57,14 @@ export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
     return <div className="topbar-component-container">Now Loading...</div>;
   }
 
+  const formatEconomicStrength = (value: number): string => {
+    if (value >= 1_000_000_000_000) return `${(value / 1_000_000_000_000).toFixed(1).replace(/\.0$/, '')}T`;
+    if (value >= 1_000_000_000) return `${(value / 1_000_000_000).toFixed(1).replace(/\.0$/, '')}B`;
+    if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`;
+    if (value >= 1_000) return `${(value / 1_000).toFixed(1).replace(/\.0$/, '')}K`;
+    return `${value}`;
+  };
+
   const isEn = SettingState.language === 'en';
   const enMonths = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
@@ -92,7 +100,7 @@ export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
             <div className="topbar-component-status-item">
               <div className="topbar-component-status-item-icon economicStrength"></div>
               <div className="topbar-component-status-item-text">
-                {playerCountry.economicStrength}
+                {formatEconomicStrength(playerCountry.economicStrength)}
               </div>
             </div>
           </Tooltip>
