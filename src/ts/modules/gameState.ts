@@ -50,6 +50,9 @@ export interface CountryState {
   militaryEquipment: number; // 軍事備品 (在庫量)
   mechanizationRate: number; // 機械化率 (0〜100%)
 
+  // アクション管理
+  financeActionCount: number;
+
   // 外交状態
   suzerainId: string | null;         // 宗主国ID (null = 独立)
   vassalIds: string[];               // 属国IDリスト
@@ -125,6 +128,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       initializedCountries[countryId] = {
         ...countryData,
         nationalSpirits,
+        financeActionCount: 0,
       };
 
       delete (initializedCountries[countryId] as any).NationalSpiritIds;
@@ -343,6 +347,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         ...currentCountry,
         politicalPower: Math.round(currentCountry.politicalPower + actualPpIncrease),
         economicStrength: roundToTop3Digits(currentCountry.economicStrength + actualEconIncrease),
+        financeActionCount: 0,
       };
     });
 
