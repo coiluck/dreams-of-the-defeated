@@ -1,16 +1,8 @@
 // src/ts/components/GameFinance.tsx
 import { useMemo } from 'react';
-import { useGameStore, usePlayerCountry, CountryState } from '../modules/gameState';
+import { useGameStore, usePlayerCountry, CountryState, FINANCE_LEVELS, calculateFinanceStatus } from '../modules/gameState';
 import './GameFinance.css';
 import Tooltip from './ToolTip';
-
-const FINANCE_LEVELS = [
-  { id: 0, name: '緊縮財政', ratio: 0, buff: '経済成長率 +10%, 政治力獲得倍率 +10%', debuff: 'なし' },
-  { id: 1, name: '平和維持', ratio: 0.5, buff: '経済成長率 +10%', debuff: 'なし' },
-  { id: 2, name: '標準予算', ratio: 2, buff: 'なし', debuff: 'なし' },
-  { id: 3, name: '軍拡財政', ratio: 5, buff: 'なし', debuff: '経済成長率 -20%, 正統性 -10%' },
-  { id: 4, name: '総力戦体制', ratio: 10, buff: 'なし', debuff: '経済成長率 -40%, 正統性 -15%, 文化統合度 -10%' },
-];
 
 const formatEconomicStrength = (value: number): string => {
   if (value >= 1_000_000_000_000) return `${(value / 1_000_000_000_000).toFixed(1).replace(/\.0$/, '')}T`;
@@ -29,36 +21,7 @@ export default function GameFinance() {
   const { effectiveGDP, militaryBudget, currentRatio, currentLevel } = useMemo(() => {
     if (!playerCountry) return { effectiveGDP: 0, militaryBudget: 0, currentRatio: 0, currentLevel: FINANCE_LEVELS[0] };
 
-    // 正統性と文化統合度による補正（0.5 ~ 1.0）
-    const legMultiplier = 0.25 + (playerCountry.legitimacy / 400);
-    const culMultiplier = 0.25 + (playerCountry.culturalUnity / 400);
-    const totalMultiplier = legMultiplier + culMultiplier;
-    const effectiveGDP = playerCountry.economicStrength * totalMultiplier;
-
-    // 軍事予算の算出
-    const C_BASE = 50000       // 師団基礎維持費
-    const ALPHA = 0.7         // 機械化影響係数
-    const BETA = 2            // 非線形指数
-    const C_EQUIP = 4         // 装備備蓄維持費
-    const FIXED_COST = 20_000_000  // 固定費
-
-    const divisionCost = playerCountry.deployedMilitary * C_BASE * (1 + ALPHA * Math.pow(playerCountry.mechanizationRate, BETA))
-    const equipmentCost = playerCountry.militaryEquipment * C_EQUIP
-    const militaryBudget = divisionCost + equipmentCost + FIXED_COST
-
-    // 軍事予算の比率（%）
-    const currentRatio = effectiveGDP > 0 ? (militaryBudget / effectiveGDP) * 100 : 0;
-
-    // 現在の財政段階の判定
-    let currentLevel = FINANCE_LEVELS[0];
-    for (let i = FINANCE_LEVELS.length - 1; i >= 0; i--) {
-      if (currentRatio >= FINANCE_LEVELS[i].ratio) {
-        currentLevel = FINANCE_LEVELS[i];
-        break;
-      }
-    }
-
-    return { effectiveGDP, militaryBudget, currentRatio, currentLevel };
+    return calculateFinanceStatus(playerCountry);
   }, [playerCountry]);
 
   if (!game || !playerCountry) {
@@ -118,25 +81,25 @@ export default function GameFinance() {
   ];
 
   // 実際のratioを0〜100%の視覚的なプログレスバーの幅に変換する
-const visualProgress = useMemo(() => {
-  const maxIndex = FINANCE_LEVELS.length - 1;
-  if (currentRatio <= FINANCE_LEVELS[0].ratio) return 0;
-  if (currentRatio >= FINANCE_LEVELS[maxIndex].ratio) return 100;
+  const visualProgress = useMemo(() => {
+    const maxIndex = FINANCE_LEVELS.length - 1;
+    if (currentRatio <= FINANCE_LEVELS[0].ratio) return 0;
+    if (currentRatio >= FINANCE_LEVELS[maxIndex].ratio) return 100;
 
-  for (let i = 0; i < maxIndex; i++) {
-    const current = FINANCE_LEVELS[i];
-    const next = FINANCE_LEVELS[i + 1];
+    for (let i = 0; i < maxIndex; i++) {
+      const current = FINANCE_LEVELS[i];
+      const next = FINANCE_LEVELS[i + 1];
 
-    // 現在のratioがどの区間（i と i+1 の間）にいるかを判定
-    if (currentRatio >= current.ratio && currentRatio <= next.ratio) {
-      const sectionWidth = 100 / maxIndex; // 今回は5段階(4区間)なので25%
-      const progressWithinSection = (currentRatio - current.ratio) / (next.ratio - current.ratio);
+      // 現在のratioがどの区間（i と i+1 の間）にいるかを判定
+      if (currentRatio >= current.ratio && currentRatio <= next.ratio) {
+        const sectionWidth = 100 / maxIndex; // 今回は5段階(4区間)なので25%
+        const progressWithinSection = (currentRatio - current.ratio) / (next.ratio - current.ratio);
 
-      return (i * sectionWidth) + (progressWithinSection * sectionWidth);
+        return (i * sectionWidth) + (progressWithinSection * sectionWidth);
+      }
     }
-  }
-  return 100;
-}, [currentRatio]);
+    return 100;
+  }, [currentRatio]);
 
   return (
     <div className="gf-component-container">

@@ -2,14 +2,6 @@
 import { create } from 'zustand';
 import { loadFocusTree, loadSpiritDefinition, ModifierStats } from './nationalFocus';
 
-// 国家方針のフォーカスツリー
-export type NationalFocusId =
-  | 'military_expansion'
-  | 'economic_reform'
-  | 'cultural_revival'
-  | 'industrialization'
-  | null;
-
 // 戦争の状態
 export interface War {
   warId: string;
@@ -59,8 +51,8 @@ export interface CountryState {
   activeWarIds: string[];            // 参加中の戦争IDリスト
 
   // 国家方針 & 国民精神
-  activeFocusId: NationalFocusId;       // 現在選択中の方針
-  completedFocusIds: NationalFocusId[]; // 完了済み方針
+  activeFocusId: string | null;       // 現在選択中の方針
+  completedFocusIds: string[]; // 完了済み方針
   nationalSpirits: ActiveNationalSpirit[]; // 国民精神のidと効果量
   NationalSpiritIds?: string[];            // 初期からある国民精神idリスト
 }
@@ -87,7 +79,7 @@ interface GameStore {
   // パラメータ更新（汎用）
   updateCountry: (countryId: string, updates: Partial<CountryState>) => void;
   // 国家方針セット
-  setNationalFocus: (countryId: string, focusId: NationalFocusId) => void;
+  setNationalFocus: (countryId: string, focusId: string) => void;
   // 戦争開始・終結
   declareWar: (attackerId: string, defenderId: string) => void;
   endWar: (warId: string) => void;
@@ -300,7 +292,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         completedFocusIds: [
           ...(player.completedFocusIds as string[]),
           completedId,
-        ] as NationalFocusId[],
+        ] as string[],
         nationalSpirits: updatedSpirits,
       };
     }
@@ -313,6 +305,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const POLITICAL_POWER_INCREASE = 20;
     Object.keys(updatedCountries).forEach((id) => {
       const currentCountry = updatedCountries[id];
+      const { currentLevel } = calculateFinanceStatus(currentCountry); // 財政状態
+
+      // 古い財政バフを取り除き、新しいものを追加
+      let updatedSpirits = (currentCountry.nationalSpirits || []).filter(
+        spirit => !spirit.id.startsWith('finance_')
+      );
+      updatedSpirits.push({
+        id: currentLevel.id,
+        stats: currentLevel.stats
+      });
 
       // バフ・デバフを集計
       let totalPpRate = 0;
@@ -407,4 +409,42 @@ export const useIsAtWar = (countryId: string) => {
     const country = state.game?.countries[countryId];
     return (country?.activeWarIds.length ?? 0) > 0;
   });
+};
+
+export const FINANCE_LEVELS = [
+  { id: 'finance_0', name: '緊縮財政', ratio: 0, buff: '経済成長率 +10%, 政治力獲得倍率 +10%', debuff: 'なし', stats: { economicStrengthRate: 10, politicalPowerRate: 10 } },
+  { id: 'finance_1', name: '平和維持', ratio: 0.5, buff: '経済成長率 +10%', debuff: 'なし', stats: { economicStrengthRate: 10 } },
+  { id: 'finance_2', name: '標準予算', ratio: 2, buff: 'なし', debuff: 'なし', stats: {} },
+  { id: 'finance_3', name: '軍拡財政', ratio: 5, buff: 'なし', debuff: '経済成長率 -20%', stats: { economicStrengthRate: -20 } },
+  { id: 'finance_4', name: '総力戦体制', ratio: 10, buff: 'なし', debuff: '経済成長率 -40%, 政治力獲得倍率 -20%', stats: { economicStrengthRate: -40, politicalPowerRate: -20 } },
+];
+
+// 財政状態を計算する共通関数
+export const calculateFinanceStatus = (country: CountryState) => {
+  const legMultiplier = 0.25 + (country.legitimacy / 400);
+  const culMultiplier = 0.25 + (country.culturalUnity / 400);
+  const totalMultiplier = legMultiplier + culMultiplier;
+  const effectiveGDP = country.economicStrength * totalMultiplier;
+
+  const C_BASE = 50000;
+  const ALPHA = 0.7;
+  const BETA = 2;
+  const C_EQUIP = 4;
+  const FIXED_COST = 20_000_000;
+
+  const divisionCost = country.deployedMilitary * C_BASE * (1 + ALPHA * Math.pow(country.mechanizationRate, BETA));
+  const equipmentCost = country.militaryEquipment * C_EQUIP;
+  const militaryBudget = divisionCost + equipmentCost + FIXED_COST;
+
+  const currentRatio = effectiveGDP > 0 ? (militaryBudget / effectiveGDP) * 100 : 0;
+
+  let currentLevel = FINANCE_LEVELS[0];
+  for (let i = FINANCE_LEVELS.length - 1; i >= 0; i--) {
+    if (currentRatio >= FINANCE_LEVELS[i].ratio) {
+      currentLevel = FINANCE_LEVELS[i];
+      break;
+    }
+  }
+
+  return { effectiveGDP, militaryBudget, currentRatio, currentLevel };
 };
