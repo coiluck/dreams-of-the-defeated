@@ -234,10 +234,10 @@ export default function GameFinance() {
                         const actionUpdates = action.effect(playerCountry);
                         // 更新
                         updateCountry(game.playerCountryId, {
-                          ...actionUpdates,
                           politicalPower: playerCountry.politicalPower - actualPPCost,
                           militaryEquipment: playerCountry.militaryEquipment - actualMECost,
-                          financeActionCount: currentCount + 1
+                          financeActionCount: currentCount + 1,
+                          ...actionUpdates,
                         });
                       }}
                     ></div>
