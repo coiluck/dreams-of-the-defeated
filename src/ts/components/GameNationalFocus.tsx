@@ -10,7 +10,7 @@ import {
   ResolvedSpiritEffect,
   ResolvedEventEffect,
 } from '../modules/nationalFocus';
-import { useGameStore, usePlayerCountry } from '../modules/gameState';
+import { useGameStore, usePlayerCountry, CountryState } from '../modules/gameState';
 import { SettingState } from '../modules/store';
 
 // グリッド定数
@@ -73,10 +73,12 @@ const LABELS: Record<string, { ja: string; en: string }> = {
   culturalUnity:        { ja: '文化的統合度',   en: 'Cultural Unity' },
   politicalPowerRate:   { ja: '政治力増加率', en: 'Political Power Rate' },
   economicStrengthRate: { ja: '経済力増加率', en: 'Economic Strength Rate' },
+  // 戦争
+  declareWar: { ja: '宣戦布告', en: 'Declare War' },
 };
 
 // エフェクトをHTML文字列の行配列に変換
-function buildEffectLines(effects: ResolvedFocusEffect, lang: 'ja' | 'en'): string[] {
+function buildEffectLines(effects: ResolvedFocusEffect, lang: 'ja' | 'en', countries?: Record<string, CountryState>): string[] {
   const lines: string[] = [];
 
   // 直接追加
@@ -119,10 +121,20 @@ function buildEffectLines(effects: ResolvedFocusEffect, lang: 'ja' | 'en'): stri
     lines.push(lang === 'ja' ? `イベント「${ev.title[lang]}」が発生する` : `Triggers event "${ev.title[lang]}"`);
   }
 
+  // 戦争
+  if (effects.declareWar) {
+    const targetId = effects.declareWar as string;
+    const targetName = countries?.[targetId]?.name[lang] || targetId;
+    const text = lang === 'ja'
+      ? `<span>${targetName} に宣戦布告する</span>`
+      : `<span>Declare war on ${targetName}</span>`;
+    lines.push(text);
+  }
+
   return lines;
 }
 
-function FocusEffects({ effects, lang }: { effects: ResolvedFocusEffect; lang: 'ja' | 'en' }) {
+function FocusEffects({ effects, lang, countries }: { effects: ResolvedFocusEffect; lang: 'ja' | 'en'; countries?: Record<string, CountryState> }) {
   const directEntries = (Object.entries(effects) as [string, unknown][])
     .filter(([key, val]) => key !== 'nationalSpirits' && key !== 'events' && typeof val === 'number') as [string, number][];
 
@@ -135,6 +147,19 @@ function FocusEffects({ effects, lang }: { effects: ResolvedFocusEffect; lang: '
               {LABELS[key]?.[lang] ?? key}: {val > 0 ? '+' : ''}{val}
             </span>
           ))}
+        </div>
+      )}
+      {effects.declareWar && (
+        <div className="gnf-spirit-card gnf-war-card">
+          <div className="gnf-spirit-header">
+            <span className="gnf-spirit-action gnf-spirit-action--war">
+              {lang === 'ja' ? '開戦' : 'War'}
+            </span>
+            <span>: </span>
+            <span className="gnf-spirit-name">
+              {countries?.[effects.declareWar as string]?.name[lang] || effects.declareWar}
+            </span>
+          </div>
         </div>
       )}
       {effects.nationalSpirits.map((spirit: ResolvedSpiritEffect) => (
@@ -334,7 +359,7 @@ export default function GameNationalFocus() {
 
   const handleStartFocus = () => {
     if (!selectedNode || !playerCountry || !game) return;
-    setNationalFocus(game.playerCountryId, selectedNode.id as any);
+    setNationalFocus(game.playerCountryId, selectedNode.id);
     setSelectedNode(null);
     setSelectedResolved(null);
   };
@@ -527,13 +552,13 @@ export default function GameNationalFocus() {
             </div>
             <p className="gnf-detail-desc">{selectedNode.description[lang]}</p>
 
-            <FocusEffects effects={selectedResolved} lang={lang} />
+            <FocusEffects effects={selectedResolved} lang={lang} countries={game?.countries} />
           </div>
       )}
 
       {/* ツールチップ（ホバー時） */}
       {tooltip && !selectedNode && (() => {
-        const lines = buildEffectLines(tooltip.resolved, lang);
+        const lines = buildEffectLines(tooltip.resolved, lang, game?.countries);
         return (
           <div
             ref={tooltipRef}

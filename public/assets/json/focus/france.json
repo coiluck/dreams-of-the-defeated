@@ -1261,7 +1261,9 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "declareWar": "germany"
+      },
       "prerequisites": [
         "FRA_honoo_wa_hirogaritsuzukeru"
       ],

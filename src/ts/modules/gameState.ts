@@ -170,25 +170,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   declareWar: (attackerId, defenderId) => set(state => {
     if (!state.game) return state;
-    const warId = `war_${attackerId}_${defenderId}_${state.game.currentTurn}`;
-    const newWar: War = { warId, attackerId, defenderId, startTurn: state.game.currentTurn };
-
-    const countries = { ...state.game.countries };
-    countries[attackerId] = {
-      ...countries[attackerId],
-      activeWarIds: [...countries[attackerId].activeWarIds, warId]
-    };
-    countries[defenderId] = {
-      ...countries[defenderId],
-      activeWarIds: [...countries[defenderId].activeWarIds, warId]
-    };
-
+    const { updatedWars, updatedCountries } = applyDeclareWar(
+      state.game.wars,
+      state.game.countries,
+      attackerId,
+      defenderId,
+      state.game.currentTurn
+    );
     return {
-      game: {
-        ...state.game,
-        countries,
-        wars: { ...state.game.wars, [warId]: newWar }
-      }
+      game: { ...state.game, countries: updatedCountries, wars: updatedWars }
     };
   }),
 
@@ -239,119 +229,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const state = get();
     if (!state.game) return;
 
-    const { playerCountryId, countries } = state.game;
-    const updatedCountries = { ...countries };
+    let { countries, wars, pendingEvents } = state.game;
+    const { playerCountryId, currentTurn } = state.game;
 
     // 戦争処理
     // 後で書く
 
-    // プレイヤーのNF処理
-    const player = updatedCountries[playerCountryId];
-    if (player.activeFocusId) {
-      const completedId = player.activeFocusId;
-
-      const tree = await loadFocusTree(player.slug);
-      const focusNode = tree?.focuses.find(f => f.id === completedId);
-
-      let updatedSpirits = [...(player.nationalSpirits || [])];
-
-      if (focusNode) {
-        // イベント
-        if (focusNode.effects.eventIds) {
-          get().addPendingEvents(focusNode.effects.eventIds);
-        }
-
-        // 国民精神
-        if (focusNode.effects.nationalSpirits) {
-          for (const spiritRef of focusNode.effects.nationalSpirits) {
-            if (spiritRef.action === 'add') {
-              // 追加
-              updatedSpirits.push({ id: spiritRef.id, stats: spiritRef.stats || {} });
-            } else if (spiritRef.action === 'modify') {
-              // 更新する
-              updatedSpirits = updatedSpirits.map(spirit => {
-                if (spirit.id === spiritRef.id) {
-                  return {
-                    ...spirit,
-                    stats: { ...spirit.stats, ...(spiritRef.stats || {}) }
-                  };
-                }
-                return spirit;
-              });
-            } else if (spiritRef.action === 'remove') {
-              // 削除
-              updatedSpirits = updatedSpirits.filter(s => s.id !== spiritRef.id);
-            }
-          }
-        }
-      }
-
-      updatedCountries[playerCountryId] = {
-        ...player,
-        activeFocusId: null,
-        completedFocusIds: [
-          ...(player.completedFocusIds as string[]),
-          completedId,
-        ] as string[],
-        nationalSpirits: updatedSpirits,
-      };
-    }
+    const nfResult = await processPlayerFocus(playerCountryId, countries, wars, currentTurn);
+    countries = nfResult.updatedCountries;
+    wars = nfResult.updatedWars;
+    pendingEvents = [...pendingEvents, ...nfResult.newEvents];
 
     // CPUのNF処理
     // 後で書く
 
-    // すべての国のパラメータを更新
-    const ECONOMIC_GROWNTH_RATE = 0.05;
-    const POLITICAL_POWER_INCREASE = 20;
-    Object.keys(updatedCountries).forEach((id) => {
-      const currentCountry = updatedCountries[id];
-      const { currentLevel } = calculateFinanceStatus(currentCountry); // 財政状態
-
-      // 古い財政バフを取り除き、新しいものを追加
-      let updatedSpirits = (currentCountry.nationalSpirits || []).filter(
-        spirit => !spirit.id.startsWith('finance_')
-      );
-      updatedSpirits.push({
-        id: currentLevel.id,
-        stats: currentLevel.stats
-      });
-
-      // バフ・デバフを集計
-      let totalPpRate = 0;
-      let totalEconRate = 0;
-
-      (currentCountry.nationalSpirits || []).forEach((spirit) => {
-        totalPpRate += spirit.stats.politicalPowerRate || 0;
-        totalEconRate += spirit.stats.economicStrengthRate || 0;
-      });
-
-      // 増加量を計算
-      const actualPpIncrease = POLITICAL_POWER_INCREASE * (1 + totalPpRate / 100);
-      const actualEconIncrease = currentCountry.economicStrength * ECONOMIC_GROWNTH_RATE * (1 + totalEconRate / 100);
-
-      const roundToTop3Digits = (value: number): number => {
-        if (value === 0) return 0;
-        const absValue = Math.abs(value);
-        const digits = Math.floor(Math.log10(absValue)) + 1; // 桁数
-
-        // 3桁以下
-        if (digits <= 3) {
-          return Math.round(value);
-        } else {
-          // 4桁以上
-          const factor = Math.pow(10, digits - 3);
-          return Math.round(value / factor) * factor;
-        }
-      };
-
-      // 値を更新
-      updatedCountries[id] = {
-        ...currentCountry,
-        politicalPower: Math.round(currentCountry.politicalPower + actualPpIncrease),
-        economicStrength: roundToTop3Digits(currentCountry.economicStrength + actualEconIncrease),
-        financeActionCount: 0,
-      };
-    });
+    // 経済・政治力の更新
+    countries = processEconomy(countries);
 
     // 日付を進める
     set((currentState) => {
@@ -360,7 +253,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
       return {
         game: {
           ...currentState.game,
-          countries: updatedCountries,
+          countries,
+          wars,
+          pendingEvents,
           currentTurn: currentState.game.currentTurn + 1,
           currentYear: nextMonth > 12 ? currentState.game.currentYear + 1 : currentState.game.currentYear,
           currentMonth: nextMonth > 12 ? 1 : nextMonth
@@ -409,6 +304,169 @@ export const useIsAtWar = (countryId: string) => {
     const country = state.game?.countries[countryId];
     return (country?.activeWarIds.length ?? 0) > 0;
   });
+};
+
+const processPlayerFocus = async (
+  playerCountryId: string,
+  countries: Record<string, CountryState>,
+  wars: Record<string, War>,
+  currentTurn: number
+) => {
+  let updatedCountries = { ...countries };
+  let updatedWars = { ...wars };
+  const newEvents: string[] = [];
+  const player = updatedCountries[playerCountryId];
+
+  if (!player.activeFocusId) return { updatedCountries, updatedWars, newEvents };
+
+  const completedId = player.activeFocusId;
+  const tree = await loadFocusTree(player.slug);
+  const focusNode = tree?.focuses.find(f => f.id === completedId);
+
+  let updatedSpirits = [...(player.nationalSpirits || [])];
+
+  if (focusNode) {
+    // イベント
+    if (focusNode.effects.eventIds) {
+      newEvents.push(...focusNode.effects.eventIds);
+    }
+
+    // 戦争
+    if (focusNode.effects.declareWar) {
+      const targetId = focusNode.effects.declareWar;
+      const result = applyDeclareWar(updatedWars, updatedCountries, playerCountryId, targetId, currentTurn);
+      updatedWars = result.updatedWars;
+      updatedCountries = result.updatedCountries; // 戦争中の国のパラメータも更新
+    }
+
+    // 国民精神処理
+    if (focusNode.effects.nationalSpirits) {
+      for (const spiritRef of focusNode.effects.nationalSpirits) {
+        if (spiritRef.action === 'add') {
+          // 追加
+          updatedSpirits.push({ id: spiritRef.id, stats: spiritRef.stats || {} });
+        } else if (spiritRef.action === 'modify') {
+          // 更新
+          updatedSpirits = updatedSpirits.map(spirit => {
+            if (spirit.id === spiritRef.id) {
+              return {
+                ...spirit,
+                stats: { ...spirit.stats, ...(spiritRef.stats || {}) }
+              };
+            }
+            return spirit;
+          });
+        } else if (spiritRef.action === 'remove') {
+          // 削除
+          updatedSpirits = updatedSpirits.filter(s => s.id !== spiritRef.id);
+        }
+      }
+    }
+  }
+
+  updatedCountries[playerCountryId] = {
+    ...player,
+    activeFocusId: null,
+    completedFocusIds: [...(player.completedFocusIds as string[]), completedId] as string[],
+    nationalSpirits: updatedSpirits,
+  };
+
+  return { updatedCountries, updatedWars, newEvents };
+};
+
+export const applyDeclareWar = (
+  wars: Record<string, War>,
+  countries: Record<string, CountryState>,
+  attackerId: string,
+  defenderId: string,
+  currentTurn: number
+) => {
+  const warId = `war_${attackerId}_${defenderId}_${currentTurn}`;
+
+  // 既に戦争中かチェック
+  const alreadyAtWar = Object.values(wars).some(
+    w => (w.attackerId === attackerId && w.defenderId === defenderId) ||
+         (w.attackerId === defenderId && w.defenderId === attackerId)
+  );
+
+  if (alreadyAtWar || !countries[attackerId] || !countries[defenderId]) {
+    return { updatedWars: wars, updatedCountries: countries };
+  }
+
+  const newWar: War = { warId, attackerId, defenderId, startTurn: currentTurn };
+
+  return {
+    updatedWars: { ...wars, [warId]: newWar },
+    updatedCountries: {
+      ...countries,
+      [attackerId]: {
+        ...countries[attackerId],
+        activeWarIds: [...countries[attackerId].activeWarIds, warId]
+      },
+      [defenderId]: {
+        ...countries[defenderId],
+        activeWarIds: [...countries[defenderId].activeWarIds, warId]
+      }
+    }
+  };
+};
+
+const processEconomy = (countries: Record<string, CountryState>) => {
+  const updatedCountries = { ...countries };
+  const ECONOMIC_GROWNTH_RATE = 0.05;
+  const POLITICAL_POWER_INCREASE = 20;
+
+  Object.keys(updatedCountries).forEach((id) => {
+    const currentCountry = updatedCountries[id];
+    const { currentLevel } = calculateFinanceStatus(currentCountry); // 財政状態
+
+    // 古い財政バフを取り除き、新しいものを追加
+    let updatedSpirits = (currentCountry.nationalSpirits || []).filter(
+      spirit => !spirit.id.startsWith('finance_')
+    );
+    updatedSpirits.push({
+      id: currentLevel.id,
+      stats: currentLevel.stats
+    });
+
+    // バフ・デバフを集計
+    let totalPpRate = 0;
+    let totalEconRate = 0;
+
+    (currentCountry.nationalSpirits || []).forEach((spirit) => {
+      totalPpRate += spirit.stats.politicalPowerRate || 0;
+      totalEconRate += spirit.stats.economicStrengthRate || 0;
+    });
+
+    // 増加量を計算
+    const actualPpIncrease = POLITICAL_POWER_INCREASE * (1 + totalPpRate / 100);
+    const actualEconIncrease = currentCountry.economicStrength * ECONOMIC_GROWNTH_RATE * (1 + totalEconRate / 100);
+
+    const roundToTop3Digits = (value: number): number => {
+      if (value === 0) return 0;
+      const absValue = Math.abs(value);
+      const digits = Math.floor(Math.log10(absValue)) + 1; // 桁数
+
+      // 3桁以下
+      if (digits <= 3) {
+        return Math.round(value);
+      } else {
+        // 4桁以上
+        const factor = Math.pow(10, digits - 3);
+        return Math.round(value / factor) * factor;
+      }
+    };
+
+    // 値を更新
+    updatedCountries[id] = {
+      ...currentCountry,
+      politicalPower: Math.round(currentCountry.politicalPower + actualPpIncrease),
+      economicStrength: roundToTop3Digits(currentCountry.economicStrength + actualEconIncrease),
+      financeActionCount: 0,
+    };
+  });
+
+  return updatedCountries;
 };
 
 export const FINANCE_LEVELS = [

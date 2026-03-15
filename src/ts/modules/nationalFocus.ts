@@ -52,6 +52,7 @@ export interface FocusEffect {
   militaryEquipment?: number;
   nationalSpirits?: NationalSpiritRef[];
   eventIds?: string[];
+  declareWar?: string;
 }
 //NF JSON内の国民精神参照
 export interface NationalSpiritRef {
@@ -110,6 +111,7 @@ export interface ResolvedFocusEffect {
   militaryEquipment?: number;
   nationalSpirits: ResolvedSpiritEffect[];
   events: ResolvedEventEffect[];
+  declareWar?: string;
 }
 
 // ─── キャッシュ ──────────────────────────────────────────────────────────────
@@ -230,5 +232,6 @@ export async function resolveFocusEffect(effects: FocusEffect): Promise<Resolved
     militaryEquipment: effects.militaryEquipment,
     nationalSpirits: resolvedSpirits,
     events: resolvedEvents,
+    declareWar: effects.declareWar,
   };
 }
