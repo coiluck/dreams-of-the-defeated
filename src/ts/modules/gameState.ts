@@ -364,8 +364,10 @@ const processPlayerFocus = async (
     }
   }
 
+  const latestPlayer = updatedCountries[playerCountryId];
+
   updatedCountries[playerCountryId] = {
-    ...player,
+    ...latestPlayer,
     activeFocusId: null,
     completedFocusIds: [...(player.completedFocusIds as string[]), completedId] as string[],
     nationalSpirits: updatedSpirits,

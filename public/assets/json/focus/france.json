@@ -271,7 +271,9 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "declareWar": "germany"
+      },
       "prerequisites": [
         "FRA_kuuseki_no_ouza",
         "FRA_avignon_no_kuroi_seiten"

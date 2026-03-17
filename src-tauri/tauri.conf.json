@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "dreams-of-the-defeated",
+        "title": "Dreams of the Defeated",
         "width": 800,
         "height": 500,
         "visible": false
@@ -31,6 +31,11 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
+    ],
+    "resources": [
+      "../public/assets/map/map_data.bin",
+      "../public/assets/map/map_meta.json",
+      "../public/assets/map/map_cores.json"
     ]
   }
 }
