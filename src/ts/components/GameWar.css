@@ -1,0 +1,253 @@
+/* コンテナ */
+.gw-component-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gw-component-title {
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  filter: url('#button-grunge-filter');
+}
+
+/* 戦争タブ */
+.gw-component-tabs-container {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+
+/* 参加国 */
+.gw-component-countries-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+}
+
+.gw-component-country-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.gw-component-country-item-title {
+  font-size: 0.7rem;
+}
+.gw-component-country-item-title.attack {
+  color: #d27d7d;
+}
+.gw-component-country-item-title.defense {
+  color: #8484da;
+}
+.gw-component-country-item-name {
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  word-break: break-word;
+}
+
+.gw-component-country-item-vs {
+  font-size: 0.9rem;
+  font-weight: bold;
+  font-family: serif;
+}
+
+/* 講和ボタン */
+.gw-component-peace-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  position: relative;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 3px 5px;
+  font-family: serif;
+  color: #e8d9b6;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  background-color: rgba(30, 30, 30, 0.5);
+  border: 1px solid #706040;
+  border-radius: 5px;
+  box-shadow:
+    inset 0 0 8px rgba(0, 0, 0, 0.6),
+    1px 1px 0px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+.gw-component-peace-button:hover {
+  border-color: #a09070;
+  background-color: rgba(30, 30, 30, 0.3);
+  box-shadow: 0 3px 6px rgba(255, 255, 255, 0.2);
+}
+.gw-component-peace-button-image {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  mask-image: url('/assets/images/TopBar/politicalPower.png');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: #fff3f1;
+}
+.gw-component-peace-button-value {
+  font-size: 0.7rem;
+}
+
+/* 戦線情報 */
+.gw-component-fronts-container {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.gw-component-front-item {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  width: 100%;
+  min-width: 0;
+  padding: .5rem;
+  border-radius: .5rem;
+  background: linear-gradient(90deg, #331e1e, #222);
+}
+
+.gw-component-front-item-name {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.gw-component-front-item-content {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+}
+.gw-component-front-item-content > :nth-child(1) {
+  padding-right: 1rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+}
+.gw-component-front-item-content > :nth-child(3) {
+  padding-left: 1rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* 詳細情報 */
+.gw-component-front-item-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .3rem;
+  font-size: 0.8rem;
+}
+.gw-component-front-item-details p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  text-align: center;
+}
+/* 兵力調整 */
+.gw-component-front-item-actions-force {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+}
+.gw-component-front-item-actions-force-title {
+  font-size: 0.8rem;
+  text-align: center;
+}
+.gw-component-front-item-actions-control {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.gw-component-front-item-actions-control-button {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid #555;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+  z-index: 0;
+}
+.gw-component-front-item-actions-control-button:hover {
+  border-color: #ceae44;
+}
+.gw-component-front-item-actions-control-button:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #000;
+  border-radius: inherit;
+  filter: url('#button-grunge-filter');
+  z-index: -1;
+}
+.gw-component-front-item-actions-control-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.gw-component-front-item-actions-control-value {
+  height: 2rem;
+  padding: 0 2rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  user-select: none;
+}
+
+.gw-component-front-item-actions-force-total {
+  font-size: 0.7rem;
+  text-align: center;
+  opacity: 0.75;
+  user-select: none;
+}
+
+/* 戦術作戦 */
+.gw-component-front-item-actions-tactic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  width: 100%;
+}
+.gw-component-front-item-actions-tactic-title {
+  font-size: 0.8rem;
+  text-align: center;
+}
+.gw-component-front-item-actions-tactic-select {
+  width: 70%;
+  height: 1.5rem;
+  color: #fff3f1;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid #555;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+.gw-component-front-item-actions-tactic-select option {
+  color: #3e3e3e;
+}
+.gw-component-front-item-actions-tactic-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 0.7rem;
+}

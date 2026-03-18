@@ -17,6 +17,7 @@ button {
   cursor: pointer;
   outline: none;
   border: none;
+  background: none;
   white-space: nowrap;
   user-select: none;
   -webkit-user-select: none;
