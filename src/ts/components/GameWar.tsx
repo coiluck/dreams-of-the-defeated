@@ -68,24 +68,18 @@ export const TACTIC_ACTIONS: TacticAction[] = [
   },
 ]
 
-// 戦線ごとの設定
-interface FrontSetting {
-  force: number;
-  tacticIndex: number;
-}
-
 export default function GameWar() {
   const playerCountry = usePlayerCountry();
+  const playerCountryId = useGameStore((state) => state.game?.playerCountryId);
   const wars = useGameStore((state) => state.game?.wars ?? {});
   const countries = useGameStore((state) => state.game?.countries ?? {});
+  const mechanizationRate = playerCountry?.mechanizationRate; // useEffectの依存配列
+  const setFrontAction = useGameStore((state) => state.setFrontAction);
 
   const [selectedWarId, setSelectedWarId] = useState<string | null>(null);
   const [fronts, setFronts] = useState<FrontInfo[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  // 戦線ごとの兵力・戦術設定 { [front_id]: { force, tacticIndex } }
-  const [frontSettings, setFrontSettings] = useState<Record<string, FrontSetting>>({});
 
   // 初期選択
   useEffect(() => {
@@ -124,15 +118,6 @@ export default function GameWar() {
           },
         });
         setFronts(result);
-
-        // 新しい戦線データに合わせてsettingsを初期化（既存設定は保持）
-        setFrontSettings(prev => {
-          const next: Record<string, FrontSetting> = {};
-          result.forEach(f => {
-            next[f.front_id] = prev[f.front_id] ?? { force: 0, tacticIndex: 0 };
-          });
-          return next;
-        });
       } catch (e: any) {
         setError(e.toString());
       } finally {
@@ -141,7 +126,7 @@ export default function GameWar() {
     };
 
     fetchFronts();
-  }, [selectedWarId, playerCountry, wars, countries]);
+  }, [selectedWarId, wars, mechanizationRate]);
 
   if (!playerCountry) return null;
 
@@ -163,14 +148,10 @@ export default function GameWar() {
     return `${getCountryName(war.attackerId)}・${getCountryName(war.defenderId)}戦争`;
   };
 
-  // 全戦線の配置兵力合計
-  const totalAssignedForce = Object.values(frontSettings).reduce((sum, s) => sum + s.force, 0);
-  const deployedMilitary = playerCountry.deployedMilitary;
-
   // 全戦線の戦術コスト合計
-  const totalTacticCost = Object.values(frontSettings).reduce(
-    (acc, s) => {
-      const tactic = TACTIC_ACTIONS[s.tacticIndex];
+  const totalTacticCost = Object.values(playerCountry.frontActions || {}).reduce(
+    (acc, tacticIndex) => {
+      const tactic = TACTIC_ACTIONS[tacticIndex];
       return {
         politicalPower: acc.politicalPower + tactic.cost.politicalPower,
         militaryEquipment: acc.militaryEquipment + tactic.cost.militaryEquipment,
@@ -179,26 +160,9 @@ export default function GameWar() {
     { politicalPower: 0, militaryEquipment: 0 }
   );
 
-  const updateFrontForce = (frontId: string, delta: number) => {
-    setFrontSettings(prev => {
-      const current = prev[frontId] ?? { force: 0, tacticIndex: 0 };
-
-      // +方向の場合、更新前の合計で上限チェック
-      if (delta > 0) {
-        const currentTotal = Object.values(prev).reduce((sum, s) => sum + s.force, 0);
-        if (currentTotal >= deployedMilitary) return prev; // 上限に達していたら何もしない
-      }
-
-      const newForce = Math.max(0, current.force + delta);
-      return { ...prev, [frontId]: { ...current, force: newForce } };
-    });
-  };
-
   const updateFrontTactic = (frontId: string, tacticIndex: number) => {
-    setFrontSettings(prev => {
-      const current = prev[frontId] ?? { force: 0, tacticIndex: 0 };
-      return { ...prev, [frontId]: { ...current, tacticIndex } };
-    });
+    if (!playerCountryId) return;
+    setFrontAction(playerCountryId, frontId, tacticIndex);
   };
 
   return (
@@ -256,11 +220,8 @@ export default function GameWar() {
             {!loading && fronts.length > 0 && (
               <div className="gw-component-fronts-container">
                 {fronts.map((front) => {
-                  const setting = frontSettings[front.front_id] ?? { force: 0, tacticIndex: 0 };
-                  const selectedTactic = TACTIC_ACTIONS[setting.tacticIndex];
-
-                  // 兵力上限チェック：このフロントで+1すると合計が展開兵力を超えるか
-                  const canAddForce = totalAssignedForce < deployedMilitary;
+                  const currentTacticIndex = playerCountry.frontActions?.[front.front_id] ?? 0;
+                  const selectedTactic = TACTIC_ACTIONS[currentTacticIndex];
 
                   return (
                     <div key={front.front_id} className="gw-component-front-item">
@@ -269,34 +230,13 @@ export default function GameWar() {
                         <div className="gw-component-front-item-details">
                           <p>前線マス数: {front.tile_count} マス</p>
                           <p>補給: {(front.supply * 100).toFixed(1)} %</p>
-                          <p>必要最低兵力: {front.tile_count}</p>
-                          <p>推奨兵力: {front.tile_count * 1.5}</p>
                         </div>
 
                         {/* 配置兵力 */}
                         <div className="gw-component-front-item-actions-force">
                           <p className="gw-component-front-item-actions-force-title">配置兵力</p>
                           <div className="gw-component-front-item-actions-control">
-                            <button
-                              className="gw-component-front-item-actions-control-button"
-                              onClick={() => updateFrontForce(front.front_id, -1)}
-                            >
-                              -
-                            </button>
-                            <div className="gw-component-front-item-actions-control-value">
-                              {setting.force}
-                            </div>
-                            {/* 合計が展開兵力を超える場合はボタンを非表示 */}
-                            <button
-                              className="gw-component-front-item-actions-control-button"
-                              style={{ visibility: canAddForce ? 'visible' : 'hidden' }}
-                              onClick={() => updateFrontForce(front.front_id, 1)}
-                            >
-                              +
-                            </button>
-                          </div>
-                          <div className = "gw-component-front-item-actions-force-total">
-                            合計: {totalAssignedForce} / {deployedMilitary}
+                            後で消す
                           </div>
                         </div>
 
@@ -305,20 +245,19 @@ export default function GameWar() {
                           <p className="gw-component-front-item-actions-tactic-title">戦術作戦</p>
                           <select
                             className="gw-component-front-item-actions-tactic-select"
-                            value={setting.tacticIndex}
+                            value={currentTacticIndex}
                             onChange={(e) => updateFrontTactic(front.front_id, Number(e.target.value))}
                           >
                             {TACTIC_ACTIONS.map((tactic, idx) => {
-                              // このフロントで現在選択中の戦術コストを除いた残りリソースで払えるか判定
-                              const currentTacticForFront = TACTIC_ACTIONS[setting.tacticIndex];
+                              // コスト計算の判定
                               const availablePP =
                                 playerCountry.politicalPower
                                 - totalTacticCost.politicalPower
-                                + currentTacticForFront.cost.politicalPower;
+                                + selectedTactic.cost.politicalPower;
                               const availableEquip =
                                 playerCountry.militaryEquipment
                                 - totalTacticCost.militaryEquipment
-                                + currentTacticForFront.cost.militaryEquipment;
+                                + selectedTactic.cost.militaryEquipment;
 
                               const canAfford =
                                 tactic.cost.politicalPower <= availablePP &&

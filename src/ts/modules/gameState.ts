@@ -49,6 +49,7 @@ export interface CountryState {
   suzerainId: string | null;         // 宗主国ID (null = 独立)
   vassalIds: string[];               // 属国IDリスト
   activeWarIds: string[];            // 参加中の戦争IDリスト
+  frontActions?: Record<string, number>; // 戦線ごとのアクション（index）
 
   // 国家方針 & 国民精神
   activeFocusId: string | null;       // 現在選択中の方針
@@ -83,6 +84,8 @@ interface GameStore {
   // 戦争開始・終結
   declareWar: (attackerId: string, defenderId: string) => void;
   endWar: (warId: string) => void;
+  // 戦線アクション
+  setFrontAction: (countryId: string, frontId: string, tacticIndex: number) => void;
   // 属国化・独立
   makeVassal: (suzerainId: string, vassalId: string) => void;
   grantIndependence: (vassalId: string) => void;
@@ -121,6 +124,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         ...countryData,
         nationalSpirits,
         financeActionCount: 0,
+        frontActions: {},
       };
 
       delete (initializedCountries[countryId] as any).NationalSpiritIds;
@@ -199,6 +203,26 @@ export const useGameStore = create<GameStore>((set, get) => ({
     return { game: { ...state.game, countries, wars: remainingWars } };
   }),
 
+  setFrontAction: (countryId, frontId, tacticIndex) => set(state => {
+    if (!state.game) return state;
+    const country = state.game.countries[countryId];
+    return {
+      game: {
+        ...state.game,
+        countries: {
+          ...state.game.countries,
+          [countryId]: {
+            ...country,
+            frontActions: {
+              ...country.frontActions,
+              [frontId]: tacticIndex
+            }
+          }
+        }
+      }
+    };
+  }),
+
   makeVassal: (suzerainId, vassalId) => set(state => {
     if (!state.game) return state;
     const countries = { ...state.game.countries };
@@ -245,6 +269,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     // 経済・政治力の更新
     countries = processEconomy(countries);
+
+    // 戦線アクションのリセット
+    Object.keys(countries).forEach(id => {
+      countries[id] = {
+        ...countries[id],
+        frontActions: {}
+      };
+    });
 
     // 日付を進める
     set((currentState) => {
