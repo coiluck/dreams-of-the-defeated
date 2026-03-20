@@ -200,6 +200,28 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   font-size: 0.7rem;
+}
+
+.gw-component-front-item-actions-tactic-details-item {
+  display: inline-flex;
+  align-items: center;
+  gap: .1rem;
+}
+.gw-component-front-item-actions-icon {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: #fff3f1;
+}
+.gw-component-front-item-actions-icon.pp {
+  mask-image: url('/assets/images/TopBar/politicalPower.png');
+}
+.gw-component-front-item-actions-icon.me {
+  mask-image: url('/assets/images/TopBar/militaryEquipment.png');
 }

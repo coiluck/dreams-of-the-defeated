@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { invoke } from '@tauri-apps/api/core';
 import { usePlayerCountry, useGameStore, CountryState } from '../modules/gameState';
+import { getTranslatedText } from '../modules/i18n';
+import { SettingState } from '../modules/store';
 import './GameWar.css';
 
 interface FrontInfo {
@@ -32,6 +34,24 @@ interface FrontAdvanceResult {
     power_ratio: number;
     p: number;
   }[];
+}
+
+// UI翻訳テキスト
+interface GameWarTranslations {
+  noWar: string;
+  warInfo: string;
+  attacker: string;
+  defender: string;
+  sueForPeace: string;
+  frontInfo: string;
+  recalculating: string;
+  noFrontline: string;
+  frontTileCount: string;
+  supply: string;
+  predictedAdvance: string;
+  calculating: string;
+  tacticAction: string;
+  costInsufficient: string;
 }
 
 export const TACTIC_ACTIONS: TacticAction[] = [
@@ -203,6 +223,76 @@ export default function GameWar() {
   const [error, setError] = useState<string | null>(null);
   const [advanceResults, setAdvanceResults] = useState<Record<string, number>>({});
 
+  const lang = SettingState.language as 'ja' | 'en';
+
+  // 翻訳
+  const [t, setT] = useState<GameWarTranslations>({
+    noWar: '',
+    warInfo: '',
+    attacker: '',
+    defender: '',
+    sueForPeace: '',
+    frontInfo: '',
+    recalculating: '',
+    noFrontline: '',
+    frontTileCount: '',
+    supply: '',
+    predictedAdvance: '',
+    calculating: '',
+    tacticAction: '',
+    costInsufficient: '',
+  });
+  useEffect(() => {
+    Promise.all([
+      getTranslatedText('gameWar.noWar'),
+      getTranslatedText('gameWar.warInfo'),
+      getTranslatedText('gameWar.attacker'),
+      getTranslatedText('gameWar.defender'),
+      getTranslatedText('gameWar.sueForPeace'),
+      getTranslatedText('gameWar.frontInfo'),
+      getTranslatedText('gameWar.recalculating'),
+      getTranslatedText('gameWar.noFrontline'),
+      getTranslatedText('gameWar.frontTileCount'),
+      getTranslatedText('gameWar.supply'),
+      getTranslatedText('gameWar.predictedAdvance'),
+      getTranslatedText('gameWar.calculating'),
+      getTranslatedText('gameWar.tacticAction'),
+      getTranslatedText('gameWar.costInsufficient'),
+    ]).then(([
+      noWar,
+      warInfo,
+      attacker,
+      defender,
+      sueForPeace,
+      frontInfo,
+      recalculating,
+      noFrontline,
+      frontTileCount,
+      supply,
+      predictedAdvance,
+      calculating,
+      tacticAction,
+      costInsufficient,
+    ]) => {
+      setT({
+        noWar:            noWar            ?? '',
+        warInfo:          warInfo          ?? '',
+        attacker:         attacker         ?? '',
+        defender:         defender         ?? '',
+        sueForPeace:      sueForPeace      ?? '',
+        frontInfo:        frontInfo        ?? '',
+        recalculating:    recalculating    ?? '',
+        noFrontline:      noFrontline      ?? '',
+        frontTileCount:   frontTileCount   ?? '',
+        supply:           supply           ?? '',
+        predictedAdvance: predictedAdvance ?? '',
+        calculating:      calculating      ?? '',
+        tacticAction:     tacticAction     ?? '',
+        costInsufficient: costInsufficient ?? '',
+      });
+    });
+  }, [lang]);
+
   // 初期選択
   useEffect(() => {
     if (playerCountry?.activeWarIds?.length && !selectedWarId) {
@@ -352,19 +442,24 @@ export default function GameWar() {
   if (!playerCountry.activeWarIds || playerCountry.activeWarIds.length === 0) {
     return (
       <div>
-        <p>現在、交戦中の国家はありません。</p>
+        <p>{t.noWar}</p>
       </div>
     );
   }
 
   const selectedWar = selectedWarId ? wars[selectedWarId] : null;
 
-  const getCountryName = (slug: string) => countries[slug]?.name?.ja ?? slug;
+  // 国名はデータ側に ja/en が存在するので lang で直接引く
+  const getCountryName = (slug: string) => countries[slug]?.name?.[lang] ?? slug;
 
   const getWarTitle = (warId: string) => {
     const war = wars[warId];
     if (!war) return warId;
-    return `${getCountryName(war.attackerId)}・${getCountryName(war.defenderId)}戦争`;
+    const warTitle = {
+      ja: '戦争',
+      en: ' War',
+    }
+    return `${getCountryName(war.attackerId)}・${getCountryName(war.defenderId)}${warTitle[lang]}`;
   };
 
   // 全戦線の戦術コスト合計
@@ -406,34 +501,34 @@ export default function GameWar() {
       {selectedWar && (
         <>
           {/* 参加国 */}
-          <p className="gw-component-title">戦争情報</p>
+          <p className="gw-component-title">{t.warInfo}</p>
           <div className="gw-component-countries-container">
             <div className="gw-component-country-item">
-              <div className="gw-component-country-item-title attack">⚔ 攻撃側</div>
+              <div className="gw-component-country-item-title attack">⚔ {t.attacker}</div>
               <div className="gw-component-country-item-name">{getCountryName(selectedWar.attackerId)}</div>
             </div>
 
             <div className="gw-component-country-item-vs">VS</div>
 
             <div className="gw-component-country-item">
-              <div className="gw-component-country-item-title defense">🛡 防御側</div>
+              <div className="gw-component-country-item-title defense">🛡 {t.defender}</div>
               <div className="gw-component-country-item-name">{getCountryName(selectedWar.defenderId)}</div>
             </div>
           </div>
-          <button className="gw-component-peace-button">講和を打診
+          <button className="gw-component-peace-button">{t.sueForPeace}
             <div className="gw-component-peace-button-image" />
             <div className="gw-component-peace-button-value">80</div>
           </button>
 
           {/* 戦線情報 */}
-          <p className="gw-component-title">戦線情報</p>
+          <p className="gw-component-title">{t.frontInfo}</p>
           <div>
 
-            {loading && <p>戦線データを再計算中...</p>}
-            {error && <p style={{ color: 'red' }}>エラー: {error}</p>}
+            {loading && <p>{t.recalculating}</p>}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
 
             {!loading && !error && fronts.length === 0 && (
-              <p>敵国と陸続きの前線が存在しません。</p>
+              <p>{t.noFrontline}</p>
             )}
 
             {!loading && fronts.length > 0 && (
@@ -445,30 +540,30 @@ export default function GameWar() {
 
                   return (
                     <div key={front.front_id} className="gw-component-front-item">
-                      <p className="gw-component-front-item-name">{front.name.ja}</p>
+                      <p className="gw-component-front-item-name">{front.name[lang]}</p>
                       <div className="gw-component-front-item-content">
                         <div className="gw-component-front-item-details">
-                          <p>前線マス数: {front.tile_count} マス</p>
-                          <p>補給: {(front.supply * 100).toFixed(1)} %</p>
+                          <p>{t.frontTileCount}: {front.tile_count}</p>
+                          <p>{t.supply}: {(front.supply * 100).toFixed(1)} %</p>
                         </div>
 
                         {/* 予想侵攻量 */}
                         <div className="gw-component-front-item-actions-prediction">
-                          <p className="gw-component-front-item-actions-prediction-title">予想侵攻量</p>
+                          <p className="gw-component-front-item-actions-prediction-title">{t.predictedAdvance}</p>
                           <div className="gw-component-front-item-actions-prediction-value">
                             {predictedAdvance !== undefined ? (
                               <span style={{ color: predictedAdvance > 0 ? '#4caf84' : (predictedAdvance < 0 ? '#e07070' : 'inherit') }}>
                                 {predictedAdvance > 0 ? `+${predictedAdvance}` : predictedAdvance}
                               </span>
                             ) : (
-                              <span style={{ fontSize: '0.9rem', opacity: 0.7 }}>計算中...</span>
+                              <span style={{ fontSize: '0.9rem', opacity: 0.7 }}>{t.calculating}</span>
                             )}
                           </div>
                         </div>
 
                         {/* 戦術作戦 */}
                         <div className="gw-component-front-item-actions-tactic">
-                          <p className="gw-component-front-item-actions-tactic-title">戦術作戦</p>
+                          <p className="gw-component-front-item-actions-tactic-title">{t.tacticAction}</p>
                           <select
                             className="gw-component-front-item-actions-tactic-select"
                             value={currentTacticIndex}
@@ -490,35 +585,35 @@ export default function GameWar() {
 
                               return (
                                 <option key={idx} value={idx} disabled={!canAfford}>
-                                  {tactic.name.ja}
-                                  {!canAfford ? ' (コスト不足)' : ''}
+                                  {tactic.name[lang]}
+                                  {!canAfford ? ` (${t.costInsufficient})` : ''}
                                 </option>
                               );
                             })}
                           </select>
                           <div className="gw-component-front-item-actions-tactic-details">
-                            <span>
-                              政治力: {selectedTactic.cost.politicalPower > 0
+                            <span className="gw-component-front-item-actions-tactic-details-item">
+                              <span className="gw-component-front-item-actions-icon pp"></span>: {selectedTactic.cost.politicalPower > 0
                                 ? <span style={{ color: '#e07070' }}>-{selectedTactic.cost.politicalPower}</span>
                                 : <span style={{ opacity: 0.5 }}>0</span>
                               }
                             </span>
-                            <span>
-                              装備: {selectedTactic.cost.militaryEquipment > 0
+                            <span className="gw-component-front-item-actions-tactic-details-item">
+                              <span className="gw-component-front-item-actions-icon me"></span>: {selectedTactic.cost.militaryEquipment > 0
                                 ? <span style={{ color: '#e07070' }}>-{selectedTactic.cost.militaryEquipment}</span>
                                 : <span style={{ opacity: 0.5 }}>0</span>
                               }
                             </span>
                             {selectedTactic.value !== undefined && (
-                              <span>
-                                {selectedTactic.effect.ja}{' '}
+                              <span className="gw-component-front-item-actions-tactic-details-item">
+                                {selectedTactic.effect[lang]}{' '}
                                 <span style={{ color: '#4caf84' }}>+{selectedTactic.value}%</span>
                               </span>
                             )}
                           </div>
                           {selectedTactic.description && (
                             <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
-                              {selectedTactic.description.ja}
+                              {selectedTactic.description[lang]}
                             </div>
                           )}
                         </div>

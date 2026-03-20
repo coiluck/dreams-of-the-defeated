@@ -21,14 +21,49 @@
   "topBar.deployedMilitary": { "ja": "展開兵力", "en": "Deployed Forces" },
   "topBar.militaryEquipment": { "ja": "装備備蓄", "en": "Equipment Stockpile" },
   "topBar.mechanization": { "ja": "機械化率", "en": "Mechanization" },
-  "topBar.legitimacy.description": { "ja": "正統性: 国家の正統性を示す指標。\n高いと国家の経済の発展が促進されるが、低いと反乱のリスクが高まる。", "en": "Indicates the legitimacy of the state. Low legitimacy increases revolt risk." },
-  "topBar.politicalPower.description": { "ja": "政治力: 政策の実行に使用するポイント。", "en": "Points used for enacting policies and diplomatic actions." },
-  "topBar.economicStrength.description": { "ja": "経済力: 国家の経済規模。\n展開できる軍事力に影響を与える。", "en": "Indicates the economic scale and production capacity." },
-  "topBar.culturalUnity.description": { "ja": "文化統合度: 国民の文化的な統合度合い。\n低いと国内の安定度が下がる。", "en": "Degree of cultural unity. Low unity decreases stability." },
-  "topBar.deployedMilitary.description": { "ja": "展開兵力: 現在フィールドに展開されている総兵力数。", "en": "Total number of forces currently deployed on the field." },
-  "topBar.militaryEquipment.description": { "ja": "装備備蓄: 備蓄されている武器や軍需物資の総量。\n部隊の編成や補充に消費される。", "en": "Total amount of stockpiled weapons and military supplies." },
-  "topBar.mechanization.description": { "ja": "機械化率: 部隊の機械化の進行度を示す指標。\n数値が高いほど攻勢時に大幅な戦闘補正を得、防衛時にも小規模な補正が発生する。\nただし機械化率の上昇に伴い補給効率は低下し、部隊維持費も増加する。", "en": "Mechanization is a measure of military efficiency." },
+"topBar.legitimacy.description": {
+    "ja": "正統性: 国家の正統性を示す指標。\n高いと国家の経済の発展が促進され、軍事に使用できる予算も増加する。",
+    "en": "Legitimacy: A measure of the state's rightful authority.\nHigh levels stimulate economic growth and expand the available military budget."
+  },
+  "topBar.politicalPower.description": {
+    "ja": "政治力: 政策の実行に使用するポイント。",
+    "en": "Political Power: Points expended to enact national policies and execute strategic decisions."
+  },
+  "topBar.economicStrength.description": {
+    "ja": "経済力: 国家の経済規模。\n展開できる軍事力に影響を与える。",
+    "en": "Economic Strength: The overall scale of the national economy.\nDirectly dictates the maximum capacity of your deployable military."
+  },
+  "topBar.culturalUnity.description": {
+    "ja": "文化統合度: 国民の文化的な統合度合い。\n高いと国家の経済の発展が促進され、軍事に使用できる予算も増加する。",
+    "en": "Cultural Unity: The degree of societal cohesion among the populace.\nHigh unity fosters economic development and expands the available military budget."
+  },
+  "topBar.deployedMilitary.description": {
+    "ja": "展開兵力: 現在フィールドに展開されている総兵力数。\n戦線のマス数に応じて自動で分配され、その分配量の三乗根が攻防の基礎値に乗算される。",
+    "en": "Deployed Forces: The total troop strength currently mobilized in the field.\nForces are automatically distributed across frontline tiles.\nThe cube root of this distribution acts as a multiplier for base offensive and defensive capabilities."
+  },
+  "topBar.militaryEquipment.description": {
+    "ja": "装備備蓄: 備蓄されている武器や軍需物資の総量。\n部隊の編成や戦術に消費される。",
+    "en": "Equipment Stockpile: The total reserve of armaments and military materiel.\nConsumed when organizing units and executing combat tactics."
+  },
+  "topBar.mechanization.description": {
+    "ja": "機械化率: 部隊の機械化の進行度を示す指標。\n数値が高いほど攻勢時の突破できるタイル数が増加する。\nただし機械化率の上昇に伴い補給効率は低下し、軍事維持費も増加する。",
+    "en": "Mechanization Rate: Represents the degree of mechanization within the armed forces.\nHigher values increase the number of tiles that can be breached during an offensive\nHowever, advanced mechanization comes at the cost of reduced supply efficiency and increased military upkeep."
+  },
   "gameActions.focus": { "ja": "国家方針", "en": "National Focus" },
   "gameActions.finance": { "ja": "財政調整", "en": "Finance" },
-  "gameActions.war": { "ja": "戦争推移", "en": "War Progress" }
+  "gameActions.war": { "ja": "戦争推移", "en": "War Progress" },
+  "gameWar.noWar": { "ja": "現在、交戦中の国家はありません。",  "en": "There are no countries currently at war." },
+  "gameWar.warInfo": { "ja": "戦争情報", "en": "War Information" },
+  "gameWar.attacker": { "ja": "攻撃側", "en": "Attacker" },
+  "gameWar.defender": { "ja": "防御側", "en": "Defender" },
+  "gameWar.sueForPeace": { "ja": "講和を打診", "en": "Sue for Peace" },
+  "gameWar.frontInfo": { "ja": "戦線情報", "en": "Frontline Overview" },
+  "gameWar.recalculating": { "ja": "戦線データを再計算中...", "en": "Recalculating front data..." },
+  "gameWar.noFrontline": { "ja": "敵国と陸続きの前線が存在しません。", "en": "No shared land frontline with the enemy." },
+  "gameWar.frontTileCount": { "ja": "前線マス数", "en": "Front Tiles" },
+  "gameWar.supply": { "ja": "補給", "en": "Supply" },
+  "gameWar.predictedAdvance": { "ja": "予想侵攻量", "en": "Predicted Advance" },
+  "gameWar.calculating": { "ja": "計算中...", "en": "Calculating..." },
+  "gameWar.tacticAction": { "ja": "戦術作戦", "en": "Tactical Operation" },
+  "gameWar.costInsufficient": { "ja": "コスト不足", "en": "Cannot Afford" }
 }
