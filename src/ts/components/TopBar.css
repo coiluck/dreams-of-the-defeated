@@ -179,7 +179,12 @@
   height: 2rem;
   filter: url('#button-grunge-filter');
   cursor: pointer;
+  transition: all 0.3s ease;
 }
+.topbar-component-menu-container:hover {
+  border-color: #ceae44;
+}
+
 .topbar-component-menu-icon {
   width: 100%;
   height: 100%;

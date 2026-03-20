@@ -14,7 +14,7 @@ export type ActionTabType = 'focus' | 'finance' | 'war';
 const TAB_CONFIG: {
   id: ActionTabType;
   key: string;
-  Component: () => React.JSX.Element;
+  Component: React.FC;
 }[] = [
   { id: 'focus',   key: 'gameActions.focus', Component: GameNationalFocus },
   { id: 'finance', key: 'gameActions.finance', Component: GameFinance },

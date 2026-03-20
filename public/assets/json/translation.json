@@ -60,7 +60,7 @@
   "GameFinance.buff": { "ja": "効果", "en": "Buff" },
   "GameFinance.debuff": { "ja": "代償", "en": "Debuff" },
   "GameFinance.militaryAdjustment": { "ja": "軍事力調整", "en": "Military Adjustment" },
-  "gameWar.noWar": { "ja": "現在、交戦中の国家はありません。",  "en": "There are no countries currently at war." },
+  "gameWar.noWar": { "ja": "現在、我が国と交戦中の国家はありません。",  "en": "We are currently at peace." },
   "gameWar.warInfo": { "ja": "戦争情報", "en": "War Information" },
   "gameWar.attacker": { "ja": "攻撃側", "en": "Attacker" },
   "gameWar.defender": { "ja": "防御側", "en": "Defender" },
