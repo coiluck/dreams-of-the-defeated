@@ -1,7 +1,7 @@
 // ts/components/GameWar.tsx
 import { useEffect, useState } from 'react';
 import { invoke } from '@tauri-apps/api/core';
-import { usePlayerCountry, useGameStore } from '../modules/gameState';
+import { usePlayerCountry, useGameStore, CountryState } from '../modules/gameState';
 import './GameWar.css';
 
 interface FrontInfo {
@@ -18,6 +18,20 @@ type TacticAction = {
   cost: { politicalPower: number; militaryEquipment: number };
   value?: number;
   description?: { ja: string; en: string };
+}
+
+// 侵攻計算結果
+interface FrontAdvanceResult {
+  front_id: string;
+  advance_tiles: number;
+  phase_log: {
+    phase: number;
+    attacker: string;
+    attack_energy: number;
+    defence_energy: number;
+    power_ratio: number;
+    p: number;
+  }[];
 }
 
 export const TACTIC_ACTIONS: TacticAction[] = [
@@ -40,46 +54,154 @@ export const TACTIC_ACTIONS: TacticAction[] = [
     name: { ja: '火力支援', en: 'Fire Support' },
     effect: { ja: '攻撃力', en: 'Firepower' },
     cost: { politicalPower: 50, militaryEquipment: 400 },
-    value: 10,
+    value: 20,
     description: {
-      ja: '攻撃力が1.1倍になります。',
-      en: 'Increases attack power by 1.1x.'
+      ja: '攻撃力が1.2倍になります。',
+      en: 'Increases attack power by 1.2x.'
     },
   },
   {
     name: { ja: '防御陣地の構築', en: 'Entrenchment' },
     effect: { ja: '防御力', en: 'Defensive Strength' },
     cost: { politicalPower: 50, militaryEquipment: 100 },
-    value: 10,
+    value: 20,
     description: {
-      ja: '防御力が1.1倍になります。',
-      en: 'Increases defensive strength by 1.1x.'
+      ja: '防御力が1.2倍になります。',
+      en: 'Increases defensive strength by 1.2x.'
     },
   },
   {
     name: { ja: '補給の改善', en: 'Logistical Support' },
     effect: { ja: '補給', en: 'Supply Level' },
     cost: { politicalPower: 50, militaryEquipment: 100 },
-    value: 10,
+    value: 20,
     description: {
-      ja: '補給状況が改善されます。このターンは戦線の補給値にそのまま10を足した値が適用されます',
-      en: 'Improves the logistical situation. Adds a flat +10 bonus to the frontline supply value for the current turn.'
+      ja: '補給状況が改善されます。このターンは戦線の補給値にそのまま20を足した値が適用されます',
+      en: 'Improves the logistical situation. Adds a flat +20 bonus to the frontline supply value for the current turn.'
     },
   },
 ]
+
+// ── 国民精神バフ集計 ──────────────────────────────────────────────────────────
+//
+// ModifierStats に attackBuff / defenceBuff (いずれも % 整数) が存在する前提。
+// 例: stats.attackBuff = 10 → 攻撃力 ×1.10
+// フィールドが存在しない国家は 1.0（バフなし）として扱う。
+//
+function calcSpiritBuffs(country: CountryState) {
+  let attackRate  = 0; // % の合計
+  let defenceRate = 0;
+
+  for (const spirit of country.nationalSpirits ?? []) {
+    attackRate  += spirit.stats.attackPower  ?? 0;
+    defenceRate += spirit.stats.defensePower ?? 0;
+  }
+
+  return {
+    attackBuff:  1.0 + attackRate  / 100,
+    defenceBuff: 1.0 + defenceRate / 100,
+  };
+}
+
+// ── 合計戦線マス数の取得 ──────────────────────────────────────────────────────
+//
+// ある国が参加している全戦争・全敵国を対象に get_war_fronts を呼び出し、
+// 返ってきた全フロントのタイル数を合算する。
+//
+// 引数:
+//   countryId          … 補給を受ける側の country.id（数値コード文字列）
+//   countrySlug        … wars テーブルの attackerId / defenderId と照合するキー
+//   activeWarIds       … その国が参加中の戦争 ID 一覧
+//   wars               … ゲーム全体の戦争マップ
+//   countries          … ゲーム全体の国家マップ
+//   mechanizationRate  … 補給計算に使う機械化率
+//
+async function fetchTotalFrontTiles(
+  countryId: string,
+  countrySlug: string,
+  activeWarIds: string[],
+  wars: Record<string, { attackerId: string; defenderId: string }>,
+  countries: Record<string, { id: string; slug: string }>,
+  mechanizationRate: number,
+): Promise<number> {
+  // 全戦争の敵国 ID を重複なく列挙する
+  const enemyIds: string[] = [];
+  for (const warId of activeWarIds) {
+    const war = wars[warId];
+    if (!war) continue;
+    const enemySlug = war.attackerId === countrySlug ? war.defenderId : war.attackerId;
+    const enemyId   = countries[enemySlug]?.id;
+    if (enemyId && !enemyIds.includes(enemyId)) {
+      enemyIds.push(enemyId);
+    }
+  }
+
+  if (enemyIds.length === 0) return 1; // ゼロ除算防止
+
+  try {
+    const fronts = await invoke<FrontInfo[]>('get_war_fronts', {
+      war: {
+        player_id: countryId,
+        enemy_ids: enemyIds,       // 全敵国を一括指定 → Rust 側が全前線を返す
+        supply_buffs: {},
+        mechanization_rate: mechanizationRate,
+      },
+    });
+    const total = fronts.reduce((sum, f) => sum + f.tile_count, 0);
+    return Math.max(total, 1); // ゼロ除算防止
+  } catch {
+    return 1;
+  }
+}
+
+// ── 敵フロントの補給を取得 ────────────────────────────────────────────────────
+//
+// 現在表示中の戦争について、敵視点で get_war_fronts を呼び出して補給率を取得する。
+// 戻り値: front_id → supply のマップ
+//
+async function fetchEnemySupply(
+  enemyId: string,
+  playerIds: string[],       // 敵から見たプレイヤー（自国）を敵として渡す
+  enemyMechanizationRate: number,
+): Promise<Record<string, number>> {
+  try {
+    const fronts = await invoke<FrontInfo[]>('get_war_fronts', {
+      war: {
+        player_id: enemyId,
+        enemy_ids: playerIds,
+        supply_buffs: {},
+        mechanization_rate: enemyMechanizationRate,
+      },
+    });
+    // front_id の命名規則は region_id と連番ベースのため、
+    // 敵視点と自国視点で同一の front_id になる保証がない。
+    // そのため region_id をキーにして照合用マップも作り、
+    // フロントの region_id ベースの平均補給率を返す。
+    const map: Record<string, number> = {};
+    for (const f of fronts) {
+      map[f.front_id] = f.supply;
+      // region_id ベースのフォールバックキーも登録
+      map[`region_${f.region_id}`] = f.supply;
+    }
+    return map;
+  } catch {
+    return {};
+  }
+}
 
 export default function GameWar() {
   const playerCountry = usePlayerCountry();
   const playerCountryId = useGameStore((state) => state.game?.playerCountryId);
   const wars = useGameStore((state) => state.game?.wars ?? {});
   const countries = useGameStore((state) => state.game?.countries ?? {});
-  const mechanizationRate = playerCountry?.mechanizationRate; // useEffectの依存配列
+  const mechanizationRate = playerCountry?.mechanizationRate;
   const setFrontAction = useGameStore((state) => state.setFrontAction);
 
   const [selectedWarId, setSelectedWarId] = useState<string | null>(null);
   const [fronts, setFronts] = useState<FrontInfo[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [advanceResults, setAdvanceResults] = useState<Record<string, number>>({});
 
   // 初期選択
   useEffect(() => {
@@ -91,7 +213,7 @@ export default function GameWar() {
     }
   }, [playerCountry?.activeWarIds]);
 
-  // 戦線データ取得
+  // 戦線データ取得（自国視点）
   useEffect(() => {
     if (!playerCountry || !selectedWarId) {
       setFronts([]);
@@ -127,6 +249,103 @@ export default function GameWar() {
 
     fetchFronts();
   }, [selectedWarId, wars, mechanizationRate]);
+
+  // ── 侵攻計算 ──────────────────────────────────────────────────────────────
+  useEffect(() => {
+    if (!playerCountry || fronts.length === 0 || !selectedWarId) return;
+    const war = wars[selectedWarId];
+    if (!war) return;
+
+    const enemyKey = war.attackerId === playerCountry.slug ? war.defenderId : war.attackerId;
+    const enemyCountry = countries[enemyKey];
+    if (!enemyCountry) return;
+
+    const fetchAdvancePreview = async () => {
+      try {
+        // 合計戦線マス数
+        const [playerTotalTiles, enemyTotalTiles] = await Promise.all([
+          fetchTotalFrontTiles(
+            playerCountry.id,
+            playerCountry.slug,
+            playerCountry.activeWarIds ?? [],
+            wars,
+            countries,
+            playerCountry.mechanizationRate ?? 0,
+          ),
+          fetchTotalFrontTiles(
+            enemyCountry.id,
+            enemyCountry.slug,
+            enemyCountry.activeWarIds ?? [],
+            wars,
+            countries,
+            enemyCountry.mechanizationRate ?? 0,
+          ),
+        ]);
+
+        // 敵側の補給
+        const enemySupplyMap = await fetchEnemySupply(
+          enemyCountry.id,
+          [playerCountry.id],
+          enemyCountry.mechanizationRate ?? 0,
+        );
+
+        // 国民精神バフ
+        const playerBuffs = calcSpiritBuffs(playerCountry);
+        const enemyBuffs  = calcSpiritBuffs(enemyCountry);
+
+        // フロントごとの敵補給率
+        const resolveEnemySupply = (front: FrontInfo): number => {
+          return (
+            enemySupplyMap[front.front_id] ??
+            enemySupplyMap[`region_${front.region_id}`] ??
+            0.5
+          );
+        };
+
+        // calc_advance へ渡す
+        const input = {
+          player_id: playerCountry.id,
+          player_deployed_military: playerCountry.deployedMilitary || 0,
+          player_total_tiles: playerTotalTiles,
+          player_mechanization_rate: playerCountry.mechanizationRate || 0,
+          player_spirit_attack_buff:  playerBuffs.attackBuff,
+          player_spirit_defence_buff: playerBuffs.defenceBuff,
+
+          enemy_id: enemyCountry.id,
+          enemy_deployed_military: enemyCountry.deployedMilitary || 0,
+          enemy_total_tiles: enemyTotalTiles,
+          enemy_mechanization_rate: enemyCountry.mechanizationRate || 0,
+          enemy_spirit_attack_buff:  enemyBuffs.attackBuff,
+          enemy_spirit_defence_buff: enemyBuffs.defenceBuff,
+
+          fronts: fronts.map((f) => ({
+            front_id:     f.front_id,
+            tile_count:   f.tile_count,
+            region_id:    f.region_id,
+            player_supply: f.supply,
+            enemy_supply:  resolveEnemySupply(f),
+          })),
+
+          player_front_actions: playerCountry.frontActions || {},
+          enemy_front_actions:  enemyCountry.frontActions  || {},
+        };
+
+        const results = await invoke<FrontAdvanceResult[]>('calc_advance', { input });
+
+        const newResults: Record<string, number> = {};
+        results.forEach((r) => {
+          newResults[r.front_id] = r.advance_tiles;
+          console.log(r.front_id, r.advance_tiles, r.phase_log);
+        });
+        setAdvanceResults(newResults);
+
+      } catch (err) {
+        console.error('Failed to calculate advance preview:', err);
+      }
+    };
+
+    fetchAdvancePreview();
+  }, [fronts, playerCountry?.frontActions, selectedWarId, wars, countries]);
 
   if (!playerCountry) return null;
 
@@ -222,6 +441,7 @@ export default function GameWar() {
                 {fronts.map((front) => {
                   const currentTacticIndex = playerCountry.frontActions?.[front.front_id] ?? 0;
                   const selectedTactic = TACTIC_ACTIONS[currentTacticIndex];
+                  const predictedAdvance = advanceResults[front.front_id];
 
                   return (
                     <div key={front.front_id} className="gw-component-front-item">
@@ -232,11 +452,17 @@ export default function GameWar() {
                           <p>補給: {(front.supply * 100).toFixed(1)} %</p>
                         </div>
 
-                        {/* 配置兵力 */}
-                        <div className="gw-component-front-item-actions-force">
-                          <p className="gw-component-front-item-actions-force-title">配置兵力</p>
-                          <div className="gw-component-front-item-actions-control">
-                            後で消す
+                        {/* 予想侵攻量 */}
+                        <div className="gw-component-front-item-actions-prediction">
+                          <p className="gw-component-front-item-actions-prediction-title">予想侵攻量</p>
+                          <div className="gw-component-front-item-actions-prediction-value">
+                            {predictedAdvance !== undefined ? (
+                              <span style={{ color: predictedAdvance > 0 ? '#4caf84' : (predictedAdvance < 0 ? '#e07070' : 'inherit') }}>
+                                {predictedAdvance > 0 ? `+${predictedAdvance}` : predictedAdvance}
+                              </span>
+                            ) : (
+                              <span style={{ fontSize: '0.9rem', opacity: 0.7 }}>計算中...</span>
+                            )}
                           </div>
                         </div>
 
@@ -249,7 +475,6 @@ export default function GameWar() {
                             onChange={(e) => updateFrontTactic(front.front_id, Number(e.target.value))}
                           >
                             {TACTIC_ACTIONS.map((tactic, idx) => {
-                              // コスト計算の判定
                               const availablePP =
                                 playerCountry.politicalPower
                                 - totalTacticCost.politicalPower

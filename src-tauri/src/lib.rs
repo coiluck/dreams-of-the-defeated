@@ -4,6 +4,7 @@ use tauri_plugin_store::StoreExt;
 mod map_store;
 mod wars_front;
 mod wars_logistics;
+mod wars_advance;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -41,6 +42,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             map_store::update_occupation,
             wars_front::get_war_fronts,
+            wars_advance::calc_advance,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -6,7 +6,7 @@
 }
 
 .gw-component-title {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: bold;
   text-align: center;
   text-transform: uppercase;
@@ -41,7 +41,7 @@
 }
 
 .gw-component-country-item-title {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
 }
 .gw-component-country-item-title.attack {
   color: #d27d7d;
@@ -50,7 +50,7 @@
   color: #8484da;
 }
 .gw-component-country-item-name {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: bold;
   text-align: center;
   word-break: break-word;
@@ -122,7 +122,7 @@
 }
 
 .gw-component-front-item-name {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 
@@ -151,71 +151,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   text-align: center;
 }
-/* 兵力調整 */
-.gw-component-front-item-actions-force {
+/* 予想侵攻量 */
+.gw-component-front-item-actions-prediction {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: .3rem;
 }
-.gw-component-front-item-actions-force-title {
+.gw-component-front-item-actions-prediction-title {
   font-size: 0.8rem;
   text-align: center;
 }
-.gw-component-front-item-actions-control {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.gw-component-front-item-actions-control-button {
-  position: relative;
-  width: 2rem;
-  height: 2rem;
-  border: 1px solid #555;
-  border-radius: 3px;
-  transition: all 0.3s ease;
-  z-index: 0;
-}
-.gw-component-front-item-actions-control-button:hover {
-  border-color: #ceae44;
-}
-.gw-component-front-item-actions-control-button:before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: #000;
-  border-radius: inherit;
-  filter: url('#button-grunge-filter');
-  z-index: -1;
-}
-.gw-component-front-item-actions-control-button::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.3;
-  z-index: 0;
-}
-
-.gw-component-front-item-actions-control-value {
-  height: 2rem;
-  padding: 0 2rem;
-  background-color: rgba(0, 0, 0, 0.4);
-  user-select: none;
-}
-
-.gw-component-front-item-actions-force-total {
-  font-size: 0.7rem;
-  text-align: center;
-  opacity: 0.75;
-  user-select: none;
+.gw-component-front-item-actions-prediction-value {
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 /* 戦術作戦 */
