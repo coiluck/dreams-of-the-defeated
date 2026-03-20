@@ -63,7 +63,7 @@ const LABELS: Record<string, { ja: string; en: string }> = {
   // 基本リソース
   politicalPower:    { ja: '政治力',    en: 'Political Power' },
   economicStrength:  { ja: '経済力',    en: 'Economic Strength' },
-  militaryEquipment: { ja: '軍事備品',  en: 'Military Equipment' },
+  militaryEquipment: { ja: '軍事備品',  en: 'Equipment Stockpile' },
   deployedMilitary:  { ja: '展開兵力',  en: 'Deployed Forces' },
   // NF効果のパラメータ
   legitimacy:           { ja: '正統性',       en: 'Legitimacy' },
@@ -72,7 +72,7 @@ const LABELS: Record<string, { ja: string; en: string }> = {
   defensePower:         { ja: '防御力',       en: 'Defense Power' },
   culturalUnity:        { ja: '文化的統合度',   en: 'Cultural Unity' },
   politicalPowerRate:   { ja: '政治力増加率', en: 'Political Power Rate' },
-  economicStrengthRate: { ja: '経済力増加率', en: 'Economic Strength Rate' },
+  economicStrengthRate: { ja: '経済力増加率', en: 'Economic Growth' },
   // 戦争
   declareWar: { ja: '宣戦布告', en: 'Declare War' },
 };

@@ -37,6 +37,7 @@
 }
 .gf-component-stat-box-label {
   font-size: 0.7rem;
+  text-wrap: nowrap;
 }
 .gf-component-stat-box-value {
   font-size: 1rem;

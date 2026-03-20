@@ -504,11 +504,11 @@ const processEconomy = (countries: Record<string, CountryState>) => {
 };
 
 export const FINANCE_LEVELS = [
-  { id: 'finance_0', name: '緊縮財政', ratio: 0, buff: '経済成長率 +10%, 政治力獲得倍率 +10%', debuff: 'なし', stats: { economicStrengthRate: 10, politicalPowerRate: 10 } },
-  { id: 'finance_1', name: '平和維持', ratio: 0.5, buff: '経済成長率 +10%', debuff: 'なし', stats: { economicStrengthRate: 10 } },
-  { id: 'finance_2', name: '標準予算', ratio: 2, buff: 'なし', debuff: 'なし', stats: {} },
-  { id: 'finance_3', name: '軍拡財政', ratio: 5, buff: 'なし', debuff: '経済成長率 -20%', stats: { economicStrengthRate: -20 } },
-  { id: 'finance_4', name: '総力戦体制', ratio: 10, buff: 'なし', debuff: '経済成長率 -40%, 政治力獲得倍率 -20%', stats: { economicStrengthRate: -40, politicalPowerRate: -20 } },
+  { id: 'finance_0', name: { ja: '緊縮財政', en: 'Austerity' }, ratio: 0, buff: { ja: '経済成長率 +10%, 政治力獲得倍率 +10%', en: 'Economic Growth +10%, Political Power Gain +10%' }, debuff: { ja: 'なし', en: 'None' }, stats: { economicStrengthRate: 10, politicalPowerRate: 10 } },
+  { id: 'finance_1', name: { ja: '平和維持', en: 'Peacekeeping' }, ratio: 0.5, buff: { ja: '経済成長率 +10%', en: 'Economic Growth +10%' }, debuff: { ja: 'なし', en: 'None' }, stats: { economicStrengthRate: 10 } },
+  { id: 'finance_2', name: { ja: '標準予算', en: 'Standard Budget' }, ratio: 2, buff: { ja: 'なし', en: 'None' }, debuff: { ja: 'なし', en: 'None' }, stats: {} },
+  { id: 'finance_3', name: { ja: '軍拡財政', en: 'Rearmament' }, ratio: 5, buff: { ja: 'なし', en: 'None' }, debuff: { ja: '経済成長率 -20%', en: 'Economic Growth -20%' }, stats: { economicStrengthRate: -20 } },
+  { id: 'finance_4', name: { ja: '総力戦体制', en: 'Total War' }, ratio: 10, buff: { ja: 'なし', en: 'None' }, debuff: { ja: '経済成長率 -40%, 政治力獲得倍率 -20%', en: 'Economic Growth -40%, Political Power Gain -20%' }, stats: { economicStrengthRate: -40, politicalPowerRate: -20 } },
 ];
 
 // 財政状態を計算する共通関数
