@@ -50,6 +50,7 @@ export interface FocusEffect {
   politicalPower?: number;
   economicStrength?: number;
   militaryEquipment?: number;
+  deployedMilitary?: number;
   nationalSpirits?: NationalSpiritRef[];
   eventIds?: string[];
   declareWar?: string;
@@ -109,6 +110,7 @@ export interface ResolvedFocusEffect {
   politicalPower?: number;
   economicStrength?: number;
   militaryEquipment?: number;
+  deployedMilitary?: number;
   nationalSpirits: ResolvedSpiritEffect[];
   events: ResolvedEventEffect[];
   declareWar?: string;
@@ -230,6 +232,7 @@ export async function resolveFocusEffect(effects: FocusEffect): Promise<Resolved
     politicalPower: effects.politicalPower,
     economicStrength: effects.economicStrength,
     militaryEquipment: effects.militaryEquipment,
+    deployedMilitary: effects.deployedMilitary,
     nationalSpirits: resolvedSpirits,
     events: resolvedEvents,
     declareWar: effects.declareWar,

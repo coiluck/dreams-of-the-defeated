@@ -15,7 +15,9 @@
         "en": "The old head wound of Apollinaire, the founder of 'La Sublime' and the prophet of surrealism, has worsened, confining him to his sickbed. As the nation prays, even his delirious mutterings are transcribed by his followers as sacred revelations."
       },
       "effects": {
-        "eventIds": ["FRA_our_guru"]
+        "eventIds": [
+          "FRA_our_guru"
+        ]
       },
       "prerequisites": [
         "FRA_suukounaru_kuni_no_makuake"
@@ -36,7 +38,9 @@
         "en": "In 1932, the Guru finally shed his physical form to embark on a journey to a higher spiritual realm. Around the 'Vacant Throne' left in Paris, his successors battle for control, each interpreting his cryptic poems to suit their own ambitions, driving the nation towards a madness that transcends borders."
       },
       "effects": {
-        "eventIds": ["FRA_kuuseki_no_ouza"]
+        "eventIds": [
+          "FRA_kuuseki_no_ouza"
+        ]
       },
       "prerequisites": [
         "FRA_shinainaru_doushi"
@@ -88,7 +92,9 @@
         "en": ""
       },
       "effects": {
-        "eventIds": ["FRA_zankokuha_no_inbou"]
+        "eventIds": [
+          "FRA_zankokuha_no_inbou"
+        ]
       },
       "prerequisites": [
         "FRA_avignon_no_kuroi_seiten",
@@ -112,7 +118,9 @@
         "en": "A large-scale art ceremony was held in the ancient city of Avignon in France."
       },
       "effects": {
-        "eventIds": ["FRA_black_festival_in_avignon"]
+        "eventIds": [
+          "FRA_black_festival_in_avignon"
+        ]
       },
       "prerequisites": [
         "FRA_suukounaru_kuni_no_makuake"
@@ -133,7 +141,9 @@
         "en": "The 1914 Dresden Peace Conference stripped our nation of its territories and wealth."
       },
       "effects": {
-        "eventIds": ["FRA_dresden_no_kutsujoku"],
+        "eventIds": [
+          "FRA_dresden_no_kutsujoku"
+        ],
         "nationalSpirits": [
           {
             "id": "FRA_loser_military",
@@ -158,7 +168,9 @@
         "en": "Miraculously surviving a severe head injury, the poet has turned his Montparnasse hospital room into a new spiritual stronghold. Young artists and veterans, despairing of the existing order, gather around him to mock the old world."
       },
       "effects": {
-        "eventIds": ["FRA_byoushitsu_no_zenei_salon"]
+        "eventIds": [
+          "FRA_byoushitsu_no_zenei_salon"
+        ]
       },
       "prerequisites": [
         "FRA_dresden_no_kutsujoku"
@@ -179,7 +191,9 @@
         "en": "The mystical doctrines that arrived from India have pierced deeply into the souls of a populace tormented by the unbearable reality of defeat, eroding and dismantling rationalism in the process."
       },
       "effects": {
-        "eventIds": ["FRA_maya_no_nami_ni_nomarete"]
+        "eventIds": [
+          "FRA_maya_no_nami_ni_nomarete"
+        ]
       },
       "prerequisites": [
         "FRA_dresden_no_kutsujoku"
@@ -200,7 +214,9 @@
         "en": "Paris, November 1919. An uprising erupted, led by an artists’ collective under Apollinaire and joined by a detachment of demobilized veterans who had rallied to their cause."
       },
       "effects": {
-        "eventIds": ["FRA_jojoutekinaru_coup_detat"]
+        "eventIds": [
+          "FRA_jojoutekinaru_coup_detat"
+        ]
       },
       "prerequisites": [
         "FRA_byoushitsu_no_zenei_salon",
@@ -252,7 +268,9 @@
         "en": ""
       },
       "effects": {
-        "eventIds": ["FRA_kakumei_wa_tsuzuku"]
+        "eventIds": [
+          "FRA_kakumei_wa_tsuzuku"
+        ]
       },
       "prerequisites": [
         "FRA_zankokuha_no_inbou"
@@ -509,7 +527,7 @@
       "id": "FRA_kanbina_shigai_wa_nemuranai",
       "col": 5,
       "row": 13,
-      "icon": "",
+      "icon": "star",
       "name": {
         "ja": "甘美な死骸は眠らない",
         "en": ""
@@ -518,7 +536,14 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_inflation",
+            "action": "delete"
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_risei_teikokushugi_ni_taisuru_bouhatei"
       ],
@@ -532,7 +557,7 @@
       "id": "FRA_tairiku_no_jouka",
       "col": 1,
       "row": 15,
-      "icon": "",
+      "icon": "bolt",
       "name": {
         "ja": "大陸の浄化",
         "en": ""
@@ -570,7 +595,7 @@
       "id": "FRA_buki_wo_tore",
       "col": 8,
       "row": 14,
-      "icon": "",
+      "icon": "cannon",
       "name": {
         "ja": "武器を取れ",
         "en": ""
@@ -579,38 +604,19 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "militaryEquipment": 5000
+      },
       "prerequisites": [
         "FRA_kanbina_shigai_wa_nemuranai"
       ],
       "mutuallyExclusive": []
     },
     {
-      "id": "FRA_genkakuzai_no_heikika",
-      "col": 9,
-      "row": 16,
-      "icon": "",
-      "name": {
-        "ja": "幻覚剤の兵器化",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
-      },
-      "effects": {},
-      "prerequisites": [
-        "FRA_avant_garde_na_guntai"
-      ],
-      "mutuallyExclusive": [
-        "FRA_chougenjitsuteki_soukou_budai"
-      ]
-    },
-    {
       "id": "FRA_chougenjitsuteki_soukou_budai",
       "col": 11,
       "row": 16,
-      "icon": "",
+      "icon": "factory",
       "name": {
         "ja": "超現実的装甲部隊",
         "en": ""
@@ -624,14 +630,14 @@
         "FRA_avant_garde_na_guntai"
       ],
       "mutuallyExclusive": [
-        "FRA_genkakuzai_no_heikika"
+        "FRA_nikutai_wa_koutetsu_wo_koeru"
       ]
     },
     {
       "id": "FRA_avant_garde_na_guntai",
       "col": 10,
       "row": 15,
-      "icon": "",
+      "icon": "flower",
       "name": {
         "ja": "アヴァンギャルドな軍隊",
         "en": ""
@@ -640,7 +646,14 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_luminous_military",
+            "action": "add"
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_buki_wo_tore"
       ],
@@ -650,7 +663,7 @@
       "id": "FRA_shi_no_butou_no_kyouren",
       "col": 7,
       "row": 15,
-      "icon": "",
+      "icon": "chain",
       "name": {
         "ja": "死の舞踏の教練",
         "en": ""
@@ -659,7 +672,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_loser_military",
+            "action": "modify",
+            "stats": {
+              "attackPower": 5,
+              "defensePower": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_buki_wo_tore"
       ],
@@ -667,9 +691,9 @@
     },
     {
       "id": "FRA_hakai_no_symphony",
-      "col": 6,
-      "row": 16,
-      "icon": "",
+      "col": 9,
+      "row": 18,
+      "icon": "sword",
       "name": {
         "ja": "破壊のシンフォニー",
         "en": ""
@@ -678,9 +702,20 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_luminous_military",
+            "action": "modify",
+            "stats": {
+              "attackPower": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
-        "FRA_shi_no_butou_no_kyouren"
+        "FRA_aruku_zenei_geijutsu",
+        "FRA_koutetsu_no_papier_colle"
       ],
       "mutuallyExclusive": [
         "FRA_mugen_no_zangousen"
@@ -688,9 +723,9 @@
     },
     {
       "id": "FRA_mugen_no_zangousen",
-      "col": 8,
-      "row": 16,
-      "icon": "",
+      "col": 11,
+      "row": 18,
+      "icon": "shield",
       "name": {
         "ja": "夢幻の塹壕戦",
         "en": ""
@@ -699,9 +734,20 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_luminous_military",
+            "action": "modify",
+            "stats": {
+              "defensePower": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
-        "FRA_shi_no_butou_no_kyouren"
+        "FRA_aruku_zenei_geijutsu",
+        "FRA_koutetsu_no_papier_colle"
       ],
       "mutuallyExclusive": [
         "FRA_hakai_no_symphony"
@@ -710,8 +756,8 @@
     {
       "id": "FRA_risei_no_shigai_wo_fumi_koeyo",
       "col": 7,
-      "row": 17,
-      "icon": "",
+      "row": 16,
+      "icon": "anchor",
       "name": {
         "ja": "理性の死骸を踏み越えよ",
         "en": ""
@@ -720,13 +766,22 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
-      "prerequisites": [],
-      "mutuallyExclusive": [],
-      "prerequisitesAny": [
-        "FRA_hakai_no_symphony",
-        "FRA_mugen_no_zangousen"
-      ]
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_loser_military",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "attackPower": 5
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "FRA_shi_no_butou_no_kyouren"
+      ],
+      "mutuallyExclusive": []
     },
     {
       "id": "FRA_miraiha_to_no_kyouzon",
@@ -816,7 +871,7 @@
       "id": "FRA_kuroki_taiyou_no_taikan",
       "col": 8,
       "row": 12,
-      "icon": "",
+      "icon": "crown",
       "name": {
         "ja": "黒き太陽の戴冠",
         "en": ""
@@ -837,7 +892,7 @@
       "id": "FRA_aruku_zenei_geijutsu",
       "col": 9,
       "row": 17,
-      "icon": "",
+      "icon": "flower",
       "name": {
         "ja": "歩く前衛芸術",
         "en": ""
@@ -848,15 +903,15 @@
       },
       "effects": {},
       "prerequisites": [
-        "FRA_genkakuzai_no_heikika"
+        "FRA_nikutai_wa_koutetsu_wo_koeru"
       ],
       "mutuallyExclusive": []
     },
     {
       "id": "FRA_nikutai_wa_koutetsu_wo_koeru",
       "col": 9,
-      "row": 18,
-      "icon": "",
+      "row": 16,
+      "icon": "arrow-up",
       "name": {
         "ja": "肉体は鋼鉄を超える",
         "en": ""
@@ -867,15 +922,17 @@
       },
       "effects": {},
       "prerequisites": [
-        "FRA_aruku_zenei_geijutsu"
+        "FRA_avant_garde_na_guntai"
       ],
-      "mutuallyExclusive": []
+      "mutuallyExclusive": [
+        "FRA_chougenjitsuteki_soukou_budai"
+      ]
     },
     {
       "id": "FRA_koutetsu_no_papier_colle",
       "col": 11,
       "row": 17,
-      "icon": "",
+      "icon": "gear",
       "name": {
         "ja": "鋼鉄のパピエ・コレ",
         "en": ""
@@ -891,29 +948,10 @@
       "mutuallyExclusive": []
     },
     {
-      "id": "FRA_hakaishin_no_butouhei",
-      "col": 11,
-      "row": 18,
-      "icon": "",
-      "name": {
-        "ja": "破壊神の舞闘兵",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
-      },
-      "effects": {},
-      "prerequisites": [
-        "FRA_koutetsu_no_papier_colle"
-      ],
-      "mutuallyExclusive": []
-    },
-    {
       "id": "FRA_youshanonai_senshi",
       "col": 6,
-      "row": 18,
-      "icon": "",
+      "row": 17,
+      "icon": "sword",
       "name": {
         "ja": "容赦のない戦士",
         "en": ""
@@ -922,7 +960,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_loser_military",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "attackPower": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_risei_no_shigai_wo_fumi_koeyo"
       ],
@@ -931,8 +980,8 @@
     {
       "id": "FRA_suukounaru_guntai",
       "col": 6,
-      "row": 19,
-      "icon": "",
+      "row": 18,
+      "icon": "crown",
       "name": {
         "ja": "崇高なる軍隊",
         "en": ""
@@ -941,7 +990,14 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_loser_military",
+            "action": "delete"
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_youshanonai_senshi"
       ],
@@ -950,8 +1006,8 @@
     {
       "id": "FRA_shimin_mo_seni_ni_moeteiru",
       "col": 8,
-      "row": 18,
-      "icon": "",
+      "row": 17,
+      "icon": "flame",
       "name": {
         "ja": "市民も戦意に燃えている",
         "en": ""
@@ -960,7 +1016,9 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "deployedMilitary": 25
+      },
       "prerequisites": [
         "FRA_risei_no_shigai_wo_fumi_koeyo"
       ],
@@ -970,7 +1028,7 @@
       "id": "FRA_fukushuu_no_honoo",
       "col": 0,
       "row": 16,
-      "icon": "",
+      "icon": "flame",
       "name": {
         "ja": "復讐の炎",
         "en": ""
@@ -989,7 +1047,7 @@
       "id": "FRA_latin_no_kyoudaitachi_wo_kaihou",
       "col": 2,
       "row": 16,
-      "icon": "",
+      "icon": "flag",
       "name": {
         "ja": "ラテンの兄弟たちを解放",
         "en": ""
@@ -1008,7 +1066,7 @@
       "id": "FRA_roudou_wa_shi_dearu",
       "col": 7,
       "row": 8,
-      "icon": "",
+      "icon": "flower",
       "name": {
         "ja": "労働は詩である",
         "en": ""
@@ -1017,7 +1075,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_irrational_government",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": 5,
+              "economicStrengthRate": 15
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_kakumei_wa_tsuzuku"
       ],
@@ -1029,7 +1098,7 @@
       "id": "FRA_seishin_no_soudouin",
       "col": 8,
       "row": 8,
-      "icon": "",
+      "icon": "chain",
       "name": {
         "ja": "精神の総動員",
         "en": ""
@@ -1038,7 +1107,19 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_irrational_government",
+            "action": "modify",
+            "stats": {
+              "economicStrengthRate": 10,
+              "attackPower": 5,
+              "mechanizationRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_kakumei_wa_tsuzuku"
       ],
@@ -1050,7 +1131,7 @@
       "id": "FRA_kikannaki_kokka",
       "col": 8,
       "row": 10,
-      "icon": "",
+      "icon": "sword",
       "name": {
         "ja": "器官なき国家",
         "en": ""
@@ -1059,7 +1140,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_irrational_government",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": 5,
+              "economicStrengthRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_riseishugisha_he_no_itanshinmon"
       ],
@@ -1073,7 +1165,7 @@
       "id": "FRA_busshitsu_ni_taisuru_seishin_no_shouri",
       "col": 8,
       "row": 9,
-      "icon": "",
+      "icon": "globe",
       "name": {
         "ja": "物質に対する精神の勝利",
         "en": ""
@@ -1082,7 +1174,19 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_irrational_government",
+            "action": "modify",
+            "stats": {
+              "politicalPowerRate": 10,
+              "economicStrengthRate": 10,
+              "attackPower": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_seishin_no_soudouin"
       ],
@@ -1092,7 +1196,7 @@
       "id": "FRA_koushou_wa_atelier_nari",
       "col": 7,
       "row": 9,
-      "icon": "",
+      "icon": "factory",
       "name": {
         "ja": "工廠はアトリエなり",
         "en": ""
@@ -1101,7 +1205,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_irrational_government",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": 5,
+              "economicStrengthRate": 20
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_roudou_wa_shi_dearu"
       ],
@@ -1111,7 +1226,7 @@
       "id": "FRA_kouan_iinkai_no_shouaku",
       "col": 9,
       "row": 8,
-      "icon": "",
+      "icon": "document",
       "name": {
         "ja": "公安委員会の掌握",
         "en": ""
@@ -1120,7 +1235,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_irrational_government",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_kakumei_wa_tsuzuku"
       ],
@@ -1130,7 +1255,7 @@
       "id": "FRA_suuji_wo_moyase",
       "col": 9,
       "row": 11,
-      "icon": "",
+      "icon": "flame",
       "name": {
         "ja": "数字を燃やせ",
         "en": ""
@@ -1139,7 +1264,19 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_inspiration",
+            "action": "modify",
+            "stats": {
+              "economicStrengthRate": -5,
+              "politicalPowerRate": 10,
+              "legitimacy": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_kikannaki_kokka"
       ],
@@ -1151,7 +1288,7 @@
       "id": "FRA_riseishugisha_he_no_itanshinmon",
       "col": 9,
       "row": 9,
-      "icon": "",
+      "icon": "cross",
       "name": {
         "ja": "理性主義者への異端審問",
         "en": ""
@@ -1160,7 +1297,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "politicalPower": -50,
+        "nationalSpirits": [
+          {
+            "id": "FRA_irrational_government",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_kouan_iinkai_no_shouaku"
       ],
@@ -1170,7 +1318,7 @@
       "id": "FRA_paris_daikaizou",
       "col": 7,
       "row": 11,
-      "icon": "",
+      "icon": "gear",
       "name": {
         "ja": "パリ大改造",
         "en": ""
@@ -1179,7 +1327,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_inspiration",
+            "action": "modify",
+            "stats": {
+              "economicStrengthRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_kikannaki_kokka"
       ],
@@ -1190,8 +1348,8 @@
     {
       "id": "FRA_wareware_wa_shinwa_wo_ikiru",
       "col": 8,
-      "row": 20,
-      "icon": "",
+      "row": 19,
+      "icon": "star",
       "name": {
         "ja": "我々は神話を生きる",
         "en": ""
@@ -1207,8 +1365,8 @@
       ],
       "mutuallyExclusive": [],
       "prerequisitesAny": [
-        "FRA_nikutai_wa_koutetsu_wo_koeru",
-        "FRA_hakaishin_no_butouhei"
+        "FRA_hakai_no_symphony",
+        "FRA_mugen_no_zangousen"
       ]
     },
     {
@@ -1236,7 +1394,7 @@
       "id": "FRA_honoo_wa_hirogaritsuzukeru",
       "col": 0,
       "row": 17,
-      "icon": "",
+      "icon": "flame",
       "name": {
         "ja": "炎は広がり続ける",
         "en": ""
@@ -1255,7 +1413,7 @@
       "id": "FRA_utsukushiki_shizen_kokkyou_wo",
       "col": 0,
       "row": 18,
-      "icon": "",
+      "icon": "flag",
       "name": {
         "ja": "美しき自然国境を",
         "en": ""
@@ -1276,7 +1434,7 @@
       "id": "FRA_kyouki_wa_pyrenees_womo_koeru",
       "col": 2,
       "row": 17,
-      "icon": "",
+      "icon": "bolt",
       "name": {
         "ja": "狂気はピレネーをも越える",
         "en": ""
@@ -1295,7 +1453,7 @@
       "id": "FRA_sekai_no_chuushin_wa_france",
       "col": 1,
       "row": 19,
-      "icon": "",
+      "icon": "globe",
       "name": {
         "ja": "世界の中心はフランス！",
         "en": ""
@@ -1325,7 +1483,9 @@
         "en": ""
       },
       "effects": {
-        "eventIds": ["FRA_shokuminchi_no_koutei"]
+        "eventIds": [
+          "FRA_shokuminchi_no_koutei"
+        ]
       },
       "prerequisites": [],
       "mutuallyExclusive": [],
@@ -1404,10 +1564,10 @@
       "id": "FRA_risei_teikokushugi_ni_taisuru_bouhatei",
       "col": 5,
       "row": 11,
-      "icon": "star",
+      "icon": "flag",
       "name": {
         "ja": "理性帝国主義に対する防波堤",
-        "en": "flag"
+        "en": ""
       },
       "description": {
         "ja": "",
@@ -1446,7 +1606,9 @@
         "en": ""
       },
       "effects": {
-        "eventIds": ["FRA_yasei_no_shikou_no_hogoku"],
+        "eventIds": [
+          "FRA_yasei_no_shikou_no_hogoku"
+        ],
         "nationalSpirits": [
           {
             "id": "FRA_colonial_empire",

@@ -41,13 +41,16 @@ const ICONS: Record<string, string> = {
   globe:   'M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 0v20M2 12h20M4.9 6.4A14.4 14.4 0 0 0 12 8a14.4 14.4 0 0 0 7.1-1.6M4.9 17.6A14.4 14.4 0 0 1 12 16a14.4 14.4 0 0 1 7.1 1.6',
   'arrow-up':   'M12 4l-8 8h5v8h6v-8h5z',
   'arrow-down': 'M12 20l8-8h-5V4H9v8H4z',
-  shield:       'M12 2L3 7v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7l-9-5z',
+  shield:       'M12 3.5L4.5 7.5v5c0 4.6 3.2 9.1 7.5 10.2 4.3-1.1 7.5-5.6 7.5-10.2V7.5l-7.5-4z',
   bolt:         'M13 2L3 14h7v8l11-12h-7L13 2z',
   document:     'M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5z',
   cross:        'M19 10h-5V5h-4v5H5v4h5v5h4v-5h5v-4z',
   flag:         'M5 21V4h9l1 2h6v10h-8l-1-2H7v7H5z',
   crown:        'M5 16h14l1-10-4 4-4-6-4 6-4-4 1 10zM5 18h14v2H5v-2z',
-};
+  flower: 'M12 2a4 4 0 0 1 4 4c0 2-4 4-4 4s-4-2-4-4a4 4 0 0 1 4-4zm10 10a4 4 0 0 1-4 4c-2 0-4-4-4-4s2-4 4-4a4 4 0 0 1 4 4zM12 22a4 4 0 0 1-4-4c0-2 4-4 4-4s4 2 4 4a4 4 0 0 1-4 4zM2 12a4 4 0 0 1 4-4c2 0 4 4 4 4s-2 4-4 4a4 4 0 0 1-4-4zm10-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z',
+  cannon: 'M6 10l12-6 2 4-12 6z M17 3l4 6 M6 16a4 4 0 1 0 8 0 4 4 0 1 0-8 0 M9 16a1 1 0 1 0 2 0 1 1 0 1 0-2 0 M10 16L4 20H2',
+  chain:  'M15 7h3a5 5 0 0 1 0 10h-3 M9 17h-3a5 5 0 0 1 0-10h3 M8 12h8',
+}
 
 function FocusIcon({ iconKey, size = 24, color = '#fff3f1' }: { iconKey: string; size?: number; color?: string }) {
   const d = ICONS[iconKey] || ICONS['star'];
@@ -63,7 +66,7 @@ const LABELS: Record<string, { ja: string; en: string }> = {
   // 基本リソース
   politicalPower:    { ja: '政治力',    en: 'Political Power' },
   economicStrength:  { ja: '経済力',    en: 'Economic Strength' },
-  militaryEquipment: { ja: '軍事備品',  en: 'Equipment Stockpile' },
+  militaryEquipment: { ja: '装備備蓄',  en: 'Equipment Stockpile' },
   deployedMilitary:  { ja: '展開兵力',  en: 'Deployed Forces' },
   // NF効果のパラメータ
   legitimacy:           { ja: '正統性',       en: 'Legitimacy' },
