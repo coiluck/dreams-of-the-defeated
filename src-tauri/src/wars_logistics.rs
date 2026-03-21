@@ -112,7 +112,7 @@ pub fn calc_supply(
         let p = &points[cur_idx];
         for (nx, ny) in neighbors4(p.x, p.y) {
             let nb_idx = coord_to_idx(nx, ny);
-            if points[nb_idx].owner_id != 0 && !dist_map.contains_key(&nb_idx) {
+            if points[nb_idx].owner_id == supply_owner && !dist_map.contains_key(&nb_idx) {
                 dist_map.insert(nb_idx, d + 1);
                 queue.push_back(nb_idx);
             }

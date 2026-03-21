@@ -72,7 +72,7 @@ export default function GameFinance() {
   const ACTIONS = [
     {
       name: { ja: '正規軍の編成', en: 'Military Formation' },
-      description: { ja: '展開兵力 +5', en: 'Deployed military +5.' },
+      description: { ja: '展開兵力 +5', en: 'Deployed Forces +5.' },
       cost: { politicalPower: 20, militaryEquipment: 500 },
       effect: (country: CountryState) => ({
         deployedMilitary: country.deployedMilitary + 5
@@ -80,7 +80,7 @@ export default function GameFinance() {
     },
     {
       name: { ja: '師団の解体', en: 'Disband Division' },
-      description: { ja: '展開兵力 -5', en: 'Deployed military -5.' },
+      description: { ja: '展開兵力 -5', en: 'Deployed Forces -5.' },
       cost: { politicalPower: 15 },
       effect: (country: CountryState) => ({
         deployedMilitary: Math.max(0, country.deployedMilitary - 5)
@@ -88,31 +88,31 @@ export default function GameFinance() {
     },
     {
       name: { ja: '装備の生産', en: 'Equipment Production' },
-      description: { ja: '装備備蓄 +200', en: 'Equipment stockpile +200.' },
-      cost: { politicalPower: 20 },
+      description: { ja: '装備備蓄 +1000', en: 'Equipment Stockpile +1000.' },
+      cost: { politicalPower: 40 },
       effect: (country: CountryState) => ({
-        militaryEquipment: country.militaryEquipment + 200
+        militaryEquipment: country.militaryEquipment + 1000
       })
     },
     {
       name: { ja: '装備の破棄', en: 'Equipment Destruction' },
-      description: { ja: '装備備蓄 -200', en: 'Equipment stockpile -200.' },
+      description: { ja: '装備備蓄 -1000', en: 'Equipment Stockpile -1000.' },
       cost: { politicalPower: 15 },
       effect: (country: CountryState) => ({
-        militaryEquipment: Math.max(0, country.militaryEquipment - 200)
+        militaryEquipment: Math.max(0, country.militaryEquipment - 1000)
       })
     },
     {
       name: { ja: '機械化の推進', en: 'Mechanization Advancement' },
-      description: { ja: '機械化率 +5', en: 'Mechanization rate +5.' },
+      description: { ja: '機械化率 +5', en: 'Mechanization Rate +5.' },
       cost: { politicalPower: 20, militaryEquipment: 300 },
       effect: (country: CountryState) => ({
         mechanizationRate: Math.min(100, country.mechanizationRate + 5)
       })
     },
     {
-      name: { ja: '守旧的な軍隊の編成', en: 'Traditional Army Formation' },
-      description: { ja: '機械化率 -5', en: 'Mechanization rate -5.' },
+      name: { ja: '軍隊の守旧化', en: 'Traditional Army Advancement' },
+      description: { ja: '機械化率 -5', en: 'Mechanization Rate -5.' },
       cost: { politicalPower: 15 },
       effect: (country: CountryState) => ({
         mechanizationRate: Math.max(0, country.mechanizationRate - 5)

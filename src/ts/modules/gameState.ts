@@ -448,7 +448,7 @@ export const applyDeclareWar = (
 const processEconomy = (countries: Record<string, CountryState>) => {
   const updatedCountries = { ...countries };
   const ECONOMIC_GROWNTH_RATE = 0.05;
-  const POLITICAL_POWER_INCREASE = 20;
+  const POLITICAL_POWER_INCREASE = 50;
 
   Object.keys(updatedCountries).forEach((id) => {
     const currentCountry = updatedCountries[id];
@@ -504,11 +504,11 @@ const processEconomy = (countries: Record<string, CountryState>) => {
 };
 
 export const FINANCE_LEVELS = [
-  { id: 'finance_0', name: { ja: '緊縮財政', en: 'Austerity' }, ratio: 0, buff: { ja: '経済成長率 +10%, 政治力獲得倍率 +10%', en: 'Economic Growth +10%, Political Power Gain +10%' }, debuff: { ja: 'なし', en: 'None' }, stats: { economicStrengthRate: 10, politicalPowerRate: 10 } },
+  { id: 'finance_0', name: { ja: '緊縮財政', en: 'Austerity' }, ratio: 0, buff: { ja: '経済成長率 +10%, 政治力獲得倍率 +10%', en: 'Economic Growth +10%, Political Power Rate +10%' }, debuff: { ja: 'なし', en: 'None' }, stats: { economicStrengthRate: 10, politicalPowerRate: 10 } },
   { id: 'finance_1', name: { ja: '平和維持', en: 'Peacekeeping' }, ratio: 0.5, buff: { ja: '経済成長率 +10%', en: 'Economic Growth +10%' }, debuff: { ja: 'なし', en: 'None' }, stats: { economicStrengthRate: 10 } },
   { id: 'finance_2', name: { ja: '標準予算', en: 'Standard Budget' }, ratio: 2, buff: { ja: 'なし', en: 'None' }, debuff: { ja: 'なし', en: 'None' }, stats: {} },
   { id: 'finance_3', name: { ja: '軍拡財政', en: 'Rearmament' }, ratio: 5, buff: { ja: 'なし', en: 'None' }, debuff: { ja: '経済成長率 -20%', en: 'Economic Growth -20%' }, stats: { economicStrengthRate: -20 } },
-  { id: 'finance_4', name: { ja: '総力戦体制', en: 'Total War' }, ratio: 10, buff: { ja: 'なし', en: 'None' }, debuff: { ja: '経済成長率 -40%, 政治力獲得倍率 -20%', en: 'Economic Growth -40%, Political Power Gain -20%' }, stats: { economicStrengthRate: -40, politicalPowerRate: -20 } },
+  { id: 'finance_4', name: { ja: '総力戦体制', en: 'Total War' }, ratio: 10, buff: { ja: 'なし', en: 'None' }, debuff: { ja: '経済成長率 -40%, 政治力獲得倍率 -20%', en: 'Economic Growth -40%, Political Power Rate -20%' }, stats: { economicStrengthRate: -40, politicalPowerRate: -20 } },
 ];
 
 // 財政状態を計算する共通関数
@@ -518,10 +518,10 @@ export const calculateFinanceStatus = (country: CountryState) => {
   const totalMultiplier = legMultiplier + culMultiplier;
   const effectiveGDP = country.economicStrength * totalMultiplier;
 
-  const C_BASE = 50000;
+  const C_BASE = 75000;
   const ALPHA = 0.7;
   const BETA = 2;
-  const C_EQUIP = 4;
+  const C_EQUIP = 500;
   const FIXED_COST = 20_000_000;
 
   const divisionCost = country.deployedMilitary * C_BASE * (1 + ALPHA * Math.pow(country.mechanizationRate, BETA));

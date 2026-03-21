@@ -20,7 +20,7 @@
   "topBar.culturalUnity": { "ja": "文化統合度", "en": "Cultural Unity" },
   "topBar.deployedMilitary": { "ja": "展開兵力", "en": "Deployed Forces" },
   "topBar.militaryEquipment": { "ja": "装備備蓄", "en": "Equipment Stockpile" },
-  "topBar.mechanization": { "ja": "機械化率", "en": "Mechanization" },
+  "topBar.mechanization": { "ja": "機械化率", "en": "Mechanization Rate" },
   "topBar.legitimacy.description": {
     "ja": "正統性: 国家の正統性を示す指標。\n高いと国家の経済の発展が促進され、軍事に使用できる予算も増加する。",
     "en": "Legitimacy: A measure of the state's rightful authority.\nHigh levels stimulate economic growth and expand the available military upkeep."
