@@ -1,7 +1,7 @@
 // ts/components/GameWar.tsx
 import { useEffect, useState } from 'react';
 import { invoke } from '@tauri-apps/api/core';
-import { usePlayerCountry, useGameStore, CountryState } from '../modules/gameState';
+import { usePlayerCountry, useGameStore, calculateEffectiveStats } from '../modules/gameState';
 import { getTranslatedText } from '../modules/i18n';
 import { SettingState } from '../modules/store';
 import './GameWar.css';
@@ -102,26 +102,6 @@ export const TACTIC_ACTIONS: TacticAction[] = [
   },
 ]
 
-// ── 国民精神バフ集計 ──────────────────────────────────────────────────────────
-//
-// ModifierStats に attackBuff / defenceBuff (いずれも % 整数) が存在する前提。
-// 例: stats.attackBuff = 10 → 攻撃力 ×1.10
-// フィールドが存在しない国家は 1.0（バフなし）として扱う。
-//
-function calcSpiritBuffs(country: CountryState) {
-  let attackRate  = 0; // % の合計
-  let defenceRate = 0;
-
-  for (const spirit of country.nationalSpirits ?? []) {
-    attackRate  += spirit.stats.attackPower  ?? 0;
-    defenceRate += spirit.stats.defensePower ?? 0;
-  }
-
-  return {
-    attackBuff:  1.0 + attackRate  / 100,
-    defenceBuff: 1.0 + defenceRate / 100,
-  };
-}
 
 // ── 合計戦線マス数の取得 ──────────────────────────────────────────────────────
 //
@@ -214,7 +194,8 @@ export default function GameWar() {
   const playerCountryId = useGameStore((state) => state.game?.playerCountryId);
   const wars = useGameStore((state) => state.game?.wars ?? {});
   const countries = useGameStore((state) => state.game?.countries ?? {});
-  const mechanizationRate = playerCountry?.mechanizationRate;
+  const effectivePlayerStats = playerCountry ? calculateEffectiveStats(playerCountry) : null;
+  const mechanizationRate = effectivePlayerStats?.mechanizationRate; // 国民精神の機械化率を使用
   const setFrontAction = useGameStore((state) => state.setFrontAction);
 
   const [selectedWarId, setSelectedWarId] = useState<string | null>(null);
@@ -326,7 +307,7 @@ export default function GameWar() {
             player_id: playerCountry.id,
             enemy_ids: [enemyCode],
             supply_buffs: {},
-            mechanization_rate: playerCountry.mechanizationRate,
+            mechanization_rate: effectivePlayerStats?.mechanizationRate ?? 0,
           },
         });
         setFronts(result);
@@ -379,9 +360,13 @@ export default function GameWar() {
           enemyCountry.mechanizationRate ?? 0,
         );
 
+        const effectiveEnemyStats = calculateEffectiveStats(enemyCountry);
+
         // 国民精神バフ
-        const playerBuffs = calcSpiritBuffs(playerCountry);
-        const enemyBuffs  = calcSpiritBuffs(enemyCountry);
+        const playerAttackBuff = 1.0 + (effectivePlayerStats!.attackPower / 100);
+        const playerDefenceBuff = 1.0 + (effectivePlayerStats!.defensePower / 100);
+        const enemyAttackBuff = 1.0 + (effectiveEnemyStats.attackPower / 100);
+        const enemyDefenceBuff = 1.0 + (effectiveEnemyStats.defensePower / 100);
 
         // フロントごとの敵補給率
         const resolveEnemySupply = (front: FrontInfo): number => {
@@ -397,16 +382,16 @@ export default function GameWar() {
           player_id: playerCountry.id,
           player_deployed_military: playerCountry.deployedMilitary || 0,
           player_total_tiles: playerTotalTiles,
-          player_mechanization_rate: playerCountry.mechanizationRate || 0,
-          player_spirit_attack_buff:  playerBuffs.attackBuff,
-          player_spirit_defence_buff: playerBuffs.defenceBuff,
+          player_mechanization_rate: effectivePlayerStats!.mechanizationRate || 0,
+          player_spirit_attack_buff: playerAttackBuff,
+          player_spirit_defence_buff: playerDefenceBuff,
 
           enemy_id: enemyCountry.id,
           enemy_deployed_military: enemyCountry.deployedMilitary || 0,
           enemy_total_tiles: enemyTotalTiles,
-          enemy_mechanization_rate: enemyCountry.mechanizationRate || 0,
-          enemy_spirit_attack_buff:  enemyBuffs.attackBuff,
-          enemy_spirit_defence_buff: enemyBuffs.defenceBuff,
+          enemy_mechanization_rate: effectiveEnemyStats.mechanizationRate || 0,
+          enemy_spirit_attack_buff: enemyAttackBuff,
+          enemy_spirit_defence_buff: enemyDefenceBuff,
 
           fronts: fronts.map((f) => ({
             front_id:     f.front_id,

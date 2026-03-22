@@ -1,7 +1,7 @@
 // src/ts/components/TopBar.tsx
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import './TopBar.css';
-import { useGameStore, usePlayerCountry } from '../modules/gameState';
+import { useGameStore, usePlayerCountry, calculateEffectiveStats } from '../modules/gameState';
 import { SettingState } from '../modules/store';
 import Tooltip from './ToolTip';
 import { getTranslatedText } from '../modules/i18n';
@@ -9,6 +9,10 @@ import { getTranslatedText } from '../modules/i18n';
 export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
   const game = useGameStore(state => state.game);
   const playerCountry = usePlayerCountry();
+
+  const effectiveStats = useMemo(() => {
+    return playerCountry ? calculateEffectiveStats(playerCountry) : null;
+  }, [playerCountry]);
 
   const [tooltips, setTooltips] = useState({
     politicalPower: '',
@@ -53,7 +57,7 @@ export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
     fetchTooltips();
   }, [SettingState.language]);
 
-  if (!game || !playerCountry) {
+  if (!game || !playerCountry || !effectiveStats) {
     return <div className="topbar-component-container">Now Loading...</div>;
   }
 
@@ -92,7 +96,7 @@ export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
             <div className="topbar-component-status-item">
               <div className="topbar-component-status-item-icon legitimacy"></div>
               <div className="topbar-component-status-item-text">
-                {playerCountry.legitimacy}%
+                {effectiveStats.legitimacy}%
               </div>
             </div>
           </Tooltip>
@@ -108,7 +112,7 @@ export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
             <div className="topbar-component-status-item">
               <div className="topbar-component-status-item-icon culturalUnity"></div>
               <div className="topbar-component-status-item-text">
-                {playerCountry.culturalUnity}%
+                {effectiveStats.culturalUnity}%
               </div>
             </div>
           </Tooltip>
@@ -132,7 +136,7 @@ export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
             <div className="topbar-component-status-item">
               <div className="topbar-component-status-item-icon mechanization"></div>
               <div className="topbar-component-status-item-text">
-                {playerCountry.mechanizationRate}%
+                {effectiveStats.mechanizationRate}%
               </div>
             </div>
           </Tooltip>

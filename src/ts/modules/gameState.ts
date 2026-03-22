@@ -357,7 +357,18 @@ const processPlayerFocus = async (
 
   let updatedSpirits = [...(player.nationalSpirits || [])];
 
+  // NF完了時に直接付与されるリソース
+  let addPp = 0;
+  let addEcon = 0;
+  let addEquip = 0;
+  let addMil = 0;
+
   if (focusNode) {
+    // リソース付与
+    addPp = focusNode.effects.politicalPower || 0;
+    addEcon = focusNode.effects.economicStrength || 0;
+    addEquip = focusNode.effects.militaryEquipment || 0;
+    addMil = focusNode.effects.deployedMilitary || 0;
     // イベント
     if (focusNode.effects.eventIds) {
       newEvents.push(...focusNode.effects.eventIds);
@@ -381,9 +392,19 @@ const processPlayerFocus = async (
           // 更新
           updatedSpirits = updatedSpirits.map(spirit => {
             if (spirit.id === spiritRef.id) {
+              const oldStats = spirit.stats || {};
+              const diffStats = spiritRef.stats || {};
+              const newStats = { ...oldStats };
+
+              // 各パラメータの差分（diffStats）を既存の値（newStats）に足し合わせる
+              let key: keyof typeof diffStats;
+              for (key in diffStats) {
+                newStats[key] = (newStats[key] || 0) + (diffStats[key] || 0);
+              }
+
               return {
                 ...spirit,
-                stats: { ...spirit.stats, ...(spiritRef.stats || {}) }
+                stats: newStats
               };
             }
             return spirit;
@@ -400,6 +421,10 @@ const processPlayerFocus = async (
 
   updatedCountries[playerCountryId] = {
     ...latestPlayer,
+    politicalPower: latestPlayer.politicalPower + addPp,
+    economicStrength: latestPlayer.economicStrength + addEcon,
+    militaryEquipment: Math.max(0, latestPlayer.militaryEquipment + addEquip),
+    deployedMilitary: Math.max(0, latestPlayer.deployedMilitary + addMil),
     activeFocusId: null,
     completedFocusIds: [...(player.completedFocusIds as string[]), completedId] as string[],
     nationalSpirits: updatedSpirits,
@@ -497,6 +522,7 @@ const processEconomy = (countries: Record<string, CountryState>) => {
       politicalPower: Math.round(currentCountry.politicalPower + actualPpIncrease),
       economicStrength: roundToTop3Digits(currentCountry.economicStrength + actualEconIncrease),
       financeActionCount: 0,
+      nationalSpirits: updatedSpirits,
     };
   });
 
@@ -513,8 +539,10 @@ export const FINANCE_LEVELS = [
 
 // 財政状態を計算する共通関数
 export const calculateFinanceStatus = (country: CountryState) => {
-  const legMultiplier = 0.25 + (country.legitimacy / 400);
-  const culMultiplier = 0.25 + (country.culturalUnity / 400);
+  const stats = calculateEffectiveStats(country);
+
+  const legMultiplier = 0.25 + (stats.legitimacy / 400);
+  const culMultiplier = 0.25 + (stats.culturalUnity / 400);
   const totalMultiplier = legMultiplier + culMultiplier;
   const effectiveGDP = country.economicStrength * totalMultiplier;
 
@@ -524,7 +552,7 @@ export const calculateFinanceStatus = (country: CountryState) => {
   const C_EQUIP = 500;
   const FIXED_COST = 20_000_000;
 
-  const divisionCost = country.deployedMilitary * C_BASE * (1 + ALPHA * Math.pow(country.mechanizationRate, BETA));
+  const divisionCost = country.deployedMilitary * C_BASE * (1 + ALPHA * Math.pow(stats.mechanizationRate, BETA));
   const equipmentCost = country.militaryEquipment * C_EQUIP;
   const militaryBudget = divisionCost + equipmentCost + FIXED_COST;
 
@@ -539,4 +567,46 @@ export const calculateFinanceStatus = (country: CountryState) => {
   }
 
   return { effectiveGDP, militaryBudget, currentRatio, currentLevel };
+};
+
+
+export interface EffectiveCountryStats {
+  legitimacy: number;
+  culturalUnity: number;
+  mechanizationRate: number;
+  attackPower: number;
+  defensePower: number;
+  politicalPowerRate: number;
+  economicStrengthRate: number;
+}
+
+// 基礎値と国民精神のバフを合算
+export const calculateEffectiveStats = (country: CountryState): EffectiveCountryStats => {
+  let legitimacy = country.legitimacy;
+  let culturalUnity = country.culturalUnity;
+  let mechanizationRate = country.mechanizationRate;
+  let attackPower = 0;
+  let defensePower = 0;
+  let politicalPowerRate = 0;
+  let economicStrengthRate = 0;
+
+  country.nationalSpirits.forEach(spirit => {
+    legitimacy += spirit.stats.legitimacy || 0;
+    culturalUnity += spirit.stats.culturalUnity || 0;
+    mechanizationRate += spirit.stats.mechanizationRate || 0;
+    attackPower += spirit.stats.attackPower || 0;
+    defensePower += spirit.stats.defensePower || 0;
+    politicalPowerRate += spirit.stats.politicalPowerRate || 0;
+    economicStrengthRate += spirit.stats.economicStrengthRate || 0;
+  });
+
+  return {
+    legitimacy: Math.max(0, Math.min(100, legitimacy)),
+    culturalUnity: Math.max(0, Math.min(100, culturalUnity)),
+    mechanizationRate: Math.max(0, Math.min(100, mechanizationRate)),
+    attackPower,
+    defensePower,
+    politicalPowerRate,
+    economicStrengthRate,
+  };
 };
