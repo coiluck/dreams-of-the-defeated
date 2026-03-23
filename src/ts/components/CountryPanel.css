@@ -1,0 +1,239 @@
+.cp-component-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: clamp(280px, 200px + 20vw, 420px);
+  z-index: 199; /* GameActions.css より低い */
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+  transform: translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.4s ease;
+}
+
+.cp-component-container.open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.cp-component-container-bg {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-right: 2px solid #555;
+  filter: url('#button-grunge-filter');
+  z-index: -2;
+}
+.cp-component-container-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 700' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+  z-index: -1;
+}
+
+/* パネルヘッダー */
+.cp-component-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.2rem;
+  height: calc(clamp(40px, 5.3333vw, 66.6667px) + 16px);
+  border-bottom: 2px solid #ceae44;
+}
+.cp-component-title {
+  font-family: "Courier New", monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  color: #ffd700;
+  filter: url('#button-grunge-filter');
+}
+
+/* 閉じるボタン */
+.cp-component-close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1.5px solid #555;
+  cursor: pointer;
+  color: #fff3f1;
+  font-size: 1rem;
+  filter: url('#button-grunge-filter');
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.cp-component-close-button:hover {
+  border-color: #ceae44;
+  color: #ffd700;
+}
+.cp-component-close-button::before {
+  content: "✕";
+  line-height: 1;
+}
+
+.cp-component-country-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem 1.2rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #444 transparent;
+}
+.cp-component-country-info::-webkit-scrollbar {
+  width: 4px;
+}
+.cp-component-country-info::-webkit-scrollbar-track {
+  background: transparent;
+}
+.cp-component-country-info::-webkit-scrollbar-thumb {
+  background-color: #444;
+}
+
+/* 国旗 */
+.cp-component-country-info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #fff3f1;
+}
+.cp-component-country-info-header-flag {
+  position: relative;
+  width: 6rem;
+  height: 4rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.cp-component-country-info-header-flag::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('/assets/images/CountryFlags/flag_shadow.jpg') no-repeat center center;
+  background-size: cover;
+  mix-blend-mode: multiply;
+  z-index: 0;
+}
+.cp-component-country-info-header-flag::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 12px 2px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cp-component-country-info-header-name {
+  flex: 1;
+  padding: .3rem .5rem;
+  font-family: serif;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+  filter: url('#button-grunge-filter');
+  border-radius: calc(.6rem + 1rem);
+}
+
+.cp-component-country-info-title {
+  font-family: "Courier New", monospace;
+  font-size: .9rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  filter: url('#button-grunge-filter');
+  border-left: 2px solid currentColor;
+  padding-left: .5rem;
+}
+
+/* 基礎パラメータ */
+.cp-component-country-info-status {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.cp-component-country-info-status-content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .75rem;
+}
+
+.cp-component-country-info-status-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.2;
+}
+.cp-component-country-info-status-item-label {
+  font-family: serif;
+  font-size: .9rem;
+  text-transform: uppercase;
+}
+.cp-component-country-info-status-item-value {
+  font-family: "Courier New", monospace;
+  font-size: .9rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  filter: url('#button-grunge-filter');
+}
+
+/* 国民精神 */
+.cp-component-country-info-spirits {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.cp-component-country-info-spirits-container {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.cp-component-country-info-spirits-item {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding: .5rem;
+  border: 1px solid rgba(237, 188, 92, 0.4);
+  background-color: rgba(110, 110, 110, 0.1);
+}
+.cp-component-country-info-spirits-item-name {
+  font-family: serif;
+  font-size: .9rem;
+  text-transform: uppercase;
+}
+.cp-component-country-info-spirits-item-stats-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: .2rem;
+  font-size: .6rem;
+}
+
+.cp-component-country-info-spirits-item-stats-item {
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0.04rem;
+}
+.cp-component-country-info-spirits-item-stats-item.buff {
+  background: rgba(60,120,60,0.3);
+  border: 1px solid #3a6a3a;
+  color: #8aba8a;
+}
+.cp-component-country-info-spirits-item-stats-item.debuff {
+  background: rgba(120,40,40,0.3);
+  border: 1px solid #6a2a2a;
+  color: #ba6a6a;
+}

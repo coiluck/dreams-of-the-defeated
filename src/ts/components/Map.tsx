@@ -24,9 +24,10 @@ interface PointData {
 
 interface MapProps {
   onLoadComplete: () => void;
+  onCountryClick: (countryCode: string) => void;
 }
 
-const MapCanvas: React.FC<MapProps> = ({ onLoadComplete }) => {
+const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const pointsRef = useRef<PointData[]>([]);
@@ -42,6 +43,8 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete }) => {
   const [scale, setScale] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  // ドラッグ判定用
+  const dragDistanceRef = useRef(0);
 
   useEffect(() => {
     const loadResources = async () => {
@@ -220,6 +223,7 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete }) => {
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
+    dragDistanceRef.current = 0;
     setDragStart({ x: e.clientX - offset.x, y: e.clientY - offset.y });
   };
 
@@ -227,6 +231,7 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete }) => {
     if (!isDragging) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
+    dragDistanceRef.current += Math.abs(e.movementX) + Math.abs(e.movementY);
     setOffset({
       x: e.clientX - dragStart.x,
       y: constrainOffsetY(e.clientY - dragStart.y, scale, canvas.height),
@@ -236,6 +241,7 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete }) => {
   const handleMouseUp = () => setIsDragging(false);
 
   const handleClick = (e: React.MouseEvent) => {
+    if (dragDistanceRef.current > 5) return; // 5px以上動く -> ドラッグと判定
     if (isDragging) return;
     const canvas = canvasRef.current;
     if (!canvas || !metaRef.current) return;
@@ -251,14 +257,19 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete }) => {
     const hitPoint = pointsRef.current.find(p => p.x === targetGridX && p.y === targetGridY);
 
     if (!hitPoint || hitPoint.occupyId === 0) {
-      console.log(`Clicked: Grid(${targetGridX}, ${targetGridY}) → Ocean`);
-      return;
+      // console.log(`Clicked: Grid(${targetGridX}, ${targetGridY}) → Ocean`);
+      return; // 海
     }
-
+    /* デバッグ用
     const ownerCode  = metaRef.current.id_map[hitPoint.ownerId]  ?? 'Unknown';
     const occupyCode = metaRef.current.id_map[hitPoint.occupyId] ?? 'Unknown';
     console.log(`Clicked: Grid(${hitPoint.x}, ${hitPoint.y})`);
     console.log(`Owner: ${ownerCode}, Controller: ${occupyCode}, Region: ${hitPoint.regionId}`);
+    */
+    const countryCode = metaRef.current.id_map[hitPoint.occupyId];
+    if (countryCode) {
+      onCountryClick(countryCode);
+    }
   };
 
   return (

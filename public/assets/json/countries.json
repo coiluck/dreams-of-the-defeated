@@ -1,5 +1,5 @@
 {
-  "germany": {
+  "DEU": {
     "id": "DEU",
     "slug": "germany",
     "name": { "ja": "ドイツ帝国", "en": "Germany Empire" },
@@ -22,7 +22,7 @@
     "completedFocusIds": [],
     "NationalSpiritIds": []
   },
-  "france": {
+  "FRA": {
     "id": "FRA",
     "slug": "france",
     "name": { "ja": "ルミナス・フランス", "en": "Luminous France" },
@@ -45,7 +45,7 @@
     "completedFocusIds": ["FRA_dresden_no_kutsujoku", "FRA_byoushitsu_no_zenei_salon", "FRA_maya_no_nami_ni_nomarete", "FRA_jojoutekinaru_coup_detat", "FRA_suukounaru_kuni_no_makuake"],
     "NationalSpiritIds": ["FRA_inflation", "FRA_colonial_empire", "FRA_loser_military", "FRA_irrational_government", "FRA_inspiration"]
   },
-  "britain": {
+  "GBR": {
     "id": "GBR",
     "slug": "britain",
     "name": { "ja": "イギリス", "en": "Britain" },
@@ -68,7 +68,7 @@
     "completedFocusIds": [],
     "NationalSpiritIds": []
   },
-  "russia": {
+  "RUS": {
     "id": "RUS",
     "slug": "russia",
     "name": { "ja": "ロシア帝国", "en": "Russia Empire" },
@@ -91,7 +91,7 @@
     "completedFocusIds": [],
     "NationalSpiritIds": []
   },
-  "china": {
+  "CHN": {
     "id": "CHN",
     "slug": "china",
     "name": { "ja": "清朝", "en": "Qing Dynasty" },
@@ -114,7 +114,7 @@
     "completedFocusIds": [],
     "NationalSpiritIds": []
   },
-  "india": {
+  "IND": {
     "id": "IND",
     "slug": "india",
     "name": { "ja": "インド", "en": "India" },

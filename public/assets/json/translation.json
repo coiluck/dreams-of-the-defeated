@@ -73,5 +73,18 @@
   "gameWar.predictedAdvance": { "ja": "予想侵攻量", "en": "Predicted Advance" },
   "gameWar.calculating": { "ja": "計算中...", "en": "Calculating..." },
   "gameWar.tacticAction": { "ja": "戦術作戦", "en": "Tactical Operation" },
-  "gameWar.costInsufficient": { "ja": "コスト不足", "en": "Cannot Afford" }
+  "gameWar.costInsufficient": { "ja": "コスト不足", "en": "Cannot Afford" },
+  "countryPanel.countryInformation": { "ja": "国家情報", "en": "Country Information" },
+  "countryPanel.baseParameters": { "ja": "基礎パラメータ", "en": "Base Parameters" },
+  "countryPanel.nationalSpirits": { "ja": "国民精神", "en": "National Spirits" },
+  "countryPanel.attackPower": { "ja": "攻撃力", "en": "Attack Power" },
+  "countryPanel.defensePower": { "ja": "防御力", "en": "Defense Power" },
+  "countryPanel.politicalPowerRate": { "ja": "政治力増加率", "en": "Political Power Rate" },
+  "countryPanel.economicStrengthRate": { "ja": "経済力増加率", "en": "Economic Growth" },
+  "countryPanel.nationalSpiritNone": { "ja": "なし", "en": "None" },
+  "countryPanel.playerCountry": { "ja": "プレイヤー", "en": "Player" },
+  "countryPanel.enemyCountry": { "ja": "交戦中", "en": "At War" },
+  "countryPanel.vassalCountry": { "ja": "属国", "en": "Vassal" },
+  "countryPanel.suzerainCountry": { "ja": "宗主国", "en": "Suzerain" },
+  "countryPanel.declareWar": { "ja": "宣戦布告", "en": "Declare War" }
 }

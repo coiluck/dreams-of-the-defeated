@@ -63,3 +63,28 @@ export async function applyTranslationsToDocument() {
     }
   });
 }
+
+import { useState, useEffect } from 'react';
+
+
+export function useMappedTranslations<T extends Record<string, string>>(
+  mapping: T  // { ローカル名: 翻訳キー }
+): T {
+  const lang = SettingState.language as Lang;
+  const localKeys = Object.keys(mapping) as (keyof T)[];
+  const translationKeys = Object.values(mapping) as string[];
+
+  const [translations, setTranslations] = useState<T>(
+    () => Object.fromEntries(localKeys.map(k => [k, ''])) as T
+  );
+
+  useEffect(() => {
+    Promise.all(translationKeys.map(key => getTranslatedText(key, []))).then(values => {
+      setTranslations(
+        Object.fromEntries(localKeys.map((k, i) => [k, values[i] ?? ''])) as T
+      );
+    });
+  }, [lang]);
+
+  return translations;
+}

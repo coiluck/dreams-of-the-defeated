@@ -70,8 +70,8 @@ export default function NewGamePage() {
         {countriesArray.map((country) => (
           <div
             key={country.id}
-            className={`new-game-country-card ${selectedId === country.slug ? 'active' : ''}`}
-            onClick={() => handleSelect(country.slug)}
+            className={`new-game-country-card ${selectedId === country.id ? 'active' : ''}`}
+            onClick={() => handleSelect(country.id)}
           >
             <div className="new-game-flag-container">
               <img src={country.flag} className="new-game-flag-image" />
