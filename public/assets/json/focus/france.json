@@ -495,7 +495,11 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": [
+          "FRA_ondori_wa_futatabi_naku"
+        ]
+      },
       "prerequisites": [
         "FRA_kanbina_shigai_wa_nemuranai"
       ],
@@ -624,7 +628,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_luminous_military",
+            "action": "modify",
+            "stats": {
+              "mechanizationRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_avant_garde_na_guntai"
       ],
@@ -858,7 +872,11 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": [
+          "FRA_risei_toiu_na_no_rougoku_kara_no_kaihou"
+        ]
+      },
       "prerequisites": [],
       "mutuallyExclusive": [],
       "prerequisitesAny": [
@@ -879,7 +897,11 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": [
+          "FRA_kuroki_taiyou_no_taikan"
+        ]
+      },
       "prerequisites": [],
       "mutuallyExclusive": [],
       "prerequisitesAny": [
@@ -900,7 +922,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_luminous_military",
+            "action": "modify",
+            "stats": {
+              "attackPower": 10,
+              "defensePower": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_nikutai_wa_koutetsu_wo_koeru"
       ],
@@ -919,7 +952,9 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "deployedMilitary": 20
+      },
       "prerequisites": [
         "FRA_avant_garde_na_guntai"
       ],
@@ -940,7 +975,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_luminous_military",
+            "action": "modify",
+            "stats": {
+              "attackPower": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_chougenjitsuteki_soukou_budai"
       ],
@@ -1020,25 +1065,6 @@
       },
       "prerequisites": [
         "FRA_risei_no_shigai_wo_fumi_koeyo"
-      ],
-      "mutuallyExclusive": []
-    },
-    {
-      "id": "FRA_fukushuu_no_honoo",
-      "col": 0,
-      "row": 16,
-      "icon": "flame",
-      "name": {
-        "ja": "復讐の炎",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
-      },
-      "effects": {},
-      "prerequisites": [
-        "FRA_tairiku_no_jouka"
       ],
       "mutuallyExclusive": []
     },
@@ -1357,7 +1383,26 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "FRA_inspiration",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 10,
+              "culturalUnity": 10
+            }
+          },
+          {
+            "id": "FRA_luminous_military",
+            "action": "modify",
+            "stats": {
+              "attackPower": 5,
+              "defensePower": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "FRA_suukounaru_guntai",
         "FRA_shimin_mo_seni_ni_moeteiru"
@@ -1392,7 +1437,7 @@
     {
       "id": "FRA_honoo_wa_hirogaritsuzukeru",
       "col": 0,
-      "row": 17,
+      "row": 16,
       "icon": "flame",
       "name": {
         "ja": "炎は広がり続ける",
@@ -1404,14 +1449,14 @@
       },
       "effects": {},
       "prerequisites": [
-        "FRA_fukushuu_no_honoo"
+        "FRA_tairiku_no_jouka"
       ],
       "mutuallyExclusive": []
     },
     {
       "id": "FRA_utsukushiki_shizen_kokkyou_wo",
       "col": 0,
-      "row": 18,
+      "row": 17,
       "icon": "flag",
       "name": {
         "ja": "美しき自然国境を",
@@ -1422,7 +1467,7 @@
         "en": ""
       },
       "effects": {
-        "declareWar": "germany"
+        "declareWar": "DEU"
       },
       "prerequisites": [
         "FRA_honoo_wa_hirogaritsuzukeru"
@@ -1442,7 +1487,9 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "declareWar": "ESP"
+      },
       "prerequisites": [
         "FRA_latin_no_kyoudaitachi_wo_kaihou"
       ],
@@ -1451,7 +1498,7 @@
     {
       "id": "FRA_sekai_no_chuushin_wa_france",
       "col": 1,
-      "row": 19,
+      "row": 18,
       "icon": "globe",
       "name": {
         "ja": "世界の中心はフランス！",
