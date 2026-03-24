@@ -98,19 +98,98 @@ interface GameStore {
   removePendingEvents: (eventIds: string[]) => void;
 }
 
+// non playableな国のパラメータ
+// 開始時にマージする
+
+interface NonPlayableCountryStatsByScale {
+  legitimacy: number;
+  politicalPower: number;
+  economicStrength: number;
+  culturalUnity: number;
+  deployedMilitary: number;
+  militaryEquipment: number;
+  mechanizationRate: number;
+}
+
+const NON_PLAYABLE_COUNTRY_STATS: Record<number, NonPlayableCountryStatsByScale> = {
+  1: {
+    legitimacy: 40,
+    politicalPower: 0,
+    economicStrength: 2_000_000_000,
+    culturalUnity: 50,
+    deployedMilitary: 10,
+    militaryEquipment: 100,
+    mechanizationRate: 5,
+  },
+  2: {
+    legitimacy: 40,
+    politicalPower: 0,
+    economicStrength: 10_000_000_000,
+    culturalUnity: 50,
+    deployedMilitary: 15,
+    militaryEquipment: 300,
+    mechanizationRate: 10,
+  },
+  3: {
+    legitimacy: 40,
+    politicalPower: 0,
+    economicStrength: 40_000_000_000,
+    culturalUnity: 50,
+    deployedMilitary: 30,
+    militaryEquipment: 500,
+    mechanizationRate: 15,
+  },
+  4: {
+    legitimacy: 40,
+    politicalPower: 0,
+    economicStrength: 80_000_000_000,
+    culturalUnity: 50,
+    deployedMilitary: 40,
+    militaryEquipment: 800,
+    mechanizationRate: 20,
+  },
+  5: {
+    legitimacy: 50,
+    politicalPower: 0,
+    economicStrength: 100_000_000_000,
+    culturalUnity: 60,
+    deployedMilitary: 50,
+    militaryEquipment: 1000,
+    mechanizationRate: 25,
+  },
+  6: {
+    legitimacy: 60,
+    politicalPower: 0,
+    economicStrength: 120_000_000_000,
+    culturalUnity: 70,
+    deployedMilitary: 70,
+    militaryEquipment: 1200,
+    mechanizationRate: 30,
+  },
+};
+
+interface NonPlayableCountryData {
+  id: string;
+  name: LocalizedName;
+  scale: number;
+  isMilitaryRegime: boolean;
+}
+
 export const useGameStore = create<GameStore>((set, get) => ({
   game: null,
 
   startGame: async (playerCountryId, countriesData) => {
     const initializedCountries: Record<string, CountryState> = {};
+    const nonPlayableCountriesData = await fetch('/assets/json/non_playable_countries.json').then(res => res.json()) as Record<string, NonPlayableCountryData>;
 
+    // playable countries
     for (const [countryId, countryData] of Object.entries(countriesData)) {
       const nationalSpirits: ActiveNationalSpirit[] = [];
 
       // JSON側で定義されている古いプロパティ "NationalSpiritIds" の配列を取得
       const spiritIds: string[] = countryData.NationalSpiritIds || [];
 
-      // YAMLから効果読み込み
+      // 初期国民精神の反映
       for (const spiritId of spiritIds) {
         const def = await loadSpiritDefinition(spiritId);
         nationalSpirits.push({
@@ -127,8 +206,50 @@ export const useGameStore = create<GameStore>((set, get) => ({
         frontActions: {},
       };
 
-      delete (initializedCountries[countryId] as any).NationalSpiritIds;
+      delete initializedCountries[countryId].NationalSpiritIds;
     }
+
+    // non playable countries
+    for (const [countryId, npcData] of Object.entries(nonPlayableCountriesData)) {
+      // もう追加されているならスキップ（countries.jsonに含まれている場合）
+      if (initializedCountries[countryId]) continue;
+      // scaleに応じた基礎ステータス
+      const scale = npcData.scale || 1;
+      const baseStats = NON_PLAYABLE_COUNTRY_STATS[scale];
+
+      // 軍事政権の場合は軍事パラメータを1.5倍に
+      const isMil = npcData.isMilitaryRegime;
+      const deployedMilitary = isMil ? Math.floor(baseStats.deployedMilitary * 1.5) : baseStats.deployedMilitary;
+      const militaryEquipment = isMil ? Math.floor(baseStats.militaryEquipment * 1.5) : baseStats.militaryEquipment;
+      const mechanizationRate = isMil ? Math.min(100, Math.floor(baseStats.mechanizationRate * 1.5)) : baseStats.mechanizationRate;
+
+      initializedCountries[countryId] = {
+        id: countryId,
+        slug: countryId.toLowerCase(),
+        name: npcData.name,
+        flag: '', // 後で書く
+        government: { ja: '', en: '' }, // この辺はNewGamePageでしか使わないのでいらない
+        leader: { ja: '', en: '' },
+        quote: { ja: '', en: '' },
+        description: { ja: '', en: '' },
+        legitimacy: baseStats.legitimacy,
+        politicalPower: baseStats.politicalPower,
+        economicStrength: baseStats.economicStrength,
+        culturalUnity: baseStats.culturalUnity,
+        deployedMilitary,
+        militaryEquipment,
+        mechanizationRate,
+        financeActionCount: 0,
+        suzerainId: null,
+        vassalIds: [],
+        activeWarIds: [],
+        frontActions: {},
+        activeFocusId: null,
+        completedFocusIds: [],
+        nationalSpirits: [],
+      };
+    }
+
     set({
       game: {
         currentTurn: 1,
