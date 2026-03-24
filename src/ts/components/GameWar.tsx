@@ -110,7 +110,7 @@ export const TACTIC_ACTIONS: TacticAction[] = [
 //
 // 引数:
 //   countryId          … 補給を受ける側の country.id（数値コード文字列）
-//   countrySlug        … wars テーブルの attackerId / defenderId と照合するキー
+//   countryKey         … wars テーブルの attackerId / defenderId と照合するキー（countries のキー）
 //   activeWarIds       … その国が参加中の戦争 ID 一覧
 //   wars               … ゲーム全体の戦争マップ
 //   countries          … ゲーム全体の国家マップ
@@ -118,19 +118,21 @@ export const TACTIC_ACTIONS: TacticAction[] = [
 //
 async function fetchTotalFrontTiles(
   countryId: string,
-  countrySlug: string,
+  countryKey: string,
   activeWarIds: string[],
   wars: Record<string, { attackerId: string; defenderId: string }>,
   countries: Record<string, { id: string; slug: string }>,
   mechanizationRate: number,
 ): Promise<number> {
-  // 全戦争の敵国 ID を重複なく列挙する
+  // 全戦争の敵国キーを重複なく列挙する
+  // wars の attackerId/defenderId は countries のキー（playerCountryId と同じ形式）
   const enemyIds: string[] = [];
   for (const warId of activeWarIds) {
     const war = wars[warId];
     if (!war) continue;
-    const enemySlug = war.attackerId === countrySlug ? war.defenderId : war.attackerId;
-    const enemyId   = countries[enemySlug]?.id;
+    // countryKey（countries のキー）と比較して敵側を特定する
+    const enemyKey = war.attackerId === countryKey ? war.defenderId : war.attackerId;
+    const enemyId = countries[enemyKey]?.id;
     if (enemyId && !enemyIds.includes(enemyId)) {
       enemyIds.push(enemyId);
     }
@@ -286,7 +288,7 @@ export default function GameWar() {
 
   // 戦線データ取得（自国視点）
   useEffect(() => {
-    if (!playerCountry || !selectedWarId) {
+    if (!playerCountry || !selectedWarId || !playerCountryId) {
       setFronts([]);
       return;
     }
@@ -294,7 +296,9 @@ export default function GameWar() {
     const war = wars[selectedWarId];
     if (!war) return;
 
-    const enemyKey = war.attackerId === playerCountry.slug ? war.defenderId : war.attackerId;
+    // wars の attackerId/defenderId は playerCountryId（countries のキー）と同じ形式で格納されている
+    // playerCountryId と比較して敵側のキーを特定する
+    const enemyKey = war.attackerId === playerCountryId ? war.defenderId : war.attackerId;
     const enemyCode = countries[enemyKey]?.id;
     if (!enemyCode) return;
 
@@ -319,25 +323,27 @@ export default function GameWar() {
     };
 
     fetchFronts();
-  }, [selectedWarId, wars, mechanizationRate]);
+  }, [selectedWarId, wars, mechanizationRate, playerCountryId]);
 
   // ── 侵攻計算 ──────────────────────────────────────────────────────────────
   useEffect(() => {
-    if (!playerCountry || fronts.length === 0 || !selectedWarId) return;
+    if (!playerCountry || fronts.length === 0 || !selectedWarId || !playerCountryId) return;
     const war = wars[selectedWarId];
     if (!war) return;
 
-    const enemyKey = war.attackerId === playerCountry.slug ? war.defenderId : war.attackerId;
+    // playerCountryId（countries のキー）と比較して敵側のキーを特定する
+    const enemyKey = war.attackerId === playerCountryId ? war.defenderId : war.attackerId;
     const enemyCountry = countries[enemyKey];
     if (!enemyCountry) return;
 
     const fetchAdvancePreview = async () => {
       try {
         // 合計戦線マス数
+        // fetchTotalFrontTiles にも countries のキーを渡すよう変更
         const [playerTotalTiles, enemyTotalTiles] = await Promise.all([
           fetchTotalFrontTiles(
             playerCountry.id,
-            playerCountry.slug,
+            playerCountryId,                         // countries キー（war との照合に使用）
             playerCountry.activeWarIds ?? [],
             wars,
             countries,
@@ -345,7 +351,7 @@ export default function GameWar() {
           ),
           fetchTotalFrontTiles(
             enemyCountry.id,
-            enemyCountry.slug,
+            enemyKey,                                // countries キー（war との照合に使用）
             enemyCountry.activeWarIds ?? [],
             wars,
             countries,
@@ -420,7 +426,7 @@ export default function GameWar() {
     };
 
     fetchAdvancePreview();
-  }, [fronts, playerCountry?.frontActions, selectedWarId, wars, countries]);
+  }, [fronts, playerCountry?.frontActions, selectedWarId, wars, countries, playerCountryId]);
 
   if (!playerCountry) return null;
 
@@ -435,7 +441,7 @@ export default function GameWar() {
   const selectedWar = selectedWarId ? wars[selectedWarId] : null;
 
   // 国名はデータ側に ja/en が存在するので lang で直接引く
-  const getCountryName = (slug: string) => countries[slug]?.name?.[lang] ?? slug;
+  const getCountryName = (key: string) => countries[key]?.name?.[lang] ?? key;
 
   const getWarTitle = (warId: string) => {
     const war = wars[warId];

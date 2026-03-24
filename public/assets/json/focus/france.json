@@ -70,7 +70,7 @@
             }
           }
         ],
-        "declareWar": "india"
+        "declareWar": "IND"
       },
       "prerequisites": [
         "FRA_doushiha_no_shinchou"
@@ -290,7 +290,7 @@
         "en": ""
       },
       "effects": {
-        "declareWar": "germany"
+        "declareWar": "DEU"
       },
       "prerequisites": [
         "FRA_kuuseki_no_ouza",
