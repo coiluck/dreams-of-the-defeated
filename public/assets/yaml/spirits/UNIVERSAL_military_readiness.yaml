@@ -1,0 +1,7 @@
+id: UNIVERSAL_military_readiness
+name:
+  ja: '軍事準備'
+  en: 'Military Readiness'
+stats:
+  attackPower: 5
+  defensePower: 5

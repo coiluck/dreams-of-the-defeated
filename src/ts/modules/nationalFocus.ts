@@ -74,7 +74,6 @@ export interface ModifierStats {
 }
 
 export interface NationalFocusTree {
-  countryId: string;
   focuses: NationalFocusNode[];
 }
 

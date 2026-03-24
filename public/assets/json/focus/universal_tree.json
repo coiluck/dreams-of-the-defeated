@@ -1,0 +1,450 @@
+{
+  "focuses": [
+    {
+      "id": "focus_1",
+      "col": 1,
+      "row": 0,
+      "icon": "",
+      "name": {
+        "ja": "国内の安定化",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "politicalPower": 100,
+        "nationalSpirits": [
+          {
+            "id": "UNIVERASAL_political_state",
+            "action": "add"
+          }
+        ]
+      },
+      "prerequisites": [],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "focus_2",
+      "col": 0,
+      "row": 1,
+      "icon": "",
+      "name": {
+        "ja": "統治の強化",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "UNIVERASAL_political_state",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "focus_1"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "focus_3",
+      "col": 2,
+      "row": 1,
+      "icon": "",
+      "name": {
+        "ja": "統合の推進",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "UNIVERASAL_political_state",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": 5
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "focus_1"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "focus_4",
+      "col": 1,
+      "row": 2,
+      "icon": "",
+      "name": {
+        "ja": "動き出した経済",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "UNIVERASAL_political_state",
+            "action": "modify",
+            "stats": {
+              "economicStrengthRate": 10
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "focus_2",
+        "focus_3"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "focus_5",
+      "col": 0,
+      "row": 3,
+      "icon": "",
+      "name": {
+        "ja": "正統な統治者",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "UNIVERASAL_political_state",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 10
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "focus_4"
+      ],
+      "mutuallyExclusive": [
+        "focus_6"
+      ]
+    },
+    {
+      "id": "focus_6",
+      "col": 2,
+      "row": 3,
+      "icon": "",
+      "name": {
+        "ja": "文化的統合",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "UNIVERASAL_political_state",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": 10
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "focus_4"
+      ],
+      "mutuallyExclusive": [
+        "focus_5"
+      ]
+    },
+    {
+      "id": "focus_7",
+      "col": 1,
+      "row": 4,
+      "icon": "",
+      "name": {
+        "ja": "発展した経済",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "UNIVERASAL_political_state",
+            "action": "modify",
+            "stats": {
+              "economicStrengthRate": 10
+            }
+          }
+        ]
+      },
+      "prerequisites": [],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "focus_5",
+        "focus_6"
+      ]
+    },
+    {
+      "id": "focus_8",
+      "col": 0,
+      "row": 5,
+      "icon": "",
+      "name": {
+        "ja": "更なる発展を",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "UNIVERASAL_political_state",
+            "action": "modify",
+            "stats": {
+              "economicStrengthRate": 10
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "focus_7"
+      ],
+      "mutuallyExclusive": [
+        "focus_9"
+      ]
+    },
+    {
+      "id": "focus_9",
+      "col": 2,
+      "row": 5,
+      "icon": "",
+      "name": {
+        "ja": "政治基盤の確保",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "UNIVERASAL_political_state",
+            "action": "modify",
+            "stats": {
+              "politicalPowerRate": 15
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "focus_7"
+      ],
+      "mutuallyExclusive": [
+        "focus_8"
+      ]
+    },
+    {
+      "id": "focus_10",
+      "col": 4,
+      "row": 0,
+      "icon": "",
+      "name": {
+        "ja": "武器の生産",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "militaryEquipment": 1000
+      },
+      "prerequisites": [],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "focus_11",
+      "col": 5,
+      "row": 5,
+      "icon": "",
+      "name": {
+        "ja": "防御重視",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "UNIVERSAL_military_readiness",
+            "action": "modify",
+            "stats": {
+              "defensePower": 10
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "focus_15"
+      ],
+      "mutuallyExclusive": [
+        "focus_12"
+      ]
+    },
+    {
+      "id": "focus_12",
+      "col": 3,
+      "row": 5,
+      "icon": "",
+      "name": {
+        "ja": "攻撃重視",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "UNIVERSAL_military_readiness",
+            "action": "modify",
+            "stats": {
+              "attackPower": 10
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "focus_15"
+      ],
+      "mutuallyExclusive": [
+        "focus_11"
+      ]
+    },
+    {
+      "id": "focus_13",
+      "col": 4,
+      "row": 2,
+      "icon": "",
+      "name": {
+        "ja": "徴兵の推進",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "deployedMilitary": 20
+      },
+      "prerequisites": [
+        "focus_16"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "focus_14",
+      "col": 4,
+      "row": 3,
+      "icon": "",
+      "name": {
+        "ja": "軍隊の近代化",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "UNIVERSAL_military_readiness",
+            "action": "modify",
+            "stats": {
+              "mechanizationRate": 10
+            }
+          }
+        ]
+      },
+      "prerequisites": [
+        "focus_13"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "focus_15",
+      "col": 4,
+      "row": 4,
+      "icon": "",
+      "name": {
+        "ja": "追加の装備生産",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "militaryEquipment": 2000
+      },
+      "prerequisites": [
+        "focus_14"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "focus_16",
+      "col": 4,
+      "row": 1,
+      "icon": "",
+      "name": {
+        "ja": "強くあれ",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "UNIVERSAL_military_readiness",
+            "action": "add"
+          }
+        ]
+      },
+      "prerequisites": [
+        "focus_10"
+      ],
+      "mutuallyExclusive": []
+    }
+  ]
+}

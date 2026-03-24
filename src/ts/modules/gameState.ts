@@ -30,6 +30,7 @@ export interface CountryState {
   leader: LocalizedName;
   quote: LocalizedName;
   description: LocalizedName;
+  isPlayable: boolean;
 
   // 基礎パラメータ
   legitimacy: number;        // 正統性
@@ -232,6 +233,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         leader: { ja: '', en: '' },
         quote: { ja: '', en: '' },
         description: { ja: '', en: '' },
+        isPlayable: false,
         legitimacy: baseStats.legitimacy,
         politicalPower: baseStats.politicalPower,
         economicStrength: baseStats.economicStrength,
@@ -380,13 +382,30 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // 戦争処理
     // 後で書く
 
-    const nfResult = await processPlayerFocus(playerCountryId, countries, wars, currentTurn);
+    // プレイヤー国のNF処理
+    const nfResult = await processCountryFocus(playerCountryId, countries, wars, currentTurn);
     countries = nfResult.updatedCountries;
     wars = nfResult.updatedWars;
     pendingEvents = [...pendingEvents, ...nfResult.newEvents];
 
     // CPUのNF処理
-    // 後で書く
+    for (const countryId of Object.keys(countries)) {
+      if (countryId === playerCountryId) continue;
+
+      let currentCountry = countries[countryId];
+
+      // CPUのNF選択
+      const nextFocusId = await selectCpuFocus(currentCountry);
+      if (nextFocusId) {
+        countries[countryId] = { ...countries[countryId], activeFocusId: nextFocusId };
+      }
+
+      // CPUのNF効果を適用
+      const cpuResult = await processCountryFocus(countryId, countries, wars, currentTurn);
+      countries = cpuResult.updatedCountries;
+      wars = cpuResult.updatedWars;
+      // イベントは使用しない
+    }
 
     // 経済・政治力の更新
     countries = processEconomy(countries);
@@ -459,8 +478,8 @@ export const useIsAtWar = (countryId: string) => {
   });
 };
 
-const processPlayerFocus = async (
-  playerCountryId: string,
+const processCountryFocus = async (
+  countryId: string,
   countries: Record<string, CountryState>,
   wars: Record<string, War>,
   currentTurn: number
@@ -468,15 +487,21 @@ const processPlayerFocus = async (
   let updatedCountries = { ...countries };
   let updatedWars = { ...wars };
   const newEvents: string[] = [];
-  const player = updatedCountries[playerCountryId];
+  const country = updatedCountries[countryId];
 
-  if (!player.activeFocusId) return { updatedCountries, updatedWars, newEvents };
+  if (!country.activeFocusId) return { updatedCountries, updatedWars, newEvents };
 
-  const completedId = player.activeFocusId;
-  const tree = await loadFocusTree(player.slug);
+  const completedId = country.activeFocusId;
+  let tree = null;
+  if (country.isPlayable) {
+    tree = await loadFocusTree(country.slug);
+  } else {
+    tree = await loadFocusTree('universal_tree');
+  }
+
   const focusNode = tree?.focuses.find(f => f.id === completedId);
 
-  let updatedSpirits = [...(player.nationalSpirits || [])];
+  let updatedSpirits = [...(country.nationalSpirits || [])];
 
   // NF完了時に直接付与されるリソース
   let addPp = 0;
@@ -498,7 +523,7 @@ const processPlayerFocus = async (
     // 戦争
     if (focusNode.effects.declareWar) {
       const targetId = focusNode.effects.declareWar;
-      const result = applyDeclareWar(updatedWars, updatedCountries, playerCountryId, targetId, currentTurn);
+      const result = applyDeclareWar(updatedWars, updatedCountries, countryId, targetId, currentTurn);
       updatedWars = result.updatedWars;
       updatedCountries = result.updatedCountries; // 戦争中の国のパラメータも更新
     }
@@ -508,7 +533,12 @@ const processPlayerFocus = async (
       for (const spiritRef of focusNode.effects.nationalSpirits) {
         if (spiritRef.action === 'add') {
           // 追加
-          updatedSpirits.push({ id: spiritRef.id, stats: spiritRef.stats || {} });
+          let statsToApply = spiritRef.stats;
+          if (!statsToApply || Object.keys(statsToApply).length === 0) {
+            const def = await loadSpiritDefinition(spiritRef.id);
+            statsToApply = def?.stats || {};
+          }
+          updatedSpirits.push({ id: spiritRef.id, stats: statsToApply });
         } else if (spiritRef.action === 'modify') {
           // 更新
           updatedSpirits = updatedSpirits.map(spirit => {
@@ -538,20 +568,45 @@ const processPlayerFocus = async (
     }
   }
 
-  const latestPlayer = updatedCountries[playerCountryId];
+  const latestCountry = updatedCountries[countryId];
 
-  updatedCountries[playerCountryId] = {
-    ...latestPlayer,
-    politicalPower: latestPlayer.politicalPower + addPp,
-    economicStrength: latestPlayer.economicStrength + addEcon,
-    militaryEquipment: Math.max(0, latestPlayer.militaryEquipment + addEquip),
-    deployedMilitary: Math.max(0, latestPlayer.deployedMilitary + addMil),
+  updatedCountries[countryId] = {
+    ...latestCountry,
+    politicalPower: latestCountry.politicalPower + addPp,
+    economicStrength: latestCountry.economicStrength + addEcon,
+    militaryEquipment: Math.max(0, latestCountry.militaryEquipment + addEquip),
+    deployedMilitary: Math.max(0, latestCountry.deployedMilitary + addMil),
     activeFocusId: null,
-    completedFocusIds: [...(player.completedFocusIds as string[]), completedId] as string[],
+    completedFocusIds: [...(country.completedFocusIds as string[]), completedId] as string[],
     nationalSpirits: updatedSpirits,
   };
 
   return { updatedCountries, updatedWars, newEvents };
+};
+
+// CPUが次に取得するNFのIDを返す関数（取得可能なものがない場合はnull）
+const selectCpuFocus = async (country: CountryState): Promise<string | null> => {
+  if (country.activeFocusId) return country.activeFocusId;
+
+  const treeSlug = country.isPlayable ? country.slug : 'universal_tree';
+  const tree = await loadFocusTree(treeSlug);
+  if (!tree) return null;
+
+  const completed = new Set(country.completedFocusIds);
+
+  const available = tree.focuses.filter(focus => {
+    if (completed.has(focus.id)) return false;
+    if (focus.prerequisites.length > 0 && !focus.prerequisites.every(pid => completed.has(pid))) return false;
+    if (focus.prerequisitesAny && focus.prerequisitesAny.length > 0 && !focus.prerequisitesAny.some(pid => completed.has(pid))) return false;
+    if (focus.mutuallyExclusive.length > 0 && focus.mutuallyExclusive.some(eid => completed.has(eid))) return false;
+    return true;
+  });
+
+  if (available.length === 0) return null;
+
+  // ランダムに選択
+  const chosen = available[Math.floor(Math.random() * available.length)];
+  return chosen.id;
 };
 
 export const applyDeclareWar = (
