@@ -755,6 +755,7 @@ name = "dreams-of-the-defeated"
 version = "0.1.0"
 dependencies = [
  "arrayvec",
+ "rand 0.8.5",
  "serde",
  "serde_json",
  "tauri",

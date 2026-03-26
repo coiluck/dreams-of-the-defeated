@@ -5,6 +5,7 @@ mod map_store;
 mod wars_front;
 mod wars_logistics;
 mod wars_advance;
+mod wars_occupation;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -43,6 +44,7 @@ pub fn run() {
             map_store::update_occupation,
             wars_front::get_war_fronts,
             wars_advance::calc_advance,
+            wars_occupation::advance_occupation,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

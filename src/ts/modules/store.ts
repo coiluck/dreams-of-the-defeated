@@ -10,7 +10,7 @@ interface SettingsState {
   screenSize: 'window' | 'fullscreen';
   language: 'ja' | 'en';
   autoSaveInterval: 'weekly' | 'monthly' | 'never';
-  gameMode: 'easy' | 'normal' | 'hard';
+  gameMode: 'easy' | 'normal';
 }
 
 const initialSettingsState: SettingsState = {
@@ -22,7 +22,7 @@ const initialSettingsState: SettingsState = {
   screenSize: 'window',
   language: 'ja',
   autoSaveInterval: 'never',
-  gameMode: 'normal',
+  gameMode: 'easy',
 }
 
 export const SettingState = structuredClone(initialSettingsState); // 初期化

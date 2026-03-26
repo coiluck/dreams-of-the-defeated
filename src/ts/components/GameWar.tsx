@@ -12,6 +12,7 @@ interface FrontInfo {
   tile_count: number;
   region_id: number;
   supply: number;
+  front_tiles: [number, number][];
 }
 
 type TacticAction = {

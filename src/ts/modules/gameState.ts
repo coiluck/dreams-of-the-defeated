@@ -1,6 +1,9 @@
 // ts/modules/gameState.ts
 import { create } from 'zustand';
+import { invoke } from '@tauri-apps/api/core';
 import { loadFocusTree, loadSpiritDefinition, ModifierStats } from './nationalFocus';
+import { SettingState } from './store';
+import { TACTIC_ACTIONS } from '../components/GameWar';
 
 // 戦争の状態
 export interface War {
@@ -174,6 +177,361 @@ interface NonPlayableCountryData {
   name: LocalizedName;
   scale: number;
   isMilitaryRegime: boolean;
+}
+
+// ── 戦争処理の内部型 ──────────────────────────────────────────────────────────
+
+interface FrontInfo {
+  front_id: string;
+  name: { ja: string; en: string };
+  tile_count: number;
+  region_id: number;
+  supply: number;
+  front_tiles: [number, number][]; // attacker側の前線タイル座標 [[x,y], ...]
+}
+
+interface FrontAdvanceResult {
+  front_id: string;
+  advance_tiles: number;
+  phase_log: unknown[];
+}
+
+interface OccupyChange {
+  x: number;
+  y: number;
+  new_occupy_id: number;
+}
+
+interface FrontOccupyResult {
+  front_id: string;
+  changes: OccupyChange[];
+}
+
+// Map.tsx の pointsRef を外部から更新するためのコールバック登録
+type MapUpdateCallback = (changes: OccupyChange[]) => void;
+let _mapUpdateCallback: MapUpdateCallback | null = null;
+
+export function registerMapUpdateCallback(cb: MapUpdateCallback) {
+  _mapUpdateCallback = cb;
+}
+
+// ── 敵AIのアクション決定 ──────────────────────────────────────────────────────
+
+/**
+ * ノーマル難易度での敵AIアクション決定。
+ * 補給が低い戦線を優先して「補給の改善」、余ればコスト比較して「防御陣地の構築」、
+ * 最後に最も攻勢効果が高い戦線を「積極的攻勢」に割り当てる。
+ */
+async function decideEnemyActions(
+  enemy: CountryState,
+  enemyKey: string,
+  playerFronts: FrontInfo[],
+  playerCountry: CountryState,
+  playerCountryId: string,
+  wars: Record<string, War>,
+  countries: Record<string, CountryState>,
+): Promise<Record<string, number>> {
+  const actions: Record<string, number> = {};
+
+  // 敵視点の戦線を取得
+  let enemyFronts: FrontInfo[] = [];
+  try {
+    enemyFronts = await invoke<FrontInfo[]>('get_war_fronts', {
+      war: {
+        player_id: enemy.id,
+        enemy_ids: [playerCountry.id],
+        supply_buffs: {},
+        mechanization_rate: enemy.mechanizationRate ?? 0,
+      },
+    });
+  } catch {
+    return actions;
+  }
+
+  if (enemyFronts.length === 0) return actions;
+
+  let availablePP = enemy.politicalPower;
+  let availableEquip = enemy.militaryEquipment;
+
+  // ── フェーズ1: 補給が80%以下の戦線に「補給の改善」(index=4) ─────────────────
+  // 予想侵攻量の多い順にソート（事前計算が重いためsupplyの低い順で代用）
+  const lowSupplyFronts = enemyFronts
+    .filter(f => f.supply <= 0.8)
+    .sort((a, b) => a.supply - b.supply);
+
+  const logisticCost = TACTIC_ACTIONS[4].cost;
+  const logisticFrontIds = new Set<string>();
+
+  for (const front of lowSupplyFronts) {
+    if (availablePP >= logisticCost.politicalPower && availableEquip >= logisticCost.militaryEquipment) {
+      actions[front.front_id] = 4; // 補給の改善
+      logisticFrontIds.add(front.front_id);
+      availablePP -= logisticCost.politicalPower;
+      availableEquip -= logisticCost.militaryEquipment;
+    } else {
+      break;
+    }
+  }
+
+  // ── フェーズ2: 「補給の改善」を「防御陣地の構築」に変更できるか評価 ──────────
+  // 「防御陣地の構築」に変えても予想侵攻量が減らない（防御の方が有利）戦線を変更
+  const entrenchCost = TACTIC_ACTIONS[3].cost;
+  const ppDiff = entrenchCost.politicalPower - logisticCost.politicalPower;     // 50-50=0
+  const equipDiff = entrenchCost.militaryEquipment - logisticCost.militaryEquipment; // 100-100=0
+
+  for (const frontId of logisticFrontIds) {
+    // コストの差分が払える場合のみ検討
+    if (availablePP + ppDiff < 0 || availableEquip + equipDiff < 0) continue;
+
+    // 防御陣地の構築の方が有利かどうかの簡易評価:
+    // 補給の改善は supply+0.2 のバフ、防御陣地は defence×1.2
+    // supply が 0.6 以下なら補給改善の方が大きいバフ（0.2/supply > 0.2 for supply<1）
+    // supply が 0.8 に近いなら防御の方が相対的に有利
+    const front = enemyFronts.find(f => f.front_id === frontId);
+    if (!front) continue;
+
+    // 防御優位の簡易判定: supply + 0.2 < 1.2 * supply → 1.2 > 1 + 0.2/supply → supply > 1
+    // 実際は supply <= 0.8 なので、防御陣地の方が有利になるのは supply が比較的高い時
+    // supply > 0.65 なら防御陣地に変更（経験的閾値）
+    if (front.supply > 0.65) {
+      actions[frontId] = 3; // 防御陣地の構築
+      availablePP -= ppDiff;
+      availableEquip -= equipDiff;
+    }
+  }
+
+  // ── フェーズ3: 「積極的攻勢」を最も効果的な戦線1つに割り当て ────────────────
+  const aggressiveCost = TACTIC_ACTIONS[1].cost;
+  if (availablePP >= aggressiveCost.politicalPower && availableEquip >= aggressiveCost.militaryEquipment) {
+    // 簡易評価: 最も tile_count が多い戦線（frontが大きいほど攻勢効果が高い傾向）
+    const bestFront = enemyFronts.reduce((best, f) =>
+      f.tile_count > (best?.tile_count ?? 0) ? f : best
+    , null as FrontInfo | null);
+
+    if (bestFront) {
+      actions[bestFront.front_id] = 1; // 積極的攻勢
+    }
+  }
+
+  return actions;
+}
+
+// ── 戦争処理メイン ────────────────────────────────────────────────────────────
+
+/**
+ * 1ターンの全戦争処理を行う。
+ * - 各戦争について侵攻計算・マップ反映・講和条件チェックを行う。
+ * - endWarを呼ぶ戦争IDを返す（nextTurnで処理）。
+ */
+export async function processWars(
+  countries: Record<string, CountryState>,
+  wars: Record<string, War>,
+  playerCountryId: string,
+): Promise<{
+  updatedCountries: Record<string, CountryState>;
+  endedWarIds: string[];
+}> {
+  let updatedCountries = { ...countries };
+  const endedWarIds: string[] = [];
+  const gameMode = SettingState.gameMode;
+
+  for (const [warId, war] of Object.entries(wars)) {
+    const attackerKey = war.attackerId;
+    const defenderKey = war.defenderId;
+    const attacker = updatedCountries[attackerKey];
+    const defender = updatedCountries[defenderKey];
+    if (!attacker || !defender) continue;
+
+    // ── 1. プレイヤー側のアクションを取得 ──────────────────────────────────
+    const isPlayerAttacker = attackerKey === playerCountryId;
+    const playerKey = isPlayerAttacker ? attackerKey : defenderKey;
+    const enemyKey = isPlayerAttacker ? defenderKey : attackerKey;
+    const playerCountry = updatedCountries[playerKey];
+    const enemyCountry = updatedCountries[enemyKey];
+
+    const playerFrontActions: Record<string, number> = playerCountry.frontActions ?? {};
+
+    // ── プレイヤー視点の戦線を取得 ─────────────────────────────────────────
+    let playerFronts: FrontInfo[] = [];
+    try {
+      playerFronts = await invoke<FrontInfo[]>('get_war_fronts', {
+        war: {
+          player_id: playerCountry.id,
+          enemy_ids: [enemyCountry.id],
+          supply_buffs: {},
+          mechanization_rate: playerCountry.mechanizationRate ?? 0,
+        },
+      });
+    } catch (e) {
+      console.error('get_war_fronts error:', e);
+      continue;
+    }
+
+    const prevFrontCount = playerFronts.length;
+
+    // ── 2. 敵AIのアクション決定 ────────────────────────────────────────────
+    let enemyFrontActions: Record<string, number> = {};
+    if (gameMode === 'normal') {
+      enemyFrontActions = await decideEnemyActions(
+        enemyCountry,
+        enemyKey,
+        playerFronts,
+        playerCountry,
+        playerKey,
+        wars,
+        updatedCountries,
+      );
+    }
+    // easy の場合は enemyFrontActions = {} のまま（全て standby）
+
+    // ── 3. 侵攻計算 ────────────────────────────────────────────────────────
+    if (playerFronts.length === 0) continue;
+
+    // 合計戦線マス数（このターン用の簡易計算）
+    const playerTotalTiles = Math.max(
+      playerFronts.reduce((s, f) => s + f.tile_count, 0), 1
+    );
+
+    // 敵視点の戦線補給
+    let enemyFronts: FrontInfo[] = [];
+    try {
+      enemyFronts = await invoke<FrontInfo[]>('get_war_fronts', {
+        war: {
+          player_id: enemyCountry.id,
+          enemy_ids: [playerCountry.id],
+          supply_buffs: {},
+          mechanization_rate: enemyCountry.mechanizationRate ?? 0,
+        },
+      });
+    } catch { /* 取得失敗時は0.5フォールバック */ }
+
+    const enemyTotalTiles = Math.max(
+      enemyFronts.reduce((s, f) => s + f.tile_count, 0), 1
+    );
+
+    // 敵補給マップ（region_id ベースのフォールバック込み）
+    const enemySupplyMap: Record<string, number> = {};
+    for (const f of enemyFronts) {
+      enemySupplyMap[f.front_id] = f.supply;
+      enemySupplyMap[`region_${f.region_id}`] = f.supply;
+    }
+
+    const effectivePlayerStats = calculateEffectiveStats(playerCountry);
+    const effectiveEnemyStats = calculateEffectiveStats(enemyCountry);
+
+    const playerAttackBuff  = 1.0 + (effectivePlayerStats.attackPower  / 100);
+    const playerDefenceBuff = 1.0 + (effectivePlayerStats.defensePower / 100);
+    const enemyAttackBuff   = 1.0 + (effectiveEnemyStats.attackPower   / 100);
+    const enemyDefenceBuff  = 1.0 + (effectiveEnemyStats.defensePower  / 100);
+
+    const advanceInput = {
+      player_id: playerCountry.id,
+      player_deployed_military: playerCountry.deployedMilitary || 0,
+      player_total_tiles: playerTotalTiles,
+      player_mechanization_rate: effectivePlayerStats.mechanizationRate || 0,
+      player_spirit_attack_buff: playerAttackBuff,
+      player_spirit_defence_buff: playerDefenceBuff,
+
+      enemy_id: enemyCountry.id,
+      enemy_deployed_military: enemyCountry.deployedMilitary || 0,
+      enemy_total_tiles: enemyTotalTiles,
+      enemy_mechanization_rate: effectiveEnemyStats.mechanizationRate || 0,
+      enemy_spirit_attack_buff: enemyAttackBuff,
+      enemy_spirit_defence_buff: enemyDefenceBuff,
+
+      fronts: playerFronts.map((f) => ({
+        front_id:      f.front_id,
+        tile_count:    f.tile_count,
+        region_id:     f.region_id,
+        player_supply: f.supply,
+        enemy_supply:  enemySupplyMap[f.front_id]
+                    ?? enemySupplyMap[`region_${f.region_id}`]
+                    ?? 0.5,
+      })),
+
+      player_front_actions: playerFrontActions,
+      enemy_front_actions:  enemyFrontActions,
+    };
+
+    let advanceResults: FrontAdvanceResult[] = [];
+    try {
+      advanceResults = await invoke<FrontAdvanceResult[]>('calc_advance', { input: advanceInput });
+    } catch (e) {
+      console.error('calc_advance error:', e);
+      continue;
+    }
+
+    // ── 4. マップへ反映（Rust MapStore + Map.tsx pointsRef）──────────────────
+    // attacker_id / defender_id は countries[key].id（数値コード文字列 → u8 はRust側が管理）
+    // Rust の id_map で引けるよう string の id を渡す
+    // advance_occupation は occupy_id の u8 を必要とするため、
+    // wars_occupation.rs では FrontAdvanceCommand.attacker_id / defender_id を u8 で受け取る。
+    // しかし TS から u8 の数値を直接知る手段がないため、
+    // ここでは player/enemy の string id と advance_tiles を渡し、
+    // Rust 側で id_map を引いて u8 に変換する設計に変更する必要がある。
+    //
+    // → wars_occupation.rs を文字列 ID 受け取りに修正して対応する。
+    //   （下記コメントの通り、FrontAdvanceCommand を string id 版で定義）
+
+    const occupyCommands = advanceResults.map((r) => {
+      const frontInfo = playerFronts.find(f => f.front_id === r.front_id);
+      return {
+        front_id:      r.front_id,
+        advance_tiles: r.advance_tiles,
+        attacker_id:   playerCountry.id,
+        defender_id:   enemyCountry.id,
+        front_tiles:   frontInfo?.front_tiles ?? [],
+      };
+    });
+
+    let occupyResults: FrontOccupyResult[] = [];
+    try {
+      occupyResults = await invoke<FrontOccupyResult[]>('advance_occupation', {
+        commands: occupyCommands,
+      });
+    } catch (e) {
+      console.error('advance_occupation error:', e);
+      continue;
+    }
+
+    // Map.tsx の pointsRef を更新
+    const allChanges: OccupyChange[] = occupyResults.flatMap(r => r.changes);
+    if (allChanges.length > 0 && _mapUpdateCallback) {
+      _mapUpdateCallback(allChanges);
+    }
+
+    // ── 5. 講和条件チェック ─────────────────────────────────────────────────
+    // 5a. 戦線がこのターンで消えた場合
+    // 再度 get_war_fronts を呼んで現在の戦線数を確認
+    let currentFronts: FrontInfo[] = [];
+    try {
+      currentFronts = await invoke<FrontInfo[]>('get_war_fronts', {
+        war: {
+          player_id: playerCountry.id,
+          enemy_ids: [enemyCountry.id],
+          supply_buffs: {},
+          mechanization_rate: playerCountry.mechanizationRate ?? 0,
+        },
+      });
+    } catch { /* 無視 */ }
+
+    if (prevFrontCount > 0 && currentFronts.length < prevFrontCount) {
+      console.log('劣勢です');
+    }
+
+    // 5b. 無条件降伏チェック（コアタイルを全て失った or 占領タイル数が0）
+    // Rust 側のマップデータをもとに判定するため、
+    // 敵（enemy）がコアタイルを全て失ったか / 占領タイル0かを確認する
+    // → get_war_fronts が空リストを返すことで占領タイル0は検出できる
+    // コアタイルの喪失は別途 check_capitulation コマンドで判定するのが理想だが、
+    // 現フェーズでは簡易的に「戦線が完全に消えた」＝「講和条件を満たした」とみなす
+    if (currentFronts.length === 0 && prevFrontCount > 0) {
+      console.log('講和条件を満たしました');
+      endedWarIds.push(warId);
+    }
+  }
+
+  return { updatedCountries, endedWarIds };
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -379,8 +737,32 @@ export const useGameStore = create<GameStore>((set, get) => ({
     let { countries, wars, pendingEvents } = state.game;
     const { playerCountryId, currentTurn } = state.game;
 
-    // 戦争処理
-    // 後で書く
+    // ── 戦争処理 ──────────────────────────────────────────────────────────
+    const { updatedCountries: warCountries, endedWarIds } = await processWars(
+      countries,
+      wars,
+      playerCountryId,
+    );
+    countries = warCountries;
+
+    // 終結した戦争を除去
+    let updatedWars = { ...wars };
+    for (const warId of endedWarIds) {
+      const war = updatedWars[warId];
+      if (war) {
+        [war.attackerId, war.defenderId].forEach(id => {
+          if (countries[id]) {
+            countries[id] = {
+              ...countries[id],
+              activeWarIds: countries[id].activeWarIds.filter(w => w !== warId),
+            };
+          }
+        });
+        const { [warId]: _, ...rest } = updatedWars;
+        updatedWars = rest;
+      }
+    }
+    wars = updatedWars;
 
     // プレイヤー国のNF処理
     const nfResult = await processCountryFocus(playerCountryId, countries, wars, currentTurn);

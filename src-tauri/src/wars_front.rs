@@ -49,11 +49,8 @@ fn to_roman(n: usize) -> &'static str {
 
 #[derive(Deserialize, Debug)]
 pub struct WarInput {
-    /// 自国の国コード
     pub player_id: String,
-    /// 敵国コードのリスト（複数国・連合国対応）
     pub enemy_ids: Vec<String>,
-    /// front_id → 補給バフ整数 %（補給強化アクション適用時に渡す）
     pub supply_buffs: HashMap<String, i32>,
     pub mechanization_rate: f32,
 }
@@ -68,12 +65,13 @@ pub struct LocalizedName {
 pub struct FrontInfo {
     pub front_id:   String,
     pub name:       LocalizedName,
-    /// 前線マス数（戦線の長さ）
     pub tile_count: u32,
-    /// 代表 region_id（数値）
     pub region_id:  u8,
-    /// 補給率 0.00〜1.00
     pub supply:     f32,
+    /// attacker（player）側の前線タイル座標リスト。
+    /// wars_occupation の advance_occupation に渡し、
+    /// 「この戦線固有の前線」と「戦線周辺の attacker 領土」を特定するために使う。
+    pub front_tiles: Vec<[u16; 2]>,
 }
 
 // ── Tauri コマンド ────────────────────────────────────────────────────────────
@@ -83,8 +81,8 @@ pub fn get_war_fronts(
     war: WarInput,
     map_store: State<MapStore>,
 ) -> Result<Vec<FrontInfo>, String> {
-    let points      = map_store.points.read().map_err(|e| e.to_string())?;
-    let id_map      = map_store.id_map.read().map_err(|e| e.to_string())?;
+    let points          = map_store.points.read().map_err(|e| e.to_string())?;
+    let id_map          = map_store.id_map.read().map_err(|e| e.to_string())?;
     let core_by_country = map_store.core_by_country.read().map_err(|e| e.to_string())?;
 
     let player_num = *id_map.get(&war.player_id)
@@ -98,7 +96,6 @@ pub fn get_war_fronts(
         return Ok(vec![]);
     }
 
-    // ── 海岸セットを一度だけ計算（logistics でも使い回す）────────────────────
     let coast_set = &map_store.coast_indices;
 
     // ── 前線マス抽出 ─────────────────────────────────────────────────────────
@@ -107,10 +104,7 @@ pub fn get_war_fronts(
         .filter(|p| {
             neighbors4(p.x, p.y)
                 .iter()
-                .any(|&(nx, ny)| {
-                    let idx = coord_to_idx(nx, ny);
-                    enemy_nums.contains(&points[idx].occupy_id)
-                })
+                .any(|&(nx, ny)| enemy_nums.contains(&points[coord_to_idx(nx, ny)].occupy_id))
         })
         .map(|p| (p.x, p.y))
         .collect();
@@ -121,8 +115,8 @@ pub fn get_war_fronts(
 
     // ── BFS 連結成分で戦線に分割 ─────────────────────────────────────────────
     let border_set: HashSet<(u16, u16)> = border_tiles.iter().copied().collect();
-    let mut visited:    HashSet<(u16, u16)>    = HashSet::new();
-    let mut raw_fronts: Vec<Vec<(u16, u16)>>   = Vec::new();
+    let mut visited:    HashSet<(u16, u16)> = HashSet::new();
+    let mut raw_fronts: Vec<Vec<(u16, u16)>> = Vec::new();
 
     for &start in &border_tiles {
         if visited.contains(&start) { continue; }
@@ -137,7 +131,6 @@ pub fn get_war_fronts(
             for dx in -FRONT_CONNECT_RADIUS..=FRONT_CONNECT_RADIUS {
                 for dy in -FRONT_CONNECT_RADIUS..=FRONT_CONNECT_RADIUS {
                     if dx == 0 && dy == 0 { continue; }
-                    // X: 東西ループ、Y: クランプ（neighbors4と同じルール）
                     let nx = (cx as i32 + dx)
                         .rem_euclid(crate::map_store::GRID_WIDTH as i32) as u16;
                     let ny = (cy as i32 + dy)
@@ -162,7 +155,7 @@ pub fn get_war_fronts(
         counts.into_iter().max_by_key(|(_, c)| *c).map(|(r, _)| r).unwrap_or(0)
     }).collect();
 
-    // ── 案 C: 戦線名（地域名、同地域複数なら第 N 戦線）──────────────────────
+    // ── 戦線名 ───────────────────────────────────────────────────────────────
     let mut region_total: HashMap<u8, usize> = HashMap::new();
     for &r in &front_regions {
         *region_total.entry(r).or_insert(0) += 1;
@@ -186,8 +179,7 @@ pub fn get_war_fronts(
         }
     }).collect();
 
-    // ── 補給計算 ─────────────────────────────────────────────────────────────
-    // player のコアマスセットを core_by_country から取得
+    // ── 補給計算 & 結果構築 ──────────────────────────────────────────────────
     let empty_core: HashSet<usize> = HashSet::new();
     let player_cores = core_by_country.get(&player_num).unwrap_or(&empty_core);
 
@@ -209,12 +201,15 @@ pub fn get_war_fronts(
             Some(player_cores),
         );
 
+        let front_tiles_ser: Vec<[u16; 2]> = tiles.iter().map(|&(x, y)| [x, y]).collect();
+
         results.push(FrontInfo {
             front_id,
             name: front_names[i].clone(),
             tile_count: tiles.len() as u32,
             region_id,
             supply,
+            front_tiles: front_tiles_ser,
         });
     }
 

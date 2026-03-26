@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { registerMapUpdateCallback } from '../modules/gameState';
 
 // 定数
 const POINT_SIZE = 4;
@@ -22,6 +23,12 @@ interface PointData {
   regionId: number;
 }
 
+interface OccupyChange {
+  x: number;
+  y: number;
+  new_occupy_id: number;
+}
+
 interface MapProps {
   onLoadComplete: () => void;
   onCountryClick: (countryCode: string) => void;
@@ -37,7 +44,9 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
   const landTerrainCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const countriesCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
+  // 再描画トリガー用
   const [resourcesLoaded, setResourcesLoaded] = useState(false);
+  const [renderTick, setRenderTick] = useState(0);
 
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
@@ -45,6 +54,43 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   // ドラッグ判定用
   const dragDistanceRef = useRef(0);
+
+  // ── 占領変更の適用 ────────────────────────────────────────────────────────
+  // gameState.ts からコールバックとして呼ばれ、
+  // pointsRef と countriesCanvas を更新してから再描画をトリガーする。
+  const applyOccupyChanges = (changes: OccupyChange[]) => {
+    if (!metaRef.current || !countriesCanvasRef.current) return;
+    const meta = metaRef.current;
+    const cCtx = countriesCanvasRef.current.getContext('2d');
+    if (!cCtx) return;
+
+    // インデックスマップ（高速ルックアップ）
+    // pointsRef は x + y * GRID_WIDTH の線形インデックスで引ける前提
+    // （loadResources 後に tempPoints が座標順に並んでいるとは限らないため find を使用）
+    for (const change of changes) {
+      // pointsRef を更新
+      const idx = change.y * GRID_WIDTH + change.x;
+      if (pointsRef.current[idx]) {
+        pointsRef.current[idx].occupyId = change.new_occupy_id;
+      }
+
+      // countriesCanvas を部分更新
+      const drawX = change.x * POINT_SIZE;
+      const drawY = change.y * POINT_SIZE;
+
+      if (change.new_occupy_id === 0) {
+        // 海に戻す（occupyが0 = 占領なし）
+        cCtx.clearRect(drawX, drawY, POINT_SIZE, POINT_SIZE);
+      } else {
+        const countryCode = meta.id_map[change.new_occupy_id];
+        cCtx.fillStyle = meta.colors[countryCode] || '#555';
+        cCtx.fillRect(drawX, drawY, POINT_SIZE, POINT_SIZE);
+      }
+    }
+
+    // 再描画トリガー
+    setRenderTick(t => t + 1);
+  };
 
   useEffect(() => {
     const loadResources = async () => {
@@ -61,9 +107,20 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
 
         const buffer = await binRes.arrayBuffer();
         const dataView = new DataView(buffer);
-        const tempPoints: PointData[] = [];
-        const count = buffer.byteLength / BYTES_PER_POINT;
 
+        // pointsRef を座標インデックスで直接引けるよう
+        // GRID_WIDTH * GRID_HEIGHT の配列に事前確保する
+        const totalPoints = GRID_WIDTH * GRID_HEIGHT;
+        const tempPoints: PointData[] = new Array(totalPoints);
+
+        // デフォルト（海）で初期化
+        for (let i = 0; i < totalPoints; i++) {
+          const x = i % GRID_WIDTH;
+          const y = Math.floor(i / GRID_WIDTH);
+          tempPoints[i] = { x, y, ownerId: 0, occupyId: 0, regionId: 0 };
+        }
+
+        const count = buffer.byteLength / BYTES_PER_POINT;
         const yieldToMain = () => new Promise(resolve => setTimeout(resolve, 0));
         const CHUNK_SIZE = 3000;
 
@@ -71,13 +128,13 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
           const end = Math.min(i + CHUNK_SIZE, count);
           for (let j = i; j < end; j++) {
             const off = j * BYTES_PER_POINT;
-            tempPoints.push({
-              x:        dataView.getUint16(off,     true),
-              y:        dataView.getUint16(off + 2, true),
-              ownerId:  dataView.getUint8 (off + 4),
-              occupyId: dataView.getUint8 (off + 5),
-              regionId: dataView.getUint8 (off + 6),
-            });
+            const x        = dataView.getUint16(off,     true);
+            const y        = dataView.getUint16(off + 2, true);
+            const ownerId  = dataView.getUint8 (off + 4);
+            const occupyId = dataView.getUint8 (off + 5);
+            const regionId = dataView.getUint8 (off + 6);
+            const idx = y * GRID_WIDTH + x;
+            tempPoints[idx] = { x, y, ownerId, occupyId, regionId };
           }
           await yieldToMain();
         }
@@ -131,6 +188,16 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
     };
     loadResources();
   }, []);
+
+  // コールバック登録（ロード完了後に有効化）
+  useEffect(() => {
+    if (!resourcesLoaded) return;
+    registerMapUpdateCallback(applyOccupyChanges);
+    // アンマウント時は登録解除
+    return () => {
+      registerMapUpdateCallback(() => {});
+    };
+  }, [resourcesLoaded]);
 
   const loadImage = (src: string) => {
     return new Promise<HTMLImageElement>((resolve, reject) => {
@@ -199,9 +266,10 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
     }
   };
 
+  // renderTick を依存に加えることで占領更新後も再描画される
   useEffect(() => {
     requestAnimationFrame(draw);
-  }, [offset, scale, resourcesLoaded]);
+  }, [offset, scale, resourcesLoaded, renderTick]);
 
   const handleWheel = (e: React.WheelEvent) => {
     const canvas = canvasRef.current;
@@ -254,18 +322,14 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
     targetGridX = ((targetGridX % GRID_WIDTH) + GRID_WIDTH) % GRID_WIDTH;
     const targetGridY = Math.floor(rawWorldY / POINT_SIZE);
 
-    const hitPoint = pointsRef.current.find(p => p.x === targetGridX && p.y === targetGridY);
+    // インデックス直引き（O(1)）
+    const idx = targetGridY * GRID_WIDTH + targetGridX;
+    const hitPoint = pointsRef.current[idx];
 
     if (!hitPoint || hitPoint.occupyId === 0) {
-      // console.log(`Clicked: Grid(${targetGridX}, ${targetGridY}) → Ocean`);
       return; // 海
     }
-    /* デバッグ用
-    const ownerCode  = metaRef.current.id_map[hitPoint.ownerId]  ?? 'Unknown';
-    const occupyCode = metaRef.current.id_map[hitPoint.occupyId] ?? 'Unknown';
-    console.log(`Clicked: Grid(${hitPoint.x}, ${hitPoint.y})`);
-    console.log(`Owner: ${ownerCode}, Controller: ${occupyCode}, Region: ${hitPoint.regionId}`);
-    */
+
     const countryCode = metaRef.current.id_map[hitPoint.occupyId];
     if (countryCode) {
       onCountryClick(countryCode);
