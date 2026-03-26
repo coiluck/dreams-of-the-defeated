@@ -1,7 +1,7 @@
 // src/ts/components/GameFinance.tsx
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useGameStore, usePlayerCountry, CountryState, FINANCE_LEVELS, calculateFinanceStatus } from '../modules/gameState';
-import { getTranslatedText } from '../modules/i18n';
+import { useMappedTranslations } from '../modules/i18n';
 import { SettingState } from '../modules/store';
 import './GameFinance.css';
 import Tooltip from './ToolTip';
@@ -21,41 +21,21 @@ export default function GameFinance() {
 
   const lang = SettingState.language as 'ja' | 'en';
 
-  // 翻訳データの状態管理
-  const [translations, setTranslations] = useState({
-    baseGDP: '',
-    adjustedGDP: '',
-    militaryBudget: '',
-    gdpRatio: '',
-    fiscalStatus: '',
-    buff: '',
-    debuff: '',
-    militaryAdjustment: ''
+  // 翻訳データ
+  const t = useMappedTranslations({
+    baseGDP: 'GameFinance.baseGDP',
+    adjustedGDP: 'GameFinance.adjustedGDP',
+    militaryBudget: 'GameFinance.militaryBudget',
+    gdpRatio: 'GameFinance.gdpRatio',
+    fiscalStatus: 'GameFinance.fiscalStatus',
+    buff: 'GameFinance.buff',
+    debuff: 'GameFinance.debuff',
+    militaryAdjustment: 'GameFinance.militaryAdjustment',
+    baseGDPDescription: 'GameFinance.baseGDP.description',
+    adjustedGDPDescription: 'GameFinance.adjustedGDP.description',
+    militaryBudgetDescription: 'GameFinance.militaryBudget.description',
+    gdpRatioDescription: 'GameFinance.gdpRatio.description',
   });
-
-  useEffect(() => {
-    Promise.all([
-      getTranslatedText('GameFinance.baseGDP', []),
-      getTranslatedText('GameFinance.adjustedGDP', []),
-      getTranslatedText('GameFinance.militaryBudget', []),
-      getTranslatedText('GameFinance.gdpRatio', []),
-      getTranslatedText('GameFinance.fiscalStatus', []),
-      getTranslatedText('GameFinance.buff', []),
-      getTranslatedText('GameFinance.debuff', []),
-      getTranslatedText('GameFinance.militaryAdjustment', []),
-    ]).then(([baseGDP, adjustedGDP, militaryBudget, gdpRatio, fiscalStatus, buff, debuff, militaryAdjustment]) => {
-      setTranslations({
-        baseGDP: baseGDP || '',
-        adjustedGDP: adjustedGDP || '',
-        militaryBudget: militaryBudget || '',
-        gdpRatio: gdpRatio || '',
-        fiscalStatus: fiscalStatus || '',
-        buff: buff || '',
-        debuff: debuff || '',
-        militaryAdjustment: militaryAdjustment || ''
-      });
-    });
-  }, [lang]);
 
   // ステータスから各種計算を行う
   const { effectiveGDP, militaryBudget, currentRatio, currentLevel } = useMemo(() => {
@@ -146,28 +126,36 @@ export default function GameFinance() {
 
       {/* 基礎データ表示 */}
       <div className="gf-component-stats-header">
-        <div className="gf-component-stat-box">
-          <div className="gf-component-stat-box-label">{translations.baseGDP}</div>
-          <div className="gf-component-stat-box-value">{formatEconomicStrength(playerCountry.economicStrength)}</div>
-        </div>
-        <div className="gf-component-stat-box">
-          <div className="gf-component-stat-box-label">{translations.adjustedGDP}</div>
-          <div className="gf-component-stat-box-value">{formatEconomicStrength(effectiveGDP)}</div>
-        </div>
-        <div className="gf-component-stat-box">
-          <div className="gf-component-stat-box-label">{translations.militaryBudget}</div>
-          <div className="gf-component-stat-box-value">{formatEconomicStrength(militaryBudget)}</div>
-        </div>
-        <div className="gf-component-stat-box">
-          <div className="gf-component-stat-box-label">{translations.gdpRatio}</div>
-          <div className="gf-component-stat-box-value">{currentRatio.toFixed(2)} %</div>
-        </div>
+        <Tooltip text={t.baseGDPDescription} isBelow={false}>
+          <div className="gf-component-stat-box">
+            <div className="gf-component-stat-box-label">{t.baseGDP}</div>
+            <div className="gf-component-stat-box-value">{formatEconomicStrength(playerCountry.economicStrength)}</div>
+          </div>
+        </Tooltip>
+        <Tooltip text={t.adjustedGDPDescription} isBelow={false}>
+          <div className="gf-component-stat-box">
+            <div className="gf-component-stat-box-label">{t.adjustedGDP}</div>
+            <div className="gf-component-stat-box-value">{formatEconomicStrength(effectiveGDP)}</div>
+          </div>
+        </Tooltip>
+        <Tooltip text={t.militaryBudgetDescription} isBelow={false}>
+          <div className="gf-component-stat-box">
+            <div className="gf-component-stat-box-label">{t.militaryBudget}</div>
+            <div className="gf-component-stat-box-value">{formatEconomicStrength(militaryBudget)}</div>
+          </div>
+        </Tooltip>
+        <Tooltip text={t.gdpRatioDescription} isBelow={false}>
+          <div className="gf-component-stat-box">
+            <div className="gf-component-stat-box-label">{t.gdpRatio}</div>
+            <div className="gf-component-stat-box-value">{currentRatio.toFixed(2)} %</div>
+          </div>
+        </Tooltip>
       </div>
 
       {/* BoP */}
       <div className="gf-component-bop-container">
         <p className="gf-component-bop-title">
-          {translations.fiscalStatus}: <span className="gf-component-bop-title-value">{currentLevel.name[lang]}</span>
+          {t.fiscalStatus}: <span className="gf-component-bop-title-value">{currentLevel.name[lang]}</span>
         </p>
 
         <div className="gf-component-bop-track">
@@ -221,14 +209,14 @@ export default function GameFinance() {
         </div>
 
         <div className="gf-component-bop-details">
-          <p className="gf-component-bop-details-buff">{translations.buff}: {currentLevel.buff[lang]}</p>
-          <p className="gf-component-bop-details-debuff">{translations.debuff}: {currentLevel.debuff[lang]}</p>
+          <p className="gf-component-bop-details-buff">{t.buff}: {currentLevel.buff[lang]}</p>
+          <p className="gf-component-bop-details-debuff">{t.debuff}: {currentLevel.debuff[lang]}</p>
         </div>
       </div>
 
       {/* アクション群 */}
       <div className="gf-component-actions-container">
-        <p className="gf-component-actions-title">{translations.militaryAdjustment}</p>
+        <p className="gf-component-actions-title">{t.militaryAdjustment}</p>
 
         <div className="gf-component-actions-item-container">
           {ACTIONS.map(action => {

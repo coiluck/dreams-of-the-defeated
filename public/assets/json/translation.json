@@ -56,6 +56,22 @@
   "GameFinance.adjustedGDP": { "ja": "補正後GDP", "en": "Adjusted GDP" },
   "GameFinance.militaryBudget": { "ja": "軍事維持費", "en": "Military Upkeep" },
   "GameFinance.gdpRatio": { "ja": "対GDP比", "en": "GDP Ratio" },
+  "GameFinance.baseGDP.description": {
+    "ja": "基礎GDP: 国家の経済規模。",
+    "en": "Base GDP: The overall scale of the national economy."
+  },
+  "GameFinance.adjustedGDP.description": {
+    "ja": "補正後GDP: 基礎GDPに正統性と文化統合度の補正（0.5~1.0）をかけた値。",
+    "en": "Adjusted GDP: Base GDP multiplied by a correction factor derived from Legitimacy and Cultural Unity (ranging from 0.5 to 1.0)."
+  },
+  "GameFinance.militaryBudget.description": {
+    "ja": "軍事維持費: 国家の軍事維持費。\n展開兵力、装備備蓄、機械化率により決定される。",
+    "en": "Military Upkeep: The total cost of maintaining the military.\nDetermined by Deployed Forces, Equipment Stockpile, and Mechanization Rate."
+  },
+  "GameFinance.gdpRatio.description": {
+    "ja": "対GDP比: 補正後GDPに対する軍事維持費の比率。この値によって財政のバフ・デバフを得る。",
+    "en": "GDP Ratio: The ratio of Military Upkeep to Adjusted GDP.\nThis value determines fiscal buffs or debuffs applied to your nation."
+  },
   "GameFinance.fiscalStatus": { "ja": "財政状態", "en": "Fiscal Status" },
   "GameFinance.buff": { "ja": "効果", "en": "Buff" },
   "GameFinance.debuff": { "ja": "代償", "en": "Debuff" },
