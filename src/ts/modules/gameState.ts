@@ -224,12 +224,7 @@ export function registerMapUpdateCallback(cb: MapUpdateCallback) {
  */
 async function decideEnemyActions(
   enemy: CountryState,
-  enemyKey: string,
-  playerFronts: FrontInfo[],
   playerCountry: CountryState,
-  playerCountryId: string,
-  wars: Record<string, War>,
-  countries: Record<string, CountryState>,
 ): Promise<Record<string, number>> {
   const actions: Record<string, number> = {};
 
@@ -342,7 +337,7 @@ export async function processWars(
     const defender = updatedCountries[defenderKey];
     if (!attacker || !defender) continue;
 
-    // ── 1. プレイヤー側のアクションを取得 ──────────────────────────────────
+    // ── プレイヤー側のアクションを取得 ──────────────────────────────────
     const isPlayerAttacker = attackerKey === playerCountryId;
     const playerKey = isPlayerAttacker ? attackerKey : defenderKey;
     const enemyKey = isPlayerAttacker ? defenderKey : attackerKey;
@@ -369,22 +364,17 @@ export async function processWars(
 
     const prevFrontCount = playerFronts.length;
 
-    // ── 2. 敵AIのアクション決定 ────────────────────────────────────────────
+    // ── 敵AIのアクション決定 ────────────────────────────────────────────
     let enemyFrontActions: Record<string, number> = {};
     if (gameMode === 'normal') {
       enemyFrontActions = await decideEnemyActions(
         enemyCountry,
-        enemyKey,
-        playerFronts,
-        playerCountry,
-        playerKey,
-        wars,
-        updatedCountries,
+        playerCountry
       );
     }
     // easy の場合は enemyFrontActions = {} のまま（全て standby）
 
-    // ── 3. 侵攻計算 ────────────────────────────────────────────────────────
+    // ── 侵攻計算 ────────────────────────────────────────────────────────
     if (playerFronts.length === 0) continue;
 
     // 合計戦線マス数（このターン用の簡易計算）
@@ -462,16 +452,6 @@ export async function processWars(
     }
 
     // ── 4. マップへ反映（Rust MapStore + Map.tsx pointsRef）──────────────────
-    // attacker_id / defender_id は countries[key].id（数値コード文字列 → u8 はRust側が管理）
-    // Rust の id_map で引けるよう string の id を渡す
-    // advance_occupation は occupy_id の u8 を必要とするため、
-    // wars_occupation.rs では FrontAdvanceCommand.attacker_id / defender_id を u8 で受け取る。
-    // しかし TS から u8 の数値を直接知る手段がないため、
-    // ここでは player/enemy の string id と advance_tiles を渡し、
-    // Rust 側で id_map を引いて u8 に変換する設計に変更する必要がある。
-    //
-    // → wars_occupation.rs を文字列 ID 受け取りに修正して対応する。
-    //   （下記コメントの通り、FrontAdvanceCommand を string id 版で定義）
 
     const occupyCommands = advanceResults.map((r) => {
       const frontInfo = playerFronts.find(f => f.front_id === r.front_id);
@@ -500,7 +480,7 @@ export async function processWars(
       _mapUpdateCallback(allChanges);
     }
 
-    // ── 5. 講和条件チェック ─────────────────────────────────────────────────
+    // ── 講和条件チェック ─────────────────────────────────────────────────
     // 5a. 戦線がこのターンで消えた場合
     // 再度 get_war_fronts を呼んで現在の戦線数を確認
     let currentFronts: FrontInfo[] = [];
@@ -1030,7 +1010,7 @@ export const applyDeclareWar = (
 
 const processEconomy = (countries: Record<string, CountryState>) => {
   const updatedCountries = { ...countries };
-  const ECONOMIC_GROWNTH_RATE = 0.05;
+  const ECONOMIC_GROWNTH_RATE = 0.03;
   const POLITICAL_POWER_INCREASE = 50;
 
   Object.keys(updatedCountries).forEach((id) => {

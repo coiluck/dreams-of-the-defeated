@@ -134,11 +134,11 @@ fn calc_front_advance(
 
     // ── アクションバフ倍率 ──────────────────────────────────────────────────
     // 攻撃力倍率
-    let p_attack_action_mult  = if p_action == ACTION_FIRE_SUPPORT  { 1.20 } else { 1.0 };
-    let e_attack_action_mult  = if e_action == ACTION_FIRE_SUPPORT  { 1.20 } else { 1.0 };
+    let p_attack_action_mult  = if p_action == ACTION_FIRE_SUPPORT  { 1.40 } else { 1.0 };
+    let e_attack_action_mult  = if e_action == ACTION_FIRE_SUPPORT  { 1.40 } else { 1.0 };
     // 防御力倍率
-    let p_defence_action_mult = if p_action == ACTION_ENTRENCHMENT  { 1.20 } else { 1.0 };
-    let e_defence_action_mult = if e_action == ACTION_ENTRENCHMENT  { 1.20 } else { 1.0 };
+    let p_defence_action_mult = if p_action == ACTION_ENTRENCHMENT  { 1.40 } else { 1.0 };
+    let e_defence_action_mult = if e_action == ACTION_ENTRENCHMENT  { 1.40 } else { 1.0 };
 
     // ── 師団数補正（三乗根）────────────────────────────────────────────────
     // 各国が この戦線に割り当てた "実効師団数" ∝ deployedMilitary × (front_tiles / total_tiles)

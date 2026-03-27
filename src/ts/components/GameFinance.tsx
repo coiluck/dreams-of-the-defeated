@@ -68,18 +68,18 @@ export default function GameFinance() {
     },
     {
       name: { ja: '装備の生産', en: 'Equipment Production' },
-      description: { ja: '装備備蓄 +1000', en: 'Equipment Stockpile +1000.' },
+      description: { ja: '装備備蓄 +750', en: 'Equipment Stockpile +750.' },
       cost: { politicalPower: 40 },
       effect: (country: CountryState) => ({
-        militaryEquipment: country.militaryEquipment + 1000
+        militaryEquipment: country.militaryEquipment + 750
       })
     },
     {
       name: { ja: '装備の破棄', en: 'Equipment Destruction' },
-      description: { ja: '装備備蓄 -1000', en: 'Equipment Stockpile -1000.' },
+      description: { ja: '装備備蓄 -750', en: 'Equipment Stockpile -750.' },
       cost: { politicalPower: 15 },
       effect: (country: CountryState) => ({
-        militaryEquipment: Math.max(0, country.militaryEquipment - 1000)
+        militaryEquipment: Math.max(0, country.militaryEquipment - 750)
       })
     },
     {
@@ -127,25 +127,25 @@ export default function GameFinance() {
       {/* 基礎データ表示 */}
       <div className="gf-component-stats-header">
         <Tooltip text={t.baseGDPDescription} isBelow={false}>
-          <div className="gf-component-stat-box">
+          <div className="gf-component-stat-box base-gdp">
             <div className="gf-component-stat-box-label">{t.baseGDP}</div>
             <div className="gf-component-stat-box-value">{formatEconomicStrength(playerCountry.economicStrength)}</div>
           </div>
         </Tooltip>
         <Tooltip text={t.adjustedGDPDescription} isBelow={false}>
-          <div className="gf-component-stat-box">
+          <div className="gf-component-stat-box adjusted-gdp">
             <div className="gf-component-stat-box-label">{t.adjustedGDP}</div>
             <div className="gf-component-stat-box-value">{formatEconomicStrength(effectiveGDP)}</div>
           </div>
         </Tooltip>
         <Tooltip text={t.militaryBudgetDescription} isBelow={false}>
-          <div className="gf-component-stat-box">
+          <div className="gf-component-stat-box military-budget">
             <div className="gf-component-stat-box-label">{t.militaryBudget}</div>
             <div className="gf-component-stat-box-value">{formatEconomicStrength(militaryBudget)}</div>
           </div>
         </Tooltip>
         <Tooltip text={t.gdpRatioDescription} isBelow={false}>
-          <div className="gf-component-stat-box">
+          <div className="gf-component-stat-box gdp-ratio">
             <div className="gf-component-stat-box-label">{t.gdpRatio}</div>
             <div className="gf-component-stat-box-value">{currentRatio.toFixed(2)} %</div>
           </div>

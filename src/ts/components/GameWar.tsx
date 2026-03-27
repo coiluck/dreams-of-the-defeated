@@ -64,7 +64,7 @@ export const TACTIC_ACTIONS: TacticAction[] = [
   {
     name: { ja: '積極的攻勢', en: 'Aggressive Offensive' },
     effect: { ja: '攻撃機会', en: 'Combat Engagements' },
-    cost: { politicalPower: 100, militaryEquipment: 200 },
+    cost: { politicalPower: 100, militaryEquipment: 400 },
     value: 1,
     description: {
       ja: '各ターンごとに4回の戦闘を行います。通常は攻撃側2回・防御側2回ですが、攻撃側を3回にします',
@@ -75,20 +75,20 @@ export const TACTIC_ACTIONS: TacticAction[] = [
     name: { ja: '火力支援', en: 'Fire Support' },
     effect: { ja: '攻撃力', en: 'Firepower' },
     cost: { politicalPower: 50, militaryEquipment: 400 },
-    value: 20,
+    value: 40,
     description: {
-      ja: '攻撃力が1.2倍になります。',
-      en: 'Increases attack power by 1.2x.'
+      ja: '攻撃力が1.4倍になります。',
+      en: 'Increases attack power by 1.4x.'
     },
   },
   {
     name: { ja: '防御陣地の構築', en: 'Entrenchment' },
     effect: { ja: '防御力', en: 'Defensive Strength' },
-    cost: { politicalPower: 50, militaryEquipment: 100 },
-    value: 20,
+    cost: { politicalPower: 100, militaryEquipment: 100 },
+    value: 40,
     description: {
-      ja: '防御力が1.2倍になります。',
-      en: 'Increases defensive strength by 1.2x.'
+      ja: '防御力が1.4倍になります。',
+      en: 'Increases defensive strength by 1.4x.'
     },
   },
   {

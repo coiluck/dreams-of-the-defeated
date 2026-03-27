@@ -44,16 +44,16 @@
   font-size: 1rem;
   font-weight: bold;
 }
-.gf-component-stat-box:nth-child(1) .gf-component-stat-box-value {
+.gf-component-stat-box.base-gdp .gf-component-stat-box-value {
   color: rgb(255, 255, 255);
 }
-.gf-component-stat-box:nth-child(2) .gf-component-stat-box-value {
+.gf-component-stat-box.adjusted-gdp .gf-component-stat-box-value {
   color: #88f;
 }
-.gf-component-stat-box:nth-child(3) .gf-component-stat-box-value {
+.gf-component-stat-box.military-budget .gf-component-stat-box-value {
   color: #e88;
 }
-.gf-component-stat-box:nth-child(4) .gf-component-stat-box-value {
+.gf-component-stat-box.gdp-ratio .gf-component-stat-box-value {
   color: #3bff3e;
 }
 
