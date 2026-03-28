@@ -11,6 +11,8 @@ export interface War {
   attackerId: string;
   defenderId: string;
   startTurn: number;
+  attackerAllies: string[];
+  defenderAllies: string[];
 }
 
 export interface LocalizedName {
@@ -54,6 +56,7 @@ export interface CountryState {
   vassalIds: string[];               // 属国IDリスト
   activeWarIds: string[];            // 参加中の戦争IDリスト
   frontActions?: Record<string, number>; // 戦線ごとのアクション（index）
+  allies: string[]; // 同盟国リスト
 
   // 国家方針 & 国民精神
   activeFocusId: string | null;       // 現在選択中の方針
@@ -90,6 +93,9 @@ interface GameStore {
   endWar: (warId: string) => void;
   // 戦線アクション
   setFrontAction: (countryId: string, frontId: string, tacticIndex: number) => void;
+  // 同盟の締結・破棄
+  formAlliance: (countryIdA: string, countryIdB: string) => void;
+  breakAlliance: (countryIdA: string, countryIdB: string, callAllies: boolean) => void;
   // 属国化・独立
   makeVassal: (suzerainId: string, vassalId: string) => void;
   grantIndependence: (vassalId: string) => void;
@@ -224,7 +230,7 @@ export function registerMapUpdateCallback(cb: MapUpdateCallback) {
  */
 async function decideEnemyActions(
   enemy: CountryState,
-  playerCountry: CountryState,
+  opponent: CountryState,
 ): Promise<Record<string, number>> {
   const actions: Record<string, number> = {};
 
@@ -234,7 +240,7 @@ async function decideEnemyActions(
     enemyFronts = await invoke<FrontInfo[]>('get_war_fronts', {
       war: {
         player_id: enemy.id,
-        enemy_ids: [playerCountry.id],
+        enemy_ids: [opponent.id],
         supply_buffs: {},
         mechanization_rate: enemy.mechanizationRate ?? 0,
       },
@@ -279,16 +285,11 @@ async function decideEnemyActions(
     if (availablePP + ppDiff < 0 || availableEquip + equipDiff < 0) continue;
 
     // 防御陣地の構築の方が有利かどうかの簡易評価:
-    // 補給の改善は supply+0.2 のバフ、防御陣地は defence×1.2
-    // supply が 0.6 以下なら補給改善の方が大きいバフ（0.2/supply > 0.2 for supply<1）
-    // supply が 0.8 に近いなら防御の方が相対的に有利
+    // 補給の改善は supply+0.2 のバフ、防御陣地は defence×1.4
+    // 1.4 × supply > supply + 0.2 を解く
     const front = enemyFronts.find(f => f.front_id === frontId);
     if (!front) continue;
-
-    // 防御優位の簡易判定: supply + 0.2 < 1.2 * supply → 1.2 > 1 + 0.2/supply → supply > 1
-    // 実際は supply <= 0.8 なので、防御陣地の方が有利になるのは supply が比較的高い時
-    // supply > 0.65 なら防御陣地に変更（経験的閾値）
-    if (front.supply > 0.65) {
+    if (front.supply > 0.5) {
       actions[frontId] = 3; // 防御陣地の構築
       availablePP -= ppDiff;
       availableEquip -= equipDiff;
@@ -333,28 +334,38 @@ export async function processWars(
   for (const [warId, war] of Object.entries(wars)) {
     const attackerKey = war.attackerId;
     const defenderKey = war.defenderId;
-    const attacker = updatedCountries[attackerKey];
-    const defender = updatedCountries[defenderKey];
-    if (!attacker || !defender) continue;
+    const attackerCountry = updatedCountries[attackerKey];
+    const defenderCountry = updatedCountries[defenderKey];
 
-    // ── プレイヤー側のアクションを取得 ──────────────────────────────────
-    const isPlayerAttacker = attackerKey === playerCountryId;
-    const playerKey = isPlayerAttacker ? attackerKey : defenderKey;
-    const enemyKey = isPlayerAttacker ? defenderKey : attackerKey;
-    const playerCountry = updatedCountries[playerKey];
-    const enemyCountry = updatedCountries[enemyKey];
+    if (!attackerCountry || !defenderCountry) continue;
 
-    const playerFrontActions: Record<string, number> = playerCountry.frontActions ?? {};
+    // プレイヤーがこの戦争に関与しているか（ログ出力などの判定用）
+    const isPlayerInvolved = attackerKey === playerCountryId || defenderKey === playerCountryId;
 
-    // ── プレイヤー視点の戦線を取得 ─────────────────────────────────────────
-    let playerFronts: FrontInfo[] = [];
+    // ── 1. アクションの取得・決定 ──────────────────────────────────────────
+    // 人間プレイヤーなら設定したフロントアクションを取得、CPUなら空オブジェクト
+    let attackerFrontActions: Record<string, number> = attackerKey === playerCountryId ? (attackerCountry.frontActions ?? {}) : {};
+    let defenderFrontActions: Record<string, number> = defenderKey === playerCountryId ? (defenderCountry.frontActions ?? {}) : {};
+
+    // 難易度ノーマルの場合、CPUの戦術アクションを決定
+    if (gameMode === 'normal') {
+      if (attackerKey !== playerCountryId) {
+        attackerFrontActions = await decideEnemyActions(attackerCountry, defenderCountry);
+      }
+      if (defenderKey !== playerCountryId) {
+        defenderFrontActions = await decideEnemyActions(defenderCountry, attackerCountry);
+      }
+    }
+
+    // ── 2. 戦線の取得（Attacker 視点）──────────────────────────────────────
+    let attackerFronts: FrontInfo[] = [];
     try {
-      playerFronts = await invoke<FrontInfo[]>('get_war_fronts', {
+      attackerFronts = await invoke<FrontInfo[]>('get_war_fronts', {
         war: {
-          player_id: playerCountry.id,
-          enemy_ids: [enemyCountry.id],
+          player_id: attackerCountry.id,
+          enemy_ids: [defenderCountry.id],
           supply_buffs: {},
-          mechanization_rate: playerCountry.mechanizationRate ?? 0,
+          mechanization_rate: attackerCountry.mechanizationRate ?? 0,
         },
       });
     } catch (e) {
@@ -362,85 +373,73 @@ export async function processWars(
       continue;
     }
 
-    const prevFrontCount = playerFronts.length;
-
-    // ── 敵AIのアクション決定 ────────────────────────────────────────────
-    let enemyFrontActions: Record<string, number> = {};
-    if (gameMode === 'normal') {
-      enemyFrontActions = await decideEnemyActions(
-        enemyCountry,
-        playerCountry
-      );
-    }
-    // easy の場合は enemyFrontActions = {} のまま（全て standby）
-
-    // ── 侵攻計算 ────────────────────────────────────────────────────────
-    if (playerFronts.length === 0) continue;
+    const prevFrontCount = attackerFronts.length;
+    if (attackerFronts.length === 0) continue;
 
     // 合計戦線マス数（このターン用の簡易計算）
-    const playerTotalTiles = Math.max(
-      playerFronts.reduce((s, f) => s + f.tile_count, 0), 1
+    const attackerTotalTiles = Math.max(
+      attackerFronts.reduce((s, f) => s + f.tile_count, 0), 1
     );
 
-    // 敵視点の戦線補給
-    let enemyFronts: FrontInfo[] = [];
+    // ── 3. 敵（Defender）視点の戦線と補給マップを取得 ──────────────────────
+    let defenderFronts: FrontInfo[] = [];
     try {
-      enemyFronts = await invoke<FrontInfo[]>('get_war_fronts', {
+      defenderFronts = await invoke<FrontInfo[]>('get_war_fronts', {
         war: {
-          player_id: enemyCountry.id,
-          enemy_ids: [playerCountry.id],
+          player_id: defenderCountry.id,
+          enemy_ids: [attackerCountry.id],
           supply_buffs: {},
-          mechanization_rate: enemyCountry.mechanizationRate ?? 0,
+          mechanization_rate: defenderCountry.mechanizationRate ?? 0,
         },
       });
-    } catch { /* 取得失敗時は0.5フォールバック */ }
+    } catch { /* 無視 */ }
 
-    const enemyTotalTiles = Math.max(
-      enemyFronts.reduce((s, f) => s + f.tile_count, 0), 1
+    const defenderTotalTiles = Math.max(
+      defenderFronts.reduce((s, f) => s + f.tile_count, 0), 1
     );
 
-    // 敵補給マップ（region_id ベースのフォールバック込み）
-    const enemySupplyMap: Record<string, number> = {};
-    for (const f of enemyFronts) {
-      enemySupplyMap[f.front_id] = f.supply;
-      enemySupplyMap[`region_${f.region_id}`] = f.supply;
+    const defenderSupplyMap: Record<string, number> = {};
+    for (const f of defenderFronts) {
+      defenderSupplyMap[f.front_id] = f.supply;
+      defenderSupplyMap[`region_${f.region_id}`] = f.supply;
     }
 
-    const effectivePlayerStats = calculateEffectiveStats(playerCountry);
-    const effectiveEnemyStats = calculateEffectiveStats(enemyCountry);
+    // ── 4. 侵攻計算 ──────────────────────────────────────────────────────
+    const effectiveAttackerStats = calculateEffectiveStats(attackerCountry);
+    const effectiveDefenderStats = calculateEffectiveStats(defenderCountry);
 
-    const playerAttackBuff  = 1.0 + (effectivePlayerStats.attackPower  / 100);
-    const playerDefenceBuff = 1.0 + (effectivePlayerStats.defensePower / 100);
-    const enemyAttackBuff   = 1.0 + (effectiveEnemyStats.attackPower   / 100);
-    const enemyDefenceBuff  = 1.0 + (effectiveEnemyStats.defensePower  / 100);
+    const attackerAttackBuff  = 1.0 + (effectiveAttackerStats.attackPower  / 100);
+    const attackerDefenceBuff = 1.0 + (effectiveAttackerStats.defensePower / 100);
+    const defenderAttackBuff  = 1.0 + (effectiveDefenderStats.attackPower  / 100);
+    const defenderDefenceBuff = 1.0 + (effectiveDefenderStats.defensePower / 100);
 
     const advanceInput = {
-      player_id: playerCountry.id,
-      player_deployed_military: playerCountry.deployedMilitary || 0,
-      player_total_tiles: playerTotalTiles,
-      player_mechanization_rate: effectivePlayerStats.mechanizationRate || 0,
-      player_spirit_attack_buff: playerAttackBuff,
-      player_spirit_defence_buff: playerDefenceBuff,
+      player_id: attackerCountry.id,
+      player_deployed_military: attackerCountry.deployedMilitary || 0,
+      player_total_tiles: attackerTotalTiles,
+      player_mechanization_rate: effectiveAttackerStats.mechanizationRate || 0,
+      player_spirit_attack_buff: attackerAttackBuff,
+      player_spirit_defence_buff: attackerDefenceBuff,
 
-      enemy_id: enemyCountry.id,
-      enemy_deployed_military: enemyCountry.deployedMilitary || 0,
-      enemy_total_tiles: enemyTotalTiles,
-      enemy_mechanization_rate: effectiveEnemyStats.mechanizationRate || 0,
-      enemy_spirit_attack_buff: enemyAttackBuff,
-      enemy_spirit_defence_buff: enemyDefenceBuff,
+      enemy_id: defenderCountry.id,
+      enemy_deployed_military: defenderCountry.deployedMilitary || 0,
+      enemy_total_tiles: defenderTotalTiles,
+      enemy_mechanization_rate: effectiveDefenderStats.mechanizationRate || 0,
+      enemy_spirit_attack_buff: defenderAttackBuff,
+      enemy_spirit_defence_buff: defenderDefenceBuff,
 
-      fronts: playerFronts.map((f) => ({
+      fronts: attackerFronts.map((f) => ({
         front_id:      f.front_id,
         tile_count:    f.tile_count,
         region_id:     f.region_id,
         player_supply: f.supply,
-        enemy_supply:  enemySupplyMap[f.front_id]
-                    ?? enemySupplyMap[`region_${f.region_id}`]
+        enemy_supply:  defenderSupplyMap[f.front_id]
+                    ?? defenderSupplyMap[`region_${f.region_id}`]
                     ?? 0.5,
       })),
 
-      player_front_actions: playerFrontActions,
-      enemy_front_actions:  enemyFrontActions,
+      player_front_actions: attackerFrontActions,
+      enemy_front_actions:  defenderFrontActions,
     };
 
     let advanceResults: FrontAdvanceResult[] = [];
@@ -451,15 +450,14 @@ export async function processWars(
       continue;
     }
 
-    // ── 4. マップへ反映（Rust MapStore + Map.tsx pointsRef）──────────────────
-
+    // ── 5. マップへ反映 ──────────────────────────────────────────────────
     const occupyCommands = advanceResults.map((r) => {
-      const frontInfo = playerFronts.find(f => f.front_id === r.front_id);
+      const frontInfo = attackerFronts.find(f => f.front_id === r.front_id);
       return {
         front_id:      r.front_id,
         advance_tiles: r.advance_tiles,
-        attacker_id:   playerCountry.id,
-        defender_id:   enemyCountry.id,
+        attacker_id:   attackerCountry.id,
+        defender_id:   defenderCountry.id,
         front_tiles:   frontInfo?.front_tiles ?? [],
       };
     });
@@ -474,39 +472,34 @@ export async function processWars(
       continue;
     }
 
-    // Map.tsx の pointsRef を更新
     const allChanges: OccupyChange[] = occupyResults.flatMap(r => r.changes);
     if (allChanges.length > 0 && _mapUpdateCallback) {
       _mapUpdateCallback(allChanges);
     }
 
-    // ── 講和条件チェック ─────────────────────────────────────────────────
-    // 5a. 戦線がこのターンで消えた場合
-    // 再度 get_war_fronts を呼んで現在の戦線数を確認
+    // ── 6. 講和条件チェック ──────────────────────────────────────────────
     let currentFronts: FrontInfo[] = [];
     try {
       currentFronts = await invoke<FrontInfo[]>('get_war_fronts', {
         war: {
-          player_id: playerCountry.id,
-          enemy_ids: [enemyCountry.id],
+          player_id: attackerCountry.id,
+          enemy_ids: [defenderCountry.id],
           supply_buffs: {},
-          mechanization_rate: playerCountry.mechanizationRate ?? 0,
+          mechanization_rate: attackerCountry.mechanizationRate ?? 0,
         },
       });
     } catch { /* 無視 */ }
 
-    if (prevFrontCount > 0 && currentFronts.length < prevFrontCount) {
-      console.log('劣勢です');
+    if (isPlayerInvolved) {
+      if (prevFrontCount > 0 && currentFronts.length < prevFrontCount) {
+        console.log(`[War: ${warId}] 劣勢です`);
+      }
+      if (currentFronts.length === 0 && prevFrontCount > 0) {
+        console.log(`[War: ${warId}] 講和条件を満たしました`);
+      }
     }
 
-    // 5b. 無条件降伏チェック（コアタイルを全て失った or 占領タイル数が0）
-    // Rust 側のマップデータをもとに判定するため、
-    // 敵（enemy）がコアタイルを全て失ったか / 占領タイル0かを確認する
-    // → get_war_fronts が空リストを返すことで占領タイル0は検出できる
-    // コアタイルの喪失は別途 check_capitulation コマンドで判定するのが理想だが、
-    // 現フェーズでは簡易的に「戦線が完全に消えた」＝「講和条件を満たした」とみなす
     if (currentFronts.length === 0 && prevFrontCount > 0) {
-      console.log('講和条件を満たしました');
       endedWarIds.push(warId);
     }
   }
@@ -541,6 +534,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       initializedCountries[countryId] = {
         ...countryData,
         nationalSpirits,
+        allies: countryData.allies ?? [],
         financeActionCount: 0,
         frontActions: {},
       };
@@ -583,6 +577,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         suzerainId: null,
         vassalIds: [],
         activeWarIds: [],
+        allies: [],
         frontActions: {},
         activeFocusId: null,
         completedFocusIds: [],
@@ -633,7 +628,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     };
   }),
 
-  declareWar: (attackerId, defenderId) => set(state => {
+  declareWar: (attackerId, defenderId, callAllies = false) => set(state => {
     if (!state.game) return state;
     const { updatedWars, updatedCountries } = applyDeclareWar(
       state.game.wars,
@@ -642,8 +637,24 @@ export const useGameStore = create<GameStore>((set, get) => ({
       defenderId,
       state.game.currentTurn
     );
+
+    if (!callAllies) {
+      return { game: { ...state.game, countries: updatedCountries, wars: updatedWars } };
+    }
+
+    // 同盟国の自動参戦
+    const { updatedWars: warsWithAllies, updatedCountries: countriesWithAllies } =
+      applyAllyJoinWar(
+        updatedWars,
+        updatedCountries,
+        `war_${attackerId}_${defenderId}_${state.game.currentTurn}`,
+        attackerId,
+        defenderId,
+        state.game.currentTurn,
+      );
+
     return {
-      game: { ...state.game, countries: updatedCountries, wars: updatedWars }
+      game: { ...state.game, countries: countriesWithAllies, wars: warsWithAllies }
     };
   }),
 
@@ -682,6 +693,49 @@ export const useGameStore = create<GameStore>((set, get) => ({
         }
       }
     };
+  }),
+
+  // ── 同盟の締結 ────────────────────────────────────────────────────────────
+  formAlliance: (countryIdA, countryIdB) => set(state => {
+    if (!state.game) return state;
+    const countries = { ...state.game.countries };
+    const countryA = countries[countryIdA];
+    const countryB = countries[countryIdB];
+    if (!countryA || !countryB) return state;
+
+    // 既に同盟済みならスキップ
+    if (countryA.allies.includes(countryIdB)) return state;
+
+    countries[countryIdA] = {
+      ...countryA,
+      allies: [...countryA.allies, countryIdB],
+    };
+    countries[countryIdB] = {
+      ...countryB,
+      allies: [...countryB.allies, countryIdA],
+    };
+
+    return { game: { ...state.game, countries } };
+  }),
+
+  // ── 同盟の破棄 ────────────────────────────────────────────────────────────
+  breakAlliance: (countryIdA, countryIdB) => set(state => {
+    if (!state.game) return state;
+    const countries = { ...state.game.countries };
+    const countryA = countries[countryIdA];
+    const countryB = countries[countryIdB];
+    if (!countryA || !countryB) return state;
+
+    countries[countryIdA] = {
+      ...countryA,
+      allies: countryA.allies.filter(id => id !== countryIdB),
+    };
+    countries[countryIdB] = {
+      ...countryB,
+      allies: countryB.allies.filter(id => id !== countryIdA),
+    };
+
+    return { game: { ...state.game, countries } };
   }),
 
   makeVassal: (suzerainId, vassalId) => set(state => {
@@ -833,12 +887,58 @@ export const useCountry = (countryId: string) => {
   return useGameStore(state => state.game?.countries[countryId] ?? null);
 };
 
-export const useIsAtWar = (countryId: string) => {
-  return useGameStore(state => {
-    const country = state.game?.countries[countryId];
-    return (country?.activeWarIds.length ?? 0) > 0;
-  });
-};
+function applyAllyJoinWar(
+  wars: Record<string, War>,
+  countries: Record<string, CountryState>,
+  originalWarId: string,
+  attackerKey: string,
+  defenderKey: string,
+  currentTurn: number,
+): { updatedWars: Record<string, War>; updatedCountries: Record<string, CountryState> } {
+  let updatedWars = { ...wars };
+  let updatedCountries = { ...countries };
+
+  const attacker = updatedCountries[attackerKey];
+  const defender = updatedCountries[defenderKey];
+  if (!attacker || !defender) return { updatedWars, updatedCountries };
+
+  // 攻撃側の同盟国 → 攻撃側として参戦
+  for (const allyKey of attacker.allies) {
+    if (allyKey === defenderKey) continue; // 敵国自身はスキップ
+    const allyCountry = updatedCountries[allyKey];
+    if (!allyCountry) continue;
+
+    const result = applyDeclareWar(
+      updatedWars,
+      updatedCountries,
+      allyKey,
+      defenderKey,
+      currentTurn,
+    );
+    updatedWars = result.updatedWars;
+    updatedCountries = result.updatedCountries;
+    console.log(`[Alliance] ${allyKey} joins war ${originalWarId} as attacker against ${defenderKey}`);
+  }
+
+  // 防衛側の同盟国 → 防衛側（= attacker への宣戦）として参戦
+  for (const allyKey of defender.allies) {
+    if (allyKey === attackerKey) continue; // 攻撃国自身はスキップ
+    const allyCountry = updatedCountries[allyKey];
+    if (!allyCountry) continue;
+
+    const result = applyDeclareWar(
+      updatedWars,
+      updatedCountries,
+      allyKey,
+      attackerKey,
+      currentTurn,
+    );
+    updatedWars = result.updatedWars;
+    updatedCountries = result.updatedCountries;
+  }
+
+  return { updatedWars, updatedCountries };
+}
 
 const processCountryFocus = async (
   countryId: string,
@@ -882,12 +982,63 @@ const processCountryFocus = async (
       newEvents.push(...focusNode.effects.eventIds);
     }
 
-    // 戦争
+    // 宣戦布告
     if (focusNode.effects.declareWar) {
       const targetId = focusNode.effects.declareWar;
-      const result = applyDeclareWar(updatedWars, updatedCountries, countryId, targetId, currentTurn);
-      updatedWars = result.updatedWars;
-      updatedCountries = result.updatedCountries; // 戦争中の国のパラメータも更新
+      const declareResult = applyDeclareWar(updatedWars, updatedCountries, countryId, targetId, currentTurn);
+      updatedWars = declareResult.updatedWars;
+      updatedCountries = declareResult.updatedCountries;
+
+      // 同盟国の自動参戦
+      if (focusNode.effects.callAllies) {
+        const warId = `war_${countryId}_${targetId}_${currentTurn}`;
+        const allyResult = applyAllyJoinWar(
+          updatedWars,
+          updatedCountries,
+          warId,
+          countryId,
+          targetId,
+          currentTurn,
+        );
+        updatedWars = allyResult.updatedWars;
+        updatedCountries = allyResult.updatedCountries;
+      }
+    }
+
+    // 同盟締結
+    if (focusNode.effects.formAlliance) {
+      const allyTargetId = focusNode.effects.formAlliance;
+      const countryA = updatedCountries[countryId];
+      const countryB = updatedCountries[allyTargetId];
+      if (countryA && countryB && !countryA.allies.includes(allyTargetId)) {
+        updatedCountries[countryId] = {
+          ...countryA,
+          allies: [...countryA.allies, allyTargetId],
+        };
+        updatedCountries[allyTargetId] = {
+          ...countryB,
+          allies: [...countryB.allies, countryId],
+        };
+      }
+    }
+
+    // 同盟破棄
+    if (focusNode.effects.breakAlliance) {
+      const breakTargetId = focusNode.effects.breakAlliance;
+      const countryA = updatedCountries[countryId];
+      const countryB = updatedCountries[breakTargetId];
+      if (countryA) {
+        updatedCountries[countryId] = {
+          ...countryA,
+          allies: countryA.allies.filter(id => id !== breakTargetId),
+        };
+      }
+      if (countryB) {
+        updatedCountries[breakTargetId] = {
+          ...countryB,
+          allies: countryB.allies.filter(id => id !== countryId),
+        };
+      }
     }
 
     // 国民精神処理
@@ -990,7 +1141,9 @@ export const applyDeclareWar = (
     return { updatedWars: wars, updatedCountries: countries };
   }
 
-  const newWar: War = { warId, attackerId, defenderId, startTurn: currentTurn };
+  const attackerAllies = countries[attackerId].allies;
+  const defenderAllies = countries[defenderId].allies;
+  const newWar: War = { warId, attackerId, defenderId, startTurn: currentTurn, attackerAllies: attackerAllies, defenderAllies: defenderAllies };
 
   return {
     updatedWars: { ...wars, [warId]: newWar },
