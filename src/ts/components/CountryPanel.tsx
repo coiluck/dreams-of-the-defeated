@@ -25,6 +25,8 @@ export default function CountryPanel({ isOpen, countryId, onClose, onDeclareWar 
   const [spiritNames, setSpiritNames] = useState<Record<string, { ja: string; en: string }>>({});
 
   const countries = useGameStore((state) => state.game?.countries ?? {});
+  const wars = useGameStore((state) => state.game?.wars ?? {});
+
   const targetCountry = countries[countryId];
   const playerCountryId = useGameStore((state) => state.game?.playerCountryId);
 
@@ -68,7 +70,8 @@ export default function CountryPanel({ isOpen, countryId, onClose, onDeclareWar 
     economicStrengthRate: 'countryPanel.economicStrengthRate',
     nationalSpiritNone: 'countryPanel.nationalSpiritNone',
     playerCountry: 'countryPanel.playerCountry',
-    enemyCountry: 'countryPanel.enemyCountry',
+    allies: 'countryPanel.allies',
+    wars: 'countryPanel.wars',
     vassalCountry: 'countryPanel.vassalCountry',
     suzerainCountry: 'countryPanel.suzerainCountry',
     declareWar: 'countryPanel.declareWar',
@@ -79,6 +82,29 @@ export default function CountryPanel({ isOpen, countryId, onClose, onDeclareWar 
   }
 
   const effectiveStats = calculateEffectiveStats(targetCountry);
+
+  // 外交状態
+  const allyCountries = targetCountry.allies
+    .map((id) => countries[id])
+    .filter(Boolean);
+
+  const warEnemyCountries = targetCountry.activeWarIds
+    .flatMap((warId) => {
+      const war = wars[warId];
+      if (!war) return [];
+      if (war.attackerId === countryId) return [countries[war.defenderId]];
+      if (war.defenderId === countryId) return [countries[war.attackerId]];
+      return [];
+    })
+    .filter(Boolean);
+
+  const vassalCountries = (targetCountry.vassalIds ?? [])
+    .map((id) => countries[id])
+    .filter(Boolean);
+
+  const suzerainCountry = targetCountry.suzerainId
+    ? countries[targetCountry.suzerainId]
+    : null;
 
   return (
     <div className={`cp-component-container ${isOpen ? 'open' : ''}`}>
@@ -98,10 +124,53 @@ export default function CountryPanel({ isOpen, countryId, onClose, onDeclareWar 
             className="cp-component-country-info-header-flag"
             style={{ backgroundImage: `url(${targetCountry.flag})` }}
           />
-          <div className="cp-component-country-info-header-name">
-            {targetCountry.name[lang]}
+          <div className="cp-component-country-info-header-text">
+            <span className="cp-component-country-info-header-country-name">{targetCountry.name[lang]}</span>
+            {targetCountry.id == playerCountryId && (
+              <span className="cp-component-country-info-header-player-country">{t.playerCountry}</span>
+            )}
           </div>
         </div>
+
+        {/* 外交関係 */}
+        {suzerainCountry && (
+          <div className="cp-component-country-info-diplomacy-container">
+            <div className="cp-component-country-info-title">{t.suzerainCountry}</div>
+            <div className="cp-component-country-info-diplomacy-item">
+              {suzerainCountry.name[lang]}
+            </div>
+          </div>
+        )}
+        {vassalCountries.length > 0 && (
+          <div className="cp-component-country-info-diplomacy-container">
+            <div className="cp-component-country-info-title">{t.vassalCountry}</div>
+            {vassalCountries.map((c) =>
+              <div className="cp-component-country-info-diplomacy-item">
+                {c.name[lang]}
+              </div>
+            )}
+          </div>
+        )}
+        {allyCountries.length > 0 && (
+          <div className="cp-component-country-info-diplomacy-container">
+            <div className="cp-component-country-info-title">{t.allies}</div>
+            {allyCountries.map((c) =>
+              <div className="cp-component-country-info-diplomacy-item">
+                {c.name[lang]}
+              </div>
+            )}
+          </div>
+        )}
+        {warEnemyCountries.length > 0 && (
+          <div className="cp-component-country-info-diplomacy-container">
+            <div className="cp-component-country-info-title">{t.wars}</div>
+            {warEnemyCountries.map((c) =>
+              <div className="cp-component-country-info-diplomacy-item">
+                {c.name[lang]}
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="cp-component-country-info-status">
           <div className="cp-component-country-info-title">{t.baseParameters}</div>

@@ -135,9 +135,18 @@
   z-index: 1;
 }
 
-.cp-component-country-info-header-name {
+.cp-component-country-info-header-text {
   flex: 1;
-  padding: .3rem .5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  filter: url('#button-grunge-filter');
+  border-radius: calc(.6rem + 1rem);
+}
+
+.cp-component-country-info-header-country-name {
   font-family: serif;
   font-size: 1rem;
   font-weight: bold;
@@ -145,8 +154,17 @@
   text-transform: uppercase;
   text-align: center;
   text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
-  filter: url('#button-grunge-filter');
-  border-radius: calc(.6rem + 1rem);
+}
+.cp-component-country-info-header-player-country {
+  padding: .1rem .2rem;
+  color: #73d8df;
+  font-family: serif;
+  font-size: .8rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  text-align: center;
+  border: 1px solid #73d8df;
 }
 
 .cp-component-country-info-title {
@@ -157,6 +175,19 @@
   filter: url('#button-grunge-filter');
   border-left: 2px solid currentColor;
   padding-left: .5rem;
+}
+
+/* 外交関係 */
+.cp-component-country-info-diplomacy-container {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.cp-component-country-info-diplomacy-item {
+  font-family: serif;
+  font-size: .9rem;
+  text-transform: uppercase;
+  filter: url('#button-grunge-filter');
 }
 
 /* 基礎パラメータ */
