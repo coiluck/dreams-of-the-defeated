@@ -100,6 +100,10 @@
   "countryPanel.nationalSpiritNone": { "ja": "なし", "en": "None" },
   "countryPanel.playerCountry": { "ja": "プレイヤー", "en": "Player" },
   "countryPanel.allies": { "ja": "同盟国", "en": "Allies" },
+  "countryPanel.allies.description": {
+    "ja": "同盟国: 同盟を締結している国家。\nこの国が宣戦布告を受けた場合に同盟国は自動的に参戦する。\n一部の国家方針による宣戦布告の場合のみ、この国から宣戦布告した場合にも参戦する。",
+    "en": "Allies: Nations that have formed an alliance.\nIf this nation is declared war upon, allied nations will automatically join the conflict.\nAllies will also join if this country is the one declaring war, but only when doing so through certain national focus actions."
+  },
   "countryPanel.wars": { "ja": "交戦中", "en": "At War" },
   "countryPanel.vassalCountry": { "ja": "属国", "en": "Vassal" },
   "countryPanel.suzerainCountry": { "ja": "宗主国", "en": "Suzerain" },

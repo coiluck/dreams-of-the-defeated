@@ -55,7 +55,6 @@
   width: clamp(60px, 8vw, 100px);
   aspect-ratio: 3/2;
   align-self: center;
-  cursor: pointer;
 }
 .topbar-component-flag-container img {
   display: block;

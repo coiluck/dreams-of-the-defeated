@@ -5,6 +5,7 @@ import { useGameStore, calculateEffectiveStats, FINANCE_LEVELS } from '../module
 import { SettingState } from '../modules/store';
 import { loadSpiritDefinition } from '../modules/nationalFocus';
 import { useMappedTranslations } from '../modules/i18n';
+import ToolTip from './ToolTip';
 
 const formatEconomicStrength = (value: number): string => {
   if (value >= 1_000_000_000_000) return `${(value / 1_000_000_000_000).toFixed(1).replace(/\.0$/, '')}T`;
@@ -71,6 +72,7 @@ export default function CountryPanel({ isOpen, countryId, onClose, onDeclareWar 
     nationalSpiritNone: 'countryPanel.nationalSpiritNone',
     playerCountry: 'countryPanel.playerCountry',
     allies: 'countryPanel.allies',
+    alliesDescription: 'countryPanel.allies.description',
     wars: 'countryPanel.wars',
     vassalCountry: 'countryPanel.vassalCountry',
     suzerainCountry: 'countryPanel.suzerainCountry',
@@ -153,7 +155,12 @@ export default function CountryPanel({ isOpen, countryId, onClose, onDeclareWar 
         )}
         {allyCountries.length > 0 && (
           <div className="cp-component-country-info-diplomacy-container">
-            <div className="cp-component-country-info-title">{t.allies}</div>
+            <div className="cp-component-country-info-title">
+              <span>{t.allies}</span>
+              <ToolTip text={t.alliesDescription} isBelow={true}>
+                <span className="cp-component-country-allies-info-icon">i</span>
+              </ToolTip>
+            </div>
             {allyCountries.map((c) =>
               <div className="cp-component-country-info-diplomacy-item">
                 {c.name[lang]}

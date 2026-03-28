@@ -124,6 +124,16 @@ function buildEffectLines(effects: ResolvedFocusEffect, lang: 'ja' | 'en', count
     lines.push(lang === 'ja' ? `イベント「${ev.title[lang]}」が発生する` : `Triggers event "${ev.title[lang]}"`);
   }
 
+  // 同盟締結
+  if (effects.formAlliance) {
+    const targetId = effects.formAlliance as string;
+    const targetName = countries?.[targetId]?.name[lang] || targetId;
+    const text = lang === 'ja'
+      ? `<span>${targetName} と同盟を締結する</span>`
+      : `<span>Form alliance with ${targetName}</span>`;
+    lines.push(text);
+  }
+
   // 戦争
   if (effects.declareWar) {
     const targetId = effects.declareWar as string;
@@ -156,11 +166,55 @@ function FocusEffects({ effects, lang, countries }: { effects: ResolvedFocusEffe
         <div className="gnf-spirit-card gnf-war-card">
           <div className="gnf-spirit-header">
             <span className="gnf-spirit-action gnf-spirit-action--war">
-              {lang === 'ja' ? '開戦' : 'War'}
+              {lang === 'ja' ? '宣戦布告' : 'Declare War'}
             </span>
             <span>: </span>
             <span className="gnf-spirit-name">
               {countries?.[effects.declareWar as string]?.name[lang] || effects.declareWar}
+            </span>
+          </div>
+        </div>
+      )}
+      {effects.callAllies && (
+        <div className="gnf-spirit-card gnf-alliance-card gnf-alliance-card--call">
+          <div className="gnf-spirit-header">
+            <span className="gnf-spirit-action gnf-spirit-action--alliance-call">
+              {lang === 'ja' ? '戦争に同盟を招集' : 'Call Allies'}
+            </span>
+          </div>
+        </div>
+      )}
+      {effects.declareWar && !effects.callAllies && (
+        <div className="gnf-spirit-card gnf-alliance-card gnf-alliance-card--call">
+          <div className="gnf-spirit-header">
+            <span className="gnf-spirit-action gnf-spirit-action--alliance-call">
+              {lang === 'ja' ? '同盟国を招集しない' : 'Do not call allies'}
+            </span>
+          </div>
+        </div>
+      )}
+      {effects.formAlliance && (
+        <div className="gnf-spirit-card gnf-alliance-card gnf-alliance-card--form">
+          <div className="gnf-spirit-header">
+            <span className="gnf-spirit-action gnf-spirit-action--alliance-form">
+              {lang === 'ja' ? '同盟締結' : 'Form Alliance'}
+            </span>
+            <span>: </span>
+            <span className="gnf-spirit-name">
+              {countries?.[effects.formAlliance as string]?.name[lang] || effects.formAlliance}
+            </span>
+          </div>
+        </div>
+      )}
+      {effects.breakAlliance && (
+        <div className="gnf-spirit-card gnf-alliance-card gnf-alliance-card--break">
+          <div className="gnf-spirit-header">
+            <span className="gnf-spirit-action gnf-spirit-action--alliance-break">
+              {lang === 'ja' ? '同盟破棄' : 'Break Alliance'}
+            </span>
+            <span>: </span>
+            <span className="gnf-spirit-name">
+              {countries?.[effects.breakAlliance as string]?.name[lang] || effects.breakAlliance}
             </span>
           </div>
         </div>

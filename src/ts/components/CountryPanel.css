@@ -168,9 +168,12 @@
 }
 
 .cp-component-country-info-title {
+  display: flex;
+  align-items: center;
   font-family: "Courier New", monospace;
   font-size: .9rem;
   font-weight: bold;
+  line-height: 1.6;
   text-transform: uppercase;
   filter: url('#button-grunge-filter');
   border-left: 2px solid currentColor;
@@ -188,6 +191,24 @@
   font-size: .9rem;
   text-transform: uppercase;
   filter: url('#button-grunge-filter');
+}
+/* 同盟についての情報 */
+.cp-component-country-allies-info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 1rem;
+  width: 1rem;
+  padding: .1rem;
+  margin-left: .5rem;
+  cursor: pointer;
+  border: 1px solid #fff3f1;
+  border-radius: 50%;
+  font-size: .7rem;
+  font-weight: bold;
+  text-transform: none;
+  font-family: "Courier New", monospace;
 }
 
 /* 基礎パラメータ */

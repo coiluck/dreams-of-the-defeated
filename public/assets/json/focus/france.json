@@ -16,7 +16,8 @@
       "effects": {
         "eventIds": [
           "FRA_our_guru"
-        ]
+        ],
+        "formAlliance": "GBR"
       },
       "prerequisites": [
         "FRA_suukounaru_kuni_no_makuake"
@@ -69,8 +70,7 @@
               "politicalPowerRate": 15
             }
           }
-        ],
-        "declareWar": "IND"
+        ]
       },
       "prerequisites": [
         "FRA_doushiha_no_shinchou"
@@ -290,7 +290,8 @@
         "en": ""
       },
       "effects": {
-        "declareWar": "DEU"
+        "declareWar": "DEU",
+        "callAllies": false
       },
       "prerequisites": [
         "FRA_kuuseki_no_ouza",
@@ -726,7 +727,8 @@
           }
         ]
       },
-      "prerequisites": [
+      "prerequisites": [],
+      "prerequisitesAny": [
         "FRA_aruku_zenei_geijutsu",
         "FRA_koutetsu_no_papier_colle"
       ],
@@ -758,7 +760,8 @@
           }
         ]
       },
-      "prerequisites": [
+      "prerequisites": [],
+      "prerequisitesAny": [
         "FRA_aruku_zenei_geijutsu",
         "FRA_koutetsu_no_papier_colle"
       ],
@@ -1447,7 +1450,9 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "formAlliance": "GBR"
+      },
       "prerequisites": [
         "FRA_tairiku_no_jouka"
       ],
@@ -1467,7 +1472,9 @@
         "en": ""
       },
       "effects": {
-        "declareWar": "DEU"
+        "declareWar": "DEU",
+        "callAllies": true,
+        "breakAlliance": "GBR"
       },
       "prerequisites": [
         "FRA_honoo_wa_hirogaritsuzukeru"
@@ -1508,7 +1515,9 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "declareWar": "AH"
+      },
       "prerequisites": [
         "FRA_utsukushiki_shizen_kokkyou_wo",
         "FRA_kyouki_wa_pyrenees_womo_koeru"
