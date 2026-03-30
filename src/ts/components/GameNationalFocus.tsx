@@ -600,7 +600,7 @@ export default function GameNationalFocus() {
                   return <button className="gnf-start-button" disabled>{lang === 'ja' ? '完了済み' : 'Completed'}</button>;
                 }
                 if (status === 'available') {
-                  return <button className="gnf-start-button" onClick={handleStartFocus}>{lang === 'ja' ? '方針を開始' : 'Start Focus'}</button>;
+                  return <button className="gnf-start-button" onClick={handleStartFocus} data-se="metallic">{lang === 'ja' ? '方針を開始' : 'Start Focus'}</button>;
                 }
                 // locked, excluded の場合
                 return <button className="gnf-start-button" disabled>{lang === 'ja' ? '取得不可' : 'Unavailable'}</button>;

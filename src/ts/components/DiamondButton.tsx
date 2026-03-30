@@ -6,19 +6,22 @@ type DiamondButtonProps = {
   size?: string;
   onClick: () => void;
   className?: string;
+  [key: string]: any;
 };
 
 export const DiamondButton: React.FC<DiamondButtonProps> = ({
   text,
   size = '9rem',
   onClick,
-  className = ''
+  className = '',
+  ...rest
 }) => {
   return (
     <button
       className={`diamond-button-component-container ${className}`}
       style={{ width: size, height: size }}
       onClick={onClick}
+      {...rest}
     >
       <div className="diamond-button-bg"></div>
       <span className="diamond-button-component-text">{text}</span>

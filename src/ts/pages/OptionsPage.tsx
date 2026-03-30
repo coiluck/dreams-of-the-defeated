@@ -282,16 +282,19 @@ export default function OptionsPage() {
             text="System"
             className={activeTab === 'System' ? 'active' : ''}
             onClick={() => setActiveTab('System')}
+            data-se="click"
           />
           <DiamondButton
             text="Audio"
             className={activeTab === 'Audio' ? 'active' : ''}
             onClick={() => setActiveTab('Audio')}
+            data-se="click"
           />
           <DiamondButton
             text="Gameplay"
             className={activeTab === 'Gameplay' ? 'active' : ''}
             onClick={() => setActiveTab('Gameplay')}
+            data-se="click"
           />
         </div>
         <div className="options-tab-content-container active" key={activeTab}>
@@ -302,7 +305,7 @@ export default function OptionsPage() {
       </div>
 
       <div className="options-back-button-container">
-        <Button text="Back" onClick={() => navigate('/top')} />
+        <Button text="Back" onClick={() => navigate('/top')} data-se="disabled" />
       </div>
     </div>
   );

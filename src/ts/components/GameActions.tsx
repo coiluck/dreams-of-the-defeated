@@ -56,6 +56,7 @@ export default function GameActions() {
             <div
               className={`game-actions-component-button ${tab.id} ${openTab === tab.id ? 'active' : ''}`}
               onClick={() => handleTabClick(tab.id)}
+              data-se="click"
             >
               <div
                 className={`game-actions-component-button-image ${tab.id}`}
@@ -77,6 +78,7 @@ export default function GameActions() {
           <div
             className="game-actions-component-close-button"
             onClick={handleClose}
+            data-se="click"
           />
         </div>
 

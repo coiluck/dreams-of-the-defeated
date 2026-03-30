@@ -117,7 +117,11 @@ export default function CountryPanel({ isOpen, countryId, onClose, onDeclareWar 
         <span className="cp-component-title">
           {t.countryInformation}
         </span>
-        <div className="cp-component-close-button" onClick={onClose} />
+        <div
+          className="cp-component-close-button"
+          onClick={onClose}
+          data-se="click"
+        />
       </div>
 
       <div className="cp-component-country-info">

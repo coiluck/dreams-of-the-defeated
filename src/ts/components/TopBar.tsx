@@ -158,7 +158,10 @@ export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
             }
           </div>
         </div>
-        <div className="topbar-component-menu-container" onClick={onMenuOpen}>
+        <div className="topbar-component-menu-container"
+          onClick={onMenuOpen}
+          data-se="click"
+        >
           <div className="topbar-component-menu-icon"></div>
         </div>
       </div>

@@ -268,6 +268,7 @@ export default function GameFinance() {
                           ...actionUpdates,
                         });
                       }}
+                      data-se="metallic"
                     ></div>
                   </div>
                 </div>

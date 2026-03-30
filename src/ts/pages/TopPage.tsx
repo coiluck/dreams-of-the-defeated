@@ -14,10 +14,10 @@ export default function TopPage() {
         className="title-logo-image"
       />
       <div className="top-button-container active">
-        <Button text="New Game" onClick={() => navigate('/newgame')} />
-        <Button text="Load Game" onClick={() => navigate('/')} />
-        <Button text="Options" onClick={() => navigate('/options')} />
-        <Button text="Exit" onClick={() => navigate('/')} />
+        <Button text="New Game" onClick={() => navigate('/newgame')} data-se="metallic" />
+        <Button text="Load Game" onClick={() => navigate('/')} data-se="metallic" />
+        <Button text="Options" onClick={() => navigate('/options')} data-se="metallic" />
+        <Button text="Exit" onClick={() => navigate('/')} data-se="disabled" />
       </div>
     </div>
   );

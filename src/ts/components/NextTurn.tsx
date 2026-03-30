@@ -31,6 +31,7 @@ export default function NextTurn() {
           size="9rem"
           onClick={handleNextTurn}
           className={`game-actions-next-turn-button`}
+          data-se="metallic"
         />
       </ToolTip>
   </div>

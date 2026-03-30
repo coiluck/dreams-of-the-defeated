@@ -170,11 +170,11 @@ class SEController {
   }
 
   async play(fileName: string) {
-    const wavList: string[] = [];
+    const wavList: string[] = ['click'];
     const extension = wavList.includes(fileName) ? '.wav' : '.mp3';
 
     this.audio = new Audio(`/assets/audio/se/${fileName}${extension}`);
-    this.audio.volume = this.seVolume;
+    this.audio.volume = Math.max(0, Math.min(1, this.masterVolume * this.seVolume));
     this.audio.play().catch((e) => {
       console.warn('再生に失敗しました:', e);
     });
@@ -183,3 +183,13 @@ class SEController {
 
 const se = new SEController();
 export { se };
+
+
+// se click event
+export function initSE() {
+  document.addEventListener('click', (e) => {
+    const el = (e.target as HTMLElement).closest('[data-se]') as HTMLElement | null;
+    if (!el) return;
+    se.play(el.dataset.se ?? 'click');
+  }, true);
+}

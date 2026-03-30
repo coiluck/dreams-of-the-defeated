@@ -435,6 +435,7 @@ export default function GameWar() {
               fontWeight: selectedWarId === warId ? 'bold' : 'normal',
               borderBottom: selectedWarId === warId ? '2px solid #ceae44' : 'none',
             }}
+            data-se="click"
           >
             {getWarTitle(warId)}
           </button>
@@ -472,6 +473,7 @@ export default function GameWar() {
                   opacity: isDisabled ? 0.5 : 1,
                   cursor: isDisabled ? 'not-allowed' : 'pointer'
                 }}
+                data-se="click"
               >
                 {isNegotiating ? t.peaceNegotiation : t.sueForPeace}
                 {!isNegotiating && (

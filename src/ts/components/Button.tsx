@@ -8,6 +8,7 @@ type ButtonProps = {
   minWidth?: string;
   fontSize?: string;
   className?: string;
+  [key: string]: any;
 };
 
 export const Button: React.FC<ButtonProps> = ({
@@ -15,7 +16,8 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   minWidth = 'clamp(10rem, 7.5rem + 6.6667vw, 15rem)',
   fontSize = '1rem',
-  className = ''
+  className = '',
+  ...rest
 }) => {
   return (
     <div className={`button-component-container ${className}`}>
@@ -23,6 +25,7 @@ export const Button: React.FC<ButtonProps> = ({
         className="button-component"
         style={{ minWidth: minWidth, fontSize: fontSize }}
         onClick={onClick}
+        {...rest}
       >
         {text}
       </button>

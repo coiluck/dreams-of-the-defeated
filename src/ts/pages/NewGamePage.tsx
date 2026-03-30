@@ -72,6 +72,7 @@ export default function NewGamePage() {
             key={country.id}
             className={`new-game-country-card ${selectedId === country.id ? 'active' : ''}`}
             onClick={() => handleSelect(country.id)}
+            data-se="click"
           >
             <div className="new-game-flag-container">
               <img src={country.flag} className="new-game-flag-image" />
@@ -121,11 +122,16 @@ export default function NewGamePage() {
 
       {/* フッターボタン */}
       <div className="new-game-button-container">
-        <Button text="BACK" onClick={() => navigate('/top')} />
+        <Button
+          text="BACK"
+          onClick={() => navigate('/top')}
+          data-se="disabled"
+        />
         <Button
           text="START GAME"
           onClick={handleStartGame}
           className={!selectedId ? 'disabled' : ''}
+          data-se={!selectedId ? 'disabled' : 'metallic'}
         />
       </div>
     </div>
