@@ -6,6 +6,7 @@ mod wars_front;
 mod wars_logistics;
 mod wars_advance;
 mod wars_occupation;
+mod wars_peace;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -45,6 +46,10 @@ pub fn run() {
             wars_front::get_war_fronts,
             wars_advance::calc_advance,
             wars_occupation::advance_occupation,
+            wars_peace::check_total_collapse,
+            wars_peace::apply_collapse,
+            wars_peace::apply_peace_settlement,
+            wars_peace::get_war_tile_balance,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

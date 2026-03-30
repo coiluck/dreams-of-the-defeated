@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { registerMapUpdateCallback } from '../modules/gameState';
+import { registerMapUpdateCallback } from '../modules/wars';
 
 // 定数
 const POINT_SIZE = 4;

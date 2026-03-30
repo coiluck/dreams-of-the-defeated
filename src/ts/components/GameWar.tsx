@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { invoke } from '@tauri-apps/api/core';
 import { usePlayerCountry, useGameStore, calculateEffectiveStats } from '../modules/gameState';
-import { getTranslatedText } from '../modules/i18n';
+import { useMappedTranslations } from '../modules/i18n';
 import { SettingState } from '../modules/store';
 import './GameWar.css';
 
@@ -35,24 +35,6 @@ interface FrontAdvanceResult {
     power_ratio: number;
     p: number;
   }[];
-}
-
-// UI翻訳テキスト
-interface GameWarTranslations {
-  noWar: string;
-  warInfo: string;
-  attacker: string;
-  defender: string;
-  sueForPeace: string;
-  frontInfo: string;
-  recalculating: string;
-  noFrontline: string;
-  frontTileCount: string;
-  supply: string;
-  predictedAdvance: string;
-  calculating: string;
-  tacticAction: string;
-  costInsufficient: string;
 }
 
 export const TACTIC_ACTIONS: TacticAction[] = [
@@ -103,6 +85,7 @@ export const TACTIC_ACTIONS: TacticAction[] = [
   },
 ]
 
+const PEACE_COST_PP = 80;
 
 // ── 合計戦線マス数の取得 ──────────────────────────────────────────────────────
 //
@@ -201,6 +184,10 @@ export default function GameWar() {
   const mechanizationRate = effectivePlayerStats?.mechanizationRate; // 国民精神の機械化率を使用
   const setFrontAction = useGameStore((state) => state.setFrontAction);
 
+  const playerRequestedPeaceWarId = useGameStore((state) => state.playerRequestedPeaceWarId);
+  const requestPeace = useGameStore((state) => state.requestPeace);
+  const updateCountry = useGameStore((state) => state.updateCountry);
+
   const [selectedWarId, setSelectedWarId] = useState<string | null>(null);
   const [fronts, setFronts] = useState<FrontInfo[]>([]);
   const [loading, setLoading] = useState(false);
@@ -210,72 +197,23 @@ export default function GameWar() {
   const lang = SettingState.language as 'ja' | 'en';
 
   // 翻訳
-  const [t, setT] = useState<GameWarTranslations>({
-    noWar: '',
-    warInfo: '',
-    attacker: '',
-    defender: '',
-    sueForPeace: '',
-    frontInfo: '',
-    recalculating: '',
-    noFrontline: '',
-    frontTileCount: '',
-    supply: '',
-    predictedAdvance: '',
-    calculating: '',
-    tacticAction: '',
-    costInsufficient: '',
+  const t = useMappedTranslations({
+    noWar: 'gameWar.noWar',
+    warInfo: 'gameWar.warInfo',
+    attacker: 'gameWar.attacker',
+    defender: 'gameWar.defender',
+    sueForPeace: 'gameWar.sueForPeace',
+    peaceNegotiation: 'gameWar.peaceNegotiation',
+    frontInfo: 'gameWar.frontInfo',
+    recalculating: 'gameWar.recalculating',
+    noFrontline: 'gameWar.noFrontline',
+    frontTileCount: 'gameWar.frontTileCount',
+    supply: 'gameWar.supply',
+    predictedAdvance: 'gameWar.predictedAdvance',
+    calculating: 'gameWar.calculating',
+    tacticAction: 'gameWar.tacticAction',
+    costInsufficient: 'gameWar.costInsufficient'
   });
-  useEffect(() => {
-    Promise.all([
-      getTranslatedText('gameWar.noWar'),
-      getTranslatedText('gameWar.warInfo'),
-      getTranslatedText('gameWar.attacker'),
-      getTranslatedText('gameWar.defender'),
-      getTranslatedText('gameWar.sueForPeace'),
-      getTranslatedText('gameWar.frontInfo'),
-      getTranslatedText('gameWar.recalculating'),
-      getTranslatedText('gameWar.noFrontline'),
-      getTranslatedText('gameWar.frontTileCount'),
-      getTranslatedText('gameWar.supply'),
-      getTranslatedText('gameWar.predictedAdvance'),
-      getTranslatedText('gameWar.calculating'),
-      getTranslatedText('gameWar.tacticAction'),
-      getTranslatedText('gameWar.costInsufficient'),
-    ]).then(([
-      noWar,
-      warInfo,
-      attacker,
-      defender,
-      sueForPeace,
-      frontInfo,
-      recalculating,
-      noFrontline,
-      frontTileCount,
-      supply,
-      predictedAdvance,
-      calculating,
-      tacticAction,
-      costInsufficient,
-    ]) => {
-      setT({
-        noWar:            noWar            ?? '',
-        warInfo:          warInfo          ?? '',
-        attacker:         attacker         ?? '',
-        defender:         defender         ?? '',
-        sueForPeace:      sueForPeace      ?? '',
-        frontInfo:        frontInfo        ?? '',
-        recalculating:    recalculating    ?? '',
-        noFrontline:      noFrontline      ?? '',
-        frontTileCount:   frontTileCount   ?? '',
-        supply:           supply           ?? '',
-        predictedAdvance: predictedAdvance ?? '',
-        calculating:      calculating      ?? '',
-        tacticAction:     tacticAction     ?? '',
-        costInsufficient: costInsufficient ?? '',
-      });
-    });
-  }, [lang]);
 
   // 初期選択
   useEffect(() => {
@@ -471,6 +409,19 @@ export default function GameWar() {
     setFrontAction(playerCountryId, frontId, tacticIndex);
   };
 
+  const handleSueForPeace = () => {
+    if (!selectedWarId || !playerCountryId || !playerCountry) return;
+    // 既に打診中
+    if (playerRequestedPeaceWarId === selectedWarId) return;
+
+    if (playerCountry.politicalPower >= PEACE_COST_PP) {
+      updateCountry(playerCountryId, {
+        politicalPower: playerCountry.politicalPower - PEACE_COST_PP,
+      });
+      requestPeace(selectedWarId);
+    }
+  };
+
   return (
     <div className="gw-component-container">
       {/* 戦争タブ */}
@@ -507,10 +458,31 @@ export default function GameWar() {
               <div className="gw-component-country-item-name">{getCountryName(selectedWar.defenderId)}</div>
             </div>
           </div>
-          <button className="gw-component-peace-button">{t.sueForPeace}
-            <div className="gw-component-peace-button-image" />
-            <div className="gw-component-peace-button-value">80</div>
-          </button>
+          {(() => {
+            const isNegotiating = playerRequestedPeaceWarId === selectedWarId;
+            const canAffordPeace = playerCountry.politicalPower >= PEACE_COST_PP;
+            const isDisabled = isNegotiating || !canAffordPeace;
+
+            return (
+              <button
+                className="gw-component-peace-button"
+                onClick={handleSueForPeace}
+                disabled={isDisabled}
+                style={{
+                  opacity: isDisabled ? 0.5 : 1,
+                  cursor: isDisabled ? 'not-allowed' : 'pointer'
+                }}
+              >
+                {isNegotiating ? t.peaceNegotiation : t.sueForPeace}
+                {!isNegotiating && (
+                  <>
+                    <div className="gw-component-peace-button-image" />
+                    <div className="gw-component-peace-button-value">{PEACE_COST_PP}</div>
+                  </>
+                )}
+              </button>
+            );
+          })()}
 
           {/* 戦線情報 */}
           <p className="gw-component-title">{t.frontInfo}</p>

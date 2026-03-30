@@ -81,6 +81,7 @@
   "gameWar.attacker": { "ja": "攻撃側", "en": "Attacker" },
   "gameWar.defender": { "ja": "防御側", "en": "Defender" },
   "gameWar.sueForPeace": { "ja": "講和を打診", "en": "Sue for Peace" },
+  "gameWar.peaceNegotiation": { "ja": "戦争講和を交渉中...", "en": "Peace Negotiation in Progress..." },
   "gameWar.frontInfo": { "ja": "戦線情報", "en": "Frontline Overview" },
   "gameWar.recalculating": { "ja": "戦線データを再計算中...", "en": "Recalculating front data..." },
   "gameWar.noFrontline": { "ja": "敵国と陸続きの前線が存在しません。", "en": "No shared land frontline with the enemy." },
