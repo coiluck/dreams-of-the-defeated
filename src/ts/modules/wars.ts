@@ -574,20 +574,55 @@ export function applyDeclareWar(
     defenderAllies: countries[defenderId].allies,
   };
 
-  return {
-    updatedWars: { ...wars, [warId]: newWar },
-    updatedCountries: {
-      ...countries,
-      [attackerId]: {
-        ...countries[attackerId],
-        activeWarIds: [...countries[attackerId].activeWarIds, warId],
-      },
-      [defenderId]: {
-        ...countries[defenderId],
-        activeWarIds: [...countries[defenderId].activeWarIds, warId],
-      },
+  let updatedWars: Record<string, War> = { ...wars, [warId]: newWar };
+  let updatedCountries: Record<string, CountryState> = {
+    ...countries,
+    [attackerId]: {
+      ...countries[attackerId],
+      activeWarIds: [...countries[attackerId].activeWarIds, warId],
+    },
+    [defenderId]: {
+      ...countries[defenderId],
+      activeWarIds: [...countries[defenderId].activeWarIds, warId],
     },
   };
+
+  // 防御側の同盟国のみ自動参戦させる
+  for (const allyId of countries[defenderId].allies) {
+    if (allyId === attackerId || !updatedCountries[allyId]) continue; // 攻撃側自身・すでに交戦中の国を除く
+
+    const allyAlreadyAtWar = Object.values(updatedWars).some(
+      w =>
+        (w.attackerId === allyId && w.defenderId === attackerId) ||
+        (w.attackerId === attackerId && w.defenderId === allyId),
+    );
+    if (allyAlreadyAtWar) continue;
+
+    const allyWarId = `war_${allyId}_${attackerId}_${currentTurn}`;
+    const allyWar: War = {
+      warId:          allyWarId,
+      attackerId:     allyId,
+      defenderId:     attackerId,
+      startTurn:      currentTurn,
+      attackerAllies: updatedCountries[allyId].allies,
+      defenderAllies: updatedCountries[attackerId].allies,
+    };
+
+    updatedWars = { ...updatedWars, [allyWarId]: allyWar };
+    updatedCountries = {
+      ...updatedCountries,
+      [allyId]: {
+        ...updatedCountries[allyId],
+        activeWarIds: [...updatedCountries[allyId].activeWarIds, allyWarId],
+      },
+      [attackerId]: {
+        ...updatedCountries[attackerId],
+        activeWarIds: [...updatedCountries[attackerId].activeWarIds, allyWarId],
+      },
+    };
+  }
+
+  return { updatedWars, updatedCountries };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
