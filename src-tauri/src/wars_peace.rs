@@ -285,8 +285,58 @@ pub fn apply_peace_settlement(
 
     let mut changes: Vec<OccupyChangeSer> = Vec::new();
 
-    // ── 1. 占領地の確定 ───────────────────────────────────────────────────────
-    // attacker が占領した defender owner マス → attacker 併合
+    // ── 飛び地清算（占領確定より前に実施） ──────────────────────────────────
+    if input.cleanup_enclaves {
+        // 先に両方の候補と飛び地リストを計算する（途中の状態変更による干渉を防ぐため）
+
+        // ① def の孤立地候補
+        let def_candidates: HashSet<usize> = points.iter()
+            .enumerate()
+            .filter(|(_, p)| p.owner_id == def_num && p.occupy_id == def_num)
+            .map(|(i, _)| i)
+            .collect();
+
+        let def_enclaves = find_isolated_components(
+            &def_candidates,
+            &points,
+            def_num,  // この成分の国
+            att_num,  // この成分を囲んでいる国
+            &other_enemy_nums,
+        );
+
+        // ② att の孤立地候補
+        let att_candidates: HashSet<usize> = points.iter()
+            .enumerate()
+            .filter(|(_, p)| p.owner_id == att_num && p.occupy_id == att_num)
+            .map(|(i, _)| i)
+            .collect();
+
+        let empty_other_enemies: HashSet<u8> = HashSet::new();
+        let att_enclaves = find_isolated_components(
+            &att_candidates,
+            &points,
+            att_num,  // この成分の国
+            def_num,  // この成分を囲んでいる国
+            &empty_other_enemies,
+        );
+
+        // 判定が終わってから一気に書き換える
+        for idx in def_enclaves {
+            points[idx].owner_id  = att_num;
+            points[idx].occupy_id = att_num;
+            let p = &points[idx];
+            changes.push(OccupyChangeSer { x: p.x, y: p.y, new_occupy_id: att_num });
+        }
+
+        for idx in att_enclaves {
+            points[idx].owner_id  = def_num;
+            points[idx].occupy_id = def_num;
+            let p = &points[idx];
+            changes.push(OccupyChangeSer { x: p.x, y: p.y, new_occupy_id: def_num });
+        }
+    }
+
+    // ── 占領地の確定 ─────────────────────────────────────────────────────────
     let att_gains: Vec<usize> = points.iter()
         .enumerate()
         .filter(|(_, p)| p.owner_id == def_num && p.occupy_id == att_num)
@@ -300,7 +350,6 @@ pub fn apply_peace_settlement(
         changes.push(OccupyChangeSer { x: p.x, y: p.y, new_occupy_id: att_num });
     }
 
-    // defender が占領した attacker owner マス → defender 併合
     let def_gains: Vec<usize> = points.iter()
         .enumerate()
         .filter(|(_, p)| p.owner_id == att_num && p.occupy_id == def_num)
@@ -314,32 +363,6 @@ pub fn apply_peace_settlement(
         changes.push(OccupyChangeSer { x: p.x, y: p.y, new_occupy_id: def_num });
     }
 
-    // ── 2. 飛び地清算（個別講和のみ）────────────────────────────────────────
-    if input.cleanup_enclaves {
-        // 清算対象の候補: owner_id=def_num && occupy_id=def_num
-        // これらを連結成分に分解し、孤立成分を attacker に帰属
-        let candidate_set: HashSet<usize> = points.iter()
-            .enumerate()
-            .filter(|(_, p)| p.owner_id == def_num && p.occupy_id == def_num)
-            .map(|(i, _)| i)
-            .collect();
-
-        let enclaves = find_isolated_components(
-            &candidate_set,
-            &points,
-            def_num,
-            att_num,
-            &other_enemy_nums,
-        );
-
-        for idx in enclaves {
-            points[idx].owner_id  = att_num;
-            points[idx].occupy_id = att_num;
-            let p = &points[idx];
-            changes.push(OccupyChangeSer { x: p.x, y: p.y, new_occupy_id: att_num });
-        }
-    }
-
     Ok(changes)
 }
 
@@ -349,7 +372,7 @@ fn find_isolated_components(
     candidate_set:    &HashSet<usize>,
     points:           &[GridPoint],
     def_num:          u8,
-    _att_num:         u8,
+    att_num:         u8,
     other_enemy_nums: &HashSet<u8>,
 ) -> Vec<usize> {
     let mut visited: HashSet<usize> = HashSet::new();
@@ -364,6 +387,7 @@ fn find_isolated_components(
         queue.push_back(start);
         visited.insert(start);
         let mut is_connected = false;
+        let mut touches_attacker = false;
 
         while let Some(cur) = queue.pop_front() {
             component.push(cur);
@@ -374,12 +398,18 @@ fn find_isolated_components(
                 let nb = &points[ni];
 
                 // 接続チェック:
-                //   海（owner_id==0）/ def の他の本土 or 占領地 / def の他の交戦敵
-                if nb.owner_id == 0
-                    || other_enemy_nums.contains(&nb.occupy_id)
-                {
-                    is_connected = true;
-                    // BFS は継続（成分全体を収集するため）
+                if !candidate_set.contains(&ni) {
+                    if nb.occupy_id == att_num {
+                        // attacker に囲まれている → 飛び地候補
+                        touches_attacker = true;
+                    }
+                    if nb.occupy_id == def_num && nb.owner_id != 0 {
+                        // def の別本土と陸続き → 孤立していない
+                        is_connected = true;
+                    } else if other_enemy_nums.contains(&nb.occupy_id) {
+                        // def の他交戦敵領土と接続 → 孤立していない
+                        is_connected = true;
+                    }
                 }
 
                 // candidate_set 内のマスに BFS 展開
@@ -391,9 +421,9 @@ fn find_isolated_components(
         }
 
         // 孤立している（海や他接続なし）成分を飛び地として登録
-        // 飛び地の最大サイズは30マス
-        const ENCLAVE_MAX_SIZE: usize = 30;
-        if !is_connected && component.len() <= ENCLAVE_MAX_SIZE {
+        // 飛び地の最大サイズは10マス
+        const ENCLAVE_MAX_SIZE: usize = 10;
+        if !is_connected && touches_attacker && component.len() <= ENCLAVE_MAX_SIZE {
             isolated_indices.extend_from_slice(&component);
         }
     }
