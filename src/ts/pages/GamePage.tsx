@@ -21,17 +21,14 @@ export default function GamePage() {
 
   // BGM再生
   useEffect(() => {
-    // 画面表示時
     bgm.setVolume(SettingState.bgmVolume);
     if (SettingState.mainBgm === 'auto') {
-      bgm.play("Devine_Fencer", false);
-      // これだと終わったら音楽とまる
-      // 後で書く
+      bgm.startAuto();
     } else {
-      bgm.play(SettingState.customBgm);
+      bgm.startFixed(SettingState.customBgm);
     }
-    // 画面遷移時
     return () => {
+      bgm.stop();
       bgm.fadeOut(1.0);
     };
   }, []);

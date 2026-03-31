@@ -111,12 +111,20 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
     setSettings(prev => ({ ...prev, mainBgm: bgmType }));
     SettingState.mainBgm = bgmType;
     await saveSettingsData();
+    // game-menuモードのときだけBGMを切り替える
+    if (mode === 'game-menu') {
+      bgm.setMode(bgmType, SettingState.customBgm);
+    }
   };
   // custom bgm
   const CustomBgmChange = async (bgmName: string) => {
     setSettings(prev => ({ ...prev, customBgm: bgmName }));
     SettingState.customBgm = bgmName;
     await saveSettingsData();
+    // fixedモード中にカスタム曲を変えたらすぐ反映
+    if (mode === 'game-menu' && SettingState.mainBgm === 'fixed') {
+      bgm.startFixed(bgmName);
+    }
   };
 
   // 戻るボタン
@@ -232,13 +240,13 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
                 <label>{texts['optionsMainBgmLabel']}:</label>
                 <div className="options-button-container main-bgm">
                   <button
-                    onClick={() => MainBgmChange('national')}
+                    onClick={() => MainBgmChange('auto')}
                     className={settings.mainBgm === 'auto' ? 'options-button active' : 'options-button'}
                   >
                     {texts['optionsMainBgmDynamic']}
                   </button>
                   <button
-                    onClick={() => MainBgmChange('custom')}
+                    onClick={() => MainBgmChange('fixed')}
                     className={settings.mainBgm === 'fixed' ? 'options-button active' : 'options-button'}
                   >
                     {texts['optionsMainBgmFixed']}
@@ -257,8 +265,8 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
                       <input
                         type="radio"
                         name="customBgm"
-                        checked={settings.customBgm === 'Dance_Macabre'}
-                        onChange={() => CustomBgmChange('Dance_Macabre')}
+                        checked={settings.customBgm === 'Danse_Macabre'}
+                        onChange={() => CustomBgmChange('Danse_Macabre')}
                       />
                       <span>Dance Macabre</span>
                     </label>
@@ -270,6 +278,24 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
                         onChange={() => CustomBgmChange('Devine_Fencer')}
                       />
                       <span>Devine Fencer</span>
+                    </label>
+                    <label className="options-main-bgm-item">
+                      <input
+                        type="radio"
+                        name="customBgm"
+                        checked={settings.customBgm === 'LonelyMerchant'}
+                        onChange={() => CustomBgmChange('LonelyMerchant')}
+                      />
+                      <span>Lonely Merchant</span>
+                    </label>
+                    <label className="options-main-bgm-item">
+                      <input
+                        type="radio"
+                        name="customBgm"
+                        checked={settings.customBgm === 'The_Final_Confrontation'}
+                        onChange={() => CustomBgmChange('The_Final_Confrontation')}
+                      />
+                      <span>The Final Confrontation</span>
                     </label>
                   </div>
                 </div>

@@ -1,5 +1,13 @@
 // music.ts
-// import { globalGameState } from './gameState';
+import { SettingState } from './store';
+
+const AUTO_BGM_LIST = [
+  'Cultus',
+  'Danse_Macabre',
+  'Devine_Fencer',
+  'LonelyMerchant',
+  'The_Final_Confrontation'
+];
 
 class BGMController {
   private ctx: AudioContext | null = null;
@@ -8,6 +16,10 @@ class BGMController {
   private masterVolume: number = 1.0;
   private bgmVolume: number = 0.4;
   private FADE_TIME: number = 1.0; // 秒単位
+
+  private autoIndex: number = 0;
+  private currentMode: 'auto' | 'fixed' = SettingState.mainBgm;
+  private shuffledList: string[] = [];
 
   constructor() {
     // AudioContextはユーザー操作が必要なため、play時に初期化またはresumeする
@@ -18,6 +30,15 @@ class BGMController {
       this.gainNode = this.ctx.createGain();
       this.gainNode.connect(this.ctx.destination);
     }
+  }
+
+  private shuffle(list: string[]): string[] {
+    const arr = [...list];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
   }
 
   private updateGain() {
@@ -55,20 +76,17 @@ class BGMController {
   async play(fileName: string, isLoop: boolean = true) {
     if (!this.ctx || !this.gainNode) return;
 
-    // ブラウザの自動再生ポリシー対応: コンテキストが止まっていたら再開
     if (this.ctx.state === 'suspended') {
       await this.ctx.resume();
     }
-    // 既に再生中ならフェードアウトして止める
     if (this.currentSources.length > 0) {
       await this.fadeOut(0.5);
       this.stop();
     }
 
-    // ボリュームをリセット
     this.gainNode.gain.cancelScheduledValues(this.ctx.currentTime);
     this.gainNode.gain.setValueAtTime(this.masterVolume * this.bgmVolume, this.ctx.currentTime);
-    // file load
+
     const introUrl = `/assets/audio/bgm/${fileName}_intro.mp3`;
     const loopUrl = `/assets/audio/bgm/${fileName}_loop.mp3`;
 
@@ -82,33 +100,78 @@ class BGMController {
       return;
     }
 
-    const startTime = this.ctx.currentTime + 0.1; // 0.1秒後に再生開始（スケジューリングの余裕）
+    const startTime = this.ctx.currentTime + 0.1;
+    const introDuration = introBuffer?.duration ?? 0;
 
     if (introBuffer) {
-      // intro
       const introSource = this.ctx.createBufferSource();
       introSource.buffer = introBuffer;
       introSource.connect(this.gainNode);
       introSource.start(startTime);
       this.currentSources.push(introSource);
-      // loop
-      const loopSource = this.ctx.createBufferSource();
-      loopSource.buffer = loopBuffer;
-      loopSource.loop = isLoop;
-      loopSource.connect(this.gainNode);
-      // introの長さ分だけずらして再生開始
-      loopSource.start(startTime + introBuffer.duration);
-      this.currentSources.push(loopSource);
-    } else {
-      // introがない場合
-      const loopSource = this.ctx.createBufferSource();
-      loopSource.buffer = loopBuffer;
-      loopSource.loop = isLoop;
-      loopSource.connect(this.gainNode);
-      loopSource.start(startTime);
-      this.currentSources.push(loopSource);
     }
-    // globalGameState.LastBGM = fileName;
+
+    const loopSource = this.ctx.createBufferSource();
+    loopSource.buffer = loopBuffer;
+    loopSource.loop = isLoop;
+    loopSource.connect(this.gainNode);
+    loopSource.start(startTime + introDuration);
+    this.currentSources.push(loopSource);
+
+    if (!isLoop) {
+      // 終了FADE_TIME秒前からフェードアウト
+      const totalDuration = introDuration + loopBuffer.duration;
+      const fadeStartTime = startTime + totalDuration - this.FADE_TIME;
+      const fadeEndTime = startTime + totalDuration;
+      const safeFadeStart = Math.max(fadeStartTime, this.ctx.currentTime);
+      this.gainNode.gain.setValueAtTime(this.masterVolume * this.bgmVolume, safeFadeStart);
+      this.gainNode.gain.linearRampToValueAtTime(0, fadeEndTime);
+
+      // 終了時に次の曲へ
+      loopSource.onended = () => {
+        if (this.currentMode === 'auto') {
+          this.playNextAuto();
+        }
+      };
+    }
+  }
+
+  // autoモード: 次の曲へ進む（内部用）
+  private playNextAuto() {
+    this.autoIndex = (this.autoIndex + 1) % this.shuffledList.length;
+    // 一周したら再シャッフル（ただし同じ曲が連続しないよう先頭を調整）
+    if (this.autoIndex === 0) {
+      const lastPlayed = this.shuffledList[this.shuffledList.length - 1];
+      this.shuffledList = this.shuffle(AUTO_BGM_LIST);
+      // 再シャッフル後の先頭が直前の曲と被ったら2番目と交換
+      if (this.shuffledList[0] === lastPlayed && this.shuffledList.length > 1) {
+        [this.shuffledList[0], this.shuffledList[1]] = [this.shuffledList[1], this.shuffledList[0]];
+      }
+    }
+    this.play(this.shuffledList[this.autoIndex], false);
+  }
+
+  // autoモードで再生開始（GamePageから呼ぶ）
+  startAuto() {
+    this.currentMode = 'auto';
+    this.autoIndex = 0;
+    this.shuffledList = this.shuffle(AUTO_BGM_LIST);
+    this.play(this.shuffledList[this.autoIndex], false);
+  }
+
+  // fixedモードで再生開始（GamePageから呼ぶ）
+  startFixed(fileName: string) {
+    this.currentMode = 'fixed';
+    this.play(fileName, true);
+  }
+
+  // モード切替（OptionsPageのMainBgmChangeから呼ぶ）
+  setMode(mode: 'auto' | 'fixed', fixedFileName?: string) {
+    if (mode === 'auto') {
+      this.startAuto();
+    } else {
+      this.startFixed(fixedFileName ?? '');
+    }
   }
 
   // durationはsec
@@ -129,7 +192,7 @@ class BGMController {
     });
   }
 
-  private stop() {
+  stop() {
     this.currentSources.forEach(source => {
       try {
         source.stop();
