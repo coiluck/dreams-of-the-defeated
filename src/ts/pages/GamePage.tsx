@@ -1,5 +1,5 @@
 // src/ts/pages/GamePage.tsx
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import MapCanvas from "../components/Map";
 import TopBar from "../components/TopBar";
 import GameMenu from "../components/GameMenu";
@@ -9,6 +9,8 @@ import NextTurn from "../components/NextTurn";
 import Event from "../components/Event";
 import { useGameStore } from "../modules/gameState";
 import CountryPanel from "../components/CountryPanel";
+import { bgm } from "../modules/music";
+import { SettingState } from "../modules/store";
 
 export default function GamePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,6 +18,24 @@ export default function GamePage() {
   const [selectedCountryId, setSelectedCountryId] = useState<string | null>(null);
   const [isCountryPanelOpen, setIsCountryPanelOpen] = useState(false);
   const [showGame, setShowGame] = useState(false);
+
+  // BGM再生
+  useEffect(() => {
+    // 画面表示時
+    bgm.setVolume(SettingState.bgmVolume);
+    if (SettingState.mainBgm === 'auto') {
+      bgm.play("Devine_Fencer", false);
+      // これだと終わったら音楽とまる
+      // 後で書く
+    } else {
+      bgm.play(SettingState.customBgm);
+    }
+    // 画面遷移時
+    return () => {
+      bgm.fadeOut(1.0);
+    };
+  }, []);
+
   // イベント表示待ち
   const pendingEvents = useGameStore((state) => state.game?.pendingEvents || []);
 

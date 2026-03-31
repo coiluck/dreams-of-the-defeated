@@ -11,7 +11,13 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 
 type TabType = 'System' | 'Audio' | 'Gameplay';
 
-export default function OptionsPage() {
+type PageMode = 'page' | 'game-menu';
+interface OptionsPageProps {
+  mode?: PageMode;
+  onBack?: () => void;
+}
+
+export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps) {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabType>('System');
   const [settings, setSettings] = useState({
@@ -71,7 +77,6 @@ export default function OptionsPage() {
 
     const appWindow = getCurrentWindow();
     await appWindow.setFullscreen(size === 'fullscreen');
-    console.log(`Screen size changed to ${size} and saved.`);
   };
   // master volume
   const MasterChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +107,7 @@ export default function OptionsPage() {
     await saveSettingsData();
   };
   // main bgm
-  const MainBgmChange = async (bgmType: 'national' | 'custom') => {
+  const MainBgmChange = async (bgmType: 'auto' | 'fixed') => {
     setSettings(prev => ({ ...prev, mainBgm: bgmType }));
     SettingState.mainBgm = bgmType;
     await saveSettingsData();
@@ -112,6 +117,15 @@ export default function OptionsPage() {
     setSettings(prev => ({ ...prev, customBgm: bgmName }));
     SettingState.customBgm = bgmName;
     await saveSettingsData();
+  };
+
+  // 戻るボタン
+  const handleBack = () => {
+    if (mode === 'game-menu' && onBack) {
+      onBack();
+    } else {
+      navigate('/top');
+    }
   };
 
   const renderTabContent = () => {
@@ -219,17 +233,17 @@ export default function OptionsPage() {
                 <div className="options-button-container main-bgm">
                   <button
                     onClick={() => MainBgmChange('national')}
-                    className={settings.mainBgm === 'national' ? 'options-button active' : 'options-button'}
+                    className={settings.mainBgm === 'auto' ? 'options-button active' : 'options-button'}
                   >
                     {texts['optionsMainBgmDynamic']}
                   </button>
                   <button
                     onClick={() => MainBgmChange('custom')}
-                    className={settings.mainBgm === 'custom' ? 'options-button active' : 'options-button'}
+                    className={settings.mainBgm === 'fixed' ? 'options-button active' : 'options-button'}
                   >
                     {texts['optionsMainBgmFixed']}
                   </button>
-                  <div className={`options-main-bgm-container ${settings.mainBgm === 'national' ? 'disabled' : ''}`}>
+                  <div className={`options-main-bgm-container ${settings.mainBgm === 'auto' ? 'disabled' : ''}`}>
                     <label className="options-main-bgm-item">
                       <input
                         type="radio"
@@ -305,7 +319,7 @@ export default function OptionsPage() {
       </div>
 
       <div className="options-back-button-container">
-        <Button text="Back" onClick={() => navigate('/top')} data-se="disabled" />
+        <Button text="Back" onClick={handleBack} data-se="disabled" />
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ interface SettingsState {
   masterVolume: number;
   bgmVolume: number;
   seVolume: number;
-  mainBgm: 'national' | 'custom';
+  mainBgm: 'auto' | 'fixed';
   customBgm: string;
   screenSize: 'window' | 'fullscreen';
   language: 'ja' | 'en';
@@ -17,7 +17,7 @@ const initialSettingsState: SettingsState = {
   masterVolume: 8,
   bgmVolume: 4,
   seVolume: 8,
-  mainBgm: "national",
+  mainBgm: "auto",
   customBgm: "Devine_Fencer",
   screenSize: 'window',
   language: 'ja',
