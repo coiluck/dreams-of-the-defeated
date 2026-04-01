@@ -232,7 +232,6 @@
 .cp-component-country-info-status-item-label {
   font-family: serif;
   font-size: .9rem;
-  text-transform: uppercase;
 }
 .cp-component-country-info-status-item-value {
   font-family: "Courier New", monospace;

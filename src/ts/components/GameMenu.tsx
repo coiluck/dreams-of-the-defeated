@@ -29,10 +29,11 @@ export default function GameMenu({ onClose }: { onClose: () => void }) {
       <div className={`game-menu-component-overlay-background ${isActive ? 'active' : ''}`} onClick={onClose}></div>
       {subPanel === null && (
       <div className={`game-menu-component-button-container ${isActive ? 'active' : ''}`}>
-          <Button text="Save Game" onClick={() => openSub('save')} />
-          <Button text="Load Game" onClick={() => openSub('load')} />
-          <Button text="Options" onClick={() => openSub('options')} />
-          <Button text="to Top" onClick={() => navigate('/top')} />
+          <Button text="Save Game" onClick={() => openSub('save')} minWidth="clamp(14rem, 6rem + 14vw, 20rem)" />
+          <Button text="Load Game" onClick={() => openSub('load')} minWidth="clamp(14rem, 6rem + 14vw, 20rem)" />
+          <Button text="Options" onClick={() => openSub('options')} minWidth="clamp(14rem, 6rem + 14vw, 20rem)" />
+          <Button text="to Top" onClick={() => navigate('/top')} minWidth="clamp(14rem, 6rem + 14vw, 20rem)" />
+          <Button text="Return to Game" onClick={onClose} minWidth="clamp(14rem, 6rem + 14vw, 20rem)" />
         </div>
       )}
 

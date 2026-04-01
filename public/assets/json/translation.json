@@ -108,5 +108,14 @@
   "countryPanel.wars": { "ja": "交戦中", "en": "At War" },
   "countryPanel.vassalCountry": { "ja": "属国", "en": "Vassal" },
   "countryPanel.suzerainCountry": { "ja": "宗主国", "en": "Suzerain" },
-  "countryPanel.declareWar": { "ja": "宣戦布告", "en": "Declare War" }
+  "countryPanel.declareWar": { "ja": "宣戦布告", "en": "Declare War" },
+  "savePage.noData": { "ja": "セーブデータがありません", "en": "No Data" },
+  "savePage.overwrite": { "ja": "上書き", "en": "Overwrite" },
+  "savePage.delete": { "ja": "削除", "en": "Delete" },
+  "savePage.rename": { "ja": "リネーム", "en": "Rename" },
+  "savePage.delete.confirm": { "ja": "このセーブデータを削除しますか？", "en": "Are you sure you want to delete this save data?" },
+  "loadPage.delete": { "ja": "削除", "en": "Delete" },
+  "loadPage.load": { "ja": "ロード", "en": "Load" },
+  "loadPage.delete.confirm": { "ja": "このセーブデータを削除しますか？", "en": "Are you sure you want to delete this save data?" },
+  "loadPage.userCountry": { "ja": "プレイ国家", "en": "User Country" }
 }
