@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { registerMapUpdateCallback } from '../modules/wars';
+import { registerMapLoadCallback, type MapPoint } from '../modules/saveGame';
+import { invoke } from "@tauri-apps/api/core";
 
 // 定数
 const POINT_SIZE = 4;
@@ -27,6 +29,7 @@ interface OccupyChange {
   x: number;
   y: number;
   new_occupy_id: number;
+  new_owner_id?: number;
 }
 
 interface MapProps {
@@ -64,14 +67,13 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
     const cCtx = countriesCanvasRef.current.getContext('2d');
     if (!cCtx) return;
 
-    // インデックスマップ（高速ルックアップ）
-    // pointsRef は x + y * GRID_WIDTH の線形インデックスで引ける前提
-    // （loadResources 後に tempPoints が座標順に並んでいるとは限らないため find を使用）
     for (const change of changes) {
-      // pointsRef を更新
       const idx = change.y * GRID_WIDTH + change.x;
       if (pointsRef.current[idx]) {
         pointsRef.current[idx].occupyId = change.new_occupy_id;
+        if (change.new_owner_id !== undefined) {
+          pointsRef.current[idx].ownerId = change.new_owner_id;
+        }
       }
 
       // countriesCanvas を部分更新
@@ -79,7 +81,6 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
       const drawY = change.y * POINT_SIZE;
 
       if (change.new_occupy_id === 0) {
-        // 海に戻す（occupyが0 = 占領なし）
         cCtx.clearRect(drawX, drawY, POINT_SIZE, POINT_SIZE);
       } else {
         const countryCode = meta.id_map[change.new_occupy_id];
@@ -90,6 +91,46 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
 
     // 再描画トリガー
     setRenderTick(t => t + 1);
+  };
+
+  // ── Rust の現在状態でキャンバスを全面再描画する ────────────────────────────
+  // ロード時・ニューゲーム時など pointsRef が Rust と乖離した後に呼ぶ。
+  const syncCanvasFromRust = async (tempPoints: PointData[]) => {
+    try {
+      // [owner_id, occupy_id, owner_id, occupy_id, ...] のフラットな Uint8Array
+      const stateData = await invoke<Uint8Array | number[]>('get_map_state');
+      for (let i = 0; i < tempPoints.length; i++) {
+        tempPoints[i].ownerId  = stateData[i * 2];
+        tempPoints[i].occupyId = stateData[i * 2 + 1];
+      }
+    } catch (e) {
+      console.error("Failed to sync map state from Rust:", e);
+    }
+  };
+
+  // ── countriesCanvas を pointsRef の現在状態から全面再描画する ────────────
+  const rebuildCountriesCanvas = async (
+    tempPoints: PointData[],
+    meta: MapMeta,
+    cCtx: CanvasRenderingContext2D,
+  ) => {
+    const yieldToMain = () => new Promise(resolve => setTimeout(resolve, 0));
+    const CHUNK_SIZE = 3000;
+
+    cCtx.clearRect(0, 0, MAP_WIDTH, MAP_HEIGHT);
+
+    for (let i = 0; i < tempPoints.length; i += CHUNK_SIZE) {
+      const end = Math.min(i + CHUNK_SIZE, tempPoints.length);
+      for (let j = i; j < end; j++) {
+        const p = tempPoints[j];
+        if (p.occupyId !== 0) {
+          const countryCode = meta.id_map[p.occupyId];
+          cCtx.fillStyle = meta.colors[countryCode] || '#555';
+          cCtx.fillRect(p.x * POINT_SIZE, p.y * POINT_SIZE, POINT_SIZE, POINT_SIZE);
+        }
+      }
+      await yieldToMain();
+    }
   };
 
   useEffect(() => {
@@ -108,12 +149,9 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
         const buffer = await binRes.arrayBuffer();
         const dataView = new DataView(buffer);
 
-        // pointsRef を座標インデックスで直接引けるよう
-        // GRID_WIDTH * GRID_HEIGHT の配列に事前確保する
         const totalPoints = GRID_WIDTH * GRID_HEIGHT;
         const tempPoints: PointData[] = new Array(totalPoints);
 
-        // デフォルト（海）で初期化
         for (let i = 0; i < totalPoints; i++) {
           const x = i % GRID_WIDTH;
           const y = Math.floor(i / GRID_WIDTH);
@@ -139,7 +177,12 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
           await yieldToMain();
         }
 
+        // Rust 側の現在状態（セーブロード済みかもしれない）で上書き
+        // owner_id と occupy_id の両方を同期する
+        await syncCanvasFromRust(tempPoints);
+
         pointsRef.current = tempPoints;
+
         paperImageRef.current = paperImg;
 
         const terrainCanvas = document.createElement('canvas');
@@ -153,20 +196,14 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
         const cCtx = countriesCanvas.getContext('2d');
 
         if (tCtx && cCtx) {
+          // terrainCanvas（地形マスク）は owner_id で描く（地形は変わらない）
           for (let i = 0; i < tempPoints.length; i += CHUNK_SIZE) {
             const end = Math.min(i + CHUNK_SIZE, tempPoints.length);
             for (let j = i; j < end; j++) {
               const p = tempPoints[j];
-              if (p.occupyId !== 0) {
-                const drawX = p.x * POINT_SIZE;
-                const drawY = p.y * POINT_SIZE;
-
+              if (p.ownerId !== 0) {
                 tCtx.fillStyle = '#000000';
-                tCtx.fillRect(drawX, drawY, POINT_SIZE, POINT_SIZE);
-
-                const countryCode = meta.id_map[p.occupyId];
-                cCtx.fillStyle = meta.colors[countryCode] || '#555';
-                cCtx.fillRect(drawX, drawY, POINT_SIZE, POINT_SIZE);
+                tCtx.fillRect(p.x * POINT_SIZE, p.y * POINT_SIZE, POINT_SIZE, POINT_SIZE);
               }
             }
             await yieldToMain();
@@ -177,6 +214,9 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
 
           landTerrainCanvasRef.current = terrainCanvas;
           countriesCanvasRef.current = countriesCanvas;
+
+          // countriesCanvas は occupy_id ベースで描く
+          await rebuildCountriesCanvas(tempPoints, meta, cCtx);
         }
 
         setResourcesLoaded(true);
@@ -189,13 +229,56 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
     loadResources();
   }, []);
 
+  // ── セーブロード後の全面再描画 ────────────────────────────────────────────
+  // saveGame.ts の loadGame() から呼ばれる。
+  // Rust 側で MapStore が更新済みの状態で map_points（全陸マス）が渡ってくるので、
+  // pointsRef と countriesCanvas を一括更新して再描画をトリガーする。
+  const applyMapLoad = async (mapPoints: MapPoint[]) => {
+    if (!metaRef.current || !countriesCanvasRef.current) return;
+    const meta = metaRef.current;
+    const cCtx = countriesCanvasRef.current.getContext('2d');
+    if (!cCtx) return;
+
+    // pointsRef を更新（owner_id と occupy_id の両方）
+    for (const mp of mapPoints) {
+      const idx = mp.y * GRID_WIDTH + mp.x;
+      if (pointsRef.current[idx]) {
+        pointsRef.current[idx].ownerId  = mp.owner_id;
+        pointsRef.current[idx].occupyId = mp.occupy_id;
+      }
+    }
+
+    // countriesCanvas を全面クリアして再描画
+    cCtx.clearRect(0, 0, MAP_WIDTH, MAP_HEIGHT);
+
+    const yieldToMain = () => new Promise(resolve => setTimeout(resolve, 0));
+    const CHUNK_SIZE = 3000;
+    const pts = pointsRef.current;
+
+    for (let i = 0; i < pts.length; i += CHUNK_SIZE) {
+      const end = Math.min(i + CHUNK_SIZE, pts.length);
+      for (let j = i; j < end; j++) {
+        const p = pts[j];
+        if (p.occupyId !== 0) {
+          const countryCode = meta.id_map[p.occupyId];
+          cCtx.fillStyle = meta.colors[countryCode] || '#555';
+          cCtx.fillRect(p.x * POINT_SIZE, p.y * POINT_SIZE, POINT_SIZE, POINT_SIZE);
+        }
+      }
+      await yieldToMain();
+    }
+
+    setRenderTick(t => t + 1);
+  };
+
   // コールバック登録（ロード完了後に有効化）
   useEffect(() => {
     if (!resourcesLoaded) return;
     registerMapUpdateCallback(applyOccupyChanges);
-    // アンマウント時は登録解除
+    registerMapLoadCallback(applyMapLoad);
     return () => {
       registerMapUpdateCallback(() => {});
+      registerMapLoadCallback(() => {});
     };
   }, [resourcesLoaded]);
 
@@ -266,7 +349,6 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
     }
   };
 
-  // renderTick を依存に加えることで占領更新後も再描画される
   useEffect(() => {
     requestAnimationFrame(draw);
   }, [offset, scale, resourcesLoaded, renderTick]);
@@ -309,7 +391,7 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
   const handleMouseUp = () => setIsDragging(false);
 
   const handleClick = (e: React.MouseEvent) => {
-    if (dragDistanceRef.current > 5) return; // 5px以上動く -> ドラッグと判定
+    if (dragDistanceRef.current > 5) return;
     if (isDragging) return;
     const canvas = canvasRef.current;
     if (!canvas || !metaRef.current) return;
@@ -322,12 +404,11 @@ const MapCanvas: React.FC<MapProps> = ({ onLoadComplete, onCountryClick }) => {
     targetGridX = ((targetGridX % GRID_WIDTH) + GRID_WIDTH) % GRID_WIDTH;
     const targetGridY = Math.floor(rawWorldY / POINT_SIZE);
 
-    // インデックス直引き（O(1)）
     const idx = targetGridY * GRID_WIDTH + targetGridX;
     const hitPoint = pointsRef.current[idx];
 
     if (!hitPoint || hitPoint.occupyId === 0) {
-      return; // 海
+      return;
     }
 
     const countryCode = metaRef.current.id_map[hitPoint.occupyId];

@@ -26,7 +26,7 @@ export default function LoadPage({ mode, onBack }: Props) {
   const [saves,   setSaves]   = useState<SaveMeta[]>([]);
   const [loading, setLoading] = useState(true);
   const [error,   setError]   = useState<string | null>(null);
-  const [busy,    setBusy]    = useState<string | null>(null); // ロード中 save_id
+  const [busy,    setBusy]    = useState<string | null>(null);
 
   const t = useMappedTranslations({
     noData: 'savePage.noData',
@@ -61,14 +61,23 @@ export default function LoadPage({ mode, onBack }: Props) {
     setBusy(saveId);
     setError(null);
     try {
+      // game-menu モード（すでにゲーム画面にいる）:
+      //   マップが生きていてコールバック登録済み。
+      //   loadGame() → _mapLoadCallback → 全面再描画 の順で完了するので
+      //   navigate はせず onBack() でメニューを閉じるだけ。
+      //
+      // top-menu モード（タイトル画面からロード）:
+      //   navigate('/game') でマップを新規マウントさせ、
+      //   Map.tsx の初期化内の syncCanvasFromRust() が
+      //   Rust 側の最新状態（load_game 済み）を自動反映する。
+
       const { gameState } = await loadGame(saveId);
 
-      // Zustand ストアに注入
-      // startGame は countriesData を受け取るが、ロード時はそのまま set したい。
-      // useGameStore の内部 set を直接叩くため、一時的に resetGame → 手動 set。
       useGameStore.setState({ game: gameState, playerRequestedPeaceWarId: null });
 
-      if (mode === 'top-menu' || mode === 'game-menu') {
+      if (mode === 'game-menu') {
+        onBack();
+      } else {
         navigate('/game');
       }
     } catch (e) {
@@ -90,7 +99,7 @@ export default function LoadPage({ mode, onBack }: Props) {
 
   return (
     <div className="page fade-in load-page">
-      <div className={`load-page-header ${mode}`}> {/* modeはborder-bottomの色を切り替える */}
+      <div className={`load-page-header ${mode}`}>
         <p className="load-page-title">Load Game</p>
       </div>
 
@@ -110,7 +119,9 @@ export default function LoadPage({ mode, onBack }: Props) {
               <div className="load-page-item-info">
                 <span className="load-page-item-name">{meta.display_name}</span>
                 <span className="load-page-item-date">{formatSavedAt(meta.saved_at)}</span>
-                <span className="load-page-item-country">  {countriesData?.[meta.player_country_id]?.name[language] ?? meta.player_country_id}</span>
+                <span className="load-page-item-country">
+                  {countriesData?.[meta.player_country_id]?.name[language] ?? meta.player_country_id}
+                </span>
               </div>
               {busy !== meta.save_id ? (
                 <div className="load-page-item-actions-container">

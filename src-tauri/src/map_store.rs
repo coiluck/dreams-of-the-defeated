@@ -51,6 +51,9 @@ pub struct MapStore {
     /// HashMap ではなく Vec で O(1) アクセス。
     /// occupy_id の変更があるため RwLock で保護。
     pub points: RwLock<Vec<GridPoint>>,
+    /// 起動時バイナリから読み込んだ初期状態のスナップショット。
+    /// reset_map コマンドで points をこの状態に戻す。
+    pub initial_points: Vec<GridPoint>,
 
     /// 国コード → 数値 ID
     pub id_map: RwLock<HashMap<String, u8>>,
@@ -156,8 +159,12 @@ impl MapStore {
             }
         }
 
+        // initial_points は points を RwLock に move する前にクローンしておく
+        let initial_points = points.clone();
+
         Ok(MapStore {
             points:          RwLock::new(points),
+            initial_points,
             id_map:          RwLock::new(id_map),
             id_map_rev:      RwLock::new(id_map_rev),
             core_by_country: RwLock::new(core_by_country),
@@ -190,4 +197,24 @@ pub fn update_occupation(
         }
     }
     Ok(())
+}
+
+// ── コマンド: マップを初期状態に戻す ────────────────────────────────────────────
+#[tauri::command]
+pub fn reset_map(map_store: tauri::State<MapStore>) -> Result<(), String> {
+    let mut points = map_store.points.write().map_err(|e| e.to_string())?;
+    *points = map_store.initial_points.clone();
+    Ok(())
+}
+
+#[tauri::command]
+pub fn get_map_state(map_store: tauri::State<MapStore>) -> Result<Vec<u8>, String> {
+    let points = map_store.points.read().map_err(|e| e.to_string())?;
+    // 通信量を極限まで減らすため、全マスの owner_id と occupy_id だけを返す (約700KB)
+    let mut buf = Vec::with_capacity(points.len() * 2);
+    for p in points.iter() {
+        buf.push(p.owner_id);
+        buf.push(p.occupy_id);
+    }
+    Ok(buf)
 }

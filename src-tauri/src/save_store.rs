@@ -160,10 +160,23 @@ pub async fn save_game(
 
 // ── コマンド: ロード ──────────────────────────────────────────────────────────
 
+/// ロード後にフロント側でマップを全面再描画するための変更リスト。
+/// 全マス（陸マスのみ owner_id != 0）を返す。
+#[derive(Serialize, Clone)]
+pub struct MapPointSer {
+    pub x:         u16,
+    pub y:         u16,
+    pub owner_id:  u8,
+    pub occupy_id: u8,
+}
+
 #[derive(Serialize)]
 pub struct LoadResult {
     pub game_state_json: String,
     pub meta:            SaveMeta,
+    /// ロード後の全陸マス状態。フロント側で registerMapUpdateCallback の形式に変換して
+    /// マップを全面再描画するために使う。
+    pub map_points:      Vec<MapPointSer>,
 }
 
 #[tauri::command]
@@ -206,6 +219,7 @@ pub async fn load_game(
                 points[idx].occupy_id = occupy_id;
             }
         }
+        // write ロックを drop してから rebuild_coast の read ロックを取得する
     }
 
     // ── メタ ──────────────────────────────────────────────────────────────────
@@ -215,7 +229,23 @@ pub async fn load_game(
     let meta: SaveMeta = serde_json::from_str(&meta_json)
         .map_err(|e| format!("parse meta failed: {e}"))?;
 
-    Ok(LoadResult { game_state_json, meta })
+    // ── フロント再描画用: 全陸マスの現在状態を返す ───────────────────────────
+    // owner_id == 0 は海マスなので除外（フロント側は陸マスのみ描画している）。
+    let map_points: Vec<MapPointSer> = {
+        let points = map_store.points.read()
+            .map_err(|e| format!("lock error: {e}"))?;
+        points.iter()
+            .filter(|p| p.owner_id != 0 || p.occupy_id != 0)
+            .map(|p| MapPointSer {
+                x:         p.x,
+                y:         p.y,
+                owner_id:  p.owner_id,
+                occupy_id: p.occupy_id,
+            })
+            .collect()
+    };
+
+    Ok(LoadResult { game_state_json, meta, map_points })
 }
 
 // ── コマンド: 削除 ────────────────────────────────────────────────────────────

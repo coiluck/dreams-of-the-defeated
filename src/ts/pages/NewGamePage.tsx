@@ -6,6 +6,7 @@ import { Button } from "../components/Button";
 import { useGameStore, CountryState } from "../modules/gameState";
 import { SettingState } from "../modules/store";
 import { getTranslatedText } from "../modules/i18n";
+import { invoke } from "@tauri-apps/api/core";
 
 export default function NewGamePage() {
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ export default function NewGamePage() {
 
   const handleStartGame = async () => {
     if (selectedId) {
+      await invoke('reset_map'); // Rustのマップを初期状態にリセット
       // Zustandのストアに初期データを渡してゲーム開始
       await startGame(selectedId, countriesData);
       console.log(`Start game as ${selectedId}`);

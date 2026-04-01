@@ -44,6 +44,8 @@ pub fn run() {
         .plugin(tauri_plugin_store::Builder::default().build())
         .invoke_handler(tauri::generate_handler![
             map_store::update_occupation,
+            map_store::reset_map,
+            map_store::get_map_state,
             wars_front::get_war_fronts,
             wars_advance::calc_advance,
             wars_occupation::advance_occupation,

@@ -1,8 +1,3 @@
-// src/ts/modules/saveGame.ts
-//
-// Tauri コマンド経由でゲームデータを保存・ロードするユーティリティ。
-// ─────────────────────────────────────────────────────────────────────────────
-
 import { invoke } from '@tauri-apps/api/core';
 import type { GameState } from './gameState';
 
@@ -19,9 +14,38 @@ export interface SaveMeta {
   player_country_id:  string;
 }
 
+/** Rust の MapPointSer に対応 */
+export interface MapPoint {
+  x:         number;
+  y:         number;
+  owner_id:  number;
+  occupy_id: number;
+}
+
 export interface LoadResult {
   game_state_json: string;
   meta:            SaveMeta;
+  /** ロード後の全陸マス状態。マップ全面再描画に使う。 */
+  map_points:      MapPoint[];
+}
+
+// ── ロード後マップ再描画コールバック ──────────────────────────────────────────
+//
+// Map コンポーネントが「ロード完了時に全マスを再描画する」ためのコールバック。
+// wars.ts の registerMapUpdateCallback（occupy_id のみ）とは別に、
+// owner_id と occupy_id の両方を受け取れる口として用意する。
+//
+// 使い方（Map コンポーネント側）:
+//   import { registerMapLoadCallback } from '../modules/saveGame';
+//   registerMapLoadCallback((points) => {
+//     // points: { x, y, owner_id, occupy_id }[] を受け取って全マス再描画
+//   });
+
+type MapLoadCallback = (points: MapPoint[]) => void;
+let _mapLoadCallback: MapLoadCallback | null = null;
+
+export function registerMapLoadCallback(cb: MapLoadCallback): void {
+  _mapLoadCallback = cb;
 }
 
 // ── デフォルトのセーブ名 ──────────────────────────────────────────────────────
@@ -63,7 +87,6 @@ export async function saveGame(
   game: GameState,
   opts: SaveOptions,
 ): Promise<string> {
-  // GameState を JSON 文字列へ（Rust 側でそのままファイルに書く）
   const gameStateJson = JSON.stringify(game);
 
   const savedId = await invoke<string>('save_game', {
@@ -90,6 +113,14 @@ export async function loadGame(saveId: string): Promise<{
   const result = await invoke<LoadResult>('load_game', { saveId });
 
   const gameState: GameState = JSON.parse(result.game_state_json);
+
+  // Rust 側で MapStore を更新済みなので、フロント側のマップも全面再描画する。
+  // _mapLoadCallback には owner_id と occupy_id の両方を渡すため、
+  // 「occupyId=B && ownerId=A」（戦時中の占領）も正しく描画される。
+  if (_mapLoadCallback && result.map_points.length > 0) {
+    _mapLoadCallback(result.map_points);
+  }
+
   return { gameState, meta: result.meta };
 }
 
