@@ -151,7 +151,7 @@ export default function CountryPanel({ isOpen, countryId, onClose, onDeclareWar 
           <div className="cp-component-country-info-diplomacy-container">
             <div className="cp-component-country-info-title">{t.vassalCountry}</div>
             {vassalCountries.map((c) =>
-              <div className="cp-component-country-info-diplomacy-item">
+              <div key={c.id} className="cp-component-country-info-diplomacy-item">
                 {c.name[lang]}
               </div>
             )}
@@ -166,7 +166,7 @@ export default function CountryPanel({ isOpen, countryId, onClose, onDeclareWar 
               </ToolTip>
             </div>
             {allyCountries.map((c) =>
-              <div className="cp-component-country-info-diplomacy-item">
+              <div key={c.id} className="cp-component-country-info-diplomacy-item">
                 {c.name[lang]}
               </div>
             )}
@@ -176,7 +176,7 @@ export default function CountryPanel({ isOpen, countryId, onClose, onDeclareWar 
           <div className="cp-component-country-info-diplomacy-container">
             <div className="cp-component-country-info-title">{t.wars}</div>
             {warEnemyCountries.map((c) =>
-              <div className="cp-component-country-info-diplomacy-item">
+              <div key={c.id} className="cp-component-country-info-diplomacy-item">
                 {c.name[lang]}
               </div>
             )}
