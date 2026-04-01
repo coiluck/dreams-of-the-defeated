@@ -124,7 +124,7 @@ export default function SavePage({ onBack }: Props) {
     <div className="page fade-in save-page">
       <div className="save-page-header">
         <p className="save-page-title">Save Game</p>
-        {!isInputOpen && <Button text="+ New Save" onClick={startNewSave} />}
+        {!isInputOpen && <Button text="+ New Save" onClick={startNewSave} data-se="click" />}
       </div>
 
       {error && <p className="save-page-error">{error}</p>}
@@ -139,12 +139,11 @@ export default function SavePage({ onBack }: Props) {
               value={inputName}
               onChange={e => setInputName(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && execSave()}
-              placeholder="セーブ名を入力"
               autoFocus
             />
             <div className="save-page-input-buttons">
-              <div className="save-page-input-button cancel" onClick={() => { setTargetId(null); setInputName(''); }}>Cancel</div>
-              <div className="save-page-input-button ok" onClick={execSave}>{saving ? 'Saving...' : targetId ? 'Overwrite' : 'Save'}</div>
+              <div className="save-page-input-button cancel" onClick={() => { setTargetId(null); setInputName(''); }} data-se="click">Cancel</div>
+              <div className="save-page-input-button ok" onClick={execSave} data-se="click">{saving ? 'Saving...' : targetId ? 'Overwrite' : 'Save'}</div>
             </div>
           </div>
         )}
@@ -174,8 +173,8 @@ export default function SavePage({ onBack }: Props) {
                       autoFocus
                     />
                     <div className="save-page-input-buttons">
-                      <div className="save-page-input-button cancel" onClick={() => setRenamingId(null)}>Cancel</div>
-                      <div className="save-page-input-button ok" onClick={execRename}>OK</div>
+                      <div className="save-page-input-button cancel" onClick={() => setRenamingId(null)} data-se="click">Cancel</div>
+                      <div className="save-page-input-button ok" onClick={execRename} data-se="click">OK</div>
                     </div>
                   </div>
                 ) : (
@@ -191,6 +190,7 @@ export default function SavePage({ onBack }: Props) {
                   <div
                     className="save-page-item-action-overwrite"
                     onClick={() => startOverwrite(meta)}
+                    data-se="click"
                   >
                     {t.overwrite}
                   </div>
@@ -199,12 +199,14 @@ export default function SavePage({ onBack }: Props) {
                       <div
                         className="save-page-item-action-icon rename"
                         onClick={() => { setRenamingId(meta.save_id); setRenameInput(meta.display_name); }}
+                        data-se="click"
                       />
                     </ToolTip>
                     <ToolTip text={t.delete}>
                       <div
                         className="save-page-item-action-icon delete"
                         onClick={() => handleDelete(meta.save_id)}
+                        data-se="click"
                       />
                     </ToolTip>
                   </div>
@@ -216,7 +218,7 @@ export default function SavePage({ onBack }: Props) {
       )}
 
       <div className="save-page-footer">
-        <Button text="Back" onClick={onBack} />
+        <Button text="Back" onClick={onBack} data-se="disabled" />
       </div>
     </div>
   );

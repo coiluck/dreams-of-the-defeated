@@ -118,6 +118,7 @@ export default function LoadPage({ mode, onBack }: Props) {
                     <div
                       className="load-page-item-action-icon load"
                       onClick={() => handleLoad(meta.save_id)}
+                      data-se="metallic"
                     />
                   </ToolTip>
                   <ToolTip text={t.delete}>
@@ -138,7 +139,7 @@ export default function LoadPage({ mode, onBack }: Props) {
       )}
 
       <div className="load-page-footer">
-        <Button text="Back" onClick={onBack} />
+        <Button text="Back" onClick={onBack} data-se="disabled"/>
       </div>
     </div>
   );
