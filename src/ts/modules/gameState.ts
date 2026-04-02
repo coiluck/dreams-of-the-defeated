@@ -1,7 +1,7 @@
 // ts/modules/gameState.ts
 import { create } from 'zustand';
 import { loadSpiritDefinition } from './nationalFocus';
-import { processWars, applyDeclareWar, applyAllyJoinWar, applyPlayerAcceptedCpuPeace } from './wars';
+import { processWars, applyDeclareWar, applyAllyJoinWar, applyPlayerAcceptedCpuPeace, processCpuMilitaryBuild } from './wars';
 import { processCountryFocus, selectCpuFocus } from './focus';
 import { invoke } from '@tauri-apps/api/core';
 import { SettingState } from './store';
@@ -492,6 +492,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }
 
     // CPUの自由な宣戦
+
+    // CPUの軍拡
+    for (const countryId of Object.keys(countries)) {
+      if (countryId === playerCountryId) continue;
+
+      const updates = processCpuMilitaryBuild(countries[countryId], wars);
+      if (Object.keys(updates).length > 0) {
+        countries[countryId] = { ...countries[countryId], ...updates };
+      }
+    }
 
     // ── NF処理後に新たに追加されたCPU→プレイヤー宣戦を検出 ──────────────────
     const allCpuDeclaredWarIds = [...cpuDeclaredWarIds];

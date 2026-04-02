@@ -142,6 +142,15 @@ async function decideEnemyActions(
       null,
     );
     if (bestFront) {
+      const previousAction = actions[bestFront.front_id];
+      // 既存アクションのコストを戻す
+      if (previousAction !== undefined) {
+        availablePP    += TACTIC_ACTIONS[previousAction].cost.politicalPower;
+        availableEquip += TACTIC_ACTIONS[previousAction].cost.militaryEquipment;
+      }
+      // 積極的攻勢のコストを引く
+      availablePP    -= aggressiveCost.politicalPower;
+      availableEquip -= aggressiveCost.militaryEquipment;
       actions[bestFront.front_id] = 1;
     }
   }
@@ -729,4 +738,84 @@ export function applyAllyJoinWar(
   }
 
   return { updatedWars, updatedCountries };
+}
+
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CPU 軍拡処理
+// ─────────────────────────────────────────────────────────────────────────────
+
+export function processCpuMilitaryBuild(
+  country: CountryState,
+  wars: Record<string, War>,
+): Partial<CountryState> {
+  // プレイヤー or CPU がどこかと戦争中ならスキップ
+  const isAtWar = Object.values(wars).some(
+    w => w.attackerId === country.id || w.defenderId === country.id,
+  );
+  if (isAtWar) return {};
+
+  let pp        = country.politicalPower;
+  let equip     = country.militaryEquipment;
+  let mechRate  = country.mechanizationRate;
+  let deployed  = country.deployedMilitary;
+
+  // Step1: 装備備蓄が2000以下なら装備を生産（コストはGameFinanceのACTIONS[2]準拠）
+  const EQUIP_PROD_PP_COST   = 40;
+  const EQUIP_PROD_AMOUNT    = 750;
+  const EQUIP_THRESHOLD      = 2000;
+
+  let actionTimes = 0;
+
+  if (equip <= EQUIP_THRESHOLD && pp >= EQUIP_PROD_PP_COST) {
+    pp    -= EQUIP_PROD_PP_COST;
+    equip += EQUIP_PROD_AMOUNT;
+    actionTimes++;
+  }
+
+  // Step2: 残りppで機械化率40%未満なら機械化推進、そうでなければ展開兵力拡大
+  // 機械化の推進: pp20 + equip300, +5% (ACTIONS[4])
+  const MECH_PP_COST    = 20;
+  const MECH_EQUIP_COST = 300;
+  const MECH_AMOUNT     = 5;
+  const MECH_CAP        = 40;
+
+  // 正規軍の編成: pp20 + equip500, +5 (ACTIONS[0])
+  const FORM_PP_COST    = 20;
+  const FORM_EQUIP_COST = 500;
+  const FORM_AMOUNT     = 5;
+
+  while (true) {
+    if (mechRate < MECH_CAP) {
+      // 機械化を優先
+      if (pp >= MECH_PP_COST && equip >= MECH_EQUIP_COST) {
+        pp       -= MECH_PP_COST;
+        equip    -= MECH_EQUIP_COST;
+        mechRate  = Math.min(100, mechRate + MECH_AMOUNT);
+        actionTimes++;
+      } else {
+        break;
+      }
+    } else {
+      // 機械化上限に達したら展開兵力を増強
+      if (pp >= FORM_PP_COST && equip >= FORM_EQUIP_COST) {
+        pp       -= FORM_PP_COST;
+        equip    -= FORM_EQUIP_COST;
+        deployed += FORM_AMOUNT;
+        actionTimes++;
+      } else {
+        break;
+      }
+    }
+  }
+
+  if (actionTimes === 0) return {};
+
+  return {
+    politicalPower:   pp,
+    militaryEquipment: equip,
+    mechanizationRate: mechRate,
+    deployedMilitary:  deployed,
+  };
 }
