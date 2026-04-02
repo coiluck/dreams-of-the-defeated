@@ -1,8 +1,10 @@
 // ts/modules/gameState.ts
 import { create } from 'zustand';
 import { loadSpiritDefinition } from './nationalFocus';
-import { processWars, applyDeclareWar, applyAllyJoinWar } from './wars';
+import { processWars, applyDeclareWar, applyAllyJoinWar, applyPlayerAcceptedCpuPeace } from './wars';
 import { processCountryFocus, selectCpuFocus } from './focus';
+import { invoke } from '@tauri-apps/api/core';
+import { SettingState } from './store';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 型定義（他モジュールから import される）
@@ -377,7 +379,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const { playerRequestedPeaceWarId }    = state;
 
     // 戦争処理
-    const { updatedCountries: warCountries, endedWarIds } = await processWars(
+    const {
+      updatedCountries: warCountries,
+      endedWarIds,
+      cpuDeclaredWarIds, // ここでは空
+      cpuRequestedPeaceWarId: cpuPeaceWarId,
+      peaceNotifications,
+    } = await processWars(
       countries,
       wars,
       playerCountryId,
@@ -385,6 +393,33 @@ export const useGameStore = create<GameStore>((set, get) => ({
       playerRequestedPeaceWarId,
     );
     countries = warCountries;
+
+    // CPUの停戦要求
+    let cpuPeaceAccepted = false;
+    if (cpuPeaceWarId !== null) {
+      const war = wars[cpuPeaceWarId];
+      const cpuId = war?.attackerId === playerCountryId ? war.defenderId : war?.attackerId;
+      const cpuName = countries[cpuId]?.name;
+      const userLang = SettingState.language as 'ja' | 'en';
+      const messageArray = {
+        ja: `${cpuName.ja} より、現戦線に基づく停戦の提案が提示された。`,
+        en: `According to official reports, ${cpuName.en} has proposed an armistice based on the current front lines.`,
+      };
+      const buttonLabelsArray = {
+        ja: ['拒否', '受諾'],
+        en: ['Reject', 'Accept'],
+      };
+      const result = await invoke<number>('show_dialog', {
+        message: messageArray[userLang],
+        buttonLabels: buttonLabelsArray[userLang],
+      });
+      cpuPeaceAccepted = result === 1;
+
+      if (cpuPeaceAccepted && war) {
+        await applyPlayerAcceptedCpuPeace(war, wars, cpuPeaceWarId);
+        endedWarIds.push(cpuPeaceWarId);
+      }
+    }
 
     // 終結した戦争を除去
     let updatedWars = { ...wars };
@@ -405,11 +440,38 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }
     wars = updatedWars;
 
+    // 停戦通知
+    for (const peaceNotification of peaceNotifications) {
+      const enemyName = countries[peaceNotification.enemyId]?.name;
+      const userLang = SettingState.language as 'ja' | 'en';
+      const messageArray = {
+        all_collapse: {
+          ja: `${enemyName.ja} は国土の8割を占領されたことを受けて、全土降伏を申し出た。`,
+          en: `${enemyName.en}, having lost 80% of its territory, has offered an unconditional surrender.`,
+        },
+        front_collapse: {
+          ja: `${enemyName.ja} は我が国との戦線を失ったことを受けて、現在の戦線での講和を申し出た。`,
+          en: `${enemyName.en}, having lost its front against us, has proposed a peace settlement along the current front lines.`,
+        },
+        player_peace: {
+          ja: `${enemyName.ja} は我が国からの講和要求を受諾した。`,
+          en: `${enemyName.en} has accepted our demand for peace.`,
+        },
+      };
+      const message = messageArray[peaceNotification.reason][userLang];
+      // 戻り値は不要
+      await invoke<number>('show_dialog', {
+        message,
+        buttonLabels: ['OK'],
+      });
+    }
+
     // 講和が成立した場合 playerRequestedPeaceWarId をクリアする
     const peaceSettled =
       playerRequestedPeaceWarId !== null && endedWarIds.includes(playerRequestedPeaceWarId);
 
     // プレイヤー国のNF処理
+    const warsBeforeNF = { ...wars };
     const nfResult = await processCountryFocus(playerCountryId, countries, wars, currentTurn);
     countries     = nfResult.updatedCountries;
     wars          = nfResult.updatedWars;
@@ -427,6 +489,41 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const cpuResult = await processCountryFocus(countryId, countries, wars, currentTurn);
       countries = cpuResult.updatedCountries;
       wars      = cpuResult.updatedWars;
+    }
+
+    // CPUの自由な宣戦
+
+    // ── NF処理後に新たに追加されたCPU→プレイヤー宣戦を検出 ──────────────────
+    const allCpuDeclaredWarIds = [...cpuDeclaredWarIds];
+    for (const [warId, war] of Object.entries(wars)) {
+      if (
+        !warsBeforeNF[warId] &&                      // NF処理前には存在しなかった
+        war.attackerId !== playerCountryId &&
+        war.defenderId === playerCountryId
+      ) {
+        allCpuDeclaredWarIds.push(warId);
+      }
+    }
+
+    // ── CPU 宣戦布告通知 ─────────────────────────────────────────────
+    for (const warId of allCpuDeclaredWarIds) {
+      const war = wars[warId];
+      if (!war) continue;
+      const attackerName = countries[war.attackerId]?.name;
+      const userLang = SettingState.language as 'ja' | 'en';
+      const messageArray = {
+        ja: `${attackerName.ja} によると、我が国への外交姿勢が宣戦布告となった。`,
+        en: `According to official reports, ${attackerName.en} has issued a declaration of war against our nation.`,
+      };
+      const buttonLabelsArray = {
+        ja: ['対処する'],
+        en: ['OK'],
+      };
+      const message = messageArray[userLang];
+      await invoke<number>('show_dialog', {
+        message,
+        buttonLabels: buttonLabelsArray[userLang],
+      });
     }
 
     // 経済・政治力の更新

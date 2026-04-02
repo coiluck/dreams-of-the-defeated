@@ -47,6 +47,9 @@ interface WarTileBalance {
   net_balance: number;
 }
 
+export type PeaceReason = 'all_collapse' | 'front_collapse' | 'player_peace';
+export interface PeaceNotification { enemyId: string; reason: PeaceReason; }
+
 // ─────────────────────────────────────────────────────────────────────────────
 // マップ更新コールバック
 // ─────────────────────────────────────────────────────────────────────────────
@@ -319,12 +322,32 @@ export async function processWars(
 ): Promise<{
   updatedCountries: Record<string, CountryState>;
   endedWarIds: string[];
+  /** このターンにCPUがプレイヤーに宣戦布告した warId 一覧 */
+  cpuDeclaredWarIds: string[];
+  /** このターンにCPUがプレイヤーへ停戦要求してきた warId（1件まで） */
+  cpuRequestedPeaceWarId: string | null;
+  /** プレイヤーが関与する戦争で停戦した場合の理由通知（優先順位1・2・3-a） */
+  peaceNotifications: PeaceNotification[];
 }> {
   let updatedCountries = { ...countries };
   const endedWarIds: string[] = [];
+  const cpuDeclaredWarIds: string[] = [];
+  let cpuRequestedPeaceWarId: string | null = null;
+  const peaceNotifications: PeaceNotification[] = [];
   const gameMode = SettingState.gameMode;
 
   const collapsedFrontWarIds = new Set<string>();
+
+  // ── CPUがプレイヤーに宣戦した戦争を検出（startTurn === currentTurn かつ attacker が CPU）
+  for (const [warId, war] of Object.entries(wars)) {
+    if (
+      war.startTurn === currentTurn &&
+      war.attackerId !== playerCountryId &&
+      war.defenderId === playerCountryId
+    ) {
+      cpuDeclaredWarIds.push(warId);
+    }
+  }
 
   // ══════════════════════════════════════════════════════════════════════════
   // フェーズ1: 侵攻処理
@@ -496,6 +519,15 @@ export async function processWars(
     _mapUpdateCallback(collapseChanges);
   }
   endedWarIds.push(...collapseEndedIds);
+  // 全土降伏した戦争を通知
+  for (const warId of collapseEndedIds) {
+    const war = wars[warId];
+    if (!war) continue;
+    if (war.attackerId === playerCountryId || war.defenderId === playerCountryId) {
+    const enemyId = war.attackerId === playerCountryId ? war.defenderId : war.attackerId;
+    peaceNotifications.push({ enemyId, reason: 'all_collapse' });
+    }
+  }
 
   // 優先順位2 & 3
   for (const [warId, war] of Object.entries(wars)) {
@@ -512,6 +544,12 @@ export async function processWars(
       if (changes.length > 0 && _mapUpdateCallback) _mapUpdateCallback(changes);
       endedWarIds.push(warId);
       delete cpuPeaceTrigger[warId];
+
+      // 停戦通知: プレイヤーが関与する場合のみ
+      if (isPlayerInvolved) {
+        const enemyId = war.attackerId === playerCountryId ? war.defenderId : war.attackerId;
+        peaceNotifications.push({ enemyId, reason: 'front_collapse' });
+      }
       continue;
     }
 
@@ -522,24 +560,55 @@ export async function processWars(
       if (changes.length > 0 && _mapUpdateCallback) _mapUpdateCallback(changes);
       endedWarIds.push(warId);
       delete cpuPeaceTrigger[warId];
+
+      // 停戦通知
+      const enemyId = war.attackerId === playerCountryId ? war.defenderId : war.attackerId;
+      peaceNotifications.push({ enemyId, reason: 'player_peace' });
       continue;
     }
 
     // 優先順位3-b: CPU 連続劣勢による講和要求
-    if (!isPlayerInvolved) {
-      const triggered = await evaluateCpuPeaceTrigger(warId, war, currentTurn);
-      if (triggered) {
-        console.log(`[War: ${warId}] CPU が個別講和を要求（5ターン連続劣勢）`);
-        const changes = await applySeparatePeace(war, wars);
-        if (changes.length > 0 && _mapUpdateCallback) _mapUpdateCallback(changes);
-        endedWarIds.push(warId);
-        delete cpuPeaceTrigger[warId];
-        continue;
+    if (isPlayerInvolved) {
+      // プレイヤーが関与する場合はダイアログ確認のため warId を返すだけ
+      const cpuIsDisadvantaged = await evaluateCpuPeaceTrigger(warId, war, currentTurn);
+      if (cpuIsDisadvantaged && cpuRequestedPeaceWarId === null) {
+        console.log(`[War: ${warId}] CPU がプレイヤーに停戦要求（5ターン連続劣勢）`);
+        cpuRequestedPeaceWarId = warId;
+        // 実際の講和適用は nextTurn でプレイヤーの確認後に行う
       }
+      continue;
     }
+
+    // CPU vs CPU
+    /* ここは絶滅戦争をやってもらう
+    const triggered = await evaluateCpuPeaceTrigger(warId, war, currentTurn);
+    if (triggered) {
+      console.log(`[War: ${warId}] CPU が個別講和を要求（5ターン連続劣勢）`);
+      const changes = await applySeparatePeace(war, wars);
+      if (changes.length > 0 && _mapUpdateCallback) _mapUpdateCallback(changes);
+      endedWarIds.push(warId);
+      delete cpuPeaceTrigger[warId];
+      continue;
+    }
+    */
   }
 
-  return { updatedCountries, endedWarIds };
+  return { updatedCountries, endedWarIds, cpuDeclaredWarIds, cpuRequestedPeaceWarId, peaceNotifications };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// プレイヤーが CPU の停戦要求を承諾した際の講和適用
+// ─────────────────────────────────────────────────────────────────────────────
+
+export async function applyPlayerAcceptedCpuPeace(
+  war: War,
+  wars: Record<string, War>,
+  warId: string,
+): Promise<OccupyChange[]> {
+  const changes = await applySeparatePeace(war, wars);
+  if (changes.length > 0 && _mapUpdateCallback) _mapUpdateCallback(changes);
+  delete cpuPeaceTrigger[warId];
+  return changes;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

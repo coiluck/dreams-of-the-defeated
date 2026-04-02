@@ -48,6 +48,12 @@ body {
   gap: 1rem;
 }
 
+.dialog-button-container:has(.dialog-button-item:only-child) {
+  grid-template-columns: 1fr;
+  width: calc((420px - 2rem * 2 - 1rem) / 2);
+  margin: 0 auto;
+}
+
 /* ボタンアイテム */
 .dialog-button-container .dialog-button-item {
   display: inline-block;
