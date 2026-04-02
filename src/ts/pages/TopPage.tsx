@@ -19,6 +19,9 @@ export default function TopPage() {
         <Button text="Options" onClick={() => navigate('/options')} data-se="metallic" />
         <Button text="Exit" onClick={() => navigate('/')} data-se="disabled" />
       </div>
+
+      {/* version */}
+      <p className="top-page-version">v{__APP_VERSION__}</p>
     </div>
   );
 }

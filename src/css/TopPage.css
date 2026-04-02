@@ -30,3 +30,13 @@
     transform: translate(-50%, 0);
   }
 }
+
+.top-page-version {
+  position: absolute;
+  bottom: .75rem;
+  right: 1rem;
+  font-size: 0.8rem;
+  font-family: 'Courier New', Courier, monospace;
+  pointer-events: none;
+  cursor: pointer;
+}
