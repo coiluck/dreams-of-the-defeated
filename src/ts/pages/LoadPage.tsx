@@ -89,17 +89,18 @@ export default function LoadPage({ mode, onBack }: Props) {
   };
 
   const handleDelete = async (saveId: string) => {
-    // if (!window.confirm(t.deleteConfirm)) return;
-    const result = await invoke<boolean>('show_dialog', {
-      message: '本当に削除しますか？',
-      twoButtons: true,
+    const result = await invoke<number>('show_dialog', {
+      message: `${t.deleteConfirm}`,
+      buttonLabels: ['Cancel', 'OK'],
     });
-    if (!result) return;
-    try {
-      await deleteSave(saveId);
-      await refreshList();
-    } catch (e) {
-      setError(String(e));
+    if (result && result === 1) {
+      // resultは押したボタンのindex
+      try {
+        await deleteSave(saveId);
+        await refreshList();
+      } catch (e) {
+        setError(String(e));
+      }
     }
   };
 

@@ -36,6 +36,7 @@ body {
 
 .dialog-message {
   font-size: 1rem;
+  white-space: pre-wrap;
   filter: url('#button-grunge-filter');
   flex: 1;
 }
@@ -47,10 +48,44 @@ body {
   gap: 1rem;
 }
 
-.dialog-button-container button {
+/* ボタンアイテム */
+.dialog-button-container .dialog-button-item {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+}
+
+
+.dialog-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
   max-width: calc((420px - 2rem * 2 - 1rem) / 2);
-  padding: .4rem .8rem;
-  background-color: #000;
-  font-size: .8rem;
+  padding: .6rem 1.2rem;
+  font-size: .9rem;
   letter-spacing: 0.1rem;
+  border: 1.5px solid #ccc;
+  filter: url('#button-grunge-filter');
+  transition: all 0.3s ease;
+}
+/* 内側の枠 */
+.dialog-button::after {
+  content: "";
+  position: absolute;
+  top: 4px; left: 4px; right: 4px; bottom: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.2s ease-out;
+}
+.dialog-button:hover {
+  border-color: #fff3f1;
+}
+.dialog-button:hover::after {
+  border-color: #ffd700; /* Gold */
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.6), inset 0 0 8px rgba(255, 215, 0, 0.3);
+}
+.dialog-button:active {
+  transform: translateY(2px);
+  filter: url('#button-grunge-filter') brightness(0.8);
 }

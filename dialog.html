@@ -7,6 +7,15 @@
   <title>Dialog</title>
 </head>
 <body>
+  <!-- ボタン用のフィルター -->
+  <svg style="display: none;">
+    <defs>
+      <filter id="button-grunge-filter">
+        <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
   <div class="dialog-container">
     <div class="dialog-bg"></div>
     <div class="dialog-noise"></div>
@@ -22,33 +31,34 @@
     // ─── URLパラメータからデータを取得（イベントタイミング問題を完全回避）───
     const params = new URLSearchParams(window.location.search);
     const message = params.get('message') ?? '';
-    const twoButtons = params.get('twoButtons') === 'true';
+    const buttonLabels = JSON.parse(params.get('buttonLabels') ?? '["OK"]');
 
     document.getElementById('message').textContent = message;
 
     const btnContainer = document.getElementById('buttons');
 
-    const okBtn = document.createElement('button');
-    okBtn.textContent = 'OK';
-    okBtn.onclick = () => sendResult(true);
-    btnContainer.appendChild(okBtn);
+    buttonLabels.forEach((label, index) => {
+      const item = document.createElement('div');
+      item.className = 'dialog-button-item';
 
-    if (twoButtons) {
-      const cancelBtn = document.createElement('button');
-      cancelBtn.textContent = 'キャンセル';
-      cancelBtn.onclick = () => sendResult(false);
-      btnContainer.appendChild(cancelBtn);
-    }
+      const btn = document.createElement('button');
+      btn.className = 'dialog-button';
+      btn.textContent = label;
+      btn.onclick = () => sendResult(index);
+
+      item.appendChild(btn);
+      btnContainer.appendChild(item);
+    });
 
     // ─── キーボード操作サポート ───
-    // Enter → OK、Escape → キャンセル（twoButtonsのときのみ）
+    // Enter → 最後のボタン（通常OK）、Escape → 最初のボタン（通常Cancel）
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
-        sendResult(true);
-      } else if (e.key === 'Escape' && twoButtons) {
+        sendResult(buttonLabels.length - 1);
+      } else if (e.key === 'Escape') {
         e.preventDefault();
-        sendResult(false);
+        sendResult(0);
       }
     });
 
@@ -61,10 +71,10 @@
     // 送信後の二重送信を防ぐフラグ
     let resultSent = false;
 
-    async function sendResult(result) {
+    async function sendResult(index) {
       if (resultSent) return;
       resultSent = true;
-      await emit('dialog-result', result);
+      await emit('dialog-result', index);
     }
   </script>
 </body>

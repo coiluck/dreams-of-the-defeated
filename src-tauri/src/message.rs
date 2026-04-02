@@ -7,9 +7,9 @@ use std::sync::{Arc, Mutex};
 pub async fn show_dialog(
     app: AppHandle,
     message: String,
-    two_buttons: bool,
-) -> Result<bool, String> {
-    let (tx, mut rx) = channel::<bool>(1);
+    button_labels: Vec<String>,
+) -> Result<usize, String> {
+    let (tx, mut rx) = channel::<usize>(1);
     let tx = Arc::new(Mutex::new(Some(tx)));
 
     // 既存のdialogウィンドウが残っていたら先に閉じる
@@ -38,7 +38,7 @@ pub async fn show_dialog(
     let center_x = main_pos.x + (main_size.width as i32 - dialog_phys_w) / 2;
     let center_y = main_pos.y + (main_size.height as i32 - dialog_phys_h) / 2;
 
-    // メッセージとボタン設定をURLパラメータで渡す（イベントタイミング問題を回避）
+    // メッセージとボタンラベルをURLパラメータで渡す（イベントタイミング問題を回避）
     // 標準ライブラリだけでパーセントエンコード
     let encoded_message: String = message
         .bytes()
@@ -48,9 +48,21 @@ pub async fn show_dialog(
             _ => format!("%{:02X}", b).chars().collect(),
         })
         .collect();
+
+    // button_labels を JSON 配列にシリアライズしてパーセントエンコード
+    let labels_json = serde_json::to_string(&button_labels).map_err(|e| e.to_string())?;
+    let encoded_labels: String = labels_json
+        .bytes()
+        .flat_map(|b| match b {
+            b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9'
+            | b'-' | b'_' | b'.' | b'~' => vec![b as char],
+            _ => format!("%{:02X}", b).chars().collect(),
+        })
+        .collect();
+
     let url_path = format!(
-        "dialog.html?message={}&twoButtons={}",
-        encoded_message, two_buttons
+        "dialog.html?message={}&buttonLabels={}",
+        encoded_message, encoded_labels
     );
 
     let builder = WebviewWindowBuilder::new(
@@ -76,14 +88,14 @@ pub async fn show_dialog(
     dialog_window.show().map_err(|e| e.to_string())?;
     dialog_window.set_focus().map_err(|e| e.to_string())?;
 
-    // dialog-result イベントを待つ
+    // dialog-result イベントを待つ（押されたボタンのインデックスを受け取る）
     let tx_clone = tx.clone();
     dialog_window.once("dialog-result", move |event| {
-        let result: bool = serde_json::from_str(event.payload()).unwrap_or(false);
+        let index: usize = serde_json::from_str(event.payload()).unwrap_or(0);
         if let Ok(mut guard) = tx_clone.lock() {
             if let Some(sender) = guard.take() {
                 let _ = tauri::async_runtime::spawn(async move {
-                    let _ = sender.send(result).await;
+                    let _ = sender.send(index).await;
                 });
             }
         }
