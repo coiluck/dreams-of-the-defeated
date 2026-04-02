@@ -14,6 +14,7 @@ import '../../css/LoadPage.css';
 import { useMappedTranslations } from '../modules/i18n';
 import ToolTip from '../components/ToolTip';
 import { SettingState } from '../modules/store';
+import { invoke } from '@tauri-apps/api/core';
 
 interface Props {
   mode:   'top-menu' | 'game-menu';
@@ -88,7 +89,12 @@ export default function LoadPage({ mode, onBack }: Props) {
   };
 
   const handleDelete = async (saveId: string) => {
-    if (!window.confirm(t.deleteConfirm)) return;
+    // if (!window.confirm(t.deleteConfirm)) return;
+    const result = await invoke<boolean>('show_dialog', {
+      message: '本当に削除しますか？',
+      twoButtons: true,
+    });
+    if (!result) return;
     try {
       await deleteSave(saveId);
       await refreshList();

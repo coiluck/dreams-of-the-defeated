@@ -8,6 +8,7 @@ mod wars_advance;
 mod wars_occupation;
 mod wars_peace;
 mod save_store;
+mod message;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -58,6 +59,7 @@ pub fn run() {
             save_store::load_game,
             save_store::delete_save,
             save_store::rename_save,
+            message::show_dialog,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

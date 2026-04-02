@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/src/css/default.css">
+  <link rel="stylesheet" href="/src/css/dialog.css">
+  <title>Dialog</title>
+</head>
+<body>
+  <div class="dialog-container">
+    <div class="dialog-bg"></div>
+    <div class="dialog-noise"></div>
+
+    <p class="dialog-message" id="message">...</p>
+
+    <div class="dialog-button-container" id="buttons"></div>
+  </div>
+
+  <script type="module">
+    import { emit } from '@tauri-apps/api/event';
+
+    // ─── URLパラメータからデータを取得（イベントタイミング問題を完全回避）───
+    const params = new URLSearchParams(window.location.search);
+    const message = params.get('message') ?? '';
+    const twoButtons = params.get('twoButtons') === 'true';
+
+    document.getElementById('message').textContent = message;
+
+    const btnContainer = document.getElementById('buttons');
+
+    const okBtn = document.createElement('button');
+    okBtn.textContent = 'OK';
+    okBtn.onclick = () => sendResult(true);
+    btnContainer.appendChild(okBtn);
+
+    if (twoButtons) {
+      const cancelBtn = document.createElement('button');
+      cancelBtn.textContent = 'キャンセル';
+      cancelBtn.onclick = () => sendResult(false);
+      btnContainer.appendChild(cancelBtn);
+    }
+
+    // ─── キーボード操作サポート ───
+    // Enter → OK、Escape → キャンセル（twoButtonsのときのみ）
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        sendResult(true);
+      } else if (e.key === 'Escape' && twoButtons) {
+        e.preventDefault();
+        sendResult(false);
+      }
+    });
+
+    // ─── ウィンドウ外クリックでの誤操作防止（ダイアログにフォーカスを固定）───
+    window.addEventListener('blur', () => {
+      // フォーカスが外れても即座に戻す
+      window.focus();
+    });
+
+    // 送信後の二重送信を防ぐフラグ
+    let resultSent = false;
+
+    async function sendResult(result) {
+      if (resultSent) return;
+      resultSent = true;
+      await emit('dialog-result', result);
+    }
+  </script>
+</body>
+</html>
