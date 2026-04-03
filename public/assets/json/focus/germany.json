@@ -1,0 +1,1177 @@
+{
+  "focuses": [
+    {
+      "id": "fluelen_kousei",
+      "col": 6,
+      "row": 2,
+      "icon": "",
+      "name": {
+        "ja": "フリューレン攻勢",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "reims_kouryokusen",
+        "koukai_fuusa_jiken",
+        "dainiji_somme_soukousei"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "dresden_kouwakaigi",
+      "col": 6,
+      "row": 3,
+      "icon": "",
+      "name": {
+        "ja": "ドレスデン講和会議",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "fluelen_kousei"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "mittelafrika_soutokufu",
+      "col": 5,
+      "row": 4,
+      "icon": "",
+      "name": {
+        "ja": "ミッテルアフリカ総督府",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "dresden_kouwakaigi"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "rhein_kahan_no_kanshi",
+      "col": 6,
+      "row": 4,
+      "icon": "",
+      "name": {
+        "ja": "ライン河畔の監視",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "dresden_kouwakaigi"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "poland_keiei",
+      "col": 7,
+      "row": 4,
+      "icon": "",
+      "name": {
+        "ja": "ポーランド経営",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "dresden_kouwakaigi"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "dresden_taisei_no_kakuritsu",
+      "col": 6,
+      "row": 5,
+      "icon": "",
+      "name": {
+        "ja": "ドレスデン体制の確立",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "mittelafrika_soutokufu",
+        "rhein_kahan_no_kanshi",
+        "poland_keiei"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "kaiser_no_rakujitsu",
+      "col": 4,
+      "row": 7,
+      "icon": "",
+      "name": {
+        "ja": "カイザーの落日",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "haken_no_daishou"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "haken_no_daishou",
+      "col": 6,
+      "row": 6,
+      "icon": "",
+      "name": {
+        "ja": "覇権の代償",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "dresden_taisei_no_kakuritsu"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "balkan_kiki_hassei",
+      "col": 6,
+      "row": 0,
+      "icon": "",
+      "name": {
+        "ja": "バルカン危機発生",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "reims_kouryokusen",
+      "col": 5,
+      "row": 1,
+      "icon": "",
+      "name": {
+        "ja": "ランス攻略戦",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "balkan_kiki_hassei"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "koukai_fuusa_jiken",
+      "col": 6,
+      "row": 1,
+      "icon": "",
+      "name": {
+        "ja": "紅海封鎖事件",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "balkan_kiki_hassei"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "dainiji_somme_soukousei",
+      "col": 7,
+      "row": 1,
+      "icon": "",
+      "name": {
+        "ja": "第二次ソンム総攻勢",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "balkan_kiki_hassei"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "yoake_no_hajimari",
+      "col": 7,
+      "row": 8,
+      "icon": "",
+      "name": {
+        "ja": "夜明けの始まり",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "kaiser_no_rakujitsu"
+      ],
+      "mutuallyExclusive": [
+        "tetsu_to_chi_no_isan"
+      ]
+    },
+    {
+      "id": "tetsu_to_chi_no_isan",
+      "col": 1,
+      "row": 8,
+      "icon": "",
+      "name": {
+        "ja": "鉄と血の遺産",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "kaiser_no_rakujitsu"
+      ],
+      "mutuallyExclusive": [
+        "yoake_no_hajimari"
+      ]
+    },
+    {
+      "id": "haken_no_goji",
+      "col": 12,
+      "row": 7,
+      "icon": "",
+      "name": {
+        "ja": "覇権の護持",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "haken_no_daishou"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "mittelafrika_mondai",
+      "col": 14,
+      "row": 8,
+      "icon": "",
+      "name": {
+        "ja": "ミッテルアフリカ問題",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "haken_no_goji"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "ostwall",
+      "col": 11,
+      "row": 8,
+      "icon": "",
+      "name": {
+        "ja": "東方防壁",
+        "en": "Ostwall "
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "haken_no_goji"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "krupp_no_roshin_wa_moetsukinai",
+      "col": 6,
+      "row": 17,
+      "icon": "",
+      "name": {
+        "ja": "クルップの炉心は燃え尽きない",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "oushuu_shakaishugi_kyouwakoku_renpou",
+        "europa_heiwa_no_shugosha"
+      ]
+    },
+    {
+      "id": "teikokugun_no_saihen",
+      "col": 6,
+      "row": 20,
+      "icon": "",
+      "name": {
+        "ja": "帝国軍の再編",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "kagaku_academy_e_no_toushi",
+        "shingatasensha_no_sekkei"
+      ]
+    },
+    {
+      "id": "yamaneko_strike_no_hinpatsu",
+      "col": 5,
+      "row": 10,
+      "icon": "",
+      "name": {
+        "ja": "山猫ストの頻発",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "munou_na_seifu"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "munou_na_seifu",
+      "col": 5,
+      "row": 9,
+      "icon": "",
+      "name": {
+        "ja": "無能な政府",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "yoake_no_hajimari"
+      ],
+      "mutuallyExclusive": [
+        "kenpou_e_no_seiyaku"
+      ]
+    },
+    {
+      "id": "kaigenrei_no_fukoku",
+      "col": 1,
+      "row": 9,
+      "icon": "",
+      "name": {
+        "ja": "戒厳令の布告",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "tetsu_to_chi_no_isan"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "gikai_no_muryokuka",
+      "col": 0,
+      "row": 10,
+      "icon": "",
+      "name": {
+        "ja": "議会の無力化",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "kaigenrei_no_fukoku"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "strike_no_buryokuchinatsu",
+      "col": 2,
+      "row": 10,
+      "icon": "",
+      "name": {
+        "ja": "ストライキの武力鎮圧",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "kaigenrei_no_fukoku"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "kenpou_e_no_seiyaku",
+      "col": 9,
+      "row": 9,
+      "icon": "",
+      "name": {
+        "ja": "憲法への誓約",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "yoake_no_hajimari"
+      ],
+      "mutuallyExclusive": [
+        "munou_na_seifu"
+      ]
+    },
+    {
+      "id": "museigen_no_gunkaku",
+      "col": 4,
+      "row": 18,
+      "icon": "",
+      "name": {
+        "ja": "無制限の軍拡",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "krupp_no_roshin_wa_moetsukinai"
+      ],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "oushuu_shakaishugi_kyouwakoku_renpou"
+      ]
+    },
+    {
+      "id": "boueisangyou_no_tekiseika",
+      "col": 8,
+      "row": 18,
+      "icon": "",
+      "name": {
+        "ja": "防衛産業の適正化",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "krupp_no_roshin_wa_moetsukinai",
+        "europa_heiwa_no_shugosha"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "kagaku_academy_e_no_toushi",
+      "col": 5,
+      "row": 19,
+      "icon": "",
+      "name": {
+        "ja": "科学アカデミーへの投資",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "museigen_no_gunkaku",
+        "boueisangyou_no_tekiseika"
+      ]
+    },
+    {
+      "id": "shingatasensha_no_sekkei",
+      "col": 7,
+      "row": 19,
+      "icon": "",
+      "name": {
+        "ja": "新型戦車の設計",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "boueisangyou_no_tekiseika",
+        "museigen_no_gunkaku"
+      ]
+    },
+    {
+      "id": "jiyuusenkyo_no_jisshi",
+      "col": 9,
+      "row": 10,
+      "icon": "",
+      "name": {
+        "ja": "自由選挙の実施",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "kenpou_e_no_seiyaku"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "eiseikoku_e_no_jichiken_fuyo",
+      "col": 10,
+      "row": 12,
+      "icon": "",
+      "name": {
+        "ja": "衛星国への自治権付与",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "jiyuusenkyo_no_jisshi"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "touhou_gokei_kanzeimou",
+      "col": 10,
+      "row": 14,
+      "icon": "",
+      "name": {
+        "ja": "東方互恵関税網",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "jiyuuboueki_no_fukken"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "ruhr_kougyouchitai_no_saikakuchou",
+      "col": 2,
+      "row": 16,
+      "icon": "",
+      "name": {
+        "ja": "ルール工業地帯の再拡張",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "keikakukeizai_no_dounyuu"
+      ]
+    },
+    {
+      "id": "baghdad_tetsudou_no_kanzen_kaitsuu",
+      "col": 2,
+      "row": 14,
+      "icon": "",
+      "name": {
+        "ja": "バグダード鉄道の完全開通",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "shokuminchigikai_no_secchi",
+      "col": 13,
+      "row": 10,
+      "icon": "",
+      "name": {
+        "ja": "植民地議会の設置",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "mawa_ndi_hanran_no_chinatsu"
+      ],
+      "mutuallyExclusive": [
+        "karetsu_na_touchi"
+      ]
+    },
+    {
+      "id": "karetsu_na_touchi",
+      "col": 15,
+      "row": 10,
+      "icon": "",
+      "name": {
+        "ja": "苛烈な統治",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "mawa_ndi_hanran_no_chinatsu"
+      ],
+      "mutuallyExclusive": [
+        "shokuminchigikai_no_secchi"
+      ]
+    },
+    {
+      "id": "mawa_ndi_hanran_no_chinatsu",
+      "col": 14,
+      "row": 9,
+      "icon": "",
+      "name": {
+        "ja": "マワ・ンディ反乱の鎮圧",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "mittelafrika_mondai"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "jiyuuboueki_no_fukken",
+      "col": 9,
+      "row": 13,
+      "icon": "",
+      "name": {
+        "ja": "自由貿易の復権",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "minkansangyou_e_no_toushi",
+        "eiseikoku_e_no_jichiken_fuyo"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "minkansangyou_e_no_toushi",
+      "col": 8,
+      "row": 12,
+      "icon": "",
+      "name": {
+        "ja": "民間産業への投資",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "jiyuusenkyo_no_jisshi"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "takoku_to_no_keizaikyouchou",
+      "col": 8,
+      "row": 14,
+      "icon": "",
+      "name": {
+        "ja": "他国との経済協調",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "jiyuuboueki_no_fukken"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "europa_heiwa_no_shugosha",
+      "col": 9,
+      "row": 15,
+      "icon": "",
+      "name": {
+        "ja": "ヨーロッパ平和の守護者",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "takoku_to_no_keizaikyouchou",
+        "touhou_gokei_kanzeimou"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "uhaminpei_no_danatsu_shippai",
+      "col": 4,
+      "row": 11,
+      "icon": "",
+      "name": {
+        "ja": "右派民兵の弾圧失敗",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "yamaneko_strike_no_hinpatsu"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "keisatsusoshiki_no_houkai",
+      "col": 6,
+      "row": 11,
+      "icon": "",
+      "name": {
+        "ja": "警察組織の崩壊",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "yamaneko_strike_no_hinpatsu"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "roudoushahyougikai_no_houki",
+      "col": 5,
+      "row": 12,
+      "icon": "",
+      "name": {
+        "ja": "労働者評議会の蜂起",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "uhaminpei_no_danatsu_shippai",
+        "keisatsusoshiki_no_houkai"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "shihonka_no_tsuihou",
+      "col": 5,
+      "row": 14,
+      "icon": "",
+      "name": {
+        "ja": "資本家の追放",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "kyuutaisei_no_shukusei",
+        "zeneitou_no_shidou"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "keikakukeizai_no_dounyuu",
+      "col": 4,
+      "row": 15,
+      "icon": "",
+      "name": {
+        "ja": "計画経済の導入",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "shihonka_no_tsuihou"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "roudoushashudou_no_kougyouka",
+      "col": 6,
+      "row": 15,
+      "icon": "",
+      "name": {
+        "ja": "労働者主導の工業化",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "shihonka_no_tsuihou"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "oushuu_shakaishugi_kyouwakoku_renpou",
+      "col": 5,
+      "row": 16,
+      "icon": "",
+      "name": {
+        "ja": "欧州社会主義共和国連邦",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "keikakukeizai_no_dounyuu",
+        "roudoushashudou_no_kougyouka"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "zeneitou_no_shidou",
+      "col": 4,
+      "row": 13,
+      "icon": "",
+      "name": {
+        "ja": "前衛党の指導",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "roudoushahyougikai_no_houki"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "kyuutaisei_no_shukusei",
+      "col": 6,
+      "row": 13,
+      "icon": "",
+      "name": {
+        "ja": "旧体制の粛清",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "roudoushahyougikai_no_houki"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "senjutsu_kyouren",
+      "col": 4,
+      "row": 21,
+      "icon": "",
+      "name": {
+        "ja": "戦術教練",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "teikokugun_no_saihen"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "dentouteki_na_guntai",
+      "col": 6,
+      "row": 21,
+      "icon": "",
+      "name": {
+        "ja": "伝統的な軍隊",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "teikokugun_no_saihen"
+      ],
+      "mutuallyExclusive": [
+        "kindaiteki_na_guntai"
+      ]
+    },
+    {
+      "id": "kindaiteki_na_guntai",
+      "col": 8,
+      "row": 21,
+      "icon": "",
+      "name": {
+        "ja": "近代的な軍隊",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "teikokugun_no_saihen"
+      ],
+      "mutuallyExclusive": [
+        "dentouteki_na_guntai"
+      ]
+    },
+    {
+      "id": "bouei_juushi",
+      "col": 6,
+      "row": 22,
+      "icon": "",
+      "name": {
+        "ja": "防衛重視",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [],
+      "mutuallyExclusive": [
+        "kougeki_juushi"
+      ],
+      "prerequisitesAny": [
+        "kindaiteki_na_guntai",
+        "dentouteki_na_guntai"
+      ]
+    },
+    {
+      "id": "kougeki_juushi",
+      "col": 8,
+      "row": 22,
+      "icon": "",
+      "name": {
+        "ja": "攻撃重視",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [],
+      "mutuallyExclusive": [
+        "bouei_juushi"
+      ],
+      "prerequisitesAny": [
+        "kindaiteki_na_guntai",
+        "dentouteki_na_guntai"
+      ]
+    },
+    {
+      "id": "idainaru_teikokugun",
+      "col": 4,
+      "row": 22,
+      "icon": "",
+      "name": {
+        "ja": "偉大なる帝国軍",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "senjutsu_kyouren"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "teikokurikugun_no_zoukyou",
+      "col": 5,
+      "row": 23,
+      "icon": "",
+      "name": {
+        "ja": "帝国陸軍の増強",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "idainaru_teikokugun"
+      ],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "bouei_juushi",
+        "kougeki_juushi"
+      ]
+    },
+    {
+      "id": "krupp_sha",
+      "col": 7,
+      "row": 23,
+      "icon": "",
+      "name": {
+        "ja": "クルップ社との契約",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "idainaru_teikokugun"
+      ],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "bouei_juushi",
+        "kougeki_juushi"
+      ]
+    },
+    {
+      "id": "sekai_no_chuushin_wa_deutsch",
+      "col": 6,
+      "row": 24,
+      "icon": "",
+      "name": {
+        "ja": "世界の中心はドイツ！",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "teikokurikugun_no_zoukyou",
+        "krupp_sha"
+      ]
+    }
+  ]
+}
