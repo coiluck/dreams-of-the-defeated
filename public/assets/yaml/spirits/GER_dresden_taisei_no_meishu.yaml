@@ -1,0 +1,8 @@
+id: GER_dresden_taisei_no_meishu
+name:
+  ja: ドレスデン体制の盟主
+  en: Leader of Dresden System
+stats:
+  legitimacy: 5
+  politicalPowerRate: 5
+  economicStrengthRate: 5

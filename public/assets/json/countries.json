@@ -21,7 +21,7 @@
     "activeWarIds": [],
     "activeFocusId": null,
     "completedFocusIds": ["fluelen_kousei", "dresden_kouwakaigi", "mittelafrika_soutokufu", "rhein_kahan_no_kanshi", "poland_keiei", "dresden_taisei_no_kakuritsu", "haken_no_daishou", "balkan_kiki_hassei", "reims_kouryokusen", "koukai_fuusa_jiken", "dainiji_somme_soukousei"],
-    "NationalSpiritIds": []
+    "NationalSpiritIds": ["GER_mittelafrika_no_juuatsu", "GER_haken_no_daishou"]
   },
   "FRA": {
     "id": "FRA",

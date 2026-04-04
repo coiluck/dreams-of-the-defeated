@@ -1,0 +1,13 @@
+id: GER_balkan_kiki_hassei
+title:
+  ja: オーストリアからの参戦依頼
+  en: Request for Austria to join the war
+content:
+  ja: test
+  en: test
+buttons:
+  - text:
+      ja: test
+      en: test
+    hover: null
+    effects: {}

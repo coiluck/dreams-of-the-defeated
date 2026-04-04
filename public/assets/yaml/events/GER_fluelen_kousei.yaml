@@ -1,0 +1,13 @@
+id: GER_fluelen_kousei
+title:
+  ja: ドイツ軍、パリ目前まで迫る
+  en: German Army Approaches Paris
+content:
+  ja: test
+  en: test
+buttons:
+  - text:
+      ja: test
+      en: test
+    hover: null
+    effects: {}

@@ -1,0 +1,7 @@
+id: GER_mittelafrika_no_juuatsu
+name:
+  ja: ミッテルアフリカの重圧
+  en: Pressure in Mittel Africa
+stats:
+  culturalUnity: -10
+  economicStrengthRate: -30

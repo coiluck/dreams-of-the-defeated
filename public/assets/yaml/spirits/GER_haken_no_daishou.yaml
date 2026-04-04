@@ -1,0 +1,8 @@
+id: GER_haken_no_daishou
+name:
+  ja: 肥大化した帝国
+  en: Enlarged Empire
+stats:
+  legitimacy: -15
+  culturalUnity: -20
+  politicalPowerRate: -15

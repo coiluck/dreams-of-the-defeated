@@ -4,7 +4,7 @@
       "id": "fluelen_kousei",
       "col": 6,
       "row": 2,
-      "icon": "",
+      "icon": "cannon",
       "name": {
         "ja": "フリューレン攻勢",
         "en": ""
@@ -13,7 +13,9 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": ["GER_fluelen_kousei"]
+      },
       "prerequisites": [
         "reims_kouryokusen",
         "koukai_fuusa_jiken",
@@ -34,7 +36,14 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_fluelen_no_seikoutaiken",
+            "action": "add"
+          }
+        ]
+      },
       "prerequisites": [
         "fluelen_kousei"
       ],
@@ -53,7 +62,14 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_mittelafrika_no_juuatsu",
+            "action": "add"
+          }
+        ]
+      },
       "prerequisites": [
         "dresden_kouwakaigi"
       ],
@@ -101,7 +117,7 @@
       "id": "dresden_taisei_no_kakuritsu",
       "col": 6,
       "row": 5,
-      "icon": "",
+      "icon": "star",
       "name": {
         "ja": "ドレスデン体制の確立",
         "en": ""
@@ -110,7 +126,14 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_dresden_taisei_no_meishu",
+            "action": "add"
+          }
+        ]
+      },
       "prerequisites": [
         "mittelafrika_soutokufu",
         "rhein_kahan_no_kanshi",
@@ -122,7 +145,7 @@
       "id": "kaiser_no_rakujitsu",
       "col": 4,
       "row": 7,
-      "icon": "",
+      "icon": "crown",
       "name": {
         "ja": "カイザーの落日",
         "en": ""
@@ -150,7 +173,14 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_haken_no_daishou",
+            "action": "add"
+          }
+        ]
+      },
       "prerequisites": [
         "dresden_taisei_no_kakuritsu"
       ],
@@ -160,7 +190,7 @@
       "id": "balkan_kiki_hassei",
       "col": 6,
       "row": 0,
-      "icon": "",
+      "icon": "flame",
       "name": {
         "ja": "バルカン危機発生",
         "en": ""
@@ -169,7 +199,9 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": ["GER_balkan_kiki_hassei"]
+      },
       "prerequisites": [],
       "mutuallyExclusive": []
     },
@@ -177,7 +209,7 @@
       "id": "reims_kouryokusen",
       "col": 5,
       "row": 1,
-      "icon": "",
+      "icon": "anchor",
       "name": {
         "ja": "ランス攻略戦",
         "en": ""
@@ -196,7 +228,7 @@
       "id": "koukai_fuusa_jiken",
       "col": 6,
       "row": 1,
-      "icon": "",
+      "icon": "chain",
       "name": {
         "ja": "紅海封鎖事件",
         "en": ""
@@ -215,7 +247,7 @@
       "id": "dainiji_somme_soukousei",
       "col": 7,
       "row": 1,
-      "icon": "",
+      "icon": "sword",
       "name": {
         "ja": "第二次ソンム総攻勢",
         "en": ""
@@ -234,7 +266,7 @@
       "id": "yoake_no_hajimari",
       "col": 7,
       "row": 8,
-      "icon": "",
+      "icon": "sun",
       "name": {
         "ja": "夜明けの始まり",
         "en": ""
@@ -255,7 +287,7 @@
       "id": "tetsu_to_chi_no_isan",
       "col": 1,
       "row": 8,
-      "icon": "",
+      "icon": "sword",
       "name": {
         "ja": "鉄と血の遺産",
         "en": ""
@@ -276,7 +308,7 @@
       "id": "haken_no_goji",
       "col": 12,
       "row": 7,
-      "icon": "",
+      "icon": "shield",
       "name": {
         "ja": "覇権の護持",
         "en": ""
@@ -333,7 +365,7 @@
       "id": "krupp_no_roshin_wa_moetsukinai",
       "col": 6,
       "row": 17,
-      "icon": "",
+      "icon": "flame",
       "name": {
         "ja": "クルップの炉心は燃え尽きない",
         "en": ""
@@ -394,7 +426,7 @@
       "id": "munou_na_seifu",
       "col": 5,
       "row": 9,
-      "icon": "",
+      "icon": "arrow-down",
       "name": {
         "ja": "無能な政府",
         "en": ""
@@ -415,7 +447,7 @@
       "id": "kaigenrei_no_fukoku",
       "col": 1,
       "row": 9,
-      "icon": "",
+      "icon": "document",
       "name": {
         "ja": "戒厳令の布告",
         "en": ""
@@ -434,7 +466,7 @@
       "id": "gikai_no_muryokuka",
       "col": 0,
       "row": 10,
-      "icon": "",
+      "icon": "chain",
       "name": {
         "ja": "議会の無力化",
         "en": ""
@@ -453,7 +485,7 @@
       "id": "strike_no_buryokuchinatsu",
       "col": 2,
       "row": 10,
-      "icon": "",
+      "icon": "cannon",
       "name": {
         "ja": "ストライキの武力鎮圧",
         "en": ""
@@ -472,7 +504,7 @@
       "id": "kenpou_e_no_seiyaku",
       "col": 9,
       "row": 9,
-      "icon": "",
+      "icon": "document",
       "name": {
         "ja": "憲法への誓約",
         "en": ""
