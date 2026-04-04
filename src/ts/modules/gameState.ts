@@ -141,6 +141,8 @@ interface NonPlayableCountryData {
   name: LocalizedName;
   scale: number;
   isMilitaryRegime: boolean;
+  suzerainId?: string;
+  vassalIds?: string[];
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -205,8 +207,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
         militaryEquipment,
         mechanizationRate,
         financeActionCount: 0,
-        suzerainId:         null,
-        vassalIds:          [],
+        suzerainId:         npcData.suzerainId ?? null,
+        vassalIds:          npcData.vassalIds ?? [],
         activeWarIds:       [],
         allies:             [],
         frontActions:       {},

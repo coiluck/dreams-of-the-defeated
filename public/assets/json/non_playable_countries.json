@@ -483,7 +483,8 @@
     "id": "POL",
     "name": { "ja": "ポーランド", "en": "Poland" },
     "scale": 3,
-    "isMilitaryRegime": false
+    "isMilitaryRegime": false,
+    "suzerainId": "DEU"
   },
   "PRI": {
     "id": "PRI",
