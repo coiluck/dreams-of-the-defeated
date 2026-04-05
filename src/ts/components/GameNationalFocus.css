@@ -346,3 +346,102 @@
 .gnf-event-card {
   border-color: #4a2a7a;
 }
+
+
+/* ─── 詳細パネル セクション ─── */
+.gnf-detail-section {
+  margin-bottom: 6px;
+}
+.gnf-detail-section-label {
+  font-family: "Courier New", monospace;
+  font-size: 0.65rem;
+  font-weight: bold;
+  color: #a08c44;
+  letter-spacing: 0.08rem;
+  margin-bottom: 4px;
+}
+
+/* 前提タグ */
+.gnf-detail-prereq-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+.gnf-prereq-tag {
+  font-family: "Courier New", monospace;
+  font-size: 0.6rem;
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0.03rem;
+}
+.gnf-prereq-tag.met {
+  background: rgba(60,120,60,0.25);
+  border: 1px solid #3a6a3a;
+  color: #6ab06a;
+}
+.gnf-prereq-tag.unmet {
+  background: rgba(60,60,60,0.25);
+  border: 1px solid #555;
+  color: #aaa;
+}
+/* ─── 前提グループ ─── */
+.gnf-prereq-group {
+  margin-bottom: 6px;
+}
+.gnf-prereq-group:last-child {
+  margin-bottom: 0;
+}
+.gnf-prereq-group-label {
+  font-family: "Courier New", monospace;
+  font-size: 0.58rem;
+  color: #999;
+  letter-spacing: 0.05rem;
+  margin-bottom: 3px;
+  padding-left: 2px;
+  border-left: 2px solid #777;
+  padding-left: 5px;
+}
+.gnf-prereq-group-label--exclusive {
+  border-left-color: #7a3333;
+  color: #a36565;
+}
+
+/* 前提タグ */
+.gnf-detail-prereq-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.gnf-prereq-tag {
+  font-family: "Courier New", monospace;
+  font-size: 0.6rem;
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0.03rem;
+}
+.gnf-prereq-tag.met {
+  background: rgba(60,120,60,0.25);
+  border: 1px solid #3a6a3a;
+  color: #6ab06a;
+}
+.gnf-prereq-tag.unmet {
+  background: rgba(40,40,40,0.3);
+  border: 1px solid #444;
+  color: #999;
+}
+/* いずれか条件 → 破線 */
+.gnf-prereq-tag--any {
+  border-style: dashed;
+}
+/* 排他 */
+.gnf-prereq-tag--exclusive.blocked {
+  background: rgba(100,30,30,0.3);
+  border: 1px solid #6a2a2a;
+  color: #aa5555;
+}
+.gnf-prereq-tag--exclusive.free {
+  background: rgba(40,20,20,0.2);
+  border: 1px dashed #553333;
+  color: #a36565;
+}

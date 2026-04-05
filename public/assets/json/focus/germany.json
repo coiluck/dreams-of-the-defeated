@@ -617,7 +617,8 @@
       ],
       "mutuallyExclusive": [],
       "prerequisitesAny": [
-        "oushuu_shakaishugi_kyouwakoku_renpou"
+        "oushuu_shakaishugi_kyouwakoku_renpou",
+        "prussia_no_eikou"
       ]
     },
     {

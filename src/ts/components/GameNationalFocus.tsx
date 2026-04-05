@@ -607,34 +607,110 @@ export default function GameNationalFocus() {
         </div>
       </div>
       {selectedNode && selectedResolved && (
-          <div className="gnf-detail-panel">
-            <div className="gnf-detail-header">
-              <div className="gnf-detail-header-title">
-                <FocusIcon iconKey={selectedNode.icon} size={18} color="#ffd700" />
-                <span className="gnf-detail-title">{selectedNode.name[lang]}</span>
-              </div>
+  <div className="gnf-detail-panel">
+    <div className="gnf-detail-header">
+      <div className="gnf-detail-header-title">
+        <FocusIcon iconKey={selectedNode.icon} size={18} color="#ffd700" />
+        <span className="gnf-detail-title">{selectedNode.name[lang]}</span>
+      </div>
 
-              {(() => {
-                const status = getFocusStatus(selectedNode);
-                if (status === 'active') {
-                  return <button className="gnf-start-button" disabled>{lang === 'ja' ? '進行中' : 'In Progress'}</button>;
-                }
-                if (status === 'completed') {
-                  return <button className="gnf-start-button" disabled>{lang === 'ja' ? '完了済み' : 'Completed'}</button>;
-                }
-                if (status === 'available') {
-                  return <button className="gnf-start-button" onClick={handleStartFocus} data-se="metallic">{lang === 'ja' ? '方針を開始' : 'Start Focus'}</button>;
-                }
-                // locked, excluded の場合
-                return <button className="gnf-start-button" disabled>{lang === 'ja' ? '取得不可' : 'Unavailable'}</button>;
-              })()}
+      {(() => {
+        const status = getFocusStatus(selectedNode);
+        if (status === 'active') {
+          return <button className="gnf-start-button" disabled>{lang === 'ja' ? '進行中' : 'In Progress'}</button>;
+        }
+        if (status === 'completed') {
+          return <button className="gnf-start-button" disabled>{lang === 'ja' ? '完了済み' : 'Completed'}</button>;
+        }
+        if (status === 'available') {
+          return <button className="gnf-start-button" onClick={handleStartFocus} data-se="metallic">{lang === 'ja' ? '方針を開始' : 'Start Focus'}</button>;
+        }
+        return <button className="gnf-start-button" disabled>{lang === 'ja' ? '取得不可' : 'Unavailable'}</button>;
+      })()}
+    </div>
 
+    {/* 前提セクション */}
+    {(selectedNode.prerequisites.length > 0 || (selectedNode.prerequisitesAny?.length ?? 0) > 0 || selectedNode.mutuallyExclusive.length > 0) && (
+      <div className="gnf-detail-section">
+        <div className="gnf-detail-section-label">
+          {lang === 'ja' ? '前提' : 'Prerequisites'}
+        </div>
+
+        {/* 以下のすべて */}
+        {selectedNode.prerequisites.length > 0 && (
+          <div className="gnf-prereq-group">
+            <div className="gnf-prereq-group-label">
+              {lang === 'ja' ? '以下のすべて' : 'All of the following'}
             </div>
-            <p className="gnf-detail-desc">{selectedNode.description[lang]}</p>
-
-            <FocusEffects effects={selectedResolved} lang={lang} countries={game?.countries} />
+            <div className="gnf-detail-prereq-list">
+              {selectedNode.prerequisites.map(preId => {
+                const preNode = tree?.focuses.find(f => f.id === preId);
+                const isDone  = (playerCountry?.completedFocusIds as string[]).includes(preId);
+                return (
+                  <span key={preId} className={`gnf-prereq-tag ${isDone ? 'met' : 'unmet'}`}>
+                    {isDone ? '✓ ' : '○ '}
+                    {preNode?.name[lang] ?? preId}
+                  </span>
+                );
+              })}
+            </div>
           </div>
-      )}
+        )}
+
+        {/* 以下のうちいずれか */}
+        {(selectedNode.prerequisitesAny?.length ?? 0) > 0 && (
+          <div className="gnf-prereq-group">
+            <div className="gnf-prereq-group-label">
+              {lang === 'ja' ? '以下のうちいずれか' : 'Any of the following'}
+            </div>
+            <div className="gnf-detail-prereq-list">
+              {(selectedNode.prerequisitesAny ?? []).map(preId => {
+                const preNode = tree?.focuses.find(f => f.id === preId);
+                const isDone  = (playerCountry?.completedFocusIds as string[]).includes(preId);
+                return (
+                  <span key={preId} className={`gnf-prereq-tag gnf-prereq-tag--any ${isDone ? 'met' : 'unmet'}`}>
+                    {isDone ? '✓ ' : '◇ '}
+                    {preNode?.name[lang] ?? preId}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* 以下とは排他 */}
+        {selectedNode.mutuallyExclusive.length > 0 && (
+          <div className="gnf-prereq-group">
+            <div className="gnf-prereq-group-label gnf-prereq-group-label--exclusive">
+              {lang === 'ja' ? '以下とは排他' : 'Mutually exclusive with'}
+            </div>
+            <div className="gnf-detail-prereq-list">
+              {selectedNode.mutuallyExclusive.map(exId => {
+                const exNode    = tree?.focuses.find(f => f.id === exId);
+                const isBlocked = (playerCountry?.completedFocusIds as string[]).includes(exId)
+                               || playerCountry?.activeFocusId === exId;
+                return (
+                  <span key={exId} className={`gnf-prereq-tag gnf-prereq-tag--exclusive ${isBlocked ? 'blocked' : 'free'}`}>
+                    {isBlocked ? '✕ ' : '— '}
+                    {exNode?.name[lang] ?? exId}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    )}
+
+        {/* 効果セクション */}
+        <div className="gnf-detail-section">
+          <div className="gnf-detail-section-label">
+            {lang === 'ja' ? '効果' : 'Effects'}
+          </div>
+          <FocusEffects effects={selectedResolved} lang={lang} countries={game?.countries} />
+        </div>
+      </div>
+    )}
 
       {/* ツールチップ（ホバー時） */}
       {tooltip && !selectedNode && (() => {
