@@ -14,7 +14,9 @@
         "en": ""
       },
       "effects": {
-        "eventIds": ["GER_fluelen_kousei"],
+        "eventIds": [
+          "GER_fluelen_kousei"
+        ],
         "nationalSpirits": [
           {
             "id": "GER_world_war_one",
@@ -213,7 +215,9 @@
         "en": ""
       },
       "effects": {
-        "eventIds": ["GER_balkan_kiki_hassei"]
+        "eventIds": [
+          "GER_balkan_kiki_hassei"
+        ]
       },
       "prerequisites": [],
       "mutuallyExclusive": []
@@ -261,7 +265,9 @@
         "en": ""
       },
       "effects": {
-        "eventIds": ["GER_britain_joins_the_great_war"]
+        "eventIds": [
+          "GER_britain_joins_the_great_war"
+        ]
       },
       "prerequisites": [
         "balkan_kiki_hassei"
@@ -399,7 +405,7 @@
     {
       "id": "krupp_no_roshin_wa_moetsukinai",
       "col": 6,
-      "row": 17,
+      "row": 16,
       "icon": "flame",
       "name": {
         "ja": "クルップの炉心は燃え尽きない",
@@ -421,13 +427,14 @@
       "mutuallyExclusive": [],
       "prerequisitesAny": [
         "oushuu_shakaishugi_kyouwakoku_renpou",
-        "europa_heiwa_no_shugosha"
+        "europa_heiwa_no_shugosha",
+        "prussia_no_eikou"
       ]
     },
     {
       "id": "teikokugun_no_saihen",
       "col": 6,
-      "row": 20,
+      "row": 19,
       "icon": "",
       "name": {
         "ja": "帝国軍の再編",
@@ -458,7 +465,7 @@
     },
     {
       "id": "yamaneko_strike_no_hinpatsu",
-      "col": 5,
+      "col": 4,
       "row": 10,
       "icon": "",
       "name": {
@@ -584,7 +591,7 @@
     {
       "id": "museigen_no_gunkaku",
       "col": 4,
-      "row": 18,
+      "row": 17,
       "icon": "",
       "name": {
         "ja": "無制限の軍拡",
@@ -594,7 +601,10 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "deployedMilitary": 20,
+        "militaryEquipment": 1000
+      },
       "prerequisites": [
         "krupp_no_roshin_wa_moetsukinai"
       ],
@@ -606,7 +616,7 @@
     {
       "id": "boueisangyou_no_tekiseika",
       "col": 8,
-      "row": 18,
+      "row": 17,
       "icon": "",
       "name": {
         "ja": "防衛産業の適正化",
@@ -616,7 +626,20 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "politicalPower": 100,
+        "deployedMilitary": -20,
+        "militaryEquipment": -1000,
+        "nationalSpirits": [
+          {
+            "id": "GER_democracy",
+            "action": "modify",
+            "stats": {
+              "economicStrengthRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "krupp_no_roshin_wa_moetsukinai",
         "europa_heiwa_no_shugosha"
@@ -626,7 +649,7 @@
     {
       "id": "kagaku_academy_e_no_toushi",
       "col": 5,
-      "row": 19,
+      "row": 18,
       "icon": "",
       "name": {
         "ja": "科学アカデミーへの投資",
@@ -636,7 +659,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_dresden_taisei_no_meishu",
+            "action": "modify",
+            "stats": {
+              "economicStrengthRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [],
       "mutuallyExclusive": [],
       "prerequisitesAny": [
@@ -647,7 +680,7 @@
     {
       "id": "shingatasensha_no_sekkei",
       "col": 7,
-      "row": 19,
+      "row": 18,
       "icon": "",
       "name": {
         "ja": "新型戦車の設計",
@@ -657,7 +690,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_german_army",
+            "action": "modify",
+            "stats": {
+              "mechanizationRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [],
       "mutuallyExclusive": [],
       "prerequisitesAny": [
@@ -669,7 +712,7 @@
       "id": "jiyuusenkyo_no_jisshi",
       "col": 9,
       "row": 10,
-      "icon": "",
+      "icon": "flag",
       "name": {
         "ja": "自由選挙の実施",
         "en": ""
@@ -705,8 +748,8 @@
     {
       "id": "eiseikoku_e_no_jichiken_fuyo",
       "col": 10,
-      "row": 12,
-      "icon": "",
+      "row": 11,
+      "icon": "globe",
       "name": {
         "ja": "衛星国への自治権付与",
         "en": ""
@@ -724,8 +767,8 @@
     {
       "id": "touhou_gokei_kanzeimou",
       "col": 10,
-      "row": 14,
-      "icon": "",
+      "row": 13,
+      "icon": "globe",
       "name": {
         "ja": "東方互恵関税網",
         "en": ""
@@ -742,9 +785,9 @@
     },
     {
       "id": "ruhr_kougyouchitai_no_saikakuchou",
-      "col": 2,
-      "row": 16,
-      "icon": "",
+      "col": 3,
+      "row": 15,
+      "icon": "gear",
       "name": {
         "ja": "ルール工業地帯の再拡張",
         "en": ""
@@ -757,25 +800,9 @@
       "prerequisites": [],
       "mutuallyExclusive": [],
       "prerequisitesAny": [
-        "keikakukeizai_no_dounyuu"
+        "keikakukeizai_no_dounyuu",
+        "kyuukyoku_no_sensoukeizai"
       ]
-    },
-    {
-      "id": "baghdad_tetsudou_no_kanzen_kaitsuu",
-      "col": 2,
-      "row": 14,
-      "icon": "",
-      "name": {
-        "ja": "バグダード鉄道の完全開通",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
-      },
-      "effects": {},
-      "prerequisites": [],
-      "mutuallyExclusive": []
     },
     {
       "id": "shokuminchigikai_no_secchi",
@@ -841,8 +868,8 @@
     {
       "id": "jiyuuboueki_no_fukken",
       "col": 9,
-      "row": 13,
-      "icon": "",
+      "row": 12,
+      "icon": "flag",
       "name": {
         "ja": "自由貿易の復権",
         "en": ""
@@ -861,8 +888,8 @@
     {
       "id": "minkansangyou_e_no_toushi",
       "col": 8,
-      "row": 12,
-      "icon": "",
+      "row": 11,
+      "icon": "factory",
       "name": {
         "ja": "民間産業への投資",
         "en": ""
@@ -880,8 +907,8 @@
     {
       "id": "takoku_to_no_keizaikyouchou",
       "col": 8,
-      "row": 14,
-      "icon": "",
+      "row": 13,
+      "icon": "arrow-up",
       "name": {
         "ja": "他国との経済協調",
         "en": ""
@@ -899,8 +926,8 @@
     {
       "id": "europa_heiwa_no_shugosha",
       "col": 9,
-      "row": 15,
-      "icon": "",
+      "row": 14,
+      "icon": "star",
       "name": {
         "ja": "ヨーロッパ平和の守護者",
         "en": ""
@@ -917,29 +944,10 @@
       "mutuallyExclusive": []
     },
     {
-      "id": "uhaminpei_no_danatsu_shippai",
-      "col": 4,
-      "row": 11,
-      "icon": "",
-      "name": {
-        "ja": "右派民兵の弾圧失敗",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
-      },
-      "effects": {},
-      "prerequisites": [
-        "yamaneko_strike_no_hinpatsu"
-      ],
-      "mutuallyExclusive": []
-    },
-    {
       "id": "keisatsusoshiki_no_houkai",
       "col": 6,
-      "row": 11,
-      "icon": "",
+      "row": 10,
+      "icon": "anchor",
       "name": {
         "ja": "警察組織の崩壊",
         "en": ""
@@ -950,15 +958,15 @@
       },
       "effects": {},
       "prerequisites": [
-        "yamaneko_strike_no_hinpatsu"
+        "munou_na_seifu"
       ],
       "mutuallyExclusive": []
     },
     {
       "id": "roudoushahyougikai_no_houki",
       "col": 5,
-      "row": 12,
-      "icon": "",
+      "row": 11,
+      "icon": "sword",
       "name": {
         "ja": "労働者評議会の蜂起",
         "en": ""
@@ -969,16 +977,16 @@
       },
       "effects": {},
       "prerequisites": [
-        "uhaminpei_no_danatsu_shippai",
-        "keisatsusoshiki_no_houkai"
+        "keisatsusoshiki_no_houkai",
+        "yamaneko_strike_no_hinpatsu"
       ],
       "mutuallyExclusive": []
     },
     {
       "id": "shihonka_no_tsuihou",
       "col": 5,
-      "row": 14,
-      "icon": "",
+      "row": 13,
+      "icon": "bolt",
       "name": {
         "ja": "資本家の追放",
         "en": ""
@@ -997,8 +1005,8 @@
     {
       "id": "keikakukeizai_no_dounyuu",
       "col": 4,
-      "row": 15,
-      "icon": "",
+      "row": 14,
+      "icon": "factory",
       "name": {
         "ja": "計画経済の導入",
         "en": ""
@@ -1016,8 +1024,8 @@
     {
       "id": "roudoushashudou_no_kougyouka",
       "col": 6,
-      "row": 15,
-      "icon": "",
+      "row": 14,
+      "icon": "gear",
       "name": {
         "ja": "労働者主導の工業化",
         "en": ""
@@ -1035,8 +1043,8 @@
     {
       "id": "oushuu_shakaishugi_kyouwakoku_renpou",
       "col": 5,
-      "row": 16,
-      "icon": "",
+      "row": 15,
+      "icon": "star",
       "name": {
         "ja": "欧州社会主義共和国連邦",
         "en": ""
@@ -1055,8 +1063,8 @@
     {
       "id": "zeneitou_no_shidou",
       "col": 4,
-      "row": 13,
-      "icon": "",
+      "row": 12,
+      "icon": "document",
       "name": {
         "ja": "前衛党の指導",
         "en": ""
@@ -1074,8 +1082,8 @@
     {
       "id": "kyuutaisei_no_shukusei",
       "col": 6,
-      "row": 13,
-      "icon": "",
+      "row": 12,
+      "icon": "cross",
       "name": {
         "ja": "旧体制の粛清",
         "en": ""
@@ -1093,7 +1101,7 @@
     {
       "id": "senjutsu_kyouren",
       "col": 4,
-      "row": 21,
+      "row": 20,
       "icon": "",
       "name": {
         "ja": "戦術教練",
@@ -1123,7 +1131,7 @@
     {
       "id": "dentouteki_na_guntai",
       "col": 6,
-      "row": 21,
+      "row": 20,
       "icon": "cannon",
       "name": {
         "ja": "伝統的な軍隊",
@@ -1147,7 +1155,7 @@
     {
       "id": "kindaiteki_na_guntai",
       "col": 8,
-      "row": 21,
+      "row": 20,
       "icon": "gear",
       "name": {
         "ja": "近代的な軍隊",
@@ -1163,7 +1171,7 @@
             "id": "GER_german_army",
             "action": "modify",
             "stats": {
-              "mechanizationRate": 15
+              "mechanizationRate": 10
             }
           }
         ]
@@ -1178,7 +1186,7 @@
     {
       "id": "bouei_juushi",
       "col": 6,
-      "row": 22,
+      "row": 21,
       "icon": "shield",
       "name": {
         "ja": "防衛重視",
@@ -1211,7 +1219,7 @@
     {
       "id": "kougeki_juushi",
       "col": 8,
-      "row": 22,
+      "row": 21,
       "icon": "sword",
       "name": {
         "ja": "攻撃重視",
@@ -1244,7 +1252,7 @@
     {
       "id": "idainaru_teikokugun",
       "col": 4,
-      "row": 22,
+      "row": 21,
       "icon": "bolt",
       "name": {
         "ja": "偉大なる帝国軍",
@@ -1270,7 +1278,7 @@
     {
       "id": "teikokurikugun_no_zoukyou",
       "col": 5,
-      "row": 23,
+      "row": 22,
       "icon": "arrow-up",
       "name": {
         "ja": "帝国陸軍の増強",
@@ -1280,7 +1288,9 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "deployedMilitary": 15
+      },
       "prerequisites": [
         "idainaru_teikokugun"
       ],
@@ -1293,7 +1303,7 @@
     {
       "id": "krupp_sha",
       "col": 7,
-      "row": 23,
+      "row": 22,
       "icon": "factory",
       "name": {
         "ja": "クルップ社との契約",
@@ -1327,7 +1337,7 @@
     {
       "id": "sekai_no_chuushin_wa_deutsch",
       "col": 6,
-      "row": 24,
+      "row": 23,
       "icon": "flower",
       "name": {
         "ja": "世界の中心はドイツ！",
@@ -1356,6 +1366,163 @@
         "teikokurikugun_no_zoukyou",
         "krupp_sha"
       ]
+    },
+    {
+      "id": "junker_no_kenryokukyouka",
+      "col": 1,
+      "row": 11,
+      "icon": "crown",
+      "name": {
+        "ja": "貴族将校団の権力強化",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "gikai_no_muryokuka",
+        "strike_no_buryokuchinatsu"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "nougyou_kikaika_heno_kokkohojo",
+      "col": 2,
+      "row": 12,
+      "icon": "gear",
+      "name": {
+        "ja": "農業機械化への国庫補助",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "junker_no_kenryokukyouka"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "stinnes_legien_no_haki",
+      "col": 0,
+      "row": 12,
+      "icon": "factory",
+      "name": {
+        "ja": "シュティンネス・レギーン協定の破棄",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "junker_no_kenryokukyouka"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "baghdad_tetsudo_no_kanzenkaitsuu",
+      "col": 1,
+      "row": 13,
+      "icon": "globe",
+      "name": {
+        "ja": "バグダード鉄道の完全開通",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "stinnes_legien_no_haki",
+        "nougyou_kikaika_heno_kokkohojo"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "kyuukyoku_no_sensoukeizai",
+      "col": 1,
+      "row": 14,
+      "icon": "flame",
+      "name": {
+        "ja": "究極の戦争経済",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "baghdad_tetsudo_no_kanzenkaitsuu"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "prussia_no_eikou",
+      "col": 1,
+      "row": 15,
+      "icon": "star",
+      "name": {
+        "ja": "プロイセンの栄光",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "kyuukyoku_no_sensoukeizai"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "sakerarenu_shoutotu",
+      "col": 0,
+      "row": 16,
+      "icon": "sword",
+      "name": {
+        "ja": "避けられぬ衝突",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "prussia_no_eikou"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "yobou_sensouron",
+      "col": 0,
+      "row": 17,
+      "icon": "bolt",
+      "name": {
+        "ja": "予防戦争論",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {
+        "declareWar": "FRA",
+        "callAllies": true
+      },
+      "prerequisites": [
+        "sakerarenu_shoutotu"
+      ],
+      "mutuallyExclusive": []
     }
   ]
 }
