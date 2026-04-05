@@ -1,0 +1,7 @@
+id: GER_democracy
+name:
+  ja: 動き出した民主主義
+  en: Activated Democracy
+stats:
+  legitimacy: 5
+  politicalPowerRate: 5

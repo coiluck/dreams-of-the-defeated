@@ -1,0 +1,8 @@
+id: GER_aufbruch_no_seikoutaiken
+name:
+  ja: アウフブルッフの成功体験
+  en: Success of Aufbruch
+stats:
+  attackPower: -15
+  defensePower: -10
+  mechanizationRate: -20

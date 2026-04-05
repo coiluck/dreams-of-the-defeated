@@ -1,0 +1,13 @@
+id: GER_britain_joins_the_great_war
+title:
+  ja: イギリスが第一次世界大戦に参戦
+  en: Britain Joins the Great War
+content:
+  ja: test
+  en: test
+buttons:
+  - text:
+      ja: test
+      en: test
+    hover: null
+    effects: {}

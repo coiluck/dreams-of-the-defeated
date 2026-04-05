@@ -1,0 +1,7 @@
+id: GER_german_army
+name:
+  ja: ドイツ陸軍
+  en: German Army
+stats:
+  attackPower: 5
+  defensePower: 5

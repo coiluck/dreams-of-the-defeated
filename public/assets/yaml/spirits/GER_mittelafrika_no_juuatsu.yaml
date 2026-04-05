@@ -5,3 +5,4 @@ name:
 stats:
   culturalUnity: -10
   economicStrengthRate: -30
+  politicalPowerRate: -20

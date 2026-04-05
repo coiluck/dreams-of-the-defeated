@@ -1,20 +1,29 @@
 {
   "focuses": [
     {
-      "id": "fluelen_kousei",
+      "id": "aufbruch_sakusen",
       "col": 6,
       "row": 2,
       "icon": "cannon",
       "name": {
-        "ja": "フリューレン攻勢",
-        "en": ""
+        "ja": "アウフブルッフ作戦",
+        "en": "Operation Aufbruch"
       },
       "description": {
         "ja": "",
         "en": ""
       },
       "effects": {
-        "eventIds": ["GER_fluelen_kousei"]
+        "eventIds": ["GER_fluelen_kousei"],
+        "nationalSpirits": [
+          {
+            "id": "GER_world_war_one",
+            "action": "modify",
+            "stats": {
+              "attackPower": 10
+            }
+          }
+        ]
       },
       "prerequisites": [
         "reims_kouryokusen",
@@ -27,7 +36,7 @@
       "id": "dresden_kouwakaigi",
       "col": 6,
       "row": 3,
-      "icon": "",
+      "icon": "document",
       "name": {
         "ja": "ドレスデン講和会議",
         "en": ""
@@ -39,13 +48,17 @@
       "effects": {
         "nationalSpirits": [
           {
-            "id": "GER_fluelen_no_seikoutaiken",
+            "id": "GER_aufbruch_no_seikoutaiken",
             "action": "add"
+          },
+          {
+            "id": "GER_world_war_one",
+            "action": "remove"
           }
         ]
       },
       "prerequisites": [
-        "fluelen_kousei"
+        "aufbruch_sakusen"
       ],
       "mutuallyExclusive": []
     },
@@ -53,7 +66,7 @@
       "id": "mittelafrika_soutokufu",
       "col": 5,
       "row": 4,
-      "icon": "",
+      "icon": "globe",
       "name": {
         "ja": "ミッテルアフリカ総督府",
         "en": ""
@@ -79,7 +92,7 @@
       "id": "rhein_kahan_no_kanshi",
       "col": 6,
       "row": 4,
-      "icon": "",
+      "icon": "flag",
       "name": {
         "ja": "ライン河畔の監視",
         "en": ""
@@ -98,7 +111,7 @@
       "id": "poland_keiei",
       "col": 7,
       "row": 4,
-      "icon": "",
+      "icon": "globe",
       "name": {
         "ja": "ポーランド経営",
         "en": ""
@@ -164,7 +177,7 @@
       "id": "haken_no_daishou",
       "col": 6,
       "row": 6,
-      "icon": "",
+      "icon": "cross",
       "name": {
         "ja": "覇権の代償",
         "en": ""
@@ -218,7 +231,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_world_war_one",
+            "action": "modify",
+            "stats": {
+              "attackPower": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "balkan_kiki_hassei"
       ],
@@ -237,7 +260,9 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": ["GER_britain_joins_the_great_war"]
+      },
       "prerequisites": [
         "balkan_kiki_hassei"
       ],
@@ -256,7 +281,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_world_war_one",
+            "action": "modify",
+            "stats": {
+              "attackPower": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "balkan_kiki_hassei"
       ],
@@ -374,7 +409,14 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_german_army",
+            "action": "add"
+          }
+        ]
+      },
       "prerequisites": [],
       "mutuallyExclusive": [],
       "prerequisitesAny": [
@@ -395,7 +437,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_aufbruch_no_seikoutaiken",
+            "action": "modify",
+            "stats": {
+              "attackPower": 5,
+              "defensePower": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [],
       "mutuallyExclusive": [],
       "prerequisitesAny": [
@@ -513,7 +566,14 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_democracy",
+            "action": "add"
+          }
+        ]
+      },
       "prerequisites": [
         "yoake_no_hajimari"
       ],
@@ -618,7 +678,25 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_haken_no_daishou",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "culturalUnity": 5
+            }
+          },
+          {
+            "id": "GER_democracy",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "kenpou_e_no_seiyaku"
       ],
@@ -1025,7 +1103,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_aufbruch_no_seikoutaiken",
+            "action": "modify",
+            "stats": {
+              "attackPower": 5,
+              "mechanizationRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "teikokugun_no_saihen"
       ],
@@ -1035,7 +1124,7 @@
       "id": "dentouteki_na_guntai",
       "col": 6,
       "row": 21,
-      "icon": "",
+      "icon": "cannon",
       "name": {
         "ja": "伝統的な軍隊",
         "en": ""
@@ -1044,7 +1133,10 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "politicalPower": 100,
+        "militaryEquipment": 1000
+      },
       "prerequisites": [
         "teikokugun_no_saihen"
       ],
@@ -1056,7 +1148,7 @@
       "id": "kindaiteki_na_guntai",
       "col": 8,
       "row": 21,
-      "icon": "",
+      "icon": "gear",
       "name": {
         "ja": "近代的な軍隊",
         "en": ""
@@ -1065,7 +1157,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_german_army",
+            "action": "modify",
+            "stats": {
+              "mechanizationRate": 15
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "teikokugun_no_saihen"
       ],
@@ -1077,7 +1179,7 @@
       "id": "bouei_juushi",
       "col": 6,
       "row": 22,
-      "icon": "",
+      "icon": "shield",
       "name": {
         "ja": "防衛重視",
         "en": ""
@@ -1086,7 +1188,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_german_army",
+            "action": "modify",
+            "stats": {
+              "defensePower": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [],
       "mutuallyExclusive": [
         "kougeki_juushi"
@@ -1100,7 +1212,7 @@
       "id": "kougeki_juushi",
       "col": 8,
       "row": 22,
-      "icon": "",
+      "icon": "sword",
       "name": {
         "ja": "攻撃重視",
         "en": ""
@@ -1109,7 +1221,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_german_army",
+            "action": "modify",
+            "stats": {
+              "attackPower": 8
+            }
+          }
+        ]
+      },
       "prerequisites": [],
       "mutuallyExclusive": [
         "bouei_juushi"
@@ -1123,7 +1245,7 @@
       "id": "idainaru_teikokugun",
       "col": 4,
       "row": 22,
-      "icon": "",
+      "icon": "bolt",
       "name": {
         "ja": "偉大なる帝国軍",
         "en": ""
@@ -1132,7 +1254,14 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_aufbruch_no_seikoutaiken",
+            "action": "remove"
+          }
+        ]
+      },
       "prerequisites": [
         "senjutsu_kyouren"
       ],
@@ -1142,7 +1271,7 @@
       "id": "teikokurikugun_no_zoukyou",
       "col": 5,
       "row": 23,
-      "icon": "",
+      "icon": "arrow-up",
       "name": {
         "ja": "帝国陸軍の増強",
         "en": ""
@@ -1165,7 +1294,7 @@
       "id": "krupp_sha",
       "col": 7,
       "row": 23,
-      "icon": "",
+      "icon": "factory",
       "name": {
         "ja": "クルップ社との契約",
         "en": ""
@@ -1174,7 +1303,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "militaryEquipment": 1000,
+        "nationalSpirits": [
+          {
+            "id": "GER_german_army",
+            "action": "modify",
+            "stats": {
+              "mechanizationRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "idainaru_teikokugun"
       ],
@@ -1188,7 +1328,7 @@
       "id": "sekai_no_chuushin_wa_deutsch",
       "col": 6,
       "row": 24,
-      "icon": "",
+      "icon": "flower",
       "name": {
         "ja": "世界の中心はドイツ！",
         "en": ""
@@ -1197,7 +1337,19 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_german_army",
+            "action": "modify",
+            "stats": {
+              "attackPower": 5,
+              "defensePower": 5,
+              "mechanizationRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [],
       "mutuallyExclusive": [],
       "prerequisitesAny": [

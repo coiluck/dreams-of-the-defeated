@@ -10,7 +10,7 @@
     "description": { "ja": "欧州の覇者。「勝者の病」に侵されている。ミッテルアフリカと東欧衛星国を従える超大国だが、広すぎる領土の維持費とフランスからの狂気の電波に悩まされている。", "en": "The ruler of Europe. Suffering from the \"Victory Disease\". A superpower that rules over the Mittel Africa and the Eastern European satellite states. However, it is plagued by the cost of maintaining the vast territory and the madness of the French." },
     "isPlayable": true,
     "legitimacy": 75,
-    "politicalPower": 80,
+    "politicalPower": 0,
     "economicStrength": 216000000000,
     "culturalUnity": 50,
     "deployedMilitary": 150,
@@ -20,8 +20,8 @@
     "vassalIds": ["POL"],
     "activeWarIds": [],
     "activeFocusId": null,
-    "completedFocusIds": ["fluelen_kousei", "dresden_kouwakaigi", "mittelafrika_soutokufu", "rhein_kahan_no_kanshi", "poland_keiei", "dresden_taisei_no_kakuritsu", "haken_no_daishou", "balkan_kiki_hassei", "reims_kouryokusen", "koukai_fuusa_jiken", "dainiji_somme_soukousei"],
-    "NationalSpiritIds": ["GER_mittelafrika_no_juuatsu", "GER_haken_no_daishou"]
+    "completedFocusIds": ["aufbruch_sakusen", "dresden_kouwakaigi", "mittelafrika_soutokufu", "rhein_kahan_no_kanshi", "poland_keiei", "dresden_taisei_no_kakuritsu", "haken_no_daishou", "balkan_kiki_hassei", "reims_kouryokusen", "koukai_fuusa_jiken", "dainiji_somme_soukousei"],
+    "NationalSpiritIds": ["GER_mittelafrika_no_juuatsu", "GER_haken_no_daishou", "GER_aufbruch_no_seikoutaiken", "GER_dresden_taisei_no_meishu"]
   },
   "FRA": {
     "id": "FRA",
