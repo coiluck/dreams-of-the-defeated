@@ -1,0 +1,7 @@
+id: GER_decline_in_public_safety
+name:
+  ja: 治安の悪化
+  en: Decline in Public Safety
+stats:
+  legitimacy: -10
+  politicalPowerRate: -15

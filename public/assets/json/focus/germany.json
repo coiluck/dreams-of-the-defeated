@@ -346,29 +346,10 @@
       ]
     },
     {
-      "id": "haken_no_goji",
-      "col": 12,
-      "row": 7,
-      "icon": "shield",
-      "name": {
-        "ja": "覇権の護持",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
-      },
-      "effects": {},
-      "prerequisites": [
-        "haken_no_daishou"
-      ],
-      "mutuallyExclusive": []
-    },
-    {
       "id": "mittelafrika_mondai",
-      "col": 14,
-      "row": 8,
-      "icon": "",
+      "col": 13,
+      "row": 7,
+      "icon": "document",
       "name": {
         "ja": "ミッテルアフリカ問題",
         "en": ""
@@ -379,26 +360,7 @@
       },
       "effects": {},
       "prerequisites": [
-        "haken_no_goji"
-      ],
-      "mutuallyExclusive": []
-    },
-    {
-      "id": "ostwall",
-      "col": 11,
-      "row": 8,
-      "icon": "",
-      "name": {
-        "ja": "東方防壁",
-        "en": "Ostwall "
-      },
-      "description": {
-        "ja": "",
-        "en": ""
-      },
-      "effects": {},
-      "prerequisites": [
-        "haken_no_goji"
+        "haken_no_daishou"
       ],
       "mutuallyExclusive": []
     },
@@ -435,7 +397,7 @@
       "id": "teikokugun_no_saihen",
       "col": 6,
       "row": 19,
-      "icon": "",
+      "icon": "chain",
       "name": {
         "ja": "帝国軍の再編",
         "en": ""
@@ -467,7 +429,7 @@
       "id": "yamaneko_strike_no_hinpatsu",
       "col": 4,
       "row": 10,
-      "icon": "",
+      "icon": "flower",
       "name": {
         "ja": "山猫ストの頻発",
         "en": ""
@@ -476,7 +438,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_decline_in_public_safety",
+            "action": "modify",
+            "stats": {
+              "legitimacy": -5,
+              "politicalPowerRate": -5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "munou_na_seifu"
       ],
@@ -495,7 +468,14 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_decline_in_public_safety",
+            "action": "add"
+          }
+        ]
+      },
       "prerequisites": [
         "yoake_no_hajimari"
       ],
@@ -516,7 +496,14 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_military_regime",
+            "action": "add"
+          }
+        ]
+      },
       "prerequisites": [
         "tetsu_to_chi_no_isan"
       ],
@@ -535,7 +522,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_military_regime",
+            "action": "modify",
+            "stats": {
+              "politicalPowerRate": -5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "kaigenrei_no_fukoku"
       ],
@@ -554,7 +551,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_military_regime",
+            "action": "modify",
+            "stats": {
+              "legitimacy": -5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "kaigenrei_no_fukoku"
       ],
@@ -592,7 +599,7 @@
       "id": "museigen_no_gunkaku",
       "col": 4,
       "row": 17,
-      "icon": "",
+      "icon": "cannon",
       "name": {
         "ja": "無制限の軍拡",
         "en": ""
@@ -617,7 +624,7 @@
       "id": "boueisangyou_no_tekiseika",
       "col": 8,
       "row": 17,
-      "icon": "",
+      "icon": "factory",
       "name": {
         "ja": "防衛産業の適正化",
         "en": ""
@@ -650,7 +657,7 @@
       "id": "kagaku_academy_e_no_toushi",
       "col": 5,
       "row": 18,
-      "icon": "",
+      "icon": "bolt",
       "name": {
         "ja": "科学アカデミーへの投資",
         "en": ""
@@ -681,7 +688,7 @@
       "id": "shingatasensha_no_sekkei",
       "col": 7,
       "row": 18,
-      "icon": "",
+      "icon": "gear",
       "name": {
         "ja": "新型戦車の設計",
         "en": ""
@@ -758,7 +765,19 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "politicalPower": -200,
+        "nationalSpirits": [
+          {
+            "id": "GER_haken_no_daishou",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": 5,
+              "politicalPowerRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "jiyuusenkyo_no_jisshi"
       ],
@@ -777,7 +796,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_haken_no_daishou",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": 5,
+              "politicalPowerRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "jiyuuboueki_no_fukken"
       ],
@@ -796,7 +826,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_dresden_taisei_no_meishu",
+            "action": "modify",
+            "stats": {
+              "economicStrengthRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [],
       "mutuallyExclusive": [],
       "prerequisitesAny": [
@@ -806,9 +846,9 @@
     },
     {
       "id": "shokuminchigikai_no_secchi",
-      "col": 13,
+      "col": 11,
       "row": 10,
-      "icon": "",
+      "icon": "flag",
       "name": {
         "ja": "植民地議会の設置",
         "en": ""
@@ -819,17 +859,18 @@
       },
       "effects": {},
       "prerequisites": [
-        "mawa_ndi_hanran_no_chinatsu"
+        "touchihouhou_no_tenkan",
+        "kenpou_e_no_seiyaku"
       ],
       "mutuallyExclusive": [
-        "karetsu_na_touchi"
+        "genchi_ouzoku_heno_kenryokujouto"
       ]
     },
     {
       "id": "karetsu_na_touchi",
-      "col": 15,
-      "row": 10,
-      "icon": "",
+      "col": 14,
+      "row": 9,
+      "icon": "anchor",
       "name": {
         "ja": "苛烈な統治",
         "en": ""
@@ -843,14 +884,14 @@
         "mawa_ndi_hanran_no_chinatsu"
       ],
       "mutuallyExclusive": [
-        "shokuminchigikai_no_secchi"
+        "touchihouhou_no_tenkan"
       ]
     },
     {
       "id": "mawa_ndi_hanran_no_chinatsu",
-      "col": 14,
-      "row": 9,
-      "icon": "",
+      "col": 13,
+      "row": 8,
+      "icon": "sword",
       "name": {
         "ja": "マワ・ンディ反乱の鎮圧",
         "en": ""
@@ -878,7 +919,25 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_haken_no_daishou",
+            "action": "modify",
+            "stats": {
+              "politicalPowerRate": 5
+            }
+          },
+          {
+            "id": "GER_democracy",
+            "action": "modify",
+            "stats": {
+              "politicalPowerRate": 5,
+              "economicStrengthRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "minkansangyou_e_no_toushi",
         "eiseikoku_e_no_jichiken_fuyo"
@@ -898,7 +957,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_democracy",
+            "action": "modify",
+            "stats": {
+              "politicalPowerRate": 15
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "jiyuusenkyo_no_jisshi"
       ],
@@ -917,7 +986,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_democracy",
+            "action": "modify",
+            "stats": {
+              "politicalPowerRate": 10,
+              "economicStrengthRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "jiyuuboueki_no_fukken"
       ],
@@ -936,7 +1016,19 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_dresden_taisei_no_meishu",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "culturalUnity": 5,
+              "politicalPowerRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "takoku_to_no_keizaikyouchou",
         "touhou_gokei_kanzeimou"
@@ -956,7 +1048,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_decline_in_public_safety",
+            "action": "modify",
+            "stats": {
+              "legitimacy": -5,
+              "politicalPowerRate": -5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "munou_na_seifu"
       ],
@@ -975,7 +1078,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_decline_in_public_safety",
+            "action": "remove"
+          },
+          {
+            "id": "GER_communism",
+            "action": "add"
+          }
+        ]
+      },
       "prerequisites": [
         "keisatsusoshiki_no_houkai",
         "yamaneko_strike_no_hinpatsu"
@@ -995,7 +1109,19 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_communism",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "economicStrengthRate": 10,
+              "politicalPowerRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "kyuutaisei_no_shukusei",
         "zeneitou_no_shidou"
@@ -1015,7 +1141,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_communism",
+            "action": "modify",
+            "stats": {
+              "politicalPowerRate": 5,
+              "economicStrengthRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "shihonka_no_tsuihou"
       ],
@@ -1034,7 +1171,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_communism",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 10,
+              "economicStrengthRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "shihonka_no_tsuihou"
       ],
@@ -1053,7 +1201,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_dresden_taisei_no_meishu",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": 5,
+              "economicStrengthRate": 15
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "keikakukeizai_no_dounyuu",
         "roudoushashudou_no_kougyouka"
@@ -1073,7 +1232,19 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_haken_no_daishou",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "culturalUnity": 5,
+              "politicalPowerRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "roudoushahyougikai_no_houki"
       ],
@@ -1092,7 +1263,19 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_haken_no_daishou",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "culturalUnity": 10,
+              "politicalPowerRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "roudoushahyougikai_no_houki"
       ],
@@ -1102,7 +1285,7 @@
       "id": "senjutsu_kyouren",
       "col": 4,
       "row": 20,
-      "icon": "",
+      "icon": "document",
       "name": {
         "ja": "戦術教練",
         "en": ""
@@ -1235,7 +1418,7 @@
             "id": "GER_german_army",
             "action": "modify",
             "stats": {
-              "attackPower": 8
+              "attackPower": 5
             }
           }
         ]
@@ -1380,7 +1563,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_military_regime",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "politicalPowerRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "gikai_no_muryokuka",
         "strike_no_buryokuchinatsu"
@@ -1400,7 +1594,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_military_regime",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 10,
+              "politicalPowerRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "junker_no_kenryokukyouka"
       ],
@@ -1419,7 +1624,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_military_regime",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "economicStrengthRate": 15
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "junker_no_kenryokukyouka"
       ],
@@ -1438,7 +1654,27 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_haken_no_daishou",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 15,
+              "politicalPowerRate": 5
+            }
+          },
+          {
+            "id": "GER_military_regime",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "culturalUnity": -10,
+              "economicStrengthRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "stinnes_legien_no_haki",
         "nougyou_kikaika_heno_kokkohojo"
@@ -1458,7 +1694,19 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_military_regime",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 10,
+              "politicalPowerRate": 5,
+              "attackPower": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "baghdad_tetsudo_no_kanzenkaitsuu"
       ],
@@ -1477,7 +1725,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_dresden_taisei_no_meishu",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 15,
+              "politicalPowerRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "kyuukyoku_no_sensoukeizai"
       ],
@@ -1496,7 +1755,9 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "deployedMilitary": 15
+      },
       "prerequisites": [
         "prussia_no_eikou"
       ],
@@ -1521,6 +1782,108 @@
       },
       "prerequisites": [
         "sakerarenu_shoutotu"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "africa_bousai_gun_no_zoukyou",
+      "col": 14,
+      "row": 10,
+      "icon": "shield",
+      "name": {
+        "ja": "アフリカ防衛軍の増強",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "karetsu_na_touchi"
+      ],
+      "mutuallyExclusive": []
+    },
+    {
+      "id": "genchi_ouzoku_heno_kenryokujouto",
+      "col": 13,
+      "row": 10,
+      "icon": "crown",
+      "name": {
+        "ja": "現地王族への権力委譲",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "touchihouhou_no_tenkan"
+      ],
+      "mutuallyExclusive": [
+        "shokuminchigikai_no_secchi"
+      ]
+    },
+    {
+      "id": "touchihouhou_no_tenkan",
+      "col": 12,
+      "row": 9,
+      "icon": "bolt",
+      "name": {
+        "ja": "統治方法の転換",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "mawa_ndi_hanran_no_chinatsu"
+      ],
+      "mutuallyExclusive": [
+        "karetsu_na_touchi"
+      ]
+    },
+    {
+      "id": "africa_tetsudo",
+      "col": 13,
+      "row": 11,
+      "icon": "globe",
+      "name": {
+        "ja": "アフリカ縦断鉄道",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [],
+      "mutuallyExclusive": [],
+      "prerequisitesAny": [
+        "genchi_ouzoku_heno_kenryokujouto",
+        "shokuminchigikai_no_secchi",
+        "africa_bousai_gun_no_zoukyou"
+      ]
+    },
+    {
+      "id": "congobonchi_no_sangyouka",
+      "col": 13,
+      "row": 12,
+      "icon": "factory",
+      "name": {
+        "ja": "コンゴ盆地の産業化",
+        "en": ""
+      },
+      "description": {
+        "ja": "",
+        "en": ""
+      },
+      "effects": {},
+      "prerequisites": [
+        "africa_tetsudo"
       ],
       "mutuallyExclusive": []
     }

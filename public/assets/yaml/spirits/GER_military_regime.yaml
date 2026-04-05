@@ -1,0 +1,9 @@
+id: GER_military_regime
+name:
+  ja: 軍事独裁
+  en: Military Dictatorship
+stats:
+  legitimacy: -5
+  politicalPowerRate: -5
+  attackPower: 5
+  defensePower: 5
