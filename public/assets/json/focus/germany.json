@@ -1211,7 +1211,11 @@
               "economicStrengthRate": 15
             }
           }
-        ]
+        ],
+        "renameCountry": {
+          "ja": "ドイツ社会主義共和国",
+          "en": "Socialist Republic of Germany"
+        }
       },
       "prerequisites": [
         "keikakukeizai_no_dounyuu",

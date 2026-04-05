@@ -79,6 +79,7 @@ const LABELS: Record<string, { ja: string; en: string }> = {
   economicStrengthRate: { ja: '経済力増加率', en: 'Economic Growth' },
   // 戦争
   declareWar: { ja: '宣戦布告', en: 'Declare War' },
+  renameCountry: { ja: '国名変更', en: 'Rename Country' },
 };
 
 // エフェクトをHTML文字列の行配列に変換
@@ -132,6 +133,15 @@ function buildEffectLines(effects: ResolvedFocusEffect, lang: 'ja' | 'en', count
     const text = lang === 'ja'
       ? `<span>${targetName} と同盟を締結する</span>`
       : `<span>Form alliance with ${targetName}</span>`;
+    lines.push(text);
+  }
+
+  // Rename
+  if (effects.renameCountry) {
+    const newName = effects.renameCountry[lang] ?? Object.values(effects.renameCountry)[0];
+    const text = lang === 'ja'
+      ? `<span>「${newName}」に国名を変更する</span>`
+      : `<span>Rename country to "${newName}"</span>`;
     lines.push(text);
   }
 
@@ -244,7 +254,19 @@ function FocusEffects({ effects, lang, countries }: { effects: ResolvedFocusEffe
           )}
         </div>
       ))}
-
+      {effects.renameCountry && (
+        <div className="gnf-spirit-card gnf-rename-card">
+          <div className="gnf-spirit-header">
+            <span className="gnf-spirit-action gnf-spirit-action--rename">
+              {lang === 'ja' ? '国名変更' : 'Rename Country'}
+            </span>
+            <span>: </span>
+            <span className="gnf-spirit-name">
+              {effects.renameCountry[lang] ?? Object.values(effects.renameCountry)[0]}
+            </span>
+          </div>
+        </div>
+      )}
       {effects.events.map((ev: ResolvedEventEffect) => (
         <div key={ev.id} className="gnf-spirit-card gnf-event-card">
           <div className="gnf-spirit-header">

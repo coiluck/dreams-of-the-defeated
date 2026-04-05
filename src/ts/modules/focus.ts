@@ -109,6 +109,16 @@ export const processCountryFocus = async (
         }
       }
     }
+
+    // 国名変更
+    if (focusNode.effects.renameCountry) {
+      const patch = focusNode.effects.renameCountry;
+      const current = updatedCountries[countryId];
+      updatedCountries[countryId] = {
+        ...current,
+        name: { ...current.name, ...patch },
+      };
+    }
   }
 
   const latestCountry = updatedCountries[countryId];

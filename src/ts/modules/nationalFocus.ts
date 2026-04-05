@@ -1,5 +1,7 @@
 // ts/modules/nationalFocus.ts
 
+import type { LocalizedName } from './gameState';
+
 // spirits/*.yaml の型
 export interface SpiritDefinition {
   id: string;
@@ -57,6 +59,7 @@ export interface FocusEffect {
   formAlliance?: string;
   breakAlliance?: string;
   callAllies?: boolean;
+  renameCountry?: Partial<LocalizedName>;
 }
 //NF JSON内の国民精神参照
 export interface NationalSpiritRef {
@@ -119,6 +122,7 @@ export interface ResolvedFocusEffect {
   formAlliance?: string;
   breakAlliance?: string;
   callAllies?: boolean;
+  renameCountry?: Partial<LocalizedName>;
 }
 
 // ─── キャッシュ ──────────────────────────────────────────────────────────────
@@ -244,5 +248,6 @@ export async function resolveFocusEffect(effects: FocusEffect): Promise<Resolved
     formAlliance: effects.formAlliance,
     breakAlliance: effects.breakAlliance,
     callAllies: effects.callAllies,
+    renameCountry: effects.renameCountry,
   };
 }
