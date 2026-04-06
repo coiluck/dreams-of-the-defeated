@@ -387,6 +387,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       cpuDeclaredWarIds, // ここでは空
       cpuRequestedPeaceWarId: cpuPeaceWarId,
       peaceNotifications,
+      collapsedCountryIds,
     } = await processWars(
       countries,
       wars,
@@ -404,7 +405,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const cpuName = countries[cpuId]?.name;
       const userLang = SettingState.language as 'ja' | 'en';
       const messageArray = {
-        ja: `${cpuName.ja} より、現戦線に基づく停戦の提案が提示された。`,
+        ja: `${cpuName.ja} より、現戦線に基づく停戦案が提示された。`,
         en: `According to official reports, ${cpuName.en} has proposed an armistice based on the current front lines.`,
       };
       const buttonLabelsArray = {
@@ -471,6 +472,36 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // 講和が成立した場合 playerRequestedPeaceWarId をクリアする
     const peaceSettled =
       playerRequestedPeaceWarId !== null && endedWarIds.includes(playerRequestedPeaceWarId);
+
+        // 消滅国の削除
+    if (collapsedCountryIds.length > 0) {
+      const collapsed = new Set(collapsedCountryIds);
+      // countries から削除
+      for (const deadId of collapsed) {
+        const { [deadId]: _, ...rest } = countries;
+        countries = rest;
+      }
+      // 生存国の allies / vassalIds / suzerainId から消滅国への参照を除去
+      for (const countryId of Object.keys(countries)) {
+        const c = countries[countryId];
+        const cleanAllies   = c.allies.filter(id => !collapsed.has(id));
+        const cleanVassals  = c.vassalIds.filter(id => !collapsed.has(id));
+        const cleanSuzerain = c.suzerainId && collapsed.has(c.suzerainId) ? null : c.suzerainId;
+
+        if (
+          cleanAllies.length   !== c.allies.length   ||
+          cleanVassals.length  !== c.vassalIds.length ||
+          cleanSuzerain        !== c.suzerainId
+        ) {
+          countries[countryId] = {
+            ...c,
+            allies:    cleanAllies,
+            vassalIds: cleanVassals,
+            suzerainId: cleanSuzerain,
+          };
+        }
+      }
+    }
 
     // プレイヤー国のNF処理
     const warsBeforeNF = { ...wars };

@@ -129,11 +129,13 @@ function buildEffectLines(effects: ResolvedFocusEffect, lang: 'ja' | 'en', count
   // 同盟締結
   if (effects.formAlliance) {
     const targetId = effects.formAlliance as string;
-    const targetName = countries?.[targetId]?.name[lang] || targetId;
-    const text = lang === 'ja'
-      ? `<span>${targetName} と同盟を締結する</span>`
-      : `<span>Form alliance with ${targetName}</span>`;
-    lines.push(text);
+    const target = countries?.[targetId];
+    if (target) {  // 存在する場合のみ表示
+      const text = lang === 'ja'
+        ? `<span>${target.name[lang]} と同盟を締結する</span>`
+        : `<span>Form alliance with ${target.name[lang]}</span>`;
+      lines.push(text);
+    }
   }
 
   // Rename
@@ -148,11 +150,13 @@ function buildEffectLines(effects: ResolvedFocusEffect, lang: 'ja' | 'en', count
   // 戦争
   if (effects.declareWar) {
     const targetId = effects.declareWar as string;
-    const targetName = countries?.[targetId]?.name[lang] || targetId;
-    const text = lang === 'ja'
-      ? `<span>${targetName} に宣戦布告する</span>`
-      : `<span>Declare war on ${targetName}</span>`;
-    lines.push(text);
+    const target = countries?.[targetId];
+    if (target) {  // 存在する場合のみ表示
+      const text = lang === 'ja'
+        ? `<span>${target.name[lang]} に宣戦布告する</span>`
+        : `<span>Declare war on ${target.name[lang]}</span>`;
+      lines.push(text);
+    }
   }
 
   return lines;
@@ -180,8 +184,9 @@ function FocusEffects({ effects, lang, countries }: { effects: ResolvedFocusEffe
               {lang === 'ja' ? '宣戦布告' : 'Declare War'}
             </span>
             <span>: </span>
-            <span className="gnf-spirit-name">
-              {countries?.[effects.declareWar as string]?.name[lang] || effects.declareWar}
+            <span className="gnf-spirit-name" style={!countries?.[effects.declareWar as string] ? { color: '#666' } : undefined}>
+              {countries?.[effects.declareWar as string]?.name[lang]
+                ?? (lang === 'ja' ? '既に滅亡' : 'Already collapsed')}
             </span>
           </div>
         </div>
@@ -211,8 +216,9 @@ function FocusEffects({ effects, lang, countries }: { effects: ResolvedFocusEffe
               {lang === 'ja' ? '同盟締結' : 'Form Alliance'}
             </span>
             <span>: </span>
-            <span className="gnf-spirit-name">
-              {countries?.[effects.formAlliance as string]?.name[lang] || effects.formAlliance}
+            <span className="gnf-spirit-name" style={!countries?.[effects.formAlliance as string] ? { color: '#666' } : undefined}>
+              {countries?.[effects.formAlliance as string]?.name[lang]
+                ?? (lang === 'ja' ? '既に滅亡' : 'Already collapsed')}
             </span>
           </div>
         </div>
@@ -224,8 +230,9 @@ function FocusEffects({ effects, lang, countries }: { effects: ResolvedFocusEffe
               {lang === 'ja' ? '同盟破棄' : 'Break Alliance'}
             </span>
             <span>: </span>
-            <span className="gnf-spirit-name">
-              {countries?.[effects.breakAlliance as string]?.name[lang] || effects.breakAlliance}
+            <span className="gnf-spirit-name" style={!countries?.[effects.breakAlliance as string] ? { color: '#666' } : undefined}>
+              {countries?.[effects.breakAlliance as string]?.name[lang]
+                ?? (lang === 'ja' ? '既に滅亡' : 'Already collapsed')}
             </span>
           </div>
         </div>

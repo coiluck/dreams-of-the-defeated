@@ -337,6 +337,8 @@ export async function processWars(
   cpuRequestedPeaceWarId: string | null;
   /** プレイヤーが関与する戦争で停戦した場合の理由通知（優先順位1・2・3-a） */
   peaceNotifications: PeaceNotification[];
+  /** このターンに全土降伏した国ID一覧 */
+  collapsedCountryIds: string[];
 }> {
   let updatedCountries = { ...countries };
   const endedWarIds: string[] = [];
@@ -602,7 +604,14 @@ export async function processWars(
     */
   }
 
-  return { updatedCountries, endedWarIds, cpuDeclaredWarIds, cpuRequestedPeaceWarId, peaceNotifications };
+  return {
+    updatedCountries,
+    endedWarIds,
+    cpuDeclaredWarIds,
+    cpuRequestedPeaceWarId,
+    peaceNotifications,
+    collapsedCountryIds: [...collapsedIds],
+  };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
