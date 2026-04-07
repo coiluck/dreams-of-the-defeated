@@ -1,6 +1,8 @@
 // ts/modules/store.ts
 import { Store } from '@tauri-apps/plugin-store';
 
+type DeclareWarRule = 'none' | 'afterPlayerNF' | 'free';
+
 interface SettingsState {
   masterVolume: number;
   bgmVolume: number;
@@ -9,20 +11,22 @@ interface SettingsState {
   customBgm: string;
   screenSize: 'window' | 'fullscreen';
   language: 'ja' | 'en';
-  autoSaveInterval: 'weekly' | 'monthly' | 'never';
   gameMode: 'easy' | 'normal';
+  cpuDeclareWar: DeclareWarRule;
+  playerDeclareWar: DeclareWarRule;
 }
 
 const initialSettingsState: SettingsState = {
   masterVolume: 8,
-  bgmVolume: 4,
+  bgmVolume: 2,
   seVolume: 8,
   mainBgm: "auto",
   customBgm: "Devine_Fencer",
   screenSize: 'window',
   language: 'ja',
-  autoSaveInterval: 'never',
   gameMode: 'easy',
+  cpuDeclareWar: 'afterPlayerNF',
+  playerDeclareWar: 'free',
 }
 
 export const SettingState = structuredClone(initialSettingsState); // 初期化

@@ -10,6 +10,7 @@ import { bgm, se } from '../modules/music';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 
 type TabType = 'System' | 'Audio' | 'Gameplay';
+type DeclareWarRule = 'none' | 'afterPlayerNF' | 'free';
 
 type PageMode = 'page' | 'game-menu';
 interface OptionsPageProps {
@@ -28,6 +29,9 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
     seVolume: SettingState.seVolume,
     mainBgm: SettingState.mainBgm,
     customBgm: SettingState.customBgm,
+    gameMode: SettingState.gameMode,
+    cpuDeclareWar: SettingState.cpuDeclareWar,
+    playerDeclareWar: SettingState.playerDeclareWar,
   });
 
   const [texts, setTexts] = useState<Record<string, string>>({});
@@ -51,6 +55,12 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
         'optionsMainBgmFixed',
         // Gameplay
         'optionsGameplayTitle',
+        'optionsGameModeLabel',
+        'optionsCpuDeclareWarLabel',
+        'optionsPlayerDeclareWarLabel',
+        'optionsDeclareWarNone',
+        'optionsDeclareWarAfterNF',
+        'optionsDeclareWarFree',
       ];
       const newTexts: Record<string, string> = {};
       for (const key of translationKeys) {
@@ -71,10 +81,8 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
   // 画面サイズ設定
   const ScreenSizeChange = async (size: 'window' | 'fullscreen') => {
     setSettings(prev => ({ ...prev, screenSize: size }));
-
     SettingState.screenSize = size;
     await saveSettingsData();
-
     const appWindow = getCurrentWindow();
     await appWindow.setFullscreen(size === 'fullscreen');
   };
@@ -84,7 +92,6 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
     setSettings(prev => ({ ...prev, masterVolume: value }));
     bgm.setMasterVolume(value);
     se.setMasterVolume(value);
-    // store更新
     SettingState.masterVolume = value;
     await saveSettingsData();
   };
@@ -93,7 +100,6 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
     const value = Number(e.target.value);
     setSettings(prev => ({ ...prev, bgmVolume: value }));
     bgm.setVolume(value);
-    // store更新
     SettingState.bgmVolume = value;
     await saveSettingsData();
   };
@@ -102,7 +108,6 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
     const value = Number(e.target.value);
     setSettings(prev => ({ ...prev, seVolume: value }));
     se.setVolume(value);
-    // store更新
     SettingState.seVolume = value;
     await saveSettingsData();
   };
@@ -111,7 +116,6 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
     setSettings(prev => ({ ...prev, mainBgm: bgmType }));
     SettingState.mainBgm = bgmType;
     await saveSettingsData();
-    // game-menuモードのときだけBGMを切り替える
     if (mode === 'game-menu') {
       bgm.setMode(bgmType, SettingState.customBgm);
     }
@@ -121,10 +125,27 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
     setSettings(prev => ({ ...prev, customBgm: bgmName }));
     SettingState.customBgm = bgmName;
     await saveSettingsData();
-    // fixedモード中にカスタム曲を変えたらすぐ反映
     if (mode === 'game-menu' && SettingState.mainBgm === 'fixed') {
       bgm.startFixed(bgmName);
     }
+  };
+  // ゲームモード
+  const GameModeChange = async (gameMode: 'easy' | 'normal') => {
+    setSettings(prev => ({ ...prev, gameMode }));
+    SettingState.gameMode = gameMode;
+    await saveSettingsData();
+  };
+  // CPU宣戦布告ルール
+  const CpuDeclareWarChange = async (rule: DeclareWarRule) => {
+    setSettings(prev => ({ ...prev, cpuDeclareWar: rule }));
+    SettingState.cpuDeclareWar = rule;
+    await saveSettingsData();
+  };
+  // プレイヤー宣戦布告ルール
+  const PlayerDeclareWarChange = async (rule: DeclareWarRule) => {
+    setSettings(prev => ({ ...prev, playerDeclareWar: rule }));
+    SettingState.playerDeclareWar = rule;
+    await saveSettingsData();
   };
 
   // 戻るボタン
@@ -136,13 +157,37 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
     }
   };
 
+  const renderDeclareWarButtons = (
+    current: DeclareWarRule,
+    onChange: (rule: DeclareWarRule) => void,
+    groupName: string
+  ) => (
+    <div className="options-main-bgm-container">
+      {(['none', 'afterPlayerNF', 'free'] as DeclareWarRule[]).map(rule => (
+        <label key={rule} className="options-main-bgm-item">
+          <input
+            type="radio"
+            name={groupName}
+            checked={current === rule}
+            onChange={() => onChange(rule)}
+          />
+          <span>
+            {rule === 'none' && texts['optionsDeclareWarNone']}
+            {rule === 'afterPlayerNF' && texts['optionsDeclareWarAfterNF']}
+            {rule === 'free' && texts['optionsDeclareWarFree']}
+          </span>
+        </label>
+      ))}
+    </div>
+  );
+
+
   const renderTabContent = () => {
     switch (activeTab) {
       case 'System':
         return (
           <>
             <h2>{texts['optionsSystemTitle']}</h2>
-
             <div className="options-list-container">
               {/* 言語設定 */}
               <div className="options-list-item system-language">
@@ -162,7 +207,6 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
                   </button>
                 </div>
               </div>
-
               {/* 画面サイズ設定 */}
               <div className="options-list-item">
                 <label>{texts['optionsScreenSizeLabel']}:</label>
@@ -188,7 +232,6 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
         return (
           <>
             <h2>{texts['optionsAudioTitle'] || '音声設定'}</h2>
-
             <div className="options-list-container">
               {/* master volume */}
               <div className="options-list-item master-volume">
@@ -253,48 +296,23 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
                   </button>
                   <div className={`options-main-bgm-container ${settings.mainBgm === 'auto' ? 'disabled' : ''}`}>
                     <label className="options-main-bgm-item">
-                      <input
-                        type="radio"
-                        name="customBgm"
-                        checked={settings.customBgm === 'Cultus'}
-                        onChange={() => CustomBgmChange('Cultus')}
-                      />
+                      <input type="radio" name="customBgm" checked={settings.customBgm === 'Cultus'} onChange={() => CustomBgmChange('Cultus')} />
                       <span>Cultus</span>
                     </label>
                     <label className="options-main-bgm-item">
-                      <input
-                        type="radio"
-                        name="customBgm"
-                        checked={settings.customBgm === 'Danse_Macabre'}
-                        onChange={() => CustomBgmChange('Danse_Macabre')}
-                      />
+                      <input type="radio" name="customBgm" checked={settings.customBgm === 'Danse_Macabre'} onChange={() => CustomBgmChange('Danse_Macabre')} />
                       <span>Dance Macabre</span>
                     </label>
                     <label className="options-main-bgm-item">
-                      <input
-                        type="radio"
-                        name="customBgm"
-                        checked={settings.customBgm === 'Devine_Fencer'}
-                        onChange={() => CustomBgmChange('Devine_Fencer')}
-                      />
+                      <input type="radio" name="customBgm" checked={settings.customBgm === 'Devine_Fencer'} onChange={() => CustomBgmChange('Devine_Fencer')} />
                       <span>Devine Fencer</span>
                     </label>
                     <label className="options-main-bgm-item">
-                      <input
-                        type="radio"
-                        name="customBgm"
-                        checked={settings.customBgm === 'LonelyMerchant'}
-                        onChange={() => CustomBgmChange('LonelyMerchant')}
-                      />
+                      <input type="radio" name="customBgm" checked={settings.customBgm === 'LonelyMerchant'} onChange={() => CustomBgmChange('LonelyMerchant')} />
                       <span>Lonely Merchant</span>
                     </label>
                     <label className="options-main-bgm-item">
-                      <input
-                        type="radio"
-                        name="customBgm"
-                        checked={settings.customBgm === 'The_Final_Confrontation'}
-                        onChange={() => CustomBgmChange('The_Final_Confrontation')}
-                      />
+                      <input type="radio" name="customBgm" checked={settings.customBgm === 'The_Final_Confrontation'} onChange={() => CustomBgmChange('The_Final_Confrontation')} />
                       <span>The Final Confrontation</span>
                     </label>
                   </div>
@@ -307,6 +325,36 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
         return (
           <>
             <h2>{texts['optionsGameplayTitle'] || 'ゲーム設定'}</h2>
+            <div className="options-list-container">
+              {/* ゲームモード */}
+              <div className="options-list-item">
+                <label>{texts['optionsGameModeLabel']}:</label>
+                <div className="options-button-container">
+                  <button
+                    onClick={() => GameModeChange('easy')}
+                    className={settings.gameMode === 'easy' ? 'options-button active' : 'options-button'}
+                  >
+                    Easy
+                  </button>
+                  <button
+                    onClick={() => GameModeChange('normal')}
+                    className={settings.gameMode === 'normal' ? 'options-button active' : 'options-button'}
+                  >
+                    Normal
+                  </button>
+                </div>
+              </div>
+              {/* CPUによるNFを通さない宣戦布告 */}
+              <div className="options-list-item">
+                <label>{texts['optionsCpuDeclareWarLabel']}:</label>
+                {renderDeclareWarButtons(settings.cpuDeclareWar, CpuDeclareWarChange, 'cpuDeclareWar')}
+              </div>
+              {/* プレイヤーによるNFを通さない宣戦布告 */}
+              <div className="options-list-item">
+                <label>{texts['optionsPlayerDeclareWarLabel']}:</label>
+                {renderDeclareWarButtons(settings.playerDeclareWar, PlayerDeclareWarChange, 'playerDeclareWar')}
+              </div>
+            </div>
           </>
         );
       default:
