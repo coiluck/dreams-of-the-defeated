@@ -8,6 +8,7 @@ import { getTranslatedText } from '../modules/i18n';
 import { SettingState, saveSettingsData } from '../modules/store';
 import { bgm, se } from '../modules/music';
 import { getCurrentWindow } from '@tauri-apps/api/window';
+import ToolTip from "../components/ToolTip";
 
 type TabType = 'System' | 'Audio' | 'Gameplay';
 type DeclareWarRule = 'none' | 'afterPlayerNF' | 'free';
@@ -56,6 +57,7 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
         // Gameplay
         'optionsGameplayTitle',
         'optionsGameModeLabel',
+        'optionsGameMode.description',
         'optionsCpuDeclareWarLabel',
         'optionsPlayerDeclareWarLabel',
         'optionsDeclareWarNone',
@@ -328,7 +330,11 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
             <div className="options-list-container">
               {/* ゲームモード */}
               <div className="options-list-item">
-                <label>{texts['optionsGameModeLabel']}:</label>
+                <label>{texts['optionsGameModeLabel']}:
+                  <ToolTip text={texts['optionsGameMode.description']} isBelow={true}>
+                    <span className="options-game-mode-info-icon">i</span>
+                  </ToolTip>
+                </label>
                 <div className="options-button-container">
                   <button
                     onClick={() => GameModeChange('easy')}

@@ -5,6 +5,7 @@ import { usePlayerCountry, useGameStore, calculateEffectiveStats } from '../modu
 import { useMappedTranslations } from '../modules/i18n';
 import { SettingState } from '../modules/store';
 import './GameWar.css';
+import ToolTip from './ToolTip';
 
 interface FrontInfo {
   front_id: string;
@@ -212,7 +213,10 @@ export default function GameWar() {
     predictedAdvance: 'gameWar.predictedAdvance',
     calculating: 'gameWar.calculating',
     tacticAction: 'gameWar.tacticAction',
-    costInsufficient: 'gameWar.costInsufficient'
+    costInsufficient: 'gameWar.costInsufficient',
+    frontTileCountDescription: 'gameWar.frontTileCount.description',
+    supplyDescription: 'gameWar.supply.description',
+    predictedAdvanceDescription: 'gameWar.predictedAdvance.description',
   });
 
   // 初期選択
@@ -509,13 +513,26 @@ export default function GameWar() {
                       <p className="gw-component-front-item-name">{front.name[lang]}</p>
                       <div className="gw-component-front-item-content">
                         <div className="gw-component-front-item-details">
-                          <p>{t.frontTileCount}: {front.tile_count}</p>
-                          <p>{t.supply}: {(front.supply * 100).toFixed(1)} %</p>
+                          {/* 前線マス数 */}
+                          <ToolTip text={t.frontTileCountDescription}>
+                            <p>{t.frontTileCount}: {front.tile_count}</p>
+                          </ToolTip>
+
+                          {/* 補給 */}
+                          <ToolTip text={t.supplyDescription}>
+                            <p>{t.supply}: {(front.supply * 100).toFixed(1)} %</p>
+                          </ToolTip>
                         </div>
 
                         {/* 予想侵攻量 */}
                         <div className="gw-component-front-item-actions-prediction">
-                          <p className="gw-component-front-item-actions-prediction-title">{t.predictedAdvance}</p>
+                          {SettingState.gameMode === 'normal' ? (
+                            <ToolTip text={t.predictedAdvanceDescription}>
+                              <p className="gw-component-front-item-actions-prediction-title">{t.predictedAdvance}</p>
+                            </ToolTip>
+                          ) : (
+                            <p className="gw-component-front-item-actions-prediction-title">{t.predictedAdvance}</p>
+                          )}
                           <div className="gw-component-front-item-actions-prediction-value">
                             {predictedAdvance !== undefined ? (
                               <span style={{ color: predictedAdvance > 0 ? '#4caf84' : (predictedAdvance < 0 ? '#e07070' : 'inherit') }}>

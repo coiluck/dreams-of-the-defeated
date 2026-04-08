@@ -14,7 +14,7 @@
   "optionsMainBgmFixed": { "ja": "任意選択", "en": "Fixed" },
   "optionsGameplayTitle": { "ja": "ゲーム設定", "en": "Gameplay Settings" },
   "optionsGameModeLabel": { "ja": "ゲームモード", "en": "Game Mode" },
-  "optionsCpuDeclareWarLabel": { "ja": "CPUによる国家方針以外の宣戦布告", "en": "CPU Direct War Declaration" },
+  "optionsGameMode.description": { "ja": "ゲームの難易度。ノーマルモードの場合は敵が戦術行動を使用するようになり、戦争において国力差をひっくり返すのが難しくなる。", "en": "Game difficulty. In Normal mode, enemies will use tactical operations, making it harder to overturn differences in national strength during wars." },
   "optionsPlayerDeclareWarLabel": { "ja": "プレイヤーによる国家方針以外の宣戦布告", "en": "Player Direct War Declaration" },
   "optionsDeclareWarNone": { "ja": "なし", "en": "Never" },
   "optionsDeclareWarAfterNF": { "ja": "プレイヤーの全国家方針完了後", "en": "After All NFs Complete" },
@@ -95,6 +95,18 @@
   "gameWar.frontTileCount": { "ja": "前線マス数", "en": "Front Tiles" },
   "gameWar.supply": { "ja": "補給", "en": "Supply" },
   "gameWar.predictedAdvance": { "ja": "予想侵攻量", "en": "Predicted Advance" },
+  "gameWar.frontTileCount.description": {
+  "ja": "前線マス: この戦線の長さを表す数値。\n戦線の長さに応じて侵攻マス数は増加し、彼我の戦力差が顕著に現れるようになる",
+  "en": "Front Tiles: A value representing the length of this frontline.\nAs the frontline lengthens, the number of advance tiles increases and the difference in strength between both sides becomes more pronounced."
+  },
+  "gameWar.supply.description": {
+    "ja": "補給: 前線部隊への補給状況を示す数値。\n中核州か海岸を補給源とし、距離が離れるに従って地域の最低補給値まで線形に低下する。\n補給の届く距離は通常は50マスだが、機械化率によって30マスにまで低下する",
+    "en": "Supply: A value indicating the logistical status of frontline units.\nCore provinces or coastlines serve as supply sources; supply degrades linearly with distance down to the regional minimum.\nSupply range is normally 50 tiles but can decrease to as low as 30 tiles depending on the mechanization rate."
+  },
+  "gameWar.predictedAdvance.description": {
+    "ja": "予想侵攻マス: 敵の戦術作戦を考慮しない場合の侵攻マス数。",
+    "en": "Predicted Advance: The number of tiles advanced, calculated without accounting for the enemy's tactical operations."
+  },
   "gameWar.calculating": { "ja": "計算中...", "en": "Calculating..." },
   "gameWar.tacticAction": { "ja": "戦術作戦", "en": "Tactical Operation" },
   "gameWar.costInsufficient": { "ja": "コスト不足", "en": "Cannot Afford" },

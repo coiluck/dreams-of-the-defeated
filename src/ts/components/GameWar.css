@@ -151,6 +151,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   font-size: 0.8rem;
   text-align: center;
 }
@@ -163,6 +164,7 @@
   gap: .3rem;
 }
 .gw-component-front-item-actions-prediction-title {
+  position: relative;
   font-size: 0.8rem;
   text-align: center;
 }

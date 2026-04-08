@@ -262,7 +262,24 @@
 .options-main-bgm-item input[type="radio"]:checked + span::after {
   opacity: 1;
 }
-
+/* ゲームモード */
+.options-game-mode-info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 1rem;
+  width: 1rem;
+  padding: .1rem;
+  margin-left: .5rem;
+  cursor: pointer;
+  border: 1px solid #fff3f1;
+  border-radius: 50%;
+  font-size: .7rem;
+  font-weight: bold;
+  text-transform: none;
+  font-family: "Courier New", monospace;
+}
 /* 戻るボタン */
 .options-back-button-container {
   display: flex;
