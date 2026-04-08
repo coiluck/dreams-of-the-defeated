@@ -6,12 +6,22 @@ import { SettingState } from '../modules/store';
 import './GameFinance.css';
 import Tooltip from './ToolTip';
 
-const formatEconomicStrength = (value: number): string => {
-  if (value >= 1_000_000_000_000) return `${(value / 1_000_000_000_000).toFixed(1).replace(/\.0$/, '')}T`;
-  if (value >= 1_000_000_000) return `${(value / 1_000_000_000).toFixed(1).replace(/\.0$/, '')}B`;
-  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`;
-  if (value >= 1_000) return `${(value / 1_000).toFixed(1).replace(/\.0$/, '')}K`;
-  return `${value}`;
+export const formatEconomicStrength = (value: number): string => {
+  // 上位3桁に丸めてから単位付きで表示
+  const round3 = (v: number): number => {
+    if (v === 0) return 0;
+    const abs    = Math.abs(v);
+    const digits = Math.floor(Math.log10(abs)) + 1;
+    if (digits <= 3) return Math.round(v);
+    const factor = Math.pow(10, digits - 3);
+    return Math.round(v / factor) * factor;
+  };
+  const rounded = round3(value);
+  if (rounded >= 1_000_000_000_000) return `${(rounded / 1_000_000_000_000).toFixed(1).replace(/\.0$/, '')}T`;
+  if (rounded >= 1_000_000_000)     return `${(rounded / 1_000_000_000).toFixed(1).replace(/\.0$/, '')}B`;
+  if (rounded >= 1_000_000)         return `${(rounded / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`;
+  if (rounded >= 1_000)             return `${(rounded / 1_000).toFixed(1).replace(/\.0$/, '')}K`;
+  return `${rounded}`;
 };
 
 export default function GameFinance() {

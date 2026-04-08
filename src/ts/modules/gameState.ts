@@ -715,7 +715,7 @@ export const calculateFinanceStatus = (country: CountryState) => {
 
 function processEconomy(countries: Record<string, CountryState>): Record<string, CountryState> {
   const updatedCountries         = { ...countries };
-  const ECONOMIC_GROWTH_RATE     = 0.03;
+  const ECONOMIC_GROWTH_RATE     = 0.05 / 12;
   const POLITICAL_POWER_INCREASE = 50;
 
   Object.keys(updatedCountries).forEach(id => {
@@ -737,19 +737,10 @@ function processEconomy(countries: Record<string, CountryState>): Record<string,
     const actualPpIncrease   = POLITICAL_POWER_INCREASE * (1 + totalPpRate   / 100);
     const actualEconIncrease = currentCountry.economicStrength * ECONOMIC_GROWTH_RATE * (1 + totalEconRate / 100);
 
-    const roundToTop3Digits = (value: number): number => {
-      if (value === 0) return 0;
-      const absValue = Math.abs(value);
-      const digits   = Math.floor(Math.log10(absValue)) + 1;
-      if (digits <= 3) return Math.round(value);
-      const factor = Math.pow(10, digits - 3);
-      return Math.round(value / factor) * factor;
-    };
-
     updatedCountries[id] = {
       ...currentCountry,
       politicalPower:     Math.round(currentCountry.politicalPower + actualPpIncrease),
-      economicStrength:   roundToTop3Digits(currentCountry.economicStrength + actualEconIncrease),
+      economicStrength:   currentCountry.economicStrength + actualEconIncrease,
       financeActionCount: 0,
       nationalSpirits:    updatedSpirits,
     };

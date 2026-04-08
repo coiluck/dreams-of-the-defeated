@@ -6,14 +6,7 @@ import { SettingState } from '../modules/store';
 import { loadSpiritDefinition } from '../modules/nationalFocus';
 import { useMappedTranslations } from '../modules/i18n';
 import ToolTip from './ToolTip';
-
-const formatEconomicStrength = (value: number): string => {
-  if (value >= 1_000_000_000_000) return `${(value / 1_000_000_000_000).toFixed(1).replace(/\.0$/, '')}T`;
-  if (value >= 1_000_000_000) return `${(value / 1_000_000_000).toFixed(1).replace(/\.0$/, '')}B`;
-  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`;
-  if (value >= 1_000) return `${(value / 1_000).toFixed(1).replace(/\.0$/, '')}K`;
-  return `${value}`;
-};
+import { formatEconomicStrength } from './GameFinance';
 
 interface CountryPanelProps {
   isOpen: boolean;

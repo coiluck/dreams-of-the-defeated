@@ -5,6 +5,7 @@ import { useGameStore, usePlayerCountry, calculateEffectiveStats } from '../modu
 import { SettingState } from '../modules/store';
 import Tooltip from './ToolTip';
 import { getTranslatedText } from '../modules/i18n';
+import { formatEconomicStrength } from './GameFinance';
 
 export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
   const game = useGameStore(state => state.game);
@@ -60,14 +61,6 @@ export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
   if (!game || !playerCountry || !effectiveStats) {
     return <div className="topbar-component-container">Now Loading...</div>;
   }
-
-  const formatEconomicStrength = (value: number): string => {
-    if (value >= 1_000_000_000_000) return `${(value / 1_000_000_000_000).toFixed(1).replace(/\.0$/, '')}T`;
-    if (value >= 1_000_000_000) return `${(value / 1_000_000_000).toFixed(1).replace(/\.0$/, '')}B`;
-    if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`;
-    if (value >= 1_000) return `${(value / 1_000).toFixed(1).replace(/\.0$/, '')}K`;
-    return `${value}`;
-  };
 
   const isEn = SettingState.language === 'en';
   const enMonths = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
