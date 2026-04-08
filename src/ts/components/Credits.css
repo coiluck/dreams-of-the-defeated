@@ -1,0 +1,65 @@
+.credits-page {
+  position: relative;
+  z-index: 2;
+}
+
+.credits-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-right: 2px solid #555;
+  filter: url('#button-grunge-filter');
+  z-index: -2;
+}
+
+.credits-container-wrapper {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: fit-content;
+  max-height: 80%;
+  padding: 2rem;
+  padding-right: 1rem;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.credits-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+.credits-section {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+.credits-section-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  filter: url('#button-grunge-filter');
+  border-left: 2px solid currentColor;
+  padding-left: .5rem;
+}
+
+.credits-section-items {
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+  font-size: 0.8rem;
+  font-family: "Courier New", monospace;
+  white-space: pre-wrap;
+}

@@ -40,3 +40,17 @@
   pointer-events: none;
   cursor: pointer;
 }
+
+.top-page-credits {
+  position: absolute;
+  bottom: .75rem;
+  left: 1rem;
+  font-size: 0.8rem;
+  font-family: 'Courier New', Courier, monospace;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: pointer;
+  z-index: 1;
+}

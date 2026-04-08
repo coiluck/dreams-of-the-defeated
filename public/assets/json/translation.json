@@ -1,4 +1,5 @@
 {
+  "top.credits": { "ja": "クレジット", "en": "Credits" },
   "optionsSystemTitle": { "ja": "システム設定", "en": "System Settings" },
   "optionsLanguageLabel": { "ja": "言語", "en": "Language" },
   "optionsScreenSizeLabel": { "ja": "画面サイズ", "en": "Screen Size" },

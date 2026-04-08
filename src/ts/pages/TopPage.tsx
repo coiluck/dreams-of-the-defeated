@@ -1,10 +1,23 @@
 // ts/pages/TopPage.tsx
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../css/TopPage.css";
 import { Button } from '../components/Button';
+import { useMappedTranslations } from "../modules/i18n";
+import Credits from "../components/Credits";
 
 export default function TopPage() {
   const navigate = useNavigate();
+
+  const [isCreditsOpen, setIsCreditsOpen] = useState(false);
+
+  const t = useMappedTranslations({
+    credits: 'top.credits',
+  });
+
+  const handleCredits = () => {
+    setIsCreditsOpen(true);
+  };
 
   return (
     <div className="page fade-in">
@@ -20,8 +33,20 @@ export default function TopPage() {
         <Button text="Exit" onClick={() => navigate('/')} data-se="disabled" />
       </div>
 
+      {/* credits */}
+      <p
+        className="top-page-credits"
+        onClick={handleCredits}
+        data-se="click"
+      >
+        {t.credits}
+      </p>
+
+      {isCreditsOpen && <Credits onClose={() => setIsCreditsOpen(false)} />}
+
       {/* version */}
       <p className="top-page-version">v{__APP_VERSION__}</p>
+
     </div>
   );
 }
