@@ -77,6 +77,10 @@ export default function CountryPanel({ isOpen, countryId, onClose, onDeclareWar 
     vassalCountry: 'countryPanel.vassalCountry',
     suzerainCountry: 'countryPanel.suzerainCountry',
     declareWar: 'countryPanel.declareWar',
+    cannotDeclareWarAlly: 'countryPanel.cannotDeclareWar.ally',
+    cannotDeclareWarAtWar: 'countryPanel.cannotDeclareWar.atWar',
+    cannotDeclareWarVassal: 'countryPanel.cannotDeclareWar.vassal',
+    cannotDeclareWarSuzerain: 'countryPanel.cannotDeclareWar.suzerain',
   });
 
   if (!countryId || !targetCountry) {
@@ -232,7 +236,7 @@ export default function CountryPanel({ isOpen, countryId, onClose, onDeclareWar 
                     <div className="cp-component-country-info-spirits-item-stats-container">
                       {Object.entries(spirit.stats).map(([key, value]) => {
                         const numValue = Number(value);
-                        if (isNaN(numValue)) return null;
+                        if (isNaN(numValue) || numValue === 0) return null;
 
                         // 数値がプラスの場合
                         const displayValue = numValue > 0 ? `+${numValue}` : numValue;
@@ -269,9 +273,48 @@ export default function CountryPanel({ isOpen, countryId, onClose, onDeclareWar 
           )}
         </div>
 
-        {targetCountry.id !== playerCountryId && (
-          <button onClick={() => onDeclareWar?.(countryId)}>{t.declareWar}</button>
-        )}
+        {targetCountry.id !== playerCountryId && (() => {
+          // プレイヤー国を取得
+          const playerCountry = playerCountryId ? countries[playerCountryId] : null;
+
+          // 宣戦布告できない理由を判定
+          let disableReason: string | null = null;
+
+          if (playerCountry) {
+            const isAlly = playerCountry.allies.includes(countryId);
+            const isVassal = (playerCountry.vassalIds ?? []).includes(countryId);
+            const isSuzerain = playerCountry.suzerainId === countryId;
+            const isAtWar = playerCountry.activeWarIds.some((warId) => {
+              const war = wars[warId];
+              if (!war) return false;
+              return war.attackerId === countryId || war.defenderId === countryId;
+            });
+
+            if (isAlly)     disableReason = t.cannotDeclareWarAlly;
+            else if (isAtWar)    disableReason = t.cannotDeclareWarAtWar;
+            else if (isVassal)   disableReason = t.cannotDeclareWarVassal;
+            else if (isSuzerain) disableReason = t.cannotDeclareWarSuzerain;
+          }
+
+          const isDisabled = disableReason !== null;
+
+          const button = (
+            <button
+              className={`cp-component-country-info-declare-war-button ${isDisabled ? 'disabled' : ''}`}
+              onClick={!isDisabled ? () => onDeclareWar?.(countryId) : undefined}
+              data-se="metallic"
+            >
+              <span className="cp-component-country-info-declare-war-button-innner" />
+              {t.declareWar}
+            </button>
+          );
+
+          return isDisabled ? (
+            <ToolTip text={disableReason!} isBelow={false}>
+              {button}
+            </ToolTip>
+          ) : button;
+        })()}
       </div>
     </div>
   );

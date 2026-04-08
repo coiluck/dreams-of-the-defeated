@@ -288,3 +288,89 @@
   border: 1px solid #6a2a2a;
   color: #ba6a6a;
 }
+
+/* 宣戦布告ボタン */
+.cp-component-country-info-declare-war-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  position: relative;
+  width: fit-content;
+  margin: 0 auto;
+  padding: .2rem .5rem;
+  text-align: center;
+}
+.cp-component-country-info-declare-war-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* 上線 */
+.cp-component-country-info-declare-war-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 1.5px;
+  background-color: #ddd;
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cp-component-country-info-declare-war-button:hover::before {
+  width: 100%;
+}
+
+/* 下線 */
+.cp-component-country-info-declare-war-button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background-color: #ddd;
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cp-component-country-info-declare-war-button:hover::after {
+  width: 100%;
+}
+
+.cp-component-country-info-declare-war-button-innner {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* 左縦線 */
+.cp-component-country-info-declare-war-button-innner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1.5px;
+  height: 0;
+  background-color: #ddd;
+  transition: height 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cp-component-country-info-declare-war-button:hover
+.cp-component-country-info-declare-war-button-innner::before {
+  height: 100%;
+}
+
+/* 右縦線 */
+.cp-component-country-info-declare-war-button-innner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 1.5px;
+  height: 0;
+  background-color: #ddd;
+  transition: height 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cp-component-country-info-declare-war-button:hover
+.cp-component-country-info-declare-war-button-innner::after {
+  height: 100%;
+}

@@ -13,7 +13,6 @@ interface SettingsState {
   language: 'ja' | 'en';
   gameMode: 'easy' | 'normal';
   cpuDeclareWar: DeclareWarRule;
-  playerDeclareWar: DeclareWarRule;
 }
 
 const initialSettingsState: SettingsState = {
@@ -26,7 +25,6 @@ const initialSettingsState: SettingsState = {
   language: 'ja',
   gameMode: 'easy',
   cpuDeclareWar: 'afterPlayerNF',
-  playerDeclareWar: 'free',
 }
 
 export const SettingState = structuredClone(initialSettingsState); // 初期化

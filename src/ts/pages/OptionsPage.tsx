@@ -32,7 +32,6 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
     customBgm: SettingState.customBgm,
     gameMode: SettingState.gameMode,
     cpuDeclareWar: SettingState.cpuDeclareWar,
-    playerDeclareWar: SettingState.playerDeclareWar,
   });
 
   const [texts, setTexts] = useState<Record<string, string>>({});
@@ -59,7 +58,6 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
         'optionsGameModeLabel',
         'optionsGameMode.description',
         'optionsCpuDeclareWarLabel',
-        'optionsPlayerDeclareWarLabel',
         'optionsDeclareWarNone',
         'optionsDeclareWarAfterNF',
         'optionsDeclareWarFree',
@@ -141,12 +139,6 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
   const CpuDeclareWarChange = async (rule: DeclareWarRule) => {
     setSettings(prev => ({ ...prev, cpuDeclareWar: rule }));
     SettingState.cpuDeclareWar = rule;
-    await saveSettingsData();
-  };
-  // プレイヤー宣戦布告ルール
-  const PlayerDeclareWarChange = async (rule: DeclareWarRule) => {
-    setSettings(prev => ({ ...prev, playerDeclareWar: rule }));
-    SettingState.playerDeclareWar = rule;
     await saveSettingsData();
   };
 
@@ -354,11 +346,6 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
               <div className="options-list-item">
                 <label>{texts['optionsCpuDeclareWarLabel']}:</label>
                 {renderDeclareWarButtons(settings.cpuDeclareWar, CpuDeclareWarChange, 'cpuDeclareWar')}
-              </div>
-              {/* プレイヤーによるNFを通さない宣戦布告 */}
-              <div className="options-list-item">
-                <label>{texts['optionsPlayerDeclareWarLabel']}:</label>
-                {renderDeclareWarButtons(settings.playerDeclareWar, PlayerDeclareWarChange, 'playerDeclareWar')}
               </div>
             </div>
           </>
