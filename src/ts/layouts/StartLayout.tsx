@@ -18,7 +18,7 @@ export default function StartLayout() {
   return (
     <div className="start-layout">
       <img
-        src="/src/assets/images/TopPage/background.jpg"
+        src="/assets/images/TopPage/background.jpg"
         alt="background"
         className="start-layout-bg-image"
       />

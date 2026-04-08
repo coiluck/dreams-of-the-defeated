@@ -22,7 +22,7 @@ export default function TopPage() {
   return (
     <div className="page fade-in">
       <img
-        src="/src/assets/images/TopPage/title_logo.svg"
+        src="/assets/images/TopPage/title_logo.svg"
         alt="logo"
         className="title-logo-image"
       />

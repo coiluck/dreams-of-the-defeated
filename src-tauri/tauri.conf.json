@@ -32,10 +32,10 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "resources": [
-      "../public/assets/map/map_data.bin",
-      "../public/assets/map/map_meta.json",
-      "../public/assets/map/map_cores.json"
-    ]
+    "resources": {
+      "../public/assets/map/map_data.bin": "assets/map/map_data.bin",
+      "../public/assets/map/map_meta.json": "assets/map/map_meta.json",
+      "../public/assets/map/map_cores.json": "assets/map/map_cores.json"
+    }
   }
 }
