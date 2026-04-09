@@ -1,657 +1,786 @@
 {
   "AFG": {
     "id": "AFG",
-    "name": { "ja": "アフガニスタン", "en": "Afghanistan" },
+    "name": {
+      "ja": "アフガニスタン",
+      "en": "Afghanistan"
+    },
     "scale": 1,
     "isMilitaryRegime": true
   },
   "AH": {
     "id": "AH",
-    "name": { "ja": "オーストリア=ハンガリー帝国", "en": "Austro-Hungarian Empire" },
+    "name": {
+      "ja": "オーストリア=ハンガリー帝国",
+      "en": "Austro-Hungarian Empire"
+    },
     "scale": 4,
-    "isMilitaryRegime": false
-  },
-  "ALD": {
-    "id": "ALD",
-    "name": { "ja": "オーランド諸島", "en": "Åland Islands" },
-    "scale": 1,
     "isMilitaryRegime": false
   },
   "ARE": {
     "id": "ARE",
-    "name": { "ja": "アラブ首長国連邦", "en": "United Arab Emirates" },
+    "name": {
+      "ja": "アラブ首長国連邦",
+      "en": "United Arab Emirates"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "ARG": {
     "id": "ARG",
-    "name": { "ja": "アルゼンチン", "en": "Argentina" },
+    "name": {
+      "ja": "アルゼンチン",
+      "en": "Argentina"
+    },
     "scale": 3,
     "isMilitaryRegime": false
   },
   "ATA": {
     "id": "ATA",
-    "name": { "ja": "南極", "en": "Antarctica" },
+    "name": {
+      "ja": "南極",
+      "en": "Antarctica"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "ATF": {
     "id": "ATF",
-    "name": { "ja": "フランス領南方・南極地域", "en": "French Southern Territories" },
+    "name": {
+      "ja": "フランス領南方・南極地域",
+      "en": "French Southern Territories"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "AUS": {
     "id": "AUS",
-    "name": { "ja": "オーストラリア", "en": "Australia" },
+    "name": {
+      "ja": "オーストラリア",
+      "en": "Australia"
+    },
     "scale": 3,
     "isMilitaryRegime": false
   },
   "BEL": {
     "id": "BEL",
-    "name": { "ja": "ベルギー", "en": "Belgium" },
+    "name": {
+      "ja": "ベルギー",
+      "en": "Belgium"
+    },
     "scale": 3,
     "isMilitaryRegime": false
   },
-  "BFA": {
-    "id": "BFA",
-    "name": { "ja": "ブルキナファソ", "en": "Burkina Faso" },
-    "scale": 1,
-    "isMilitaryRegime": true
-  },
   "BHS": {
     "id": "BHS",
-    "name": { "ja": "バハマ", "en": "Bahamas" },
+    "name": {
+      "ja": "バハマ",
+      "en": "Bahamas"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "BLR": {
     "id": "BLR",
-    "name": { "ja": "ベラルーシ", "en": "Belarus" },
+    "name": {
+      "ja": "ベラルーシ",
+      "en": "Belarus"
+    },
     "scale": 2,
-    "isMilitaryRegime": false
-  },
-  "BLZ": {
-    "id": "BLZ",
-    "name": { "ja": "ベリーズ", "en": "Belize" },
-    "scale": 1,
     "isMilitaryRegime": false
   },
   "BOL": {
     "id": "BOL",
-    "name": { "ja": "ボリビア", "en": "Bolivia" },
+    "name": {
+      "ja": "ボリビア",
+      "en": "Bolivia"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "BRA": {
     "id": "BRA",
-    "name": { "ja": "ブラジル", "en": "Brazil" },
+    "name": {
+      "ja": "ブラジル",
+      "en": "Brazil"
+    },
     "scale": 3,
     "isMilitaryRegime": false
   },
   "BRN": {
     "id": "BRN",
-    "name": { "ja": "ブルネイ", "en": "Brunei" },
+    "name": {
+      "ja": "ブルネイ",
+      "en": "Brunei"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "BTN": {
     "id": "BTN",
-    "name": { "ja": "ブータン", "en": "Bhutan" },
+    "name": {
+      "ja": "ブータン",
+      "en": "Bhutan"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "CAN": {
     "id": "CAN",
-    "name": { "ja": "カナダ", "en": "Canada" },
+    "name": {
+      "ja": "カナダ",
+      "en": "Canada"
+    },
     "scale": 3,
     "isMilitaryRegime": false
   },
   "CHE": {
     "id": "CHE",
-    "name": { "ja": "スイス", "en": "Switzerland" },
+    "name": {
+      "ja": "スイス",
+      "en": "Switzerland"
+    },
     "scale": 3,
     "isMilitaryRegime": false
   },
   "CHL": {
     "id": "CHL",
-    "name": { "ja": "チリ", "en": "Chile" },
+    "name": {
+      "ja": "チリ",
+      "en": "Chile"
+    },
     "scale": 2,
-    "isMilitaryRegime": false
-  },
-  "CHN": {
-    "id": "CHN",
-    "name": { "ja": "中国", "en": "China" },
-    "scale": 3,
     "isMilitaryRegime": false
   },
   "CIV": {
     "id": "CIV",
-    "name": { "ja": "コートジボワール", "en": "Côte d'Ivoire" },
+    "name": {
+      "ja": "コートジボワール",
+      "en": "Côte d'Ivoire"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "COL": {
     "id": "COL",
-    "name": { "ja": "コロンビア", "en": "Colombia" },
+    "name": {
+      "ja": "コロンビア",
+      "en": "Colombia"
+    },
     "scale": 2,
-    "isMilitaryRegime": false
-  },
-  "CPV": {
-    "id": "CPV",
-    "name": { "ja": "カーボベルデ", "en": "Cape Verde" },
-    "scale": 1,
     "isMilitaryRegime": false
   },
   "CRI": {
     "id": "CRI",
-    "name": { "ja": "コスタリカ", "en": "Costa Rica" },
+    "name": {
+      "ja": "コスタリカ",
+      "en": "Costa Rica"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "CUB": {
     "id": "CUB",
-    "name": { "ja": "キューバ", "en": "Cuba" },
+    "name": {
+      "ja": "キューバ",
+      "en": "Cuba"
+    },
     "scale": 2,
-    "isMilitaryRegime": false
-  },
-  "DEU": {
-    "id": "DEU",
-    "name": { "ja": "ドイツ", "en": "Germany" },
-    "scale": 5,
     "isMilitaryRegime": false
   },
   "DNK": {
     "id": "DNK",
-    "name": { "ja": "デンマーク", "en": "Denmark" },
+    "name": {
+      "ja": "デンマーク",
+      "en": "Denmark"
+    },
     "scale": 2,
     "isMilitaryRegime": false
   },
   "DOM": {
     "id": "DOM",
-    "name": { "ja": "ドミニカ共和国", "en": "Dominican Republic" },
+    "name": {
+      "ja": "ドミニカ共和国",
+      "en": "Dominican Republic"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "ECU": {
     "id": "ECU",
-    "name": { "ja": "エクアドル", "en": "Ecuador" },
+    "name": {
+      "ja": "エクアドル",
+      "en": "Ecuador"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
-  "ERI": {
-    "id": "ERI",
-    "name": { "ja": "エリトリア", "en": "Eritrea" },
-    "scale": 1,
-    "isMilitaryRegime": true
-  },
   "ESP": {
     "id": "ESP",
-    "name": { "ja": "スペイン", "en": "Spain" },
+    "name": {
+      "ja": "スペイン",
+      "en": "Spain"
+    },
     "scale": 3,
     "isMilitaryRegime": false
   },
   "EST": {
     "id": "EST",
-    "name": { "ja": "エストニア", "en": "Estonia" },
+    "name": {
+      "ja": "エストニア",
+      "en": "Estonia"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "ETH": {
     "id": "ETH",
-    "name": { "ja": "エチオピア", "en": "Ethiopia" },
+    "name": {
+      "ja": "エチオピア",
+      "en": "Ethiopia"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "FIN": {
     "id": "FIN",
-    "name": { "ja": "フィンランド", "en": "Finland" },
+    "name": {
+      "ja": "フィンランド",
+      "en": "Finland"
+    },
     "scale": 2,
     "isMilitaryRegime": false
   },
   "FJI": {
     "id": "FJI",
-    "name": { "ja": "フィジー", "en": "Fiji" },
+    "name": {
+      "ja": "フィジー",
+      "en": "Fiji"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "FLK": {
     "id": "FLK",
-    "name": { "ja": "フォークランド諸島", "en": "Falkland Islands" },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "FRA": {
-    "id": "FRA",
-    "name": { "ja": "フランス", "en": "France" },
-    "scale": 5,
-    "isMilitaryRegime": false
-  },
-  "FRO": {
-    "id": "FRO",
-    "name": { "ja": "フェロー諸島", "en": "Faroe Islands" },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "FSM": {
-    "id": "FSM",
-    "name": { "ja": "ミクロネシア連邦", "en": "Micronesia" },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "GBR": {
-    "id": "GBR",
-    "name": { "ja": "イギリス", "en": "United Kingdom" },
-    "scale": 6,
-    "isMilitaryRegime": false
-  },
-  "GHA": {
-    "id": "GHA",
-    "name": { "ja": "ガーナ", "en": "Ghana" },
+    "name": {
+      "ja": "フォークランド諸島",
+      "en": "Falkland Islands"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "GIN": {
     "id": "GIN",
-    "name": { "ja": "ギニア", "en": "Guinea" },
+    "name": {
+      "ja": "ギニア",
+      "en": "Guinea"
+    },
     "scale": 1,
     "isMilitaryRegime": true
   },
   "GMB": {
     "id": "GMB",
-    "name": { "ja": "ガンビア", "en": "Gambia" },
+    "name": {
+      "ja": "ガンビア",
+      "en": "Gambia"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "GRC": {
     "id": "GRC",
-    "name": { "ja": "ギリシャ", "en": "Greece" },
+    "name": {
+      "ja": "ギリシャ",
+      "en": "Greece"
+    },
     "scale": 2,
     "isMilitaryRegime": false
   },
   "GRL": {
     "id": "GRL",
-    "name": { "ja": "グリーンランド", "en": "Greenland" },
+    "name": {
+      "ja": "グリーンランド",
+      "en": "Greenland"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "GTM": {
     "id": "GTM",
-    "name": { "ja": "グアテマラ", "en": "Guatemala" },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "GUM": {
-    "id": "GUM",
-    "name": { "ja": "グアム", "en": "Guam" },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "GUY": {
-    "id": "GUY",
-    "name": { "ja": "ガイアナ", "en": "Guyana" },
+    "name": {
+      "ja": "グアテマラ",
+      "en": "Guatemala"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "HND": {
     "id": "HND",
-    "name": { "ja": "ホンジュラス", "en": "Honduras" },
+    "name": {
+      "ja": "ホンジュラス",
+      "en": "Honduras"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "HTI": {
     "id": "HTI",
-    "name": { "ja": "ハイチ", "en": "Haiti" },
+    "name": {
+      "ja": "ハイチ",
+      "en": "Haiti"
+    },
     "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "IND": {
-    "id": "IND",
-    "name": { "ja": "インド", "en": "India" },
-    "scale": 3,
     "isMilitaryRegime": false
   },
   "IRL": {
     "id": "IRL",
-    "name": { "ja": "アイルランド", "en": "Ireland" },
+    "name": {
+      "ja": "アイルランド",
+      "en": "Ireland"
+    },
     "scale": 2,
     "isMilitaryRegime": false
   },
   "IRN": {
     "id": "IRN",
-    "name": { "ja": "イラン", "en": "Iran" },
+    "name": {
+      "ja": "イラン",
+      "en": "Iran"
+    },
     "scale": 2,
     "isMilitaryRegime": false
   },
   "IRQ": {
     "id": "IRQ",
-    "name": { "ja": "イラク", "en": "Iraq" },
+    "name": {
+      "ja": "イラク",
+      "en": "Iraq"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "ISL": {
     "id": "ISL",
-    "name": { "ja": "アイスランド", "en": "Iceland" },
+    "name": {
+      "ja": "アイスランド",
+      "en": "Iceland"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "ITA": {
     "id": "ITA",
-    "name": { "ja": "イタリア", "en": "Italy" },
+    "name": {
+      "ja": "イタリア",
+      "en": "Italy"
+    },
     "scale": 5,
     "isMilitaryRegime": false
   },
   "JAM": {
     "id": "JAM",
-    "name": { "ja": "ジャマイカ", "en": "Jamaica" },
+    "name": {
+      "ja": "ジャマイカ",
+      "en": "Jamaica"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "JPN": {
     "id": "JPN",
-    "name": { "ja": "日本", "en": "Japan" },
+    "name": {
+      "ja": "日本",
+      "en": "Japan"
+    },
     "scale": 5,
     "isMilitaryRegime": false
   },
   "KWT": {
     "id": "KWT",
-    "name": { "ja": "クウェート", "en": "Kuwait" },
+    "name": {
+      "ja": "クウェート",
+      "en": "Kuwait"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "LBR": {
     "id": "LBR",
-    "name": { "ja": "リベリア", "en": "Liberia" },
+    "name": {
+      "ja": "リベリア",
+      "en": "Liberia"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "LKA": {
     "id": "LKA",
-    "name": { "ja": "スリランカ", "en": "Sri Lanka" },
+    "name": {
+      "ja": "スリランカ",
+      "en": "Sri Lanka"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "LTU": {
     "id": "LTU",
-    "name": { "ja": "リトアニア", "en": "Lithuania" },
+    "name": {
+      "ja": "リトアニア",
+      "en": "Lithuania"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "LUX": {
     "id": "LUX",
-    "name": { "ja": "ルクセンブルク", "en": "Luxembourg" },
+    "name": {
+      "ja": "ルクセンブルク",
+      "en": "Luxembourg"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "LVA": {
     "id": "LVA",
-    "name": { "ja": "ラトビア", "en": "Latvia" },
+    "name": {
+      "ja": "ラトビア",
+      "en": "Latvia"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "MEX": {
     "id": "MEX",
-    "name": { "ja": "メキシコ", "en": "Mexico" },
+    "name": {
+      "ja": "メキシコ",
+      "en": "Mexico"
+    },
     "scale": 2,
     "isMilitaryRegime": false
   },
-  "MLI": {
-    "id": "MLI",
-    "name": { "ja": "マリ", "en": "Mali" },
-    "scale": 1,
-    "isMilitaryRegime": true
-  },
   "MMR": {
     "id": "MMR",
-    "name": { "ja": "ミャンマー", "en": "Myanmar" },
+    "name": {
+      "ja": "ミャンマー",
+      "en": "Myanmar"
+    },
     "scale": 1,
     "isMilitaryRegime": true
   },
   "MNG": {
     "id": "MNG",
-    "name": { "ja": "モンゴル", "en": "Mongolia" },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "MRT": {
-    "id": "MRT",
-    "name": { "ja": "モーリタニア", "en": "Mauritania" },
+    "name": {
+      "ja": "モンゴル",
+      "en": "Mongolia"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "NCL": {
     "id": "NCL",
-    "name": { "ja": "ニューカレドニア", "en": "New Caledonia" },
+    "name": {
+      "ja": "ニューカレドニア",
+      "en": "New Caledonia"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "NIC": {
     "id": "NIC",
-    "name": { "ja": "ニカラグア", "en": "Nicaragua" },
+    "name": {
+      "ja": "ニカラグア",
+      "en": "Nicaragua"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "NLD": {
     "id": "NLD",
-    "name": { "ja": "オランダ", "en": "Netherlands" },
+    "name": {
+      "ja": "オランダ",
+      "en": "Netherlands"
+    },
     "scale": 3,
     "isMilitaryRegime": false
   },
   "NOR": {
     "id": "NOR",
-    "name": { "ja": "ノルウェー", "en": "Norway" },
+    "name": {
+      "ja": "ノルウェー",
+      "en": "Norway"
+    },
     "scale": 2,
     "isMilitaryRegime": false
   },
   "NPL": {
     "id": "NPL",
-    "name": { "ja": "ネパール", "en": "Nepal" },
+    "name": {
+      "ja": "ネパール",
+      "en": "Nepal"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "NZL": {
     "id": "NZL",
-    "name": { "ja": "ニュージーランド", "en": "New Zealand" },
+    "name": {
+      "ja": "ニュージーランド",
+      "en": "New Zealand"
+    },
     "scale": 2,
     "isMilitaryRegime": false
   },
   "OMN": {
     "id": "OMN",
-    "name": { "ja": "オマーン", "en": "Oman" },
+    "name": {
+      "ja": "オマーン",
+      "en": "Oman"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "PAN": {
     "id": "PAN",
-    "name": { "ja": "パナマ", "en": "Panama" },
+    "name": {
+      "ja": "パナマ",
+      "en": "Panama"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "PER": {
     "id": "PER",
-    "name": { "ja": "ペルー", "en": "Peru" },
+    "name": {
+      "ja": "ペルー",
+      "en": "Peru"
+    },
     "scale": 2,
     "isMilitaryRegime": false
   },
   "PHL": {
     "id": "PHL",
-    "name": { "ja": "フィリピン", "en": "Philippines" },
+    "name": {
+      "ja": "フィリピン",
+      "en": "Philippines"
+    },
     "scale": 2,
     "isMilitaryRegime": false
   },
   "POL": {
     "id": "POL",
-    "name": { "ja": "ポーランド", "en": "Poland" },
+    "name": {
+      "ja": "ポーランド",
+      "en": "Poland"
+    },
     "scale": 3,
     "isMilitaryRegime": false,
     "suzerainId": "DEU"
   },
-  "PRI": {
-    "id": "PRI",
-    "name": { "ja": "プエルトリコ", "en": "Puerto Rico" },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
   "PRT": {
     "id": "PRT",
-    "name": { "ja": "ポルトガル", "en": "Portugal" },
+    "name": {
+      "ja": "ポルトガル",
+      "en": "Portugal"
+    },
     "scale": 2,
     "isMilitaryRegime": false
   },
   "PRY": {
     "id": "PRY",
-    "name": { "ja": "パラグアイ", "en": "Paraguay" },
+    "name": {
+      "ja": "パラグアイ",
+      "en": "Paraguay"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "QAT": {
     "id": "QAT",
-    "name": { "ja": "カタール", "en": "Qatar" },
+    "name": {
+      "ja": "カタール",
+      "en": "Qatar"
+    },
     "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "RUS": {
-    "id": "RUS",
-    "name": { "ja": "ロシア", "en": "Russia" },
-    "scale": 6,
     "isMilitaryRegime": false
   },
   "SAU": {
     "id": "SAU",
-    "name": { "ja": "サウジアラビア", "en": "Saudi Arabia" },
+    "name": {
+      "ja": "サウジアラビア",
+      "en": "Saudi Arabia"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "SEN": {
     "id": "SEN",
-    "name": { "ja": "セネガル", "en": "Senegal" },
+    "name": {
+      "ja": "セネガル",
+      "en": "Senegal"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "SGS": {
     "id": "SGS",
-    "name": { "ja": "サウスジョージア・サウスサンドウィッチ諸島", "en": "South Georgia and the South Sandwich Islands" },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "SHN": {
-    "id": "SHN",
-    "name": { "ja": "セントヘレナ", "en": "Saint Helena" },
+    "name": {
+      "ja": "サウスジョージア・サウスサンドウィッチ諸島",
+      "en": "South Georgia and the South Sandwich Islands"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "SLB": {
     "id": "SLB",
-    "name": { "ja": "ソロモン諸島", "en": "Solomon Islands" },
+    "name": {
+      "ja": "ソロモン諸島",
+      "en": "Solomon Islands"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "SLE": {
     "id": "SLE",
-    "name": { "ja": "シエラレオネ", "en": "Sierra Leone" },
+    "name": {
+      "ja": "シエラレオネ",
+      "en": "Sierra Leone"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "SLV": {
     "id": "SLV",
-    "name": { "ja": "エルサルバドル", "en": "El Salvador" },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "SOL": {
-    "id": "SOL",
-    "name": { "ja": "ソマリランド", "en": "Somaliland" },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "SOM": {
-    "id": "SOM",
-    "name": { "ja": "ソマリア", "en": "Somalia" },
+    "name": {
+      "ja": "エルサルバドル",
+      "en": "El Salvador"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "SUL": {
     "id": "SUL",
-    "name": { "ja": "スールー王国", "en": "Sultanate of Sulu" },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "SUR": {
-    "id": "SUR",
-    "name": { "ja": "スリナム", "en": "Suriname" },
+    "name": {
+      "ja": "スールー王国",
+      "en": "Sultanate of Sulu"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "SWE": {
     "id": "SWE",
-    "name": { "ja": "スウェーデン", "en": "Sweden" },
+    "name": {
+      "ja": "スウェーデン",
+      "en": "Sweden"
+    },
     "scale": 3,
     "isMilitaryRegime": false
   },
   "THA": {
     "id": "THA",
-    "name": { "ja": "タイ", "en": "Thailand" },
+    "name": {
+      "ja": "タイ",
+      "en": "Thailand"
+    },
     "scale": 2,
     "isMilitaryRegime": true
   },
   "TTO": {
     "id": "TTO",
-    "name": { "ja": "トリニダード・トバゴ", "en": "Trinidad and Tobago" },
+    "name": {
+      "ja": "トリニダード・トバゴ",
+      "en": "Trinidad and Tobago"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "TUR": {
     "id": "TUR",
-    "name": { "ja": "トルコ", "en": "Turkey" },
+    "name": {
+      "ja": "トルコ",
+      "en": "Turkey"
+    },
     "scale": 2,
     "isMilitaryRegime": false
   },
   "UKR": {
     "id": "UKR",
-    "name": { "ja": "ウクライナ", "en": "Ukraine" },
+    "name": {
+      "ja": "ウクライナ",
+      "en": "Ukraine"
+    },
     "scale": 3,
     "isMilitaryRegime": false
   },
   "URY": {
     "id": "URY",
-    "name": { "ja": "ウルグアイ", "en": "Uruguay" },
+    "name": {
+      "ja": "ウルグアイ",
+      "en": "Uruguay"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "USA": {
     "id": "USA",
-    "name": { "ja": "アメリカ合衆国", "en": "United States" },
+    "name": {
+      "ja": "アメリカ合衆国",
+      "en": "United States"
+    },
     "scale": 6,
     "isMilitaryRegime": false
   },
   "VEN": {
     "id": "VEN",
-    "name": { "ja": "ベネズエラ", "en": "Venezuela" },
+    "name": {
+      "ja": "ベネズエラ",
+      "en": "Venezuela"
+    },
     "scale": 2,
-    "isMilitaryRegime": false
-  },
-  "VIR": {
-    "id": "VIR",
-    "name": { "ja": "アメリカ領ヴァージン諸島", "en": "US Virgin Islands" },
-    "scale": 1,
     "isMilitaryRegime": false
   },
   "VUT": {
     "id": "VUT",
-    "name": { "ja": "バヌアツ", "en": "Vanuatu" },
+    "name": {
+      "ja": "バヌアツ",
+      "en": "Vanuatu"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "WSM": {
     "id": "WSM",
-    "name": { "ja": "サモア", "en": "Samoa" },
+    "name": {
+      "ja": "サモア",
+      "en": "Samoa"
+    },
     "scale": 1,
     "isMilitaryRegime": false
   },
   "YEM": {
     "id": "YEM",
-    "name": { "ja": "イエメン", "en": "Yemen" },
+    "name": {
+      "ja": "イエメン",
+      "en": "Yemen"
+    },
     "scale": 1,
     "isMilitaryRegime": false
+  },
+  "AS": {
+    "id": "AS",
+    "name": {
+      "ja": "アシャンティ王国",
+      "en": "Asante Empire"
+    },
+    "scale": 1,
+    "isMilitaryRegime": false
+  },
+  "DF": {
+    "id": "DF",
+    "name": {
+      "ja": "ダルフール・スルタン国",
+      "en": "Sultanate of Darfur"
+    },
+    "scale": 1,
+    "isMilitaryRegime": true
   }
 }
