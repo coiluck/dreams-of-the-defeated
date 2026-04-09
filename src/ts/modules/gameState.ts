@@ -139,6 +139,7 @@ const NON_PLAYABLE_COUNTRY_STATS: Record<number, NonPlayableCountryStatsByScale>
 interface NonPlayableCountryData {
   id: string;
   name: LocalizedName;
+  flag: string;
   scale: number;
   isMilitaryRegime: boolean;
   suzerainId?: string;
@@ -193,7 +194,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         id:                 countryId,
         slug:               countryId.toLowerCase(),
         name:               npcData.name,
-        flag:               '',
+        flag:               `/assets/images/CountryFlags/sub/${countryId}.png`,
         government:         { ja: '', en: '' },
         leader:             { ja: '', en: '' },
         quote:              { ja: '', en: '' },
