@@ -44,15 +44,6 @@
     "scale": 1,
     "isMilitaryRegime": false
   },
-  "ATF": {
-    "id": "ATF",
-    "name": {
-      "ja": "フランス領南方・南極地域",
-      "en": "French Southern Territories"
-    },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
   "AUS": {
     "id": "AUS",
     "name": {
@@ -69,15 +60,6 @@
       "en": "Belgium"
     },
     "scale": 3,
-    "isMilitaryRegime": false
-  },
-  "BHS": {
-    "id": "BHS",
-    "name": {
-      "ja": "バハマ",
-      "en": "Bahamas"
-    },
-    "scale": 1,
     "isMilitaryRegime": false
   },
   "BLR": {
@@ -150,15 +132,6 @@
       "en": "Chile"
     },
     "scale": 2,
-    "isMilitaryRegime": false
-  },
-  "CIV": {
-    "id": "CIV",
-    "name": {
-      "ja": "コートジボワール",
-      "en": "Côte d'Ivoire"
-    },
-    "scale": 1,
     "isMilitaryRegime": false
   },
   "COL": {
@@ -249,42 +222,6 @@
       "en": "Finland"
     },
     "scale": 2,
-    "isMilitaryRegime": false
-  },
-  "FJI": {
-    "id": "FJI",
-    "name": {
-      "ja": "フィジー",
-      "en": "Fiji"
-    },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "FLK": {
-    "id": "FLK",
-    "name": {
-      "ja": "フォークランド諸島",
-      "en": "Falkland Islands"
-    },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "GIN": {
-    "id": "GIN",
-    "name": {
-      "ja": "ギニア",
-      "en": "Guinea"
-    },
-    "scale": 1,
-    "isMilitaryRegime": true
-  },
-  "GMB": {
-    "id": "GMB",
-    "name": {
-      "ja": "ガンビア",
-      "en": "Gambia"
-    },
-    "scale": 1,
     "isMilitaryRegime": false
   },
   "GRC": {
@@ -476,15 +413,6 @@
     "scale": 1,
     "isMilitaryRegime": false
   },
-  "NCL": {
-    "id": "NCL",
-    "name": {
-      "ja": "ニューカレドニア",
-      "en": "New Caledonia"
-    },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
   "NIC": {
     "id": "NIC",
     "name": {
@@ -612,42 +540,6 @@
     "scale": 1,
     "isMilitaryRegime": false
   },
-  "SEN": {
-    "id": "SEN",
-    "name": {
-      "ja": "セネガル",
-      "en": "Senegal"
-    },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "SGS": {
-    "id": "SGS",
-    "name": {
-      "ja": "サウスジョージア・サウスサンドウィッチ諸島",
-      "en": "South Georgia and the South Sandwich Islands"
-    },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "SLB": {
-    "id": "SLB",
-    "name": {
-      "ja": "ソロモン諸島",
-      "en": "Solomon Islands"
-    },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "SLE": {
-    "id": "SLE",
-    "name": {
-      "ja": "シエラレオネ",
-      "en": "Sierra Leone"
-    },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
   "SLV": {
     "id": "SLV",
     "name": {
@@ -683,15 +575,6 @@
     },
     "scale": 2,
     "isMilitaryRegime": true
-  },
-  "TTO": {
-    "id": "TTO",
-    "name": {
-      "ja": "トリニダード・トバゴ",
-      "en": "Trinidad and Tobago"
-    },
-    "scale": 1,
-    "isMilitaryRegime": false
   },
   "TUR": {
     "id": "TUR",
@@ -738,24 +621,6 @@
     "scale": 2,
     "isMilitaryRegime": false
   },
-  "VUT": {
-    "id": "VUT",
-    "name": {
-      "ja": "バヌアツ",
-      "en": "Vanuatu"
-    },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "WSM": {
-    "id": "WSM",
-    "name": {
-      "ja": "サモア",
-      "en": "Samoa"
-    },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
   "YEM": {
     "id": "YEM",
     "name": {
@@ -779,6 +644,15 @@
     "name": {
       "ja": "ダルフール・スルタン国",
       "en": "Sultanate of Darfur"
+    },
+    "scale": 1,
+    "isMilitaryRegime": true
+  },
+  "MH": {
+    "id": "MH",
+    "name": {
+      "ja": "マフディー国",
+      "en": "Mahdist State"
     },
     "scale": 1,
     "isMilitaryRegime": true
