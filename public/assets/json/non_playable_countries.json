@@ -17,15 +17,6 @@
     "scale": 4,
     "isMilitaryRegime": false
   },
-  "ARE": {
-    "id": "ARE",
-    "name": {
-      "ja": "アラブ首長国連邦",
-      "en": "United Arab Emirates"
-    },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
   "ARG": {
     "id": "ARG",
     "name": {
@@ -287,15 +278,6 @@
     "scale": 2,
     "isMilitaryRegime": false
   },
-  "IRQ": {
-    "id": "IRQ",
-    "name": {
-      "ja": "イラク",
-      "en": "Iraq"
-    },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
   "ISL": {
     "id": "ISL",
     "name": {
@@ -330,15 +312,6 @@
       "en": "Japan"
     },
     "scale": 5,
-    "isMilitaryRegime": false
-  },
-  "KWT": {
-    "id": "KWT",
-    "name": {
-      "ja": "クウェート",
-      "en": "Kuwait"
-    },
-    "scale": 1,
     "isMilitaryRegime": false
   },
   "LBR": {
@@ -522,15 +495,6 @@
     "scale": 1,
     "isMilitaryRegime": false
   },
-  "QAT": {
-    "id": "QAT",
-    "name": {
-      "ja": "カタール",
-      "en": "Qatar"
-    },
-    "scale": 1,
-    "isMilitaryRegime": false
-  },
   "SAU": {
     "id": "SAU",
     "name": {
@@ -653,6 +617,60 @@
     "name": {
       "ja": "マフディー国",
       "en": "Mahdist State"
+    },
+    "scale": 1,
+    "isMilitaryRegime": true
+  },
+  "AZ": {
+    "id": "AZ",
+    "name": {
+      "ja": "アザンデ首長国",
+      "en": "Azande Chiefdoms"
+    },
+    "scale": 1,
+    "isMilitaryRegime": false
+  },
+  "BR": {
+    "id": "BR",
+    "name": {
+      "ja": "バリ共同体",
+      "en": "Bari Communes"
+    },
+    "scale": 1,
+    "isMilitaryRegime": false
+  },
+  "DK": {
+    "id": "DK",
+    "name": {
+      "ja": "ディンカ連盟",
+      "en": "Dinka Confederation"
+    },
+    "scale": 1,
+    "isMilitaryRegime": false
+  },
+  "HA": {
+    "id": "HA",
+    "name": {
+      "ja": "ハワイ王国",
+      "en": "Hawaiian Kingdom"
+    },
+    "scale": 1,
+    "isMilitaryRegime": false
+  },
+  "NU": {
+    "id": "NU",
+    "name": {
+      "ja": "ヌエル氏族会議",
+      "en": "Nuer Clan Councils"
+    },
+    "scale": 1,
+    "isMilitaryRegime": true
+  },
+  "SL": {
+    "id": "SL",
+    "name": {
+      "ja": "シルク王国",
+      "en": "Shilluk Kingdom"
     },
     "scale": 1,
     "isMilitaryRegime": true
