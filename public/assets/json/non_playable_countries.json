@@ -215,6 +215,15 @@
     "scale": 2,
     "isMilitaryRegime": false
   },
+  "GBR": {
+    "id": "GBR",
+    "name": {
+      "ja": "イギリス",
+      "en": "Britain"
+    },
+    "scale": 6,
+    "isMilitaryRegime": false
+  },
   "GRC": {
     "id": "GRC",
     "name": {
@@ -287,15 +296,6 @@
     "scale": 1,
     "isMilitaryRegime": false
   },
-  "ITA": {
-    "id": "ITA",
-    "name": {
-      "ja": "イタリア",
-      "en": "Italy"
-    },
-    "scale": 5,
-    "isMilitaryRegime": false
-  },
   "JAM": {
     "id": "JAM",
     "name": {
@@ -303,15 +303,6 @@
       "en": "Jamaica"
     },
     "scale": 1,
-    "isMilitaryRegime": false
-  },
-  "JPN": {
-    "id": "JPN",
-    "name": {
-      "ja": "日本",
-      "en": "Japan"
-    },
-    "scale": 5,
     "isMilitaryRegime": false
   },
   "LBR": {
@@ -495,6 +486,15 @@
     "scale": 1,
     "isMilitaryRegime": false
   },
+  "RUS": {
+    "id": "RUS",
+    "name": {
+      "ja": "ロシア帝国",
+      "en": "Russia Empire"
+    },
+    "scale": 5,
+    "isMilitaryRegime": false
+  },
   "SAU": {
     "id": "SAU",
     "name": {
@@ -655,7 +655,8 @@
       "en": "Hawaiian Kingdom"
     },
     "scale": 1,
-    "isMilitaryRegime": false
+    "isMilitaryRegime": false,
+    "allies": ["JPN"]
   },
   "NU": {
     "id": "NU",

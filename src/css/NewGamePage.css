@@ -208,7 +208,7 @@
 
 .new-game-flavor-quote {
   position: relative;
-  padding-left: 1rem;
+  padding-left: .9rem;
   font-style: italic;
   color: #aaa;
 }
@@ -224,7 +224,8 @@
 }
 
 .new-game-description-text {
-  font-size: .9rem;
+  font-size: .8rem;
+  white-space: pre-wrap;
 }
 
 /* フッターボタン */

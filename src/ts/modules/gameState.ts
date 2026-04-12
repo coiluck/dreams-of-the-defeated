@@ -144,6 +144,7 @@ interface NonPlayableCountryData {
   isMilitaryRegime: boolean;
   suzerainId?: string;
   vassalIds?: string[];
+  allies?: string[];
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -211,7 +212,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         suzerainId:         npcData.suzerainId ?? null,
         vassalIds:          npcData.vassalIds ?? [],
         activeWarIds:       [],
-        allies:             [],
+        allies:             npcData.allies ?? [],
         frontActions:       {},
         activeFocusId:      null,
         completedFocusIds:  [],
