@@ -1,22 +1,35 @@
 // src/ts/pages/LoadingPage.tsx
 import { useState, useEffect, useRef } from "react";
 import '../../css/LoadingPage.css';
+import { SettingState } from "../modules/store";
 
 interface LoadingPageProps {
   isLoaded: boolean;
-  onFinish: () => void; // 追加: 演出終了を親に伝える
+  onFinish: () => void;
 }
 
-const MESSAGE_LIST = [
-  "満州の利権を交渉中...",
-  "民族運動を鎮圧中...",
-  "帝国陸軍を展開中...",
-  "植民地化侵略に抵抗中...",
-  "シュルレアリストを粛清中...",
-  "シヴァ神の教えを解釈中...",
-  "花と手榴弾を補給中...",
-  "バグダード鉄道を整備中...",
-];
+const MESSAGE_LIST = {
+  ja: [
+    "満州の利権を交渉中...",
+    "民族運動を鎮圧中...",
+    "帝国陸軍を展開中...",
+    "植民地化侵略に抵抗中...",
+    "シュルレアリストを粛清中...",
+    "シヴァ神の教えを解釈中...",
+    "花と手榴弾を補給中...",
+    "バグダード鉄道を整備中...",
+  ],
+  en: [
+    "Negotiating Manchurian concessions...",
+    "Suppressing nationalist movements...",
+    "Deploying Imperial Army...",
+    "Resisting colonial invasion...",
+    "Purging Surrealists...",
+    "Interpreting the teachings of Shiva...",
+    "Resupplying flowers and grenades...",
+    "Maintaining the Baghdad Railway...",
+  ],
+};
 
 const BACKGROUND_IMAGE_LIST = [
   "/assets/images/LoadingPage/1.jpg",
@@ -25,14 +38,17 @@ const BACKGROUND_IMAGE_LIST = [
 ];
 
 export default function LoadingPage({ isLoaded, onFinish }: LoadingPageProps) {
+  const lang = SettingState.language ?? 'ja';
+
   const [displayProgress, setDisplayProgress] = useState(0);
   const animFrameRef = useRef<number | null>(null);
 
   const isLoadedRef = useRef(isLoaded);
 
   const [loadingMessage] = useState(() => {
-    const randomIndex = Math.floor(Math.random() * MESSAGE_LIST.length);
-    return MESSAGE_LIST[randomIndex];
+    const messages = MESSAGE_LIST[lang];
+    const randomIndex = Math.floor(Math.random() * messages.length);
+    return messages[randomIndex];
   });
   const [backgroundImage] = useState(() => {
     const randomIndex = Math.floor(Math.random() * BACKGROUND_IMAGE_LIST.length);
