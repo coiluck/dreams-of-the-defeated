@@ -10,6 +10,11 @@ mod wars_peace;
 mod save_store;
 mod message;
 
+#[tauri::command]
+fn exit_app(app_handle: tauri::AppHandle) {
+    app_handle.exit(0);
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -60,6 +65,7 @@ pub fn run() {
             save_store::delete_save,
             save_store::rename_save,
             message::show_dialog,
+            exit_app,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

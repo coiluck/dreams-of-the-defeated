@@ -1,5 +1,5 @@
 // src/ts/pages/SavePage.tsx
-
+import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from 'react';
 import { useGameStore }        from '../modules/gameState';
 import {
@@ -94,12 +94,18 @@ export default function SavePage({ onBack }: Props) {
 
   // ── 削除 ────────────────────────────────────────────────────────────────
   const handleDelete = async (saveId: string) => {
-    if (!window.confirm(t.deleteConfirm)) return;
-    try {
-      await deleteSave(saveId);
-      await refreshList();
-    } catch (e) {
-      setError(String(e));
+    const result = await invoke<number>('show_dialog', {
+      message: `${t.deleteConfirm}`,
+      buttonLabels: ['Cancel', 'OK'],
+    });
+    if (result && result === 1) {
+      // resultは押したボタンのindex
+      try {
+        await deleteSave(saveId);
+        await refreshList();
+      } catch (e) {
+        setError(String(e));
+      }
     }
   };
 

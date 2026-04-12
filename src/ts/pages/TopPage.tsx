@@ -1,4 +1,5 @@
 // ts/pages/TopPage.tsx
+import { invoke } from "@tauri-apps/api/core";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../css/TopPage.css";
@@ -19,6 +20,10 @@ export default function TopPage() {
     setIsCreditsOpen(true);
   };
 
+  const handleExit = () => {
+    invoke("exit_app");
+  };
+
   return (
     <div className="page fade-in">
       <img
@@ -30,7 +35,7 @@ export default function TopPage() {
         <Button text="New Game" onClick={() => navigate('/newgame')} data-se="metallic" />
         <Button text="Load Game" onClick={() => navigate('/load')} data-se="metallic" />
         <Button text="Options" onClick={() => navigate('/options')} data-se="metallic" />
-        <Button text="Exit" onClick={() => navigate('/')} data-se="disabled" />
+        <Button text="Exit" onClick={handleExit} data-se="disabled" />
       </div>
 
       {/* credits */}

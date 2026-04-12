@@ -35,6 +35,7 @@
 .save-page-empty {
   color: #888;
   font-size: 0.9rem;
+  flex: 1;
 }
 
 /* 新規セーブ入力エリア */

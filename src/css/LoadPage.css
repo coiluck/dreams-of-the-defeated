@@ -43,6 +43,7 @@
 .load-page-empty {
   color: #888;
   font-size: 0.9rem;
+  flex: 1;
 }
 
 .load-page-item-container {
