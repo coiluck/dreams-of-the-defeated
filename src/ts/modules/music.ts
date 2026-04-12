@@ -21,6 +21,8 @@ class BGMController {
   private currentMode: 'auto' | 'fixed' = SettingState.mainBgm;
   private shuffledList: string[] = [];
 
+  private currentPlayId: number = 0; // 新しいplay()が呼ばれるたびにインクリメント、古い非同期処理を中断させる
+
   constructor() {
     // AudioContextはユーザー操作が必要なため、play時に初期化またはresumeする
     // ブラウザ互換性のため window.AudioContext または window.webkitAudioContext
@@ -76,11 +78,15 @@ class BGMController {
   async play(fileName: string, isLoop: boolean = true) {
     if (!this.ctx || !this.gainNode) return;
 
+    const playId = ++this.currentPlayId; // このplay()リクエスト固有のID
+
     if (this.ctx.state === 'suspended') {
       await this.ctx.resume();
+      if (playId !== this.currentPlayId) return; // より新しいplay()が来たので中断
     }
     if (this.currentSources.length > 0) {
       await this.fadeOut(0.5);
+      if (playId !== this.currentPlayId) return; // より新しいplay()が来たので中断
       this.stop();
     }
 
@@ -94,6 +100,8 @@ class BGMController {
       this.loadBuffer(introUrl),
       this.loadBuffer(loopUrl)
     ]);
+
+    if (playId !== this.currentPlayId) return; // より新しいplay()が来たので中断
 
     if (!loopBuffer) {
       console.warn(`Main loop file not found: ${fileName}`);
@@ -129,6 +137,7 @@ class BGMController {
 
       // 終了時に次の曲へ
       loopSource.onended = () => {
+        if (playId !== this.currentPlayId) return; // 既に別の曲が始まっていたら無視
         if (this.currentMode === 'auto') {
           this.playNextAuto();
         }
