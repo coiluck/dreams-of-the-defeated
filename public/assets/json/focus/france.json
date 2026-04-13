@@ -439,6 +439,7 @@
             "id": "FRA_inspiration",
             "action": "modify",
             "stats": {
+              "legitimacy": 5,
               "economicStrengthRate": 5
             }
           }
@@ -470,8 +471,8 @@
             "id": "FRA_inspiration",
             "action": "modify",
             "stats": {
-              "culturalUnity": 5,
-              "economicStrengthRate": 5
+              "culturalUnity": 10,
+              "politicalPowerRate": 5
             }
           }
         ]
@@ -827,7 +828,7 @@
               "legitimacy": -5,
               "attackPower": 5,
               "mechanizationRate": 5,
-              "economicStrengthRate": 5
+              "politicalPowerRate": 10
             }
           }
         ]
@@ -857,8 +858,8 @@
             "action": "modify",
             "stats": {
               "culturalUnity": 5,
-              "economicStrengthRate": 5,
-              "politicalPowerRate": 10
+              "economicStrengthRate": 10,
+              "politicalPowerRate": 5
             }
           }
         ]
@@ -1304,9 +1305,9 @@
             "id": "FRA_inspiration",
             "action": "modify",
             "stats": {
-              "economicStrengthRate": -5,
-              "politicalPowerRate": 10,
-              "legitimacy": 5
+              "economicStrengthRate": -10,
+              "politicalPowerRate": 20,
+              "legitimacy": 10
             }
           }
         ]
@@ -1367,7 +1368,7 @@
             "id": "FRA_inspiration",
             "action": "modify",
             "stats": {
-              "economicStrengthRate": 10
+              "economicStrengthRate": 15
             }
           }
         ]
