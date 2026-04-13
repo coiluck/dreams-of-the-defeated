@@ -103,7 +103,11 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": [
+          "GER_rhein_kahan_no_kanshi"
+        ]
+      },
       "prerequisites": [
         "dresden_kouwakaigi"
       ],
@@ -122,7 +126,11 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": [
+          "GER_poland_keiei"
+        ]
+      },
       "prerequisites": [
         "dresden_kouwakaigi"
       ],
@@ -169,7 +177,11 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": [
+          "GER_kaiser_no_rakujitsu"
+        ]
+      },
       "prerequisites": [
         "haken_no_daishou"
       ],
@@ -316,7 +328,11 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": [
+          "GER_yoake_no_hajimari"
+        ]
+      },
       "prerequisites": [
         "kaiser_no_rakujitsu"
       ],
@@ -337,7 +353,11 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": [
+          "GER_tetsu_to_chi_no_isan"
+        ]
+      },
       "prerequisites": [
         "kaiser_no_rakujitsu"
       ],
@@ -358,7 +378,11 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": [
+          "GER_mittelafrika_mondai"
+        ]
+      },
       "prerequisites": [
         "haken_no_daishou"
       ],
@@ -858,7 +882,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_mittelafrika_no_juuatsu",
+            "action": "modify",
+            "stats": {
+              "politicalPowerRate": 5,
+              "economicStrengthRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "touchihouhou_no_tenkan",
         "kenpou_e_no_seiyaku"
@@ -880,7 +915,19 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_mittelafrika_no_juuatsu",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": -5,
+              "legitimacy": 5,
+              "economicStrengthRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "mawa_ndi_hanran_no_chinatsu"
       ],
@@ -901,7 +948,11 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "eventIds": [
+          "GER_mawa_ndi_hanran_no_chinatsu"
+        ]
+      },
       "prerequisites": [
         "mittelafrika_mondai"
       ],
@@ -1803,7 +1854,10 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "politicalPower": 100,
+        "deployedMilitary": 10
+      },
       "prerequisites": [
         "karetsu_na_touchi"
       ],
@@ -1822,7 +1876,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_mittelafrika_no_juuatsu",
+            "action": "modify",
+            "stats": {
+              "legitimacy": 5,
+              "politicalPowerRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "touchihouhou_no_tenkan"
       ],
@@ -1843,7 +1908,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_mittelafrika_no_juuatsu",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "mawa_ndi_hanran_no_chinatsu"
       ],
@@ -1864,7 +1939,18 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_mittelafrika_no_juuatsu",
+            "action": "modify",
+            "stats": {
+              "culturalUnity": 5,
+              "economicStrengthRate": 5
+            }
+          }
+        ]
+      },
       "prerequisites": [],
       "mutuallyExclusive": [],
       "prerequisitesAny": [
@@ -1886,7 +1972,17 @@
         "ja": "",
         "en": ""
       },
-      "effects": {},
+      "effects": {
+        "nationalSpirits": [
+          {
+            "id": "GER_mittelafrika_no_juuatsu",
+            "action": "modify",
+            "stats": {
+              "economicStrengthRate": 10
+            }
+          }
+        ]
+      },
       "prerequisites": [
         "africa_tetsudo"
       ],

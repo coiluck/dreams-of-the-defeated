@@ -9,7 +9,7 @@
     "quote": { "ja": "鉄と秩序が世界を回す", "en": "Iron and Order Rule the World" },
     "description": { "ja": "ドイツは今や、大陸の覇者として君臨する。我々はドレスデンで多くを得、新たな秩序を築き上げた。しかし、頂点とは最も風当たりの強い場所でもある。かつての同盟国イギリスは我々を警戒しており、敗戦国は復讐の炎を燃やしている。\nドイツの鷲を、その風に乗せろ。我々はもっと飛べるはずだ。", "en": "Germany now reigns as the undisputed master of the continent. The Treaty of Dresden gave us much — Mittelafrika, vassal states stretched to the Vistula, a new order etched in iron. But the summit is where the winds blow hardest. Britain, once an ally, now watches us with cold suspicion. The defeated nations nurse their wounds and their rage.\nLet the German eagle ride those winds. We can fly higher still." },
     "isPlayable": true,
-    "legitimacy": 75,
+    "legitimacy": 70,
     "politicalPower": 0,
     "economicStrength": 216000000000,
     "culturalUnity": 50,

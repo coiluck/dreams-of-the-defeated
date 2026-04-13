@@ -1,0 +1,13 @@
+id: GER_rhein_kahan_no_kanshi
+title:
+  ja: フランスによる軍縮の履行
+  en: Fulfillment of French Disarmament
+content:
+  ja: test
+  en: test
+buttons:
+  - text:
+      ja: test
+      en: test
+    hover: null
+    effects: {}

@@ -3,6 +3,7 @@ name:
   ja: ミッテルアフリカの重圧
   en: Pressure in Mittel Africa
 stats:
-  culturalUnity: -10
+  legitimacy: -10
+  culturalUnity: -15
   economicStrengthRate: -30
   politicalPowerRate: -20
