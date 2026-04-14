@@ -396,18 +396,6 @@ export default function GameWar() {
     return `${getCountryName(war.attackerId)}・${getCountryName(war.defenderId)}${warTitle[lang]}`;
   };
 
-  // 全戦線の戦術コスト合計
-  const totalTacticCost = Object.values(playerCountry.frontActions || {}).reduce(
-    (acc, tacticIndex) => {
-      const tactic = TACTIC_ACTIONS[tacticIndex];
-      return {
-        politicalPower: acc.politicalPower + tactic.cost.politicalPower,
-        militaryEquipment: acc.militaryEquipment + tactic.cost.militaryEquipment,
-      };
-    },
-    { politicalPower: 0, militaryEquipment: 0 }
-  );
-
   const updateFrontTactic = (frontId: string, tacticIndex: number) => {
     if (!playerCountryId) return;
     setFrontAction(playerCountryId, frontId, tacticIndex);
@@ -553,18 +541,11 @@ export default function GameWar() {
                             onChange={(e) => updateFrontTactic(front.front_id, Number(e.target.value))}
                           >
                             {TACTIC_ACTIONS.map((tactic, idx) => {
-                              const availablePP =
-                                playerCountry.politicalPower
-                                - totalTacticCost.politicalPower
-                                + selectedTactic.cost.politicalPower;
-                              const availableEquip =
-                                playerCountry.militaryEquipment
-                                - totalTacticCost.militaryEquipment
-                                + selectedTactic.cost.militaryEquipment;
-
+                              // 実際の国データでチェック
+                              const prevCost = selectedTactic.cost; // 現在選択中のコスト（返金される分）
                               const canAfford =
-                                tactic.cost.politicalPower <= availablePP &&
-                                tactic.cost.militaryEquipment <= availableEquip;
+                                playerCountry.politicalPower    + prevCost.politicalPower    - tactic.cost.politicalPower    >= 0 &&
+                                playerCountry.militaryEquipment + prevCost.militaryEquipment - tactic.cost.militaryEquipment >= 0;
 
                               return (
                                 <option key={idx} value={idx} disabled={!canAfford}>

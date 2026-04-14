@@ -410,6 +410,27 @@ export const useGameStore = create<GameStore>((set, get) => ({
   setFrontAction: (countryId, frontId, tacticIndex) => set(state => {
     if (!state.game) return state;
     const country = state.game.countries[countryId];
+
+    // GameWar.tsx の TACTIC_ACTIONS と順序・値を同期させること
+    const TACTIC_COSTS: { politicalPower: number; militaryEquipment: number }[] = [
+      { politicalPower: 0,   militaryEquipment: 0   }, // 0: 何もしない
+      { politicalPower: 100, militaryEquipment: 400 }, // 1: 積極的攻勢
+      { politicalPower: 50,  militaryEquipment: 400 }, // 2: 火力支援
+      { politicalPower: 100, militaryEquipment: 100 }, // 3: 防御陣地の構築
+      { politicalPower: 50,  militaryEquipment: 100 }, // 4: 補給の改善
+    ];
+
+    const prevIndex = country.frontActions?.[frontId] ?? 0;
+    const prevCost  = TACTIC_COSTS[prevIndex] ?? TACTIC_COSTS[0];
+    const nextCost  = TACTIC_COSTS[tacticIndex] ?? TACTIC_COSTS[0];
+
+    // 旧アクションのコストを返金し、新アクションのコストを消費
+    const newPP    = country.politicalPower    + prevCost.politicalPower    - nextCost.politicalPower;
+    const newEquip = country.militaryEquipment + prevCost.militaryEquipment - nextCost.militaryEquipment;
+
+    // 残高が負になる場合は変更を拒否
+    if (newPP < 0 || newEquip < 0) return state;
+
     return {
       game: {
         ...state.game,
@@ -417,6 +438,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
           ...state.game.countries,
           [countryId]: {
             ...country,
+            politicalPower:    newPP,
+            militaryEquipment: newEquip,
             frontActions: { ...country.frontActions, [frontId]: tacticIndex },
           },
         },
