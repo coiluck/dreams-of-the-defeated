@@ -16,10 +16,22 @@ content:
     歓声はなかった。ただ、軍靴が石畳を踏み鳴らす冷たく統制された音だけが、大聖堂を揺らした。
     黒き太陽が昇る。それは世界を照らすためではない。すべてを焼き尽くし、無菌の灰にするために昇るのだ。
     アルトーの手術が、いよいよ国境を越えようとしていた。
-  en: test
+  en: |
+    The stained glass windows of Notre-Dame Cathedral were all covered with black cloth.
+    Inside the hall, cut off from the light, only the red flames of torches flickered. Antonin Artaud, standing before the altar, wore neither a crown nor medals. Artaud slowly stepped forward before the faithful.
+
+    "The time for reverie is over," he said quietly, yet with a voice that echoed throughout the hall.
+    In the front row stood the officers of the Luminous Committee of Public Safety at rigid attention, and behind them stood the artists of the old Breton faction who had just finished their "re-education."
+    "Sentimentality is a disease. Compromise is rot. We have thus far sliced open our own soft, inner flesh and excised the unnecessary organs. It was a painful treatment, but the body of France is now purified."
+    Artaud slowly raised his hand. His fingertips pointed beyond the stained glass—towards the East.
+    "But the true lesion lies outside. Across the Rhine, a massive tumor slathered in iron and gears is pulsating."
+
+    There were no cheers. Only the coldly disciplined sound of military boots stomping on the cobblestones shook the cathedral.
+    The Black Sun rises. It does not rise to illuminate the world. It rises to burn everything to the ground, reducing it to sterile ash.
+    Artaud's surgery was finally about to cross the border.
 buttons:
   - text:
       ja: メスを東へ向けよ
-      en: test
+      en: Point the scalpel to the East.
     hover: null
     effects: {}

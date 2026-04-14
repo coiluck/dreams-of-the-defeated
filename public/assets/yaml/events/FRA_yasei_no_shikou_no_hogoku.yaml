@@ -24,11 +24,30 @@ content:
     会場の隅に、場違いに小さな案内板があった。
     「展示物の一部は、現地の協力者によって提供されました。」
     協力の意味については、案内板は何も言わなかった。
+  en: |
+    Léon Dogon spoke through the interpreter.
+    "You say you wish to protect our dreams."
+    "Exactly," the Spiritual Guardian replied.
+    "Then why are we being forced to watch your dreams instead?"
+    The interpreter remained silent for a moment. Then, he translated the words into something with a slightly different meaning.
+    The meeting concluded without a hitch.
 
-  en: test
+    Deep in the Algerian hinterland, a protection zone was established.
+    The premise was this: to record, preserve, and study the "living thought" of Africa before the material civilizations of Britain and Germany could erode it. Surrealist anthropologists are dispatched from Paris. They observe local rituals, transcribe dreams, and collect myths.
+    The local people are "protected."
+    Logging was banned. However, mining rights previously issued to French corporations remained valid.
+    Intervention in rituals was banned. An exception was made, however, if the Guardianship Office deemed them "spiritually harmful."
+    Migration was banned. But relocation for "administrative reasons within the protection zone" was not prohibited.
+
+    In an exhibition hall in Paris, masks transported from the protection zone were lined up.
+    "Savage Thought: A Dialogue with Primal Dreams Exhibition"
+    Entry fee: two francs. It was a massive success.
+    In the corner of the hall, there was a small, out-of-place placard.
+    "Some of the exhibits were provided by local collaborators."
+    The placard said absolutely nothing about what that collaboration entailed.
 buttons:
   - text:
       ja: 報告書を握り潰す
-      en: test
+      en: Suppress the report
     hover: null
     effects: {}

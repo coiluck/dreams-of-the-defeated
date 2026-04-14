@@ -21,11 +21,27 @@ content:
 
     革命は続く。
     導師なき革命が、どこへ向かうのかを、まだ誰も知らない。
+  en: |
+    The gatherings of the Cruelty faction had grown to a scale that could no longer be called mere gatherings.
+    Abandoned factories, underground chapels, warehouse districts along the Seine. Everywhere you went, there were people. Veterans, unemployed factory workers, teenage students, artists who once called themselves the Guru faction. They did not shout Artaud's name. They simply gathered, and simply burned.
+    The anger of losing their leader seeks a direction.
+    Artaud had already decided upon that direction.
 
-  en: test
+    The speech was short.
+    'Who killed the Guru?'
+    Artaud looked over the audience. No one answered.
+    'An artillery shell. A German artillery shell. Fired twenty-two years ago, it took twenty-two years to finish the job. Germany murdered our leader's brain.'
+    The crowd swayed.
+    'Then what must we do? Mourn? Write poems?' He shook his head. 'No. We burn.'
+
+    The next morning, bouquets were thrown in front of the Berlin embassy. The next night, stones flew. The night after that, fires broke out.
+    The Luminous Committee of Public Safety made no arrests.
+
+    The revolution continues.
+    No one yet knows where the revolution without its Guru is heading.
 buttons:
   - text:
       ja: 流れに任せよう
-      en: test
+      en: Surrender to the current
     hover: null
     effects: {}

@@ -13,10 +13,19 @@ content:
     「逃亡か、焼死か」、とヴォルフ大佐は報告書に書いた。そして短く付け加えた。「作戦目標は達成された。」
     ベルリンでは、植民地次官が報告書を読み、ひとつ頷いた。地図の上の赤い色は、今日も変わらない。
     しかし密林は、記憶を持つ。
-  en: test
+  en: |
+    The German 17th Colonial Brigade crossed the Lualaba River shortly after the dry season began in October. A three-week operation. Jungle warfare. Supply delays. The number of soldiers who fell to malaria exceeded those who fell to bullets.
+    Ultimately, Mawa Ndi's stronghold was surrounded.
+    An envoy was sent to urge surrender. There was no reply.
+    Two days later, the stronghold fell silent.
+    Colonel Wolf walked through the ruined village. Burned huts. Torn pieces of cloth. A mural someone seemed to have drawn—a picture of a giant elephant surrounded by countless humans—remained half-burned.
+    Mawa Ndi's body was never found.
+    "Escaped, or burned to death," Colonel Wolf wrote in his report. Then he added briefly, "Operational objectives have been achieved."
+    In Berlin, the Colonial Undersecretary read the report and gave a single nod. The red color on the map remains unchanged today.
+    But the jungle remembers.
 buttons:
   - text:
       ja: 鎮圧完了
-      en: test
+      en: Suppression complete
     hover: null
     effects: {}

@@ -25,11 +25,31 @@ content:
     徴税は続く。徴兵は続く。総督府は残る。
     ただし、総督の肩書きが変わった。
     「精神的後見人」と、今は呼ぶ。
+  en: |
+    When philosophers gather in a boardroom, something usually dies.
+    Today, what died was consistency.
 
-  en: test
+    The first minister to speak said:
+    "We preach the liberation of the soul. Thus, the souls of the African people must also—"
+    Another man interrupted.
+    "Africa is not yet ready for liberation."
+    Silence.
+    Someone coughed. Someone else stared at the ceiling. Outside the window, it was raining. It is always raining in Paris.
+    "Specifically?"
+    "Specifically," the man repeated. "Their souls are still in a primal state."
+    "...I see."
+    "Yes. They must be protected. From Anglo-German material civilization. From the violence of reason. If we do not protect them, who will?"
+    No one said anything else.
+    Outside the window, the rain grew heavier.
+
+    Thus, the doctrine of "Spiritual Guardianship" was approved by the cabinet.
+    The colonies are not exploited. The colonies are protected. Luminous France has an absolute obligation to guard the "primal dream" that Anglo-German material civilization seeks to destroy. The dense jungles of Indochina, the red earth of Mali, the blue seas of Tunisia—these are the living proof of Surrealism.
+    Tax collection continues. Conscription continues. The Governor-General's office remains intact.
+    However, the Governor-General's title has changed.
+    He is now known as the "Spiritual Guardian."
 buttons:
   - text:
       ja: フランスの精神的使命を世界に示そう
-      en: test
+      en: Show the world the spiritual mission of France
     hover: null
     effects: {}

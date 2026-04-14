@@ -16,11 +16,22 @@ content:
     「彼らを我々の夢で塗り替える必要があるし、現にその準備はできている。」
 
     それは血を流さない革命の完成であり、同時に、世界に対する最も静かで、最も恐ろしい宣戦布告であった。
+  en: |
+    André Breton looked down at the streets of Paris from his office window.
+    There was no need for Artaud's bloodshed. All that was required was to pry open the lid of the people's unconscious and pour in a "new myth."
 
-  en: test
+    "We have finally been liberated from the prison of reason."
+
+    The ministers standing behind him said nothing. Breton continued.
+    "However, the outside world remains trapped within that cold prison. The Anglo-German materialists still scheme to destroy our dreams."
+
+    Breton concluded with this:
+    "We must paint over them with our own dreams, and the preparations to do so are already complete."
+
+    It was the culmination of a bloodless revolution, and simultaneously, the quietest, most terrifying declaration of war upon the world.
 buttons:
   - text:
       ja: 世界を我々の夢に沈めよう
-      en: test
+      en: Let us drown the world in our dreams
     hover: null
     effects: {}

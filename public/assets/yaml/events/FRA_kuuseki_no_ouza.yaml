@@ -26,10 +26,31 @@ content:
     指導者は死んだ。
     崇高なる国は、まだ死んでいない。
 
-  en: test
+  en: |
+    It was raining.
+    It always rains in Paris. On the night of the revolution, on the morning of the coronation, and tonight. The Seine is black, the streetlights blur, and the letters of poetry carved into the stone of the Arc de Triomphe gleam wetly.
+    In a hospital room, Guillaume Apollinaire died.
+
+    Aged 52. Cause of death: cerebral hemorrhage due to the aggravation of an old wound to the skull.
+    A 1914 artillery shell had finally finished its work, 18 years later.
+    It is said that only a single young nurse was by his side. The heavyweights of the three factions, each fancying themselves as his successor, were in different rooms, busy with their own separate plots. The fact that a nameless girl, a nobody, watched over the Guru's final moments might be called a poetic conclusion—Apollinaire would have certainly said so.
+
+    What was he dreaming of?
+    The "rebirth" of France? The dawn of a new civilization reforged by the wisdom of the East? Or—was he just waiting all along for a night that would finally free him from the pain in his head?
+    No one ever knew until the very end what lay beneath the bandages.
+
+    The telephones started ringing less than thirty minutes after the news of his death.
+    Artaud's secretaries ran, Breton's lieutenants bellowed. Everyone was crying. Everyone, while crying, was already making their next move.
+    This was what they had inherited from their mentor.
+
+    The next morning, the Luminous France State Broadcasting solemnly announced the mourning.
+    The announcer's voice trembled, but the manuscript had already been rewritten by the consensus of the three factions. Only the phrase "inheriting the Guru's will" was common to all three versions. As for what that "will" referred to, the three versions seemed to differ entirely.
+
+    The leader is dead.
+    The Sublime State is not dead yet.
 buttons:
   - text:
       ja: どうか安らかに
-      en: test
+      en: Rest in peace.
     hover: null
     effects: {}

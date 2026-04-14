@@ -9,10 +9,6 @@
         "ja": "アウフブルッフ作戦",
         "en": "Operation Aufbruch"
       },
-      "description": {
-        "ja": "",
-        "en": ""
-      },
       "effects": {
         "eventIds": [
           "GER_fluelen_kousei"
@@ -41,11 +37,7 @@
       "icon": "document",
       "name": {
         "ja": "ドレスデン講和会議",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Dresden Peace Conference"
       },
       "effects": {
         "nationalSpirits": [
@@ -71,11 +63,7 @@
       "icon": "globe",
       "name": {
         "ja": "ミッテルアフリカ総督府",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Mittelafrikan Governorate"
       },
       "effects": {
         "nationalSpirits": [
@@ -97,11 +85,7 @@
       "icon": "flag",
       "name": {
         "ja": "ライン河畔の監視",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Watch on the Rhine"
       },
       "effects": {
         "eventIds": [
@@ -120,11 +104,7 @@
       "icon": "globe",
       "name": {
         "ja": "ポーランド経営",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Subjugation of Poland"
       },
       "effects": {
         "eventIds": [
@@ -143,11 +123,7 @@
       "icon": "star",
       "name": {
         "ja": "ドレスデン体制の確立",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Establish the Dresden System"
       },
       "effects": {
         "nationalSpirits": [
@@ -171,11 +147,7 @@
       "icon": "crown",
       "name": {
         "ja": "カイザーの落日",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Twilight of the Kaiser"
       },
       "effects": {
         "eventIds": [
@@ -194,11 +166,7 @@
       "icon": "cross",
       "name": {
         "ja": "覇権の代償",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Price of Hegemony"
       },
       "effects": {
         "nationalSpirits": [
@@ -220,11 +188,7 @@
       "icon": "flame",
       "name": {
         "ja": "バルカン危機発生",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Balkan Tinderbox Ignites"
       },
       "effects": {
         "eventIds": [
@@ -241,11 +205,7 @@
       "icon": "anchor",
       "name": {
         "ja": "ランス攻略戦",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Assault on Reims"
       },
       "effects": {
         "nationalSpirits": [
@@ -270,11 +230,7 @@
       "icon": "chain",
       "name": {
         "ja": "紅海封鎖事件",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Red Sea Blockade"
       },
       "effects": {
         "eventIds": [
@@ -293,11 +249,7 @@
       "icon": "sword",
       "name": {
         "ja": "第二次ソンム総攻勢",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Second Somme Offensive"
       },
       "effects": {
         "nationalSpirits": [
@@ -322,11 +274,7 @@
       "icon": "sun",
       "name": {
         "ja": "夜明けの始まり",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "A New Dawn Arises"
       },
       "effects": {
         "eventIds": [
@@ -347,11 +295,7 @@
       "icon": "sword",
       "name": {
         "ja": "鉄と血の遺産",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Legacy of Blood and Iron"
       },
       "effects": {
         "eventIds": [
@@ -372,11 +316,7 @@
       "icon": "document",
       "name": {
         "ja": "ミッテルアフリカ問題",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Mittelafrika Question"
       },
       "effects": {
         "eventIds": [
@@ -395,11 +335,7 @@
       "icon": "flame",
       "name": {
         "ja": "クルップの炉心は燃え尽きない",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Krupp's Eternal Forge"
       },
       "effects": {
         "nationalSpirits": [
@@ -424,11 +360,7 @@
       "icon": "chain",
       "name": {
         "ja": "帝国軍の再編",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Reorganize the Imperial Army"
       },
       "effects": {
         "nationalSpirits": [
@@ -456,11 +388,7 @@
       "icon": "flower",
       "name": {
         "ja": "山猫ストの頻発",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Rampant Wildcat Strikes"
       },
       "effects": {
         "nationalSpirits": [
@@ -486,11 +414,7 @@
       "icon": "arrow-down",
       "name": {
         "ja": "無能な政府",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "An Incompetent Government"
       },
       "effects": {
         "nationalSpirits": [
@@ -514,11 +438,7 @@
       "icon": "document",
       "name": {
         "ja": "戒厳令の布告",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Proclaim Martial Law"
       },
       "effects": {
         "nationalSpirits": [
@@ -540,11 +460,7 @@
       "icon": "chain",
       "name": {
         "ja": "議会の無力化",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Paralyze the Reichstag"
       },
       "effects": {
         "nationalSpirits": [
@@ -569,11 +485,7 @@
       "icon": "cannon",
       "name": {
         "ja": "ストライキの武力鎮圧",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Crush the Strikes in Blood"
       },
       "effects": {
         "nationalSpirits": [
@@ -598,11 +510,7 @@
       "icon": "document",
       "name": {
         "ja": "憲法への誓約",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Pledge to the Constitution"
       },
       "effects": {
         "nationalSpirits": [
@@ -626,11 +534,7 @@
       "icon": "cannon",
       "name": {
         "ja": "無制限の軍拡",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Limitless Rearmament"
       },
       "effects": {
         "deployedMilitary": 20,
@@ -652,11 +556,7 @@
       "icon": "factory",
       "name": {
         "ja": "防衛産業の適正化",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Rationalize the Defense Industry"
       },
       "effects": {
         "politicalPower": 100,
@@ -685,11 +585,7 @@
       "icon": "bolt",
       "name": {
         "ja": "科学アカデミーへの投資",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Fund the Academy of Sciences"
       },
       "effects": {
         "nationalSpirits": [
@@ -716,11 +612,7 @@
       "icon": "gear",
       "name": {
         "ja": "新型戦車の設計",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Design the Next Generation of Panzers"
       },
       "effects": {
         "nationalSpirits": [
@@ -747,11 +639,7 @@
       "icon": "flag",
       "name": {
         "ja": "自由選挙の実施",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Hold Free Elections"
       },
       "effects": {
         "nationalSpirits": [
@@ -784,11 +672,7 @@
       "icon": "globe",
       "name": {
         "ja": "衛星国への自治権付与",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Autonomy for the Satellites"
       },
       "effects": {
         "politicalPower": -200,
@@ -815,11 +699,7 @@
       "icon": "globe",
       "name": {
         "ja": "東方互恵関税網",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Eastern Mutual Tariff Sphere"
       },
       "effects": {
         "nationalSpirits": [
@@ -845,11 +725,7 @@
       "icon": "gear",
       "name": {
         "ja": "ルール工業地帯の再拡張",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Hyper-Industrialize the Ruhr"
       },
       "effects": {
         "nationalSpirits": [
@@ -876,11 +752,7 @@
       "icon": "flag",
       "name": {
         "ja": "植民地議会の設置",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Establish Colonial Parliaments"
       },
       "effects": {
         "nationalSpirits": [
@@ -909,11 +781,7 @@
       "icon": "anchor",
       "name": {
         "ja": "苛烈な統治",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Rule by the Lash"
       },
       "effects": {
         "nationalSpirits": [
@@ -942,11 +810,7 @@
       "icon": "sword",
       "name": {
         "ja": "マワ・ンディ反乱の鎮圧",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Crush the Mawa-Ndi Uprising"
       },
       "effects": {
         "eventIds": [
@@ -965,11 +829,7 @@
       "icon": "flag",
       "name": {
         "ja": "自由貿易の復権",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Resurrect Free Trade"
       },
       "effects": {
         "nationalSpirits": [
@@ -1003,11 +863,7 @@
       "icon": "factory",
       "name": {
         "ja": "民間産業への投資",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Invest in Civilian Industry"
       },
       "effects": {
         "nationalSpirits": [
@@ -1032,11 +888,7 @@
       "icon": "arrow-up",
       "name": {
         "ja": "他国との経済協調",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "International Economic Cooperation"
       },
       "effects": {
         "nationalSpirits": [
@@ -1062,11 +914,7 @@
       "icon": "star",
       "name": {
         "ja": "ヨーロッパ平和の守護者",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Sentinel of Europa"
       },
       "effects": {
         "nationalSpirits": [
@@ -1094,11 +942,7 @@
       "icon": "anchor",
       "name": {
         "ja": "警察組織の崩壊",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Collapse of Law and Order"
       },
       "effects": {
         "nationalSpirits": [
@@ -1124,11 +968,7 @@
       "icon": "sword",
       "name": {
         "ja": "労働者評議会の蜂起",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Uprising of the Räte"
       },
       "effects": {
         "nationalSpirits": [
@@ -1155,11 +995,7 @@
       "icon": "bolt",
       "name": {
         "ja": "資本家の追放",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Exile the Capitalist Swine"
       },
       "effects": {
         "nationalSpirits": [
@@ -1187,11 +1023,7 @@
       "icon": "factory",
       "name": {
         "ja": "計画経済の導入",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Implement the Planned Economy"
       },
       "effects": {
         "nationalSpirits": [
@@ -1217,11 +1049,7 @@
       "icon": "gear",
       "name": {
         "ja": "労働者主導の工業化",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Proletarian Industrialization"
       },
       "effects": {
         "nationalSpirits": [
@@ -1247,11 +1075,7 @@
       "icon": "star",
       "name": {
         "ja": "欧州社会主義共和国連邦",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Union of European Socialist Republics"
       },
       "effects": {
         "nationalSpirits": [
@@ -1282,11 +1106,7 @@
       "icon": "document",
       "name": {
         "ja": "前衛党の指導",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Dictatorship of the Vanguard"
       },
       "effects": {
         "nationalSpirits": [
@@ -1313,11 +1133,7 @@
       "icon": "cross",
       "name": {
         "ja": "旧体制の粛清",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Purge the Ancien Régime"
       },
       "effects": {
         "nationalSpirits": [
@@ -1344,11 +1160,7 @@
       "icon": "document",
       "name": {
         "ja": "戦術教練",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Modern Tactical Drills"
       },
       "effects": {
         "nationalSpirits": [
@@ -1374,11 +1186,7 @@
       "icon": "cannon",
       "name": {
         "ja": "伝統的な軍隊",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Traditional Army"
       },
       "effects": {
         "politicalPower": 100,
@@ -1398,11 +1206,7 @@
       "icon": "gear",
       "name": {
         "ja": "近代的な軍隊",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "A Fully Modernized Force"
       },
       "effects": {
         "nationalSpirits": [
@@ -1429,11 +1233,7 @@
       "icon": "shield",
       "name": {
         "ja": "防衛重視",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Shield of the Fatherland"
       },
       "effects": {
         "nationalSpirits": [
@@ -1462,11 +1262,7 @@
       "icon": "sword",
       "name": {
         "ja": "攻撃重視",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Cult of the Offensive"
       },
       "effects": {
         "nationalSpirits": [
@@ -1495,11 +1291,7 @@
       "icon": "bolt",
       "name": {
         "ja": "偉大なる帝国軍",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Grand Imperial Army"
       },
       "effects": {
         "nationalSpirits": [
@@ -1521,11 +1313,7 @@
       "icon": "arrow-up",
       "name": {
         "ja": "帝国陸軍の増強",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Expand the Kaiserreichsheer"
       },
       "effects": {
         "deployedMilitary": 15
@@ -1546,11 +1334,7 @@
       "icon": "factory",
       "name": {
         "ja": "クルップ社との契約",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Krupp Contracts"
       },
       "effects": {
         "militaryEquipment": 1000,
@@ -1580,11 +1364,7 @@
       "icon": "flower",
       "name": {
         "ja": "世界の中心はドイツ！",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Germany, the Center of the World!"
       },
       "effects": {
         "nationalSpirits": [
@@ -1613,11 +1393,7 @@
       "icon": "crown",
       "name": {
         "ja": "貴族将校団の権力強化",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Empower the Junker Officer Corps"
       },
       "effects": {
         "nationalSpirits": [
@@ -1644,11 +1420,7 @@
       "icon": "gear",
       "name": {
         "ja": "農業機械化への国庫補助",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "State-Subsidized Mechanization"
       },
       "effects": {
         "nationalSpirits": [
@@ -1674,11 +1446,7 @@
       "icon": "factory",
       "name": {
         "ja": "シュティンネス・レギーン協定の破棄",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Tear Up the Stinnes-Legien Agreement"
       },
       "effects": {
         "nationalSpirits": [
@@ -1704,11 +1472,7 @@
       "icon": "globe",
       "name": {
         "ja": "バグダード鉄道の完全開通",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Completion of the Baghdadbahn"
       },
       "effects": {
         "nationalSpirits": [
@@ -1744,11 +1508,7 @@
       "icon": "flame",
       "name": {
         "ja": "究極の戦争経済",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Ultimate War Economy"
       },
       "effects": {
         "nationalSpirits": [
@@ -1775,11 +1535,7 @@
       "icon": "star",
       "name": {
         "ja": "プロイセンの栄光",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Glory of Prussia"
       },
       "effects": {
         "nationalSpirits": [
@@ -1805,11 +1561,7 @@
       "icon": "sword",
       "name": {
         "ja": "避けられぬ衝突",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Inevitable Clash"
       },
       "effects": {
         "deployedMilitary": 15
@@ -1826,11 +1578,7 @@
       "icon": "bolt",
       "name": {
         "ja": "予防戦争論",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Doctrine of Preventive War"
       },
       "effects": {
         "declareWar": "FRA",
@@ -1848,11 +1596,7 @@
       "icon": "shield",
       "name": {
         "ja": "アフリカ防衛軍の増強",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Bolster the Schutztruppe"
       },
       "effects": {
         "politicalPower": 100,
@@ -1870,11 +1614,7 @@
       "icon": "crown",
       "name": {
         "ja": "現地王族への権力委譲",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Devolve Power to Local Monarchs"
       },
       "effects": {
         "nationalSpirits": [
@@ -1902,11 +1642,7 @@
       "icon": "bolt",
       "name": {
         "ja": "統治方法の転換",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "A New Paradigm of Governance"
       },
       "effects": {
         "nationalSpirits": [
@@ -1933,11 +1669,7 @@
       "icon": "globe",
       "name": {
         "ja": "アフリカ縦断鉄道",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Trans-African Railway"
       },
       "effects": {
         "nationalSpirits": [
@@ -1966,11 +1698,7 @@
       "icon": "factory",
       "name": {
         "ja": "コンゴ盆地の産業化",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Industrialize the Congo Basin"
       },
       "effects": {
         "nationalSpirits": [

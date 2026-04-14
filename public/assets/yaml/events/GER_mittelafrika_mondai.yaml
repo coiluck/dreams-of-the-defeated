@@ -11,7 +11,14 @@ content:
     数字は正直だ。地図よりもずっと正直だ。
     「我々は大陸を手に入れた」、とハウスホーファーは独り言ちた。「だが大陸は、まだ我々のものになっていない。」
     赤く塗られた領域の内側で、何かが燃えている。小さな火だ。今はまだ。
-  en: test
+  en: |
+    Maps do not lie.
+    A massive map of Africa hangs on the wall of the Colonial Office. The area painted red swallows the heart of the continent whole. The shores of Lake Chad, the jungles of Gabon, the highlands of Cameroon. Mittelafrika, born from the Treaty of Dresden, was a perfect empire on paper.
+    On paper.
+    Colonial Undersecretary Haushofer slammed the stack of reports that arrived this morning onto his desk. A decline in production at the Katanga copper mines. The emergence of armed groups around Lake Kivu. A night raid on the Bangui garrison.
+    Numbers are honest. Much more honest than maps.
+    "We have acquired the continent," Haushofer muttered to himself. "But the continent is not yet ours."
+    Inside the area painted red, something is burning. A small fire. For now.
 buttons:
   - text:
       ja: test

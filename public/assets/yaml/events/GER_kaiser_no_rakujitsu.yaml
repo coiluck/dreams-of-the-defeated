@@ -1,7 +1,7 @@
 id: GER_kaiser_no_rakujitsu
 title:
   ja: 老帝の崩御
-  en: test
+  en: Passing of the Old Kaiser
 content:
   ja: |
     ベルリンは静かだった。それは平和の静寂ではなく、息を殺した街の静寂だった。ウンター・デン・リンデンの並木は白く塗り込められ、ブランデンブルク門の石造りの柱は灰色の空に溶けている。
@@ -14,11 +14,21 @@ content:
     帝国では、すでに後継を巡る議論が始まっている。老帝の体温が冷めないうちから、次の形を巡って動き始めていた。
     それが国家というものだ。
     悲しむ暇など、どこにもない。
-  en: test
+  en: |
+    Berlin was quiet. It was not the silence of peace, but the silence of a city holding its breath. The trees lining Unter den Linden were painted white, and the stone pillars of the Brandenburg Gate melted into the gray sky.
+
+    He died a victor. That much is certain.
+    The collapse of the French defense lines on the outskirts of Paris in 1913. The peace treaty signed in Dresden. The map of Mittelafrika painted red. He saw all of it with his own eyes. He saw the faces of defeated enemies. In history, not many monarchs have obtained so much.
+    Germany has grown immensely over the past few decades. That growth is his achievement.
+
+    The funeral will be held in three days.
+    Within the Empire, debates over succession have already begun. Before the old Kaiser's body had even grown cold, they had begun moving to shape what comes next.
+    That is the nature of a state.
+    There is no time to mourn anywhere.
 buttons:
   - text:
       ja: 盛大な国葬を執り行え
-      en: test
+      en: Hold a grand state funeral
     hover:
       ja: 正統性 +5、政治力 -20
       en: +5 Legitimacy, -20 Political Power
@@ -28,7 +38,7 @@ buttons:
     }
   - text:
       ja: 静かに葬れ
-      en: test
+      en: Bury him quietly
     hover:
       ja: 政治力 +10
       en: +10 Political Power

@@ -19,11 +19,25 @@ content:
     その間に、アルトーは地図の上に指を走らせる。印刷所、放送局、兵舎、電話局。
     1919年に、アポリネール導師はこうやって国を取った。
     師の方法を、師の後継者が使う。これ以上に正統な継承があるだろうか。
+  en: |
+    Antonin Artaud did not attend the funeral.
+    When asked why, he reportedly answered, "I do not speak to the dead. I speak to the living."
 
-  en: test
+    On the day the Guru's coffin was carried to Père Lachaise Cemetery, Artaud was gathering men in a warehouse in the 12th arrondissement of Paris. A former secret police officer, a printer, a former frontline officer, and three poets. The windows were draped with cloth, and maps and rosters were spread across the table.
+    On the roster, names were marked.
+    Red marks, and black marks.
+
+    When Artaud speaks of "cruelty," he does not mean violence—or so he always claimed. "Cruelty is rigor. It is the absolute coldness of a surgeon's scalpel. It is the will to cut away sentimentality and do only what is strictly necessary."
+    His subordinates took those words at face value.
+    They were already making their moves.
+
+    Breton is still trying to decide things by committee.
+    Meanwhile, Artaud's finger traces lines across the map. The printing press, the broadcasting station, the barracks, the telephone exchange.
+    In 1919, the Guru Apollinaire seized the nation exactly like this.
+    The successor employs the master's methods. Could there be any truer inheritance?
 buttons:
   - text:
       ja: 後継者は我々だ
-      en: test
+      en: We are the true successors
     hover: null
     effects: {}

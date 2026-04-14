@@ -21,10 +21,26 @@ content:
     世界は動いている。
     理性なき世界が、その次の一手を模索している。
 
-  en: test
+  en: |
+    Dresden, 1914. Before the humiliating treaty table, the French Foreign Minister ran his pen with trembling hands. Handing over the mines of Lorraine. Handing over Egypt. Handing over Suez. Handing over, handing over, handing over. The rational politicians, quite politely and systematically, carved up the heart of France. What France had spent a century building was dismantled with a few scraps of paper.
+    It was then that Guillaume Apollinaire appeared.
+    A poet. An artillery officer. A man who continued to live with metal shrapnel lodged in his skull. A man who called his bandaged head the "crown of the chosen" and continued to laugh from his hospital room in Montparnasse.
+    Young men flocked to him. Breton, Aragon, Artaud. There was still light in their eyes. The young artists were touched by Apollinaire's charisma and debated avant-garde art under his wing. The avant-garde soon merged with political ideology, and it didn't take long for them to form the Party of Light. That political ideology is known today as "Surrealism."
+
+    November 28, 1919. Armistice Day.
+    In the midst of a government-sponsored memorial ceremony, a procession of the Party of Light filled the Champs-Élysées. They marched carrying flowers, carrying flames, and singing poetry. During the previous night, the party's operatives had seized the main telephone exchanges and two printing presses in Paris. Just as the chaos of the ceremony began, the morning papers had already started printing the Party of Light's manifesto. The military did not move. Perhaps the generals saw their own despair in the faces of those they were supposed to point their guns at—or perhaps, simply no one wanted to be the first to shoot.
+    Apollinaire stood on the podium and declared:
+    "The French Republic is dead. Tonight, the Sublime State gives its first cry."
+    By the next morning, the entire country had fallen into the hands of the new regime.
+
+    Thirteen years have passed since then.
+    The leader has grown old. His old wounds ache, and Apollinaire is now more often in his sickbed than in his office. Three currents swirl within the government—Artaud's Cruelty faction, Breton's Guru faction, and Duchamp's Futurist faction. Each considers themselves the "Guru's successor," viewing the others as enemies or exploiting them.
+    Yet today, rituals are still held in Avignon, something is about to happen again at the borders, and ominous news arrives from Delhi.
+    The world is moving.
+    An irrational world is fumbling for its next move.
 buttons:
   - text:
       ja: ……（包帯に手を触れる）
-      en: test
+      en: "... (Touch the bandages)"
     hover: null
     effects: {}

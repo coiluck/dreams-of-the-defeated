@@ -9,11 +9,15 @@ content:
     ドイツへの報復の前にまずは国内を、自分たちの明日の暮らしを。そう考える国民も少なくない。導師のあとに続くものとして支持が集まるのも当然だった。
 
     導師は死んだ。夢はまだ生きている。夢を生かし続けることが、自分に残された仕事だと、ブルトンは信じていた――あるいは、そう信じることにした。
+  en: |
+    The Guru faction's claims are the most 'palatable' among the three factions.
+    'The revolution is achieved. The state is in motion. What is needed now, then, is not destruction, but deepening.'
+    Before retaliating against Germany, first focus on the homeland, on our own lives tomorrow. Not a few citizens think this way. It was only natural that support would gather for those following in the Guru's footsteps.
 
-  en: test
+    The Guru is dead. The dream still lives. Breton believed—or rather, decided to believe—that keeping the dream alive was the only task left to him.
 buttons:
   - text:
       ja: 導師派の時代が来る
-      en: test
+      en: The era of the Guru faction approaches
     hover: null
     effects: {}

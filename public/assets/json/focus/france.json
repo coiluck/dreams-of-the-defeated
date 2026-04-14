@@ -9,10 +9,6 @@
         "ja": "親愛なる我らが導師",
         "en": "Our Beloved Guru"
       },
-      "description": {
-        "ja": "「崇高なる国」の建国者であり、超現実主義の予言者たるアポリネールの頭部の古傷が悪化し、彼は病床に伏すことが多くなった。全国民が祈りを捧げる中、彼のうわ言すらも信者たちにとっては神聖な啓示として書き留められている。",
-        "en": "The old head wound of Apollinaire, the founder of 'La Sublime' and the prophet of surrealism, has worsened, confining him to his sickbed. As the nation prays, even his delirious mutterings are transcribed by his followers as sacred revelations."
-      },
       "effects": {
         "eventIds": [
           "FRA_our_guru"
@@ -30,11 +26,7 @@
       "icon": "globe",
       "name": {
         "ja": "空席の王座",
-        "en": "Vacancy on the Throne"
-      },
-      "description": {
-        "ja": "1932年、導師はついに肉体を脱ぎ捨て、より高次なる精神世界へと旅立った。パリに残された「空席の王座」を巡り、残された後継者たちは彼の遺した謎めいた詩篇を各々の都合のいいように解釈し、国境を越えた狂気へと国を駆り立てようとしている。",
-        "en": "In 1932, the Guru finally shed his physical form to embark on a journey to a higher spiritual realm. Around the 'Vacant Throne' left in Paris, his successors battle for control, each interpreting his cryptic poems to suit their own ambitions, driving the nation towards a madness that transcends borders."
+        "en": "The Vacant Throne"
       },
       "effects": {
         "eventIds": [
@@ -53,11 +45,7 @@
       "icon": "document",
       "name": {
         "ja": "マニフェストの再確認",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Reaffirm the Manifesto"
       },
       "effects": {
         "nationalSpirits": [
@@ -83,11 +71,7 @@
       "icon": "sword",
       "name": {
         "ja": "残酷派の陰謀",
-        "en": "Artaud's Plot"
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Plot of the Theatre of Cruelty"
       },
       "effects": {
         "eventIds": [
@@ -109,11 +93,7 @@
       "icon": "anchor",
       "name": {
         "ja": "アヴィニョンの黒い祭典",
-        "en": "Black Festival in Avignon"
-      },
-      "description": {
-        "ja": "フランスの古都アヴィニョンで大規模な芸術儀式が開催された。",
-        "en": "A large-scale art ceremony was held in the ancient city of Avignon in France."
+        "en": "Black Festival of Avignon"
       },
       "effects": {
         "eventIds": [
@@ -133,10 +113,6 @@
       "name": {
         "ja": "ドレスデンの屈辱",
         "en": "The Humiliation of Dresden"
-      },
-      "description": {
-        "ja": "1914年のドレスデン講和会議は、我が国から多くの領土と富を奪い去った。",
-        "en": "The 1914 Dresden Peace Conference stripped our nation of its territories and wealth."
       },
       "effects": {
         "eventIds": [
@@ -161,10 +137,6 @@
         "ja": "病室の前衛サロン",
         "en": "Avant-Garde Salon in the Ward"
       },
-      "description": {
-        "ja": "頭部に重傷を負い奇跡的に生還した詩人は、モンパルナスの病室を新たな精神の拠点とした。既存の秩序に絶望した若き芸術家や退役軍人たちが彼の元に集い、古い世界を嘲笑している。",
-        "en": "Miraculously surviving a severe head injury, the poet has turned his Montparnasse hospital room into a new spiritual stronghold. Young artists and veterans, despairing of the existing order, gather around him to mock the old world."
-      },
       "effects": {
         "eventIds": [
           "FRA_byoushitsu_no_zenei_salon"
@@ -183,10 +155,6 @@
       "name": {
         "ja": "マーヤーの波に呑まれて",
         "en": "Swallowed by the Waves of Maya"
-      },
-      "description": {
-        "ja": "インドから到来した神秘思想は、敗戦という受け入れがたい現実に苦しむ民衆の魂に深く突き刺さり、理性主義を破壊しつつある。",
-        "en": "The mystical doctrines that arrived from India have pierced deeply into the souls of a populace tormented by the unbearable reality of defeat, eroding and dismantling rationalism in the process."
       },
       "effects": {
         "eventIds": [
@@ -207,10 +175,6 @@
         "ja": "抒情的なるクーデター",
         "en": "The Lyrical Coup d'État"
       },
-      "description": {
-        "ja": "1919年11月、パリ。アポリネール率いる芸術家集団と、彼らに共鳴した退役軍人部隊が蜂起した。",
-        "en": "Paris, November 1919. An uprising erupted, led by an artists’ collective under Apollinaire and joined by a detachment of demobilized veterans who had rallied to their cause."
-      },
       "effects": {
         "eventIds": [
           "FRA_jojoutekinaru_coup_detat"
@@ -230,10 +194,6 @@
       "name": {
         "ja": "崇高なる国の幕開け",
         "en": "Dawn of the Sublime State"
-      },
-      "description": {
-        "ja": "古き良きフランス共和国は死んだ。我々はここに、超現実主義と神秘主義が支配する「崇高なる国」の誕生を宣言する。",
-        "en": "The old French Republic is dead. We hereby declare the birth of 'La Sublime,' a nation ruled by surrealism and mysticism."
       },
       "effects": {
         "nationalSpirits": [
@@ -259,11 +219,7 @@
       "icon": "flame",
       "name": {
         "ja": "革命は続く",
-        "en": "Revolution Lasts"
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Revolution Continues"
       },
       "effects": {
         "eventIds": [
@@ -282,11 +238,7 @@
       "icon": "arrow-up",
       "name": {
         "ja": "導師派の伸長",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Rise of the Guru Faction"
       },
       "effects": {
         "eventIds": [
@@ -308,11 +260,7 @@
       "icon": "gear",
       "name": {
         "ja": "労働組合の掌握",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Seizure of the Trade Unions"
       },
       "effects": {
         "nationalSpirits": [
@@ -338,11 +286,7 @@
       "icon": "globe",
       "name": {
         "ja": "平等の促進",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Acceleration of Equality"
       },
       "effects": {
         "nationalSpirits": [
@@ -368,11 +312,7 @@
       "icon": "factory",
       "name": {
         "ja": "地方産業計画",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Provincial Industrial Quotas"
       },
       "effects": {
         "nationalSpirits": [
@@ -398,11 +338,7 @@
       "icon": "star",
       "name": {
         "ja": "理性の冷たきベッドを捨てる",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Abandon the Cold Bed of Reason"
       },
       "effects": {
         "nationalSpirits": [
@@ -426,11 +362,7 @@
       "icon": "cross",
       "name": {
         "ja": "科学と詩の結婚",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Marriage of Science and Poetry"
       },
       "effects": {
         "politicalPower": 20,
@@ -459,11 +391,7 @@
       "icon": "bolt",
       "name": {
         "ja": "神秘主義的テクノクラート",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Mystical Technocrats"
       },
       "effects": {
         "nationalSpirits": [
@@ -491,11 +419,7 @@
       "icon": "flame",
       "name": {
         "ja": "雄鶏は再び鳴く",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Rooster Crows Again"
       },
       "effects": {
         "eventIds": [
@@ -514,11 +438,7 @@
       "icon": "",
       "name": {
         "ja": "本家との対立",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Clash with the Old Guard"
       },
       "effects": {
         "declareWar": "IND"
@@ -537,11 +457,7 @@
       "icon": "star",
       "name": {
         "ja": "甘美な死骸は眠らない",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Exquisite Corpse Never Sleeps"
       },
       "effects": {
         "nationalSpirits": [
@@ -567,11 +483,7 @@
       "icon": "bolt",
       "name": {
         "ja": "大陸の浄化",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Purification of the Continent"
       },
       "effects": {
         "politicalPower": 100
@@ -588,11 +500,7 @@
       "icon": "",
       "name": {
         "ja": "東洋への帰還",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Return to the Orient"
       },
       "effects": {
         "declareWar": "MMR"
@@ -609,11 +517,7 @@
       "icon": "cannon",
       "name": {
         "ja": "武器を取れ",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Take Up Arms!"
       },
       "effects": {
         "militaryEquipment": 5000
@@ -630,11 +534,7 @@
       "icon": "factory",
       "name": {
         "ja": "超現実的装甲部隊",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Surrealist Armored Forces"
       },
       "effects": {
         "nationalSpirits": [
@@ -661,11 +561,7 @@
       "icon": "flower",
       "name": {
         "ja": "アヴァンギャルドな軍隊",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Avant-Garde Army"
       },
       "effects": {
         "nationalSpirits": [
@@ -687,11 +583,7 @@
       "icon": "chain",
       "name": {
         "ja": "死の舞踏の教練",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Drill of the Danse Macabre"
       },
       "effects": {
         "nationalSpirits": [
@@ -717,11 +609,7 @@
       "icon": "sword",
       "name": {
         "ja": "破壊のシンフォニー",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Symphony of Destruction"
       },
       "effects": {
         "nationalSpirits": [
@@ -750,11 +638,7 @@
       "icon": "shield",
       "name": {
         "ja": "夢幻の塹壕戦",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Phantasmal Trench Warfare"
       },
       "effects": {
         "nationalSpirits": [
@@ -783,11 +667,7 @@
       "icon": "anchor",
       "name": {
         "ja": "理性の死骸を踏み越えよ",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Trample the Corpse of Reason"
       },
       "effects": {
         "nationalSpirits": [
@@ -813,11 +693,7 @@
       "icon": "gear",
       "name": {
         "ja": "未来派との共存",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Coexistence with the Futurists"
       },
       "effects": {
         "nationalSpirits": [
@@ -845,11 +721,7 @@
       "icon": "crown",
       "name": {
         "ja": "至高点の到達",
-        "en": "Le point suprême"
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Le Point Suprême"
       },
       "effects": {
         "nationalSpirits": [
@@ -876,11 +748,7 @@
       "icon": "",
       "name": {
         "ja": "理性という名の牢獄からの解放",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Liberation from the Prison of Reason"
       },
       "effects": {
         "eventIds": [
@@ -901,11 +769,7 @@
       "icon": "crown",
       "name": {
         "ja": "黒き太陽の戴冠",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Coronation of the Black Sun"
       },
       "effects": {
         "eventIds": [
@@ -926,11 +790,7 @@
       "icon": "flower",
       "name": {
         "ja": "歩く前衛芸術",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Walking Avant-Garde Art"
       },
       "effects": {
         "nationalSpirits": [
@@ -956,11 +816,7 @@
       "icon": "arrow-up",
       "name": {
         "ja": "肉体は鋼鉄を超える",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Flesh Surpasses Steel"
       },
       "effects": {
         "deployedMilitary": 20
@@ -979,11 +835,7 @@
       "icon": "gear",
       "name": {
         "ja": "鋼鉄のパピエ・コレ",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Papier-Collé of Steel"
       },
       "effects": {
         "nationalSpirits": [
@@ -1008,11 +860,7 @@
       "icon": "sword",
       "name": {
         "ja": "容赦のない戦士",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Merciless Warriors"
       },
       "effects": {
         "nationalSpirits": [
@@ -1038,11 +886,7 @@
       "icon": "crown",
       "name": {
         "ja": "崇高なる軍隊",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Sublime Army"
       },
       "effects": {
         "nationalSpirits": [
@@ -1064,11 +908,7 @@
       "icon": "flame",
       "name": {
         "ja": "市民も戦意に燃えている",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Citizens Aflame with Martial Spirit"
       },
       "effects": {
         "deployedMilitary": 25
@@ -1085,11 +925,7 @@
       "icon": "flag",
       "name": {
         "ja": "ラテンの兄弟たちを解放",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Liberate Our Latin Brothers"
       },
       "effects": {},
       "prerequisites": [
@@ -1104,11 +940,7 @@
       "icon": "flower",
       "name": {
         "ja": "労働は詩である",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Labor is Poetry"
       },
       "effects": {
         "nationalSpirits": [
@@ -1136,11 +968,7 @@
       "icon": "chain",
       "name": {
         "ja": "精神の総動員",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Total Mobilization of the Spirit"
       },
       "effects": {
         "nationalSpirits": [
@@ -1169,11 +997,7 @@
       "icon": "sword",
       "name": {
         "ja": "器官なき国家",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The State Without Organs"
       },
       "effects": {
         "nationalSpirits": [
@@ -1203,11 +1027,7 @@
       "icon": "globe",
       "name": {
         "ja": "物質に対する精神の勝利",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Triumph of Spirit Over Matter"
       },
       "effects": {
         "nationalSpirits": [
@@ -1234,11 +1054,7 @@
       "icon": "factory",
       "name": {
         "ja": "工廠はアトリエなり",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Arsenal is an Atelier"
       },
       "effects": {
         "nationalSpirits": [
@@ -1264,11 +1080,7 @@
       "icon": "document",
       "name": {
         "ja": "公安委員会の掌握",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Seize the Committee of Public Safety"
       },
       "effects": {
         "nationalSpirits": [
@@ -1293,11 +1105,7 @@
       "icon": "flame",
       "name": {
         "ja": "数字を燃やせ",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Burn the Numbers"
       },
       "effects": {
         "nationalSpirits": [
@@ -1326,11 +1134,7 @@
       "icon": "cross",
       "name": {
         "ja": "理性主義者への異端審問",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Inquisition of the Rationalists"
       },
       "effects": {
         "politicalPower": -50,
@@ -1356,11 +1160,7 @@
       "icon": "gear",
       "name": {
         "ja": "パリ大改造",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Grand Redesign of Paris"
       },
       "effects": {
         "nationalSpirits": [
@@ -1387,11 +1187,7 @@
       "icon": "star",
       "name": {
         "ja": "我々は神話を生きる",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "We Live the Myth"
       },
       "effects": {
         "nationalSpirits": [
@@ -1430,11 +1226,7 @@
       "icon": "",
       "name": {
         "ja": "東洋の理解者",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Sympathizers of the Orient"
       },
       "effects": {
         "formAlliance": "IND"
@@ -1453,11 +1245,7 @@
       "icon": "flame",
       "name": {
         "ja": "炎は広がり続ける",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "The Flames Continue to Spread"
       },
       "effects": {
         "eventIds": [
@@ -1477,11 +1265,7 @@
       "icon": "flag",
       "name": {
         "ja": "美しき自然国境を",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "For Our Beautiful Natural Borders"
       },
       "effects": {
         "declareWar": "DEU",
@@ -1500,11 +1284,7 @@
       "icon": "bolt",
       "name": {
         "ja": "狂気はピレネーをも越える",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Madness Crosses Even the Pyrenees"
       },
       "effects": {
         "declareWar": "ESP"
@@ -1521,11 +1301,7 @@
       "icon": "globe",
       "name": {
         "ja": "世界の中心はフランス！",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "France is the Center of the World!"
       },
       "effects": {
         "declareWar": "AH",
@@ -1544,11 +1320,7 @@
       "icon": "globe",
       "name": {
         "ja": "植民地の肯定",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Affirmation of the Colonies"
       },
       "effects": {
         "eventIds": [
@@ -1569,11 +1341,7 @@
       "icon": "globe",
       "name": {
         "ja": "ナイルの農業投資",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Agricultural Investments in the Nile"
       },
       "effects": {
         "nationalSpirits": [
@@ -1601,11 +1369,7 @@
       "icon": "globe",
       "name": {
         "ja": "インドシナの資源搾取",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Resource Exploitation in Indochina"
       },
       "effects": {
         "nationalSpirits": [
@@ -1635,11 +1399,7 @@
       "icon": "flag",
       "name": {
         "ja": "理性帝国主義に対する防波堤",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Bulwark Against Rationalist Imperialism"
       },
       "effects": {
         "nationalSpirits": [
@@ -1667,11 +1427,7 @@
       "icon": "shield",
       "name": {
         "ja": "野性の思考の保護区",
-        "en": ""
-      },
-      "description": {
-        "ja": "",
-        "en": ""
+        "en": "Sanctuary of the Savage Mind"
       },
       "effects": {
         "eventIds": [

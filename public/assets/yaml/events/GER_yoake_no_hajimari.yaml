@@ -1,7 +1,7 @@
 id: GER_yoake_no_hajimari
 title:
   ja: 夜明けの始まり
-  en: test
+  en: The Beginning of the Dawn
 content:
   ja: |
     老帝の棺が地下に納められてから、まだ三日しか経っていない。
@@ -19,10 +19,25 @@ content:
     黒い空の端に、かすかに白み始めているものがあった。まだ夜明けではない。しかしそれは確かに、暗闇が終わろうとしている予感だった。
     良い予感かどうかは、まだ分からない。
     夜明けは、光だけを連れてくるとは限らない。
-  en: test
+  en: |
+    It has been barely three days since the old Emperor's casket was laid to rest in the crypts.
+    The high ceiling of the Diet building loomed above, and the gas lamps illuminating the rostrum cast a sallow, yellowed light. The gallery overflowed with bodies: journalists, citizens, and men waiting for something to happen. Outside, the thaw of snow slicked the cobblestones of Berlin, and the mere premonition of spring drifted through the air.
+    Ernst von Cassel, parliamentary leader of the Free Democratic Party, stood at the podium and surveyed the chamber.
+    There were generals in their uniforms. Industrial magnates. Representatives of the factory workers. Men packed beneath the same roof, watching each other with eyes completely devoid of trust.
+    This is the Empire, he thought. And now, we must decide what it is to become.
+
+    Cassel spoke briefly but unflinchingly of the old Emperor's passing, the future of the Empire, and the solemn duty of the parliament. This Empire belongs to the Germans, he declared, and it must be the Germans who determine its next form.
+    Applause erupted. It started sparsely, then rippled outward until it shook the very rafters of the chamber.
+    But not everyone clapped. One of the labor representatives in the back rows wore a thin, cynical smile. Cassel had no idea what that smile portended.
+
+    That night, as he exited the Diet, Cassel looked up at the Berlin sky.
+    The snow had ceased.
+    At the edges of the black expanse, a faint, pale hue was beginning to bleed into the dark. It was not yet dawn. But it was an undeniable omen that the night was drawing to a close.
+    Whether it was a good omen or ill remained to be seen.
+    Dawn, after all, does not only bring the light.
 buttons:
   - text:
       ja: 帝国の未来を決める
-      en: test
+      en: Decide the future of the Empire.
     hover: null
     effects: {}

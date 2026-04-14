@@ -6,7 +6,6 @@ import type { LocalizedName } from './gameState';
 export interface SpiritDefinition {
   id: string;
   name: { ja: string; en: string };
-  description: { ja: string; en: string };
   stats: ModifierStats;
 }
 
@@ -42,7 +41,6 @@ export interface NationalFocusNode {
   row: number;
   icon: string;
   name: { ja: string; en: string };
-  description: { ja: string; en: string };
   prerequisites: string[];
   prerequisitesAny?: string[];
   mutuallyExclusive: string[];
@@ -93,7 +91,6 @@ export interface ResolvedSpiritEffect {
   id: string;
   action: 'add' | 'modify' | 'remove';
   name: { ja: string; en: string };
-  description: { ja: string; en: string };
   /** マージ済みstats */
   stats: ModifierStats;
   modifyStats?: ModifierStats;
@@ -205,7 +202,6 @@ export async function resolveFocusEffect(effects: FocusEffect): Promise<Resolved
         id: ref.id,
         action: ref.action,
         name: def?.name ?? { ja: ref.id, en: ref.id },
-        description: def?.description ?? { ja: '', en: '' },
         // YAML定義のstatsをベースに、NF JSONのstats（上書き）をマージ
         stats: { ...(def?.stats ?? {}), ...(ref.stats ?? {}) },
         // modify時: JSONで指定された差分のみ保持（表示用）

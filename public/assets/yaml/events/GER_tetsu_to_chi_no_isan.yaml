@@ -13,10 +13,19 @@ content:
 
     翌朝、帝国議会の議事堂前に装甲車が並んだ。
     発砲はなかった。流血もなかった。ただ、鉄と重量と燃料の臭いがあった。議員たちは正面玄関から入れなかった。裏口に回った者は、そこにも憲兵が立っているのを見た。
-  en: test
+  en: |
+    Erich von Ludendorff.
+    He stood before a map. It had not even been seventy-two hours since the old Emperor grew cold. Yet, there was not a trace of mourning in his eyes. They were the eyes of a man reading a map. The eyes of a man surveying a front line.
+    "Gentlemen," he said.
+    Beyond the window, the snow had stopped falling.
+    "The Empire now stands at the exact same crossroads as it did in 1908. We made the correct decision then. We must make the correct decision tonight."
+    No one dared to interrupt.
+
+    The next morning, armored cars lined the avenue before the Imperial Diet.
+    Not a single shot was fired. Not a drop of blood was shed. There was only the heavy stench of iron, tonnage, and diesel fuel. The deputies were barred from the main entrance. Those who circled around to the rear doors found military police standing guard there, too.
 buttons:
   - text:
       ja: 鉄は錆びない。意志があれば。
-      en: test
+      en: Iron does not rust, so long as there is will.
     hover: null
     effects: {}

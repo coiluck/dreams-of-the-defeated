@@ -12,10 +12,18 @@ content:
     本日、コンコルド広場にて前代未聞の軍事パレードが挙行された。
     それはかつてのフランス軍の姿ではなかった。戦車や航空機が多数登場するパレードは世界でも片手に収まるほどの規模で、軍備制限などないようだった。
     兵器工場の歯車が、血の臭いを求めて再び回り始めた。
-  en: test
+  en: |
+    The Dresden Peace Conference of 1914 was supposed to have pulled France's fangs and clipped her wings.
+    The size of the army was severely restricted, and the border fortresses were forced to be left in ruins. Germany and Britain had no doubt that we would never become a continental threat again. They intended to bind us with the rational chains of a treaty.
+
+    But they could not bind our souls.
+
+    Today, an unprecedented military parade took place in the Place de la Concorde.
+    It was not the French army of the past. Featuring numerous tanks and aircraft, the parade was of a scale matched by only a handful in the world, as if arms limitations simply did not exist.
+    The gears of the munitions factories have begun to turn once more, seeking the scent of blood.
 buttons:
   - text:
       ja: 灰の中から蘇るのだ
-      en: test
+      en: We shall rise from the ashes.
     hover: null
     effects: {}
