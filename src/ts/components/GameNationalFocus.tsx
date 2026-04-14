@@ -247,9 +247,6 @@ function FocusEffects({ effects, lang, countries }: { effects: ResolvedFocusEffe
             </span>
             <span className="gnf-spirit-name">{spirit.name[lang]}</span>
           </div>
-          {spirit.description[lang] && (
-            <p className="gnf-spirit-description">{spirit.description[lang]}</p>
-          )}
           {Object.keys(spirit.action === 'modify' ? (spirit.modifyStats ?? {}) : spirit.stats).length > 0 && (
             <div className="gnf-spirit-stats">
               {(Object.entries(spirit.action === 'modify' ? (spirit.modifyStats ?? {}) : spirit.stats) as [string, number][]).map(([key, val]) => (
@@ -751,7 +748,7 @@ export default function GameNationalFocus() {
                 ))}
               </div>
             ) : (
-              <div className="gnf-tooltip-desc">{tooltip.node.description[lang]}</div>
+              <div className="gnf-tooltip-desc">— No effects —</div>
             )}
           </div>
         );

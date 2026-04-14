@@ -1,6 +1,6 @@
 // ts/modules/gameState.ts
 import { create } from 'zustand';
-import { loadSpiritDefinition } from './nationalFocus';
+import { loadSpiritDefinition, loadFocusTree } from './nationalFocus';
 import { processWars, applyDeclareWar, applyAllyJoinWar, applyPlayerAcceptedCpuPeace, processCpuMilitaryBuild } from './wars';
 import { processCountryFocus, selectCpuFocus } from './focus';
 import { invoke } from '@tauri-apps/api/core';
@@ -145,6 +145,109 @@ interface NonPlayableCountryData {
   suzerainId?: string;
   vassalIds?: string[];
   allies?: string[];
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CPUの自由宣戦布告処理
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * get_war_fronts を使って attackerId が defenderId と陸続きかを確認する。
+ * 戦線が1件以上あれば「接している」と判断する。
+ */
+async function isAdjacentCountry(attackerId: string, defenderId: string): Promise<boolean> {
+  try {
+    const fronts = await invoke<{ front_id: string }[]>('get_war_fronts', {
+      war: {
+        player_id:          attackerId,
+        enemy_ids:          [defenderId],
+        supply_buffs:       {},
+        mechanization_rate: 0,
+      },
+    });
+    return fronts.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * 5ターンに1回、ランダムなCPUが接している国の中から
+ * 同盟国・宗主国・属国を除いた相手にランダムに宣戦布告する。
+ * 宣戦布告した warId を返す（宣戦なしの場合は null）。
+ */
+async function processCpuFreeWarDeclaration(
+  countries: Record<string, CountryState>,
+  wars: Record<string, War>,
+  playerCountryId: string,
+  currentTurn: number,
+): Promise<{ updatedWars: Record<string, War>; updatedCountries: Record<string, CountryState>; newWarId: string | null }> {
+  // 5ターンに1回だけ実行
+  if (currentTurn % 5 !== 0) {
+    return { updatedWars: wars, updatedCountries: countries, newWarId: null };
+  }
+
+  // 宣戦可能なCPU国の一覧（戦争中でない・プレイヤーでない）
+  const candidateAttackers = Object.keys(countries).filter(id => {
+    if (id === playerCountryId) return false;
+    const isAtWar = Object.values(wars).some(
+      w => w.attackerId === id || w.defenderId === id,
+    );
+    return !isAtWar;
+  });
+
+  if (candidateAttackers.length === 0) {
+    return { updatedWars: wars, updatedCountries: countries, newWarId: null };
+  }
+
+  // シャッフルして順番に「宣戦できる相手がいるか」を確認
+  const shuffledAttackers = [...candidateAttackers].sort(() => Math.random() - 0.5);
+
+  for (const attackerId of shuffledAttackers) {
+    const attacker = countries[attackerId];
+
+    // 宣戦布告が禁止されている関係を除外したリストを作成
+    const excludedIds = new Set<string>([
+      attackerId,
+      ...attacker.allies,
+      ...(attacker.suzerainId ? [attacker.suzerainId] : []),
+      ...attacker.vassalIds,
+    ]);
+
+    // すでに交戦中の相手も除外
+    for (const war of Object.values(wars)) {
+      if (war.attackerId === attackerId) excludedIds.add(war.defenderId);
+      if (war.defenderId === attackerId) excludedIds.add(war.attackerId);
+    }
+
+    // 候補となる宣戦相手
+    const candidateDefenders = Object.keys(countries).filter(id => !excludedIds.has(id));
+
+    if (candidateDefenders.length === 0) continue;
+
+    // シャッフルして隣接チェック
+    const shuffledDefenders = [...candidateDefenders].sort(() => Math.random() - 0.5);
+
+    for (const defenderId of shuffledDefenders) {
+      const adjacent = await isAdjacentCountry(attackerId, defenderId);
+      if (!adjacent) continue;
+
+      // 宣戦布告を実行
+      const { updatedWars, updatedCountries } = applyDeclareWar(
+        wars,
+        countries,
+        attackerId,
+        defenderId,
+        currentTurn,
+      );
+
+      const newWarId = `war_${attackerId}_${defenderId}_${currentTurn}`;
+      console.log(`[CPU Free War] ${attackerId} → ${defenderId} (turn ${currentTurn})`);
+      return { updatedWars, updatedCountries, newWarId };
+    }
+  }
+
+  return { updatedWars: wars, updatedCountries: countries, newWarId: null };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -526,18 +629,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
       wars      = cpuResult.updatedWars;
     }
 
-    // CPUの自由な宣戦
-
-    // CPUの軍拡
-    for (const countryId of Object.keys(countries)) {
-      if (countryId === playerCountryId) continue;
-
-      const updates = processCpuMilitaryBuild(countries[countryId], wars);
-      if (Object.keys(updates).length > 0) {
-        countries[countryId] = { ...countries[countryId], ...updates };
-      }
-    }
-
     // ── NF処理後に新たに追加されたCPU→プレイヤー宣戦を検出 ──────────────────
     const allCpuDeclaredWarIds = [...cpuDeclaredWarIds];
     for (const [warId, war] of Object.entries(wars)) {
@@ -547,6 +638,60 @@ export const useGameStore = create<GameStore>((set, get) => ({
         war.defenderId === playerCountryId
       ) {
         allCpuDeclaredWarIds.push(warId);
+      }
+    }
+
+    // CPUの自由な宣戦
+    const cpuDeclareWarRule = SettingState.cpuDeclareWar;
+
+    // プレイヤーのNFがすべて取り終わったか判定（selectCpuFocusと同じロジック）
+    const playerNFAllDone = await (async () => {
+      const player = countries[playerCountryId];
+      if (!player) return false;
+      const treeSlug = player.isPlayable ? player.slug : 'universal_tree';
+      const tree = await loadFocusTree(treeSlug);
+      if (!tree) return false;
+      const completed = new Set(player.completedFocusIds);
+      const available = tree.focuses.filter(focus => {
+        if (completed.has(focus.id)) return false;
+        if (focus.prerequisites.length > 0 && !focus.prerequisites.every((pid: string) => completed.has(pid))) return false;
+        if (focus.prerequisitesAny && focus.prerequisitesAny.length > 0 && !focus.prerequisitesAny.some((pid: string) => completed.has(pid))) return false;
+        if (focus.mutuallyExclusive.length > 0 && focus.mutuallyExclusive.some((eid: string) => completed.has(eid))) return false;
+        return true;
+      });
+      return available.length === 0;
+    })();
+
+    const cpuFreeWarAllowed =
+      cpuDeclareWarRule === 'free' ||
+      (cpuDeclareWarRule === 'afterPlayerNF' && playerNFAllDone);
+
+    if (cpuFreeWarAllowed) {
+      const freeWarResult = await processCpuFreeWarDeclaration(
+        countries,
+        wars,
+        playerCountryId,
+        currentTurn,
+      );
+      countries = freeWarResult.updatedCountries;
+      wars      = freeWarResult.updatedWars;
+
+      // プレイヤーへの宣戦が発生した場合は通知用リストに追加
+      if (freeWarResult.newWarId !== null) {
+        const newWar = wars[freeWarResult.newWarId];
+        if (newWar && newWar.defenderId === playerCountryId) {
+          allCpuDeclaredWarIds.push(freeWarResult.newWarId);
+        }
+      }
+    }
+
+    // CPUの軍拡
+    for (const countryId of Object.keys(countries)) {
+      if (countryId === playerCountryId) continue;
+
+      const updates = processCpuMilitaryBuild(countries[countryId], wars);
+      if (Object.keys(updates).length > 0) {
+        countries[countryId] = { ...countries[countryId], ...updates };
       }
     }
 
@@ -717,7 +862,7 @@ export const calculateFinanceStatus = (country: CountryState) => {
 
 function processEconomy(countries: Record<string, CountryState>): Record<string, CountryState> {
   const updatedCountries         = { ...countries };
-  const ECONOMIC_GROWTH_RATE     = 0.05 / 12;
+  const ECONOMIC_GROWTH_RATE     = 0.03;
   const POLITICAL_POWER_INCREASE = 50;
 
   Object.keys(updatedCountries).forEach(id => {
@@ -739,10 +884,19 @@ function processEconomy(countries: Record<string, CountryState>): Record<string,
     const actualPpIncrease   = POLITICAL_POWER_INCREASE * (1 + totalPpRate   / 100);
     const actualEconIncrease = currentCountry.economicStrength * ECONOMIC_GROWTH_RATE * (1 + totalEconRate / 100);
 
+    const roundToTop3Digits = (value: number): number => {
+      if (value === 0) return 0;
+      const absValue = Math.abs(value);
+      const digits   = Math.floor(Math.log10(absValue)) + 1;
+      if (digits <= 3) return Math.round(value);
+      const factor = Math.pow(10, digits - 3);
+      return Math.round(value / factor) * factor;
+    };
+
     updatedCountries[id] = {
       ...currentCountry,
       politicalPower:     Math.round(currentCountry.politicalPower + actualPpIncrease),
-      economicStrength:   currentCountry.economicStrength + actualEconIncrease,
+      economicStrength:   roundToTop3Digits(currentCountry.economicStrength + actualEconIncrease),
       financeActionCount: 0,
       nationalSpirits:    updatedSpirits,
     };

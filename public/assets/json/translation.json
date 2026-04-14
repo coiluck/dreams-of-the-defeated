@@ -19,6 +19,10 @@
   "optionsDeclareWarNone": { "ja": "なし", "en": "Never" },
   "optionsDeclareWarAfterNF": { "ja": "プレイヤーの全国家方針完了後", "en": "After All Player NFs Complete" },
   "optionsDeclareWarFree": { "ja": "自由", "en": "Free" },
+  "optionsCpuDeclareWar.description": {
+    "ja": "CPUによる宣戦布告のルール。オンの場合、5ターンに一度、ランダムなCPUがランダムな国に宣戦布告する。\nプレイヤーの全国家方針完了後の場合はプレイヤーの全国家方針完了後にCPUが宣戦布告をする。\n自由の場合はCPUが自由に宣戦布告をする。",
+    "en": "Rules for CPU war declarations. When enabled, a random CPU will declare war on a random country once every 5 turns.\nIf set to 'After All Player NFs Complete', the CPU will declare war after the player has completed all of their national focuses.\nIf set to 'Free', the CPU will declare war freely."
+  },
   "newGame.countryLeader": { "ja": "国家指導者", "en": "Leader" },
   "newGame.countryIdeology": { "ja": "政治形態", "en": "Ideology" },
   "topBar.legitimacy": { "ja": "正統性", "en": "Legitimacy" },

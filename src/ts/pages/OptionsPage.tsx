@@ -61,6 +61,7 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
         'optionsDeclareWarNone',
         'optionsDeclareWarAfterNF',
         'optionsDeclareWarFree',
+        'optionsCpuDeclareWar.description',
       ];
       const newTexts: Record<string, string> = {};
       for (const key of translationKeys) {
@@ -344,7 +345,11 @@ export default function OptionsPage({ mode = 'page', onBack }: OptionsPageProps)
               </div>
               {/* CPUによるNFを通さない宣戦布告 */}
               <div className="options-list-item">
-                <label>{texts['optionsCpuDeclareWarLabel']}:</label>
+                <label>{texts['optionsCpuDeclareWarLabel']}:
+                  <ToolTip text={texts['optionsCpuDeclareWar.description']} isBelow={true}>
+                    <span className="options-game-mode-info-icon">i</span>
+                  </ToolTip>
+                </label>
                 {renderDeclareWarButtons(settings.cpuDeclareWar, CpuDeclareWarChange, 'cpuDeclareWar')}
               </div>
             </div>
