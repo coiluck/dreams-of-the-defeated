@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>NF Tree Edito</title>
+<style>
+    body { margin: 0; padding: 0; font-family: sans-serif; display: flex; height: 100vh; overflow: hidden; background: #f0f0f0; }
+    
+    #sidebar { 
+        width: 300px; 
+        min-width: 300px;
+        flex-shrink: 0;
+        background: #fff; border-right: 1px solid #ccc; 
+        display: flex; flex-direction: column; z-index: 10; 
+    }
+    .panel-header { padding: 15px; background: #333; color: white; font-weight: bold; display: flex; justify-content: space-between; gap: 5px;}
+    .panel-content { padding: 15px; overflow-y: auto; flex-grow: 1; }
+    
+    #workspace-container { flex-grow: 1; overflow: auto; position: relative; }
+    #workspace {
+        position: relative;
+        background-color: #e5e5e5;
+        background-image: 
+            linear-gradient(to right, #ccc 1px, transparent 1px),
+            linear-gradient(to bottom, #ccc 1px, transparent 1px);
+        transform-origin: top left;
+    }
+
+    #svg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+
+    .nf-node {
+        position: absolute;
+        width: 120px; height: 70px;
+        background: #fff; border: 2px solid #555; border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        display: flex; align-items: center; justify-content: center;
+        user-select: none; cursor: grab; text-align: center;
+        font-size: 11px; font-weight: bold; padding: 5px; box-sizing: border-box;
+    }
+    .nf-node.selected { border-color: #ff0000; box-shadow: 0 0 10px rgba(255,0,0,0.5); }
+
+    .port {
+        position: absolute; width: 12px; height: 12px; border-radius: 50%;
+        border: 2px solid #333; cursor: crosshair; z-index: 5;
+    }
+    .port-in { top: -8px; left: 50%; transform: translateX(-50%); background: #fff; }
+    .port-out-all { bottom: -8px; left: 30%; transform: translateX(-50%); background: #2196F3; } 
+    .port-out-any { bottom: -8px; left: 70%; transform: translateX(-50%); background: #FF9800; } 
+    /* 排他(Mutually Exclusive)用ポート: 左右に配置 */
+    .port-left { top: 50%; left: -8px; transform: translateY(-50%); background: #f44336; }
+    .port-right { top: 50%; right: -8px; transform: translateY(-50%); background: #f44336; }
+
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 11px; color: #555; margin-bottom: 4px; font-weight: bold; }
+    .form-group input, .form-group textarea { width: 100%; padding: 6px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 12px;}
+    .form-group textarea { height: 60px; resize: vertical; }
+    
+    button { padding: 6px 10px; cursor: pointer; border: none; border-radius: 4px; font-weight: bold; font-size: 12px; }
+    .btn-primary { background: #4CAF50; color: white; }
+    .btn-secondary { background: #FF9800; color: white; }
+    .btn-danger { background: #f44336; color: white; width: 100%; margin-top: 10px; }
+    .btn-export { background: #2196F3; color: white; width: 100%; margin-top: 10px; }
+    
+    .link-list { list-style: none; padding: 0; margin: 0; }
+    .link-item { display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; border: 1px solid #ddd; padding: 4px 8px; margin-bottom: 4px; border-radius: 4px; font-size: 11px; }
+    .link-item button { padding: 2px 6px; background: #f44336; color: white; font-size: 10px; border-radius: 3px; border: none; cursor: pointer; }
+    .type-all { color: #2196F3; font-weight: bold; }
+    .type-any { color: #FF9800; font-weight: bold; }
+    .type-exclusive { color: #f44336; font-weight: bold; }
+    .guide { font-size: 11px; color: #666; margin-top: 10px; border-top: 1px solid #ddd; padding-top: 10px; line-height: 1.4; }
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+    <div class="panel-header">
+        <span>NF Editor</span>
+        <button class="btn-primary" onclick="addNode()">+ 追加</button>
+    </div>
+    <div class="panel-content" id="properties-panel">
+        <p style="color: #666; font-size: 13px;">NF要素をクリックして編集</p>
+    </div>
+    <div class="panel-content" style="flex-grow: 0; border-top: 1px solid #ccc;">
+        <input type="file" id="json-upload" accept=".json" style="display:none;" onchange="importJSON(event)">
+        <button class="btn-secondary" style="width:100%" onclick="document.getElementById('json-upload').click()">JSON 読み込み</button>
+        <button class="btn-export" onclick="exportJSON()">JSON ダウンロード</button>
+        <div class="guide">
+            ・上（白）：前提条件の受け口<br>
+            ・下（青）：前提条件 ALL<br>
+            ・下（橙）：前提条件 ANY<br>
+            ・左右（赤）：排他関係 (Mutually Exclusive)
+        </div>
+    </div>
+</div>
+
+<div id="workspace-container">
+    <div id="workspace">
+        <svg id="svg-layer"></svg>
+        <div id="nodes-container"></div>
+    </div>
+</div>
+
+<script>
+    const GRID_W = 150, GRID_H = 100, NODE_W = 120, NODE_H = 70;
+    let nodes = [];
+    let links = []; 
+    let idCounter = 1;
+    let selectedNode = null;
+    let draggingNode = null;
+    let drawingLink = null;
+
+    const workspace = document.getElementById('workspace');
+    const nodesContainer = document.getElementById('nodes-container');
+    const svgLayer = document.getElementById('svg-layer');
+    const propertiesPanel = document.getElementById('properties-panel');
+
+    workspace.style.width = '3000px';
+    workspace.style.height = '4000px';
+    workspace.style.backgroundSize = `${GRID_W}px ${GRID_H}px`;
+
+    function addNode() {
+        const node = {
+            id: 'focus_' + idCounter++,
+            col: 1, row: 1,
+            name: { ja: "新規フォーカス", en: "" },
+            icon: "",
+            effects: {} 
+        };
+        while (nodes.some(n => n.col === node.col && n.row === node.row)) {
+            node.col++;
+        }
+        nodes.push(node);
+        selectNode(node);
+        render();
+    }
+
+    function selectNode(node) {
+        selectedNode = node;
+        render();
+        renderProperties();
+    }
+
+    function renderProperties() {
+        if (!selectedNode) {
+            propertiesPanel.innerHTML = '<p style="color: #666; font-size: 13px;">NF要素をクリックして編集</p>';
+            return;
+        }
+
+        // 入力リンク (前提条件)
+        const inputLinks = links.filter(l => l.target === selectedNode.id && l.type !== 'exclusive');
+        const inputListHTML = inputLinks.map(l => {
+            const source = nodes.find(n => n.id === l.source);
+            return `<li class="link-item"><span class="${l.type==='all'?'type-all':'type-any'}">[${l.type.toUpperCase()}]</span> ${source?.name.ja || l.source} 
+                    <button onclick="removeLink('${l.source}', '${selectedNode.id}')">解除</button></li>`;
+        }).join('');
+
+        // 排他リンク (Mutually Exclusive)
+        const excLinks = links.filter(l => l.type === 'exclusive' && (l.source === selectedNode.id || l.target === selectedNode.id));
+        const excListHTML = excLinks.map(l => {
+            const otherId = l.source === selectedNode.id ? l.target : l.source;
+            const other = nodes.find(n => n.id === otherId);
+            return `<li class="link-item"><span class="type-exclusive">[EXC]</span> ${other?.name.ja || otherId} 
+                    <button onclick="removeLink('${l.source}', '${l.target}')">解除</button></li>`;
+        }).join('');
+
+        propertiesPanel.innerHTML = `
+            <div class="form-group"><label>ID</label><input type="text" id="prop-id" value="${selectedNode.id}"></div>
+            <div class="form-group"><label>名前 (JA)</label><input type="text" id="prop-ja" value="${selectedNode.name.ja}"></div>
+            <div class="form-group"><label>名前 (EN)</label><input type="text" id="prop-en" value="${selectedNode.name.en}"></div>
+            <div class="form-group"><label>アイコン</label><input type="text" id="prop-icon" value="${selectedNode.icon}"></div>
+            
+            <div class="form-group">
+                <label>前提条件</label>
+                <ul class="link-list">${inputListHTML || '<span style="color:#999;font-size:11px;">なし</span>'}</ul>
+            </div>
+            <div class="form-group">
+                <label>排他関係 (Mutually Exclusive)</label>
+                <ul class="link-list">${excListHTML || '<span style="color:#999;font-size:11px;">なし</span>'}</ul>
+            </div>
+            
+            <button class="btn-danger" onclick="deleteSelectedNode()">削除</button>
+        `;
+
+        // イベント登録
+        document.getElementById('prop-id').onchange = (e) => {
+            const oldId = selectedNode.id;
+            selectedNode.id = e.target.value;
+            links.forEach(l => {
+                if(l.source === oldId) l.source = selectedNode.id;
+                if(l.target === oldId) l.target = selectedNode.id;
+            });
+            render();
+        };
+        document.getElementById('prop-ja').oninput = (e) => { selectedNode.name.ja = e.target.value; render(); };
+        document.getElementById('prop-en').oninput = (e) => { selectedNode.name.en = e.target.value; render(); };
+        document.getElementById('prop-icon').oninput = (e) => { selectedNode.icon = e.target.value; };
+    }
+
+    function render() {
+        nodesContainer.innerHTML = '';
+        nodes.forEach(node => {
+            const el = document.createElement('div');
+            el.className = 'nf-node' + (selectedNode === node ? ' selected' : '');
+            el.style.left = (node.col * GRID_W + (GRID_W - NODE_W)/2) + 'px';
+            el.style.top = (node.row * GRID_H + (GRID_H - NODE_H)/2) + 'px';
+            el.innerHTML = `
+                <div class="port port-in" data-id="${node.id}" data-type="in"></div>
+                <div class="port port-left" data-id="${node.id}" data-type="exclusive"></div>
+                <div>${node.name.ja || node.id}</div>
+                <div class="port port-right" data-id="${node.id}" data-type="exclusive"></div>
+                <div class="port port-out-all" data-id="${node.id}" data-type="out-all"></div>
+                <div class="port port-out-any" data-id="${node.id}" data-type="out-any"></div>
+            `;
+            el.onmousedown = (e) => {
+                if(e.target.classList.contains('port')) return;
+                selectNode(node);
+                draggingNode = node;
+            };
+            nodesContainer.appendChild(el);
+        });
+        drawLinks();
+    }
+
+    // --- 結線ロジック ---
+    workspace.onmousedown = (e) => {
+        if (!e.target.classList.contains('port')) return;
+        const type = e.target.dataset.type;
+        
+        // 受信専用の上のポートからはドラッグ開始できない
+        if (type === 'in') return; 
+        
+        const rect = e.target.getBoundingClientRect();
+        const wsRect = workspace.getBoundingClientRect();
+        
+        drawingLink = {
+            source: e.target.dataset.id,
+            type: type === 'out-all' ? 'all' : (type === 'out-any' ? 'any' : 'exclusive'),
+            startX: rect.left - wsRect.left + 6,
+            startY: rect.top - wsRect.top + 6
+        };
+    };
+
+    workspace.onmouseup = (e) => {
+        if (drawingLink && e.target.classList.contains('port')) {
+            const targetId = e.target.dataset.id;
+            const targetType = e.target.dataset.type;
+            
+            // 自己ループ防止
+            if (drawingLink.source !== targetId) {
+                // 排他ポート同士の接続
+                if (drawingLink.type === 'exclusive' && targetType === 'exclusive') {
+                    // 既に双方向のいずれかで接続されていないか確認
+                    const exists = links.find(l => l.type === 'exclusive' && 
+                        ((l.source === drawingLink.source && l.target === targetId) || 
+                         (l.source === targetId && l.target === drawingLink.source))
+                    );
+                    if (!exists) {
+                        links.push({ source: drawingLink.source, target: targetId, type: 'exclusive' });
+                        renderProperties();
+                    }
+                } 
+                // 前提条件の接続 (out -> in のみ)
+                else if (drawingLink.type !== 'exclusive' && targetType === 'in') {
+                    const exists = links.find(l => l.source === drawingLink.source && l.target === targetId);
+                    if (!exists) {
+                        links.push({ source: drawingLink.source, target: targetId, type: drawingLink.type });
+                        renderProperties();
+                    }
+                }
+            }
+        }
+        drawingLink = null;
+        draggingNode = null;
+        drawLinks();
+    };
+
+    workspace.onmousemove = (e) => {
+        const wsRect = workspace.getBoundingClientRect();
+        const x = e.clientX - wsRect.left;
+        const y = e.clientY - wsRect.top;
+        if (draggingNode) {
+            draggingNode.col = Math.max(0, Math.floor(x / GRID_W));
+            draggingNode.row = Math.max(0, Math.floor(y / GRID_H));
+            render();
+        }
+        if (drawingLink) drawLinks(x, y);
+    };
+
+    function drawLinks(tx, ty) {
+        svgLayer.innerHTML = '';
+        links.forEach(l => {
+            const s = nodes.find(n => n.id === l.source), t = nodes.find(n => n.id === l.target);
+            if (!s || !t) return;
+            
+            let x1, y1, x2, y2;
+
+            if (l.type === 'exclusive') {
+                // 排他線は左右から引く
+                const sCenterX = s.col * GRID_W + GRID_W/2;
+                const tCenterX = t.col * GRID_W + GRID_W/2;
+                y1 = s.row * GRID_H + (GRID_H)/2;
+                y2 = t.row * GRID_H + (GRID_H)/2;
+                
+                // 左右どちらのポートを使うか計算（近い方を結ぶ）
+                if (sCenterX <= tCenterX) {
+                    x1 = s.col * GRID_W + (GRID_W - NODE_W)/2 + NODE_W; // sの右
+                    x2 = t.col * GRID_W + (GRID_W - NODE_W)/2;          // tの左
+                } else {
+                    x1 = s.col * GRID_W + (GRID_W - NODE_W)/2;          // sの左
+                    x2 = t.col * GRID_W + (GRID_W - NODE_W)/2 + NODE_W; // tの右
+                }
+            } else {
+                // 前提条件の線は下から上へ
+                x1 = s.col * GRID_W + (l.type === 'all' ? GRID_W*0.4 : GRID_W*0.6);
+                y1 = s.row * GRID_H + (GRID_H - NODE_H)/2 + NODE_H;
+                x2 = t.col * GRID_W + GRID_W/2;
+                y2 = t.row * GRID_H + (GRID_H - NODE_H)/2;
+            }
+            createLine(x1, y1, x2, y2, l.type);
+        });
+        
+        if (drawingLink) {
+            createLine(drawingLink.startX, drawingLink.startY, tx, ty, drawingLink.type);
+        }
+    }
+
+    function createLine(x1, y1, x2, y2, type) {
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+        line.setAttribute('stroke', type === 'all' ? '#2196F3' : type === 'any' ? '#FF9800' : '#f44336');
+        line.setAttribute('stroke-width', '3');
+        if(type === 'any') line.setAttribute('stroke-dasharray', '5,5');
+        if(type === 'exclusive') line.setAttribute('stroke-dasharray', '8,4'); // 排他線は点線
+        svgLayer.appendChild(line);
+    }
+
+    function removeLink(s, t) {
+        links = links.filter(l => !(l.source === s && l.target === t));
+        render(); renderProperties();
+    }
+
+    function deleteSelectedNode() {
+        nodes = nodes.filter(n => n !== selectedNode);
+        links = links.filter(l => l.source !== selectedNode.id && l.target !== selectedNode.id);
+        selectedNode = null;
+        render(); renderProperties();
+    }
+
+    // --- JSON処理 ---
+    function exportJSON() {
+        const focusList = nodes.map(n => {
+            const nodeLinks = links.filter(l => l.target === n.id || l.source === n.id);
+            
+            // 前提条件
+            const prereqAll = nodeLinks.filter(l => l.target === n.id && l.type === 'all').map(l => l.source);
+            const prereqAny = nodeLinks.filter(l => l.target === n.id && l.type === 'any').map(l => l.source);
+            
+            // 排他関係 (自分がsourceならtargetを、自分がtargetならsourceを抽出)
+            const exclusive = nodeLinks.filter(l => l.type === 'exclusive')
+                                       .map(l => l.source === n.id ? l.target : l.source);
+
+            const data = {
+                id: n.id,
+                col: n.col,
+                row: n.row,
+                icon: n.icon,
+                name: n.name,
+                effects: n.effects || {}, 
+                prerequisites: prereqAll,
+                mutuallyExclusive: exclusive // 排他配列を無条件で出力
+            };
+            if (prereqAny.length > 0) data.prerequisitesAny = prereqAny;
+            return data;
+        });
+
+        const finalData = {
+            focuses: focusList
+        };
+
+        const blob = new Blob([JSON.stringify(finalData, null, 2)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'focus_tree.json';
+        a.click();
+    }
+
+    function importJSON(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const raw = JSON.parse(e.target.result);
+            const data = Array.isArray(raw) ? raw : (raw.focuses || []);
+            
+            nodes = []; links = [];
+            data.forEach(f => {
+                nodes.push({
+                    id: f.id,
+                    col: f.col, row: f.row,
+                    icon: f.icon || "",
+                    name: f.name || {ja:"", en:""},
+                    effects: f.effects || f.effect || {} 
+                });
+                
+                // 前提条件読み込み
+                if (f.prerequisites) {
+                    f.prerequisites.forEach(p => {
+                        const pid = (typeof p === 'string') ? p : p.id;
+                        const ptype = (typeof p === 'object' && p.type === 'any') ? 'any' : 'all';
+                        links.push({ source: pid, target: f.id, type: ptype });
+                    });
+                }
+                if (f.prerequisitesAny) {
+                    f.prerequisitesAny.forEach(pid => {
+                        links.push({ source: pid, target: f.id, type: 'any' });
+                    });
+                }
+                
+                // 排他関係読み込み
+                if (f.mutuallyExclusive) {
+                    f.mutuallyExclusive.forEach(exId => {
+                        // 双方向にデータが存在しうるため、既にA-Bのリンクが作られている場合は無視する
+                        const exists = links.find(l => l.type === 'exclusive' && 
+                            ((l.source === f.id && l.target === exId) || (l.source === exId && l.target === f.id))
+                        );
+                        if (!exists) {
+                            links.push({ source: f.id, target: exId, type: 'exclusive' });
+                        }
+                    });
+                }
+            });
+            render();
+        };
+        reader.readAsText(file);
+    }
+</script>
+</body>
+</html>
