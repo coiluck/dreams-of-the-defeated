@@ -1,0 +1,1303 @@
+[
+  {
+    "id": "focus_1",
+    "col": 4,
+    "row": 4,
+    "icon": "",
+    "name": {
+      "ja": "親愛なる導師",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 2,
+    "originalRow": 4,
+    "prerequisites": [
+      {
+        "id": "focus_12",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_3",
+    "col": 4,
+    "row": 5,
+    "icon": "",
+    "name": {
+      "ja": "空席の王座",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 2,
+    "originalRow": 5,
+    "prerequisites": [
+      {
+        "id": "focus_1",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_4",
+    "col": 6,
+    "row": 5,
+    "icon": "",
+    "name": {
+      "ja": "アヴィニョンの残響",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 4,
+    "originalRow": 5,
+    "prerequisites": [
+      {
+        "id": "focus_7",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_5",
+    "col": 2,
+    "row": 7,
+    "icon": "",
+    "name": {
+      "ja": "マニフェストの再確認",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 3,
+    "originalRow": 7,
+    "prerequisites": [
+      {
+        "id": "focus_14",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_6",
+    "col": 8,
+    "row": 6,
+    "icon": "",
+    "name": {
+      "ja": "残酷派の陰謀",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 7,
+    "originalRow": 6,
+    "prerequisites": [
+      {
+        "id": "focus_4",
+        "type": "all"
+      },
+      {
+        "id": "focus_3",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_7",
+    "col": 6,
+    "row": 4,
+    "icon": "",
+    "name": {
+      "ja": "アヴィニョンの黒い祭典",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 5,
+    "originalRow": 4,
+    "prerequisites": [
+      {
+        "id": "focus_12",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_8",
+    "col": 5,
+    "row": 0,
+    "icon": "",
+    "name": {
+      "ja": "ドレスデンの屈辱",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 6,
+    "originalRow": 0
+  },
+  {
+    "id": "focus_9",
+    "col": 4,
+    "row": 1,
+    "icon": "",
+    "name": {
+      "ja": "病室の前衛サロン",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 2,
+    "originalRow": 1,
+    "prerequisites": [
+      {
+        "id": "focus_8",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_10",
+    "col": 6,
+    "row": 1,
+    "icon": "",
+    "name": {
+      "ja": "マーヤーの波に呑まれて",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 7,
+    "originalRow": 1,
+    "prerequisites": [
+      {
+        "id": "focus_8",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_11",
+    "col": 5,
+    "row": 2,
+    "icon": "",
+    "name": {
+      "ja": "抒情的なるクーデター",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 3,
+    "originalRow": 2,
+    "prerequisites": [
+      {
+        "id": "focus_9",
+        "type": "all"
+      },
+      {
+        "id": "focus_10",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_12",
+    "col": 5,
+    "row": 3,
+    "icon": "",
+    "name": {
+      "ja": "崇高なる国の幕開け",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 3,
+    "originalRow": 3,
+    "prerequisites": [
+      {
+        "id": "focus_11",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_13",
+    "col": 8,
+    "row": 7,
+    "icon": "",
+    "name": {
+      "ja": "革命は続く",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 7,
+    "originalRow": 7,
+    "prerequisites": [
+      {
+        "id": "focus_6",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_14",
+    "col": 2,
+    "row": 6,
+    "icon": "",
+    "name": {
+      "ja": "導師派の伸長",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 3,
+    "originalRow": 6,
+    "prerequisites": [
+      {
+        "id": "focus_3",
+        "type": "all"
+      },
+      {
+        "id": "focus_4",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_15",
+    "col": 2,
+    "row": 8,
+    "icon": "",
+    "name": {
+      "ja": "労働組合の掌握",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 2,
+    "originalRow": 8,
+    "prerequisites": [
+      {
+        "id": "focus_5",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_16",
+    "col": 3,
+    "row": 8,
+    "icon": "",
+    "name": {
+      "ja": "平等の促進",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 3,
+    "originalRow": 8,
+    "prerequisites": [
+      {
+        "id": "focus_5",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_17",
+    "col": 1,
+    "row": 8,
+    "icon": "",
+    "name": {
+      "ja": "地方産業計画",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 2,
+    "originalRow": 8,
+    "prerequisites": [
+      {
+        "id": "focus_5",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_18",
+    "col": 2,
+    "row": 9,
+    "icon": "",
+    "name": {
+      "ja": "理性の冷たきベッドを捨てる",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 3,
+    "originalRow": 9,
+    "prerequisites": [
+      {
+        "id": "focus_17",
+        "type": "all"
+      },
+      {
+        "id": "focus_15",
+        "type": "all"
+      },
+      {
+        "id": "focus_16",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_19",
+    "col": 1,
+    "row": 10,
+    "icon": "",
+    "name": {
+      "ja": "科学と詩の結婚",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 2,
+    "originalRow": 10,
+    "prerequisites": [
+      {
+        "id": "focus_18",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_20",
+    "col": 3,
+    "row": 10,
+    "icon": "",
+    "name": {
+      "ja": "神秘主義的テクノクラート",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 4,
+    "originalRow": 10,
+    "prerequisites": [
+      {
+        "id": "focus_18",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_21",
+    "col": 3,
+    "row": 14,
+    "icon": "",
+    "name": {
+      "ja": "雄鶏は再び鳴く",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 4,
+    "originalRow": 14,
+    "prerequisites": [
+      {
+        "id": "focus_23",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_22",
+    "col": 3,
+    "row": 16,
+    "icon": "",
+    "name": {
+      "ja": "本家との対立",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 3,
+    "originalRow": 16,
+    "prerequisites": [
+      {
+        "id": "focus_25",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_23",
+    "col": 5,
+    "row": 13,
+    "icon": "",
+    "name": {
+      "ja": "甘美な死骸は眠らない",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 5,
+    "originalRow": 13,
+    "prerequisites": [
+      {
+        "id": "focus_36",
+        "type": "any"
+      },
+      {
+        "id": "focus_37",
+        "type": "any"
+      },
+      {
+        "id": "focus_67",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_24",
+    "col": 1,
+    "row": 15,
+    "icon": "",
+    "name": {
+      "ja": "大陸の浄化",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 1,
+    "originalRow": 16,
+    "prerequisites": [
+      {
+        "id": "focus_21",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_25",
+    "col": 4,
+    "row": 15,
+    "icon": "",
+    "name": {
+      "ja": "東洋への帰還",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 3,
+    "originalRow": 15,
+    "prerequisites": [
+      {
+        "id": "focus_21",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_26",
+    "col": 8,
+    "row": 14,
+    "icon": "",
+    "name": {
+      "ja": "武器を取れ",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 6,
+    "originalRow": 14,
+    "prerequisites": [
+      {
+        "id": "focus_23",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_27",
+    "col": 9,
+    "row": 16,
+    "icon": "",
+    "name": {
+      "ja": "幻覚剤の兵器化",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 7,
+    "originalRow": 16,
+    "prerequisites": [
+      {
+        "id": "focus_29",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_28",
+    "col": 11,
+    "row": 16,
+    "icon": "",
+    "name": {
+      "ja": "超現実的装甲部隊",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 9,
+    "originalRow": 16,
+    "prerequisites": [
+      {
+        "id": "focus_29",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_29",
+    "col": 10,
+    "row": 15,
+    "icon": "",
+    "name": {
+      "ja": "アヴァンギャルドな軍隊",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 8,
+    "originalRow": 15,
+    "prerequisites": [
+      {
+        "id": "focus_26",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_30",
+    "col": 7,
+    "row": 15,
+    "icon": "",
+    "name": {
+      "ja": "死の舞踏の教練",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 7,
+    "originalRow": 15,
+    "prerequisites": [
+      {
+        "id": "focus_26",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_31",
+    "col": 6,
+    "row": 16,
+    "icon": "",
+    "name": {
+      "ja": "破壊のシンフォニー",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 6,
+    "originalRow": 16,
+    "prerequisites": [
+      {
+        "id": "focus_30",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_32",
+    "col": 8,
+    "row": 16,
+    "icon": "",
+    "name": {
+      "ja": "夢幻の塹壕戦",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 8,
+    "originalRow": 16,
+    "prerequisites": [
+      {
+        "id": "focus_30",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_33",
+    "col": 7,
+    "row": 17,
+    "icon": "",
+    "name": {
+      "ja": "理性の死骸を踏み越えよ",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 5,
+    "originalRow": 17,
+    "prerequisites": [
+      {
+        "id": "focus_31",
+        "type": "any"
+      },
+      {
+        "id": "focus_32",
+        "type": "any"
+      }
+    ]
+  },
+  {
+    "id": "focus_34",
+    "col": 3,
+    "row": 11,
+    "icon": "",
+    "name": {
+      "ja": "未来派との共存",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 4,
+    "originalRow": 11,
+    "prerequisites": [
+      {
+        "id": "focus_20",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_35",
+    "col": 1,
+    "row": 11,
+    "icon": "",
+    "name": {
+      "ja": "至高点の到達",
+      "en": "Le point suprême"
+    },
+    "effect": {},
+    "originalCol": 2,
+    "originalRow": 11,
+    "prerequisites": [
+      {
+        "id": "focus_19",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_36",
+    "col": 2,
+    "row": 12,
+    "icon": "",
+    "name": {
+      "ja": "理性という名の牢獄からの解放",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 3,
+    "originalRow": 12,
+    "prerequisites": [
+      {
+        "id": "focus_35",
+        "type": "any"
+      },
+      {
+        "id": "focus_34",
+        "type": "any"
+      }
+    ]
+  },
+  {
+    "id": "focus_37",
+    "col": 8,
+    "row": 12,
+    "icon": "",
+    "name": {
+      "ja": "黒き太陽の戴冠",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 7,
+    "originalRow": 12,
+    "prerequisites": [
+      {
+        "id": "focus_53",
+        "type": "any"
+      },
+      {
+        "id": "focus_55",
+        "type": "any"
+      }
+    ]
+  },
+  {
+    "id": "focus_38",
+    "col": 9,
+    "row": 17,
+    "icon": "",
+    "name": {
+      "ja": "歩く前衛芸術",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 7,
+    "originalRow": 17,
+    "prerequisites": [
+      {
+        "id": "focus_27",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_39",
+    "col": 9,
+    "row": 18,
+    "icon": "",
+    "name": {
+      "ja": "肉体は鋼鉄を超える",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 8,
+    "originalRow": 18,
+    "prerequisites": [
+      {
+        "id": "focus_38",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_40",
+    "col": 11,
+    "row": 17,
+    "icon": "",
+    "name": {
+      "ja": "鋼鉄のパピエ・コレ",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 9,
+    "originalRow": 17,
+    "prerequisites": [
+      {
+        "id": "focus_28",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_41",
+    "col": 11,
+    "row": 18,
+    "icon": "",
+    "name": {
+      "ja": "破壊神の舞闘兵",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 9,
+    "originalRow": 18,
+    "prerequisites": [
+      {
+        "id": "focus_40",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_42",
+    "col": 6,
+    "row": 18,
+    "icon": "",
+    "name": {
+      "ja": "容赦のない戦士",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 6,
+    "originalRow": 18,
+    "prerequisites": [
+      {
+        "id": "focus_33",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_43",
+    "col": 6,
+    "row": 19,
+    "icon": "",
+    "name": {
+      "ja": "崇高なる軍隊",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 6,
+    "originalRow": 19,
+    "prerequisites": [
+      {
+        "id": "focus_42",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_44",
+    "col": 8,
+    "row": 18,
+    "icon": "",
+    "name": {
+      "ja": "市民も戦意に燃えている",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 8,
+    "originalRow": 18,
+    "prerequisites": [
+      {
+        "id": "focus_33",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_45",
+    "col": 0,
+    "row": 16,
+    "icon": "",
+    "name": {
+      "ja": "復讐の炎",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 0,
+    "originalRow": 16,
+    "prerequisites": [
+      {
+        "id": "focus_24",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_46",
+    "col": 2,
+    "row": 16,
+    "icon": "",
+    "name": {
+      "ja": "ラテンの兄弟たちを解放",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 1,
+    "originalRow": 16,
+    "prerequisites": [
+      {
+        "id": "focus_24",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_47",
+    "col": 7,
+    "row": 8,
+    "icon": "",
+    "name": {
+      "ja": "労働は詩である",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 6,
+    "originalRow": 8,
+    "prerequisites": [
+      {
+        "id": "focus_13",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_48",
+    "col": 8,
+    "row": 8,
+    "icon": "",
+    "name": {
+      "ja": "精神の総動員",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 7,
+    "originalRow": 8,
+    "prerequisites": [
+      {
+        "id": "focus_13",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_49",
+    "col": 8,
+    "row": 10,
+    "icon": "",
+    "name": {
+      "ja": "器官なき国家",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 7,
+    "originalRow": 10,
+    "prerequisites": [
+      {
+        "id": "focus_51",
+        "type": "any"
+      },
+      {
+        "id": "focus_50",
+        "type": "any"
+      },
+      {
+        "id": "focus_54",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_50",
+    "col": 8,
+    "row": 9,
+    "icon": "",
+    "name": {
+      "ja": "物質に対する精神の勝利",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 7,
+    "originalRow": 9,
+    "prerequisites": [
+      {
+        "id": "focus_48",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_51",
+    "col": 7,
+    "row": 9,
+    "icon": "",
+    "name": {
+      "ja": "工廠はアトリエなり",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 6,
+    "originalRow": 9,
+    "prerequisites": [
+      {
+        "id": "focus_47",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_52",
+    "col": 9,
+    "row": 8,
+    "icon": "",
+    "name": {
+      "ja": "公安委員会の掌握",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 8,
+    "originalRow": 8,
+    "prerequisites": [
+      {
+        "id": "focus_13",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_53",
+    "col": 9,
+    "row": 11,
+    "icon": "",
+    "name": {
+      "ja": "数字を燃やせ",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 8,
+    "originalRow": 11,
+    "prerequisites": [
+      {
+        "id": "focus_49",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_54",
+    "col": 9,
+    "row": 9,
+    "icon": "",
+    "name": {
+      "ja": "理性主義者への異端審問",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 8,
+    "originalRow": 9,
+    "prerequisites": [
+      {
+        "id": "focus_52",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_55",
+    "col": 7,
+    "row": 11,
+    "icon": "",
+    "name": {
+      "ja": "パリ大改造",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 6,
+    "originalRow": 11,
+    "prerequisites": [
+      {
+        "id": "focus_49",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_56",
+    "col": 8,
+    "row": 20,
+    "icon": "",
+    "name": {
+      "ja": "我々は神話を生きる",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 6,
+    "originalRow": 20,
+    "prerequisites": [
+      {
+        "id": "focus_39",
+        "type": "any"
+      },
+      {
+        "id": "focus_41",
+        "type": "any"
+      },
+      {
+        "id": "focus_43",
+        "type": "all"
+      },
+      {
+        "id": "focus_44",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_57",
+    "col": 5,
+    "row": 16,
+    "icon": "",
+    "name": {
+      "ja": "東洋の理解者",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 3,
+    "originalRow": 16,
+    "prerequisites": [
+      {
+        "id": "focus_25",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_58",
+    "col": 0,
+    "row": 17,
+    "icon": "",
+    "name": {
+      "ja": "炎は広がり続ける",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 0,
+    "originalRow": 17,
+    "prerequisites": [
+      {
+        "id": "focus_45",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_59",
+    "col": 0,
+    "row": 18,
+    "icon": "",
+    "name": {
+      "ja": "美しき自然国境を",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 0,
+    "originalRow": 18,
+    "prerequisites": [
+      {
+        "id": "focus_58",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_60",
+    "col": 2,
+    "row": 17,
+    "icon": "",
+    "name": {
+      "ja": "狂気はピレネーをも越える",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 1,
+    "originalRow": 17,
+    "prerequisites": [
+      {
+        "id": "focus_46",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_61",
+    "col": 1,
+    "row": 19,
+    "icon": "",
+    "name": {
+      "ja": "世界の中心はフランス！",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 2,
+    "originalRow": 19,
+    "prerequisites": [
+      {
+        "id": "focus_59",
+        "type": "all"
+      },
+      {
+        "id": "focus_60",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_62",
+    "col": 5,
+    "row": 8,
+    "icon": "",
+    "name": {
+      "ja": "植民地の肯定",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 5,
+    "originalRow": 8,
+    "prerequisites": [
+      {
+        "id": "focus_5",
+        "type": "any"
+      },
+      {
+        "id": "focus_13",
+        "type": "any"
+      }
+    ]
+  },
+  {
+    "id": "focus_63",
+    "col": 4,
+    "row": 10,
+    "icon": "",
+    "name": {
+      "ja": "ナイルの農業投資",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 4,
+    "originalRow": 10,
+    "prerequisites": [
+      {
+        "id": "focus_68",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_65",
+    "col": 6,
+    "row": 10,
+    "icon": "",
+    "name": {
+      "ja": "インドシナの資源搾取",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 6,
+    "originalRow": 10,
+    "prerequisites": [
+      {
+        "id": "focus_68",
+        "type": "all"
+      }
+    ]
+  },
+  {
+    "id": "focus_67",
+    "col": 5,
+    "row": 11,
+    "icon": "",
+    "name": {
+      "ja": "理性帝国主義に対する防波堤",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 5,
+    "originalRow": 11,
+    "prerequisites": [
+      {
+        "id": "focus_65",
+        "type": "any"
+      },
+      {
+        "id": "focus_63",
+        "type": "any"
+      }
+    ]
+  },
+  {
+    "id": "focus_68",
+    "col": 5,
+    "row": 9,
+    "icon": "",
+    "name": {
+      "ja": "野性の思考の保護区",
+      "en": ""
+    },
+    "effect": {},
+    "originalCol": 5,
+    "originalRow": 9,
+    "prerequisites": [
+      {
+        "id": "focus_62",
+        "type": "all"
+      }
+    ]
+  }
+]
